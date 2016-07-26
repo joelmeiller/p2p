@@ -1,0 +1,23 @@
+/* element styling */
+.label {
+  background-color: #eeeeee;
+  border: 2px solid #666666;
+  width: 600px;
+}
+
+p {
+  font-family: "Times New Roman", Times, serif;
+  padding: 10px;
+}
+p.bold {
+  font-weight: bold;
+}
+
+p.italic {
+  font-style: italic;
+}
+
+h1 {
+  font-size: 3em;
+  padding: 20px 10px;
+}

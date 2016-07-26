@@ -1,0 +1,10 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Dependency
+node_modules/
+
+# Private keys and local settings
+secrets.json
