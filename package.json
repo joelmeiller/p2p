@@ -5,6 +5,7 @@
   "description": "The primary entry point for the p2p assessment web application",
   "scripts": {
     "lint": "eslint .",
+    "start": "node server.js",
     "storybook": "start-storybook -p 9000 -s ./",
     "browser-sync": "browser-sync start --proxy='localhost:3000' --files='.html, css/.css' --port=8000 --browser='Google Chrome Canary'"
   },
@@ -41,7 +42,11 @@
   },
   "dependencies": {
     "@kadira/storybook-deployer": "^1.0.0",
-    "react": "^15.2.0"
+    "react": "^15.2.0",
+    "react-dom": "^15.3.0",
+    "react-router": "^2.6.1",
+    "react-router-redux": "^4.0.5",
+    "redux": "^3.5.2"
   },
   "devDependencies": {
     "@kadira/storybook": "^1.36.0",
@@ -49,7 +54,6 @@
     "css-loader": "^0.23.1",
     "eslint": "^2.7.0",
     "eslint-config-airbnb": "^6.2.0",
-    "eslint-plugin-meteor": "^3.4.0",
     "eslint-plugin-react": "^4.2.3",
     "postcss-browser-reporter": "^0.5.0",
     "postcss-cssnext": "^2.6.0",
@@ -60,4 +64,3 @@
     "style-loader": "^0.13.1"
   }
 }
-
