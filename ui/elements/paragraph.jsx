@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 const Paragraph = (props) => (
   <p className="bold italic" >
     {props.text}
@@ -12,3 +11,5 @@ Paragraph.propTypes = {
 };
 
 export default Paragraph;
+
+// export { Paragraph, TEXT };
