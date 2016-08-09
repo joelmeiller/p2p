@@ -14,12 +14,5 @@ storiesOf('elements/TabMichelle', module)
     <ul class="slds-tabs--default__nav" role="tablist"><TabMichelle header3="Tab3"/>
     </ul>
     </div>
-
-
-
-
-
-
 ))
-
 ;
