@@ -6,7 +6,7 @@ import StarsRating from './starsV1.jsx';
 
 
 storiesOf('elements/StarsRating', module)
-.add('::empty', () => (
+.add('::V1', () => (
   <div className="app flex-center-middle">
     <StarsRating
       totalRating={5}

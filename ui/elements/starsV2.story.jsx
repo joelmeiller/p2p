@@ -5,8 +5,8 @@ import { storiesOf } from '@kadira/storybook';
 import StarsRating2 from './starsV2.jsx';
 
 
-storiesOf('elements/StarsRating2', module)
-.add('::empty', () => (
+storiesOf('elements/StarsRating', module)
+.add('::V2', () => (
   <div className="app flex-center-middle">
     <StarsRating2
       startCountMichelle={5}
