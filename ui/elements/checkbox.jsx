@@ -6,15 +6,6 @@ import Checkbox from 'material-ui/Checkbox';
 import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-const styles = {
-  block: {
-    maxWidth: 250,
-  },
-  checkbox: {
-    marginBottom: 16,
-  },
-};
-
 const CheckboxMichelle = React.createClass({
   childContextTypes: {
     muiTheme: React.PropTypes.object.isRequired,
@@ -27,10 +18,8 @@ const CheckboxMichelle = React.createClass({
 
   render() {
     return (
-      <div style={styles.block}>
-        <Checkbox
+      <Checkbox
           label={this.props.checkboxLabel}
-          style={styles.checkbox}
         />
     );
   },
