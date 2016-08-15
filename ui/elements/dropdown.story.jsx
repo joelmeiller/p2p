@@ -9,11 +9,15 @@ storiesOf('elements/DropdownMichelle', module)
 .add('::empty', () => (
   <div className="app flex-center-middle">
     <DropdownMichelle
-    val1="erster Eintrag"
-    val2="zweiter Eintrag"
-    val3="dritter Eintrag"
-    val4="vierter Eintrag"
-    val5="fünfter Eintrag"
+    menuItems={[ // Array of menu items
+    { // menuItem 1
+      value: "Erster Eintrag",
+      link: "irgendwohin.com",
+    },
+    { // menuItem 2
+      value: "Zweiter Eintrag",
+      link: "irgendwohin.com",
+    }]}
     />
   </div>
 ))

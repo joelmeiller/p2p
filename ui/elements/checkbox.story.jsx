@@ -13,5 +13,4 @@ storiesOf('elements/Checkbox', module)
     />
   </div>
 ))
-
 ;

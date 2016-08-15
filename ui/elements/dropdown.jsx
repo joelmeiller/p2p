@@ -7,26 +7,40 @@ import MenuItem from 'material-ui/MenuItem';
 import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-const DropdownMichelle = React.createClass({
-  childContextTypes: {
-    muiTheme: React.PropTypes.object.isRequired,
-  },
+class DropdownMichelle extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {value: 1};
+  }
+
+  handleChange = (event, index, value) => this.setState({value});
 
   getChildContext() {
     return {muiTheme: getMuiTheme(baseTheme)};
-  },
-      render() {
-        return (
-          <div>
-            <DropDownMenu >
-              <MenuItem value={this.props.val1} primaryText="Never" />
-              <MenuItem value={this.props.val2} primaryText="Every Night" />
-              <MenuItem value={this.props.val3} primaryText="Weeknights" />
-              <MenuItem value={this.props.val4} primaryText="Weekends" />
-              <MenuItem value={this.props.val5} primaryText="Weekly" />
-            </DropDownMenu>
-          </div>
-        );
-      },
-    });
+  }
+
+  render() {
+    console.log(this.props);
+    return (
+      <div>
+        <DropDownMenu >
+          {/*(() => (this.props.menuItems) ? (this.props.menuItems.map((menuItem) =>
+            <MenuItem value={menuItem.value} /> : undefined))
+          )()*/}
+        </DropDownMenu>
+      </div>
+    );
+  }
+};
+
+DropdownMichelle.propTypes = {
+  menuItems: React.PropTypes.array,
+}
+
+DropdownMichelle.childContextTypes = {
+  muiTheme: React.PropTypes.object.isRequired,
+};
+
+
 export default DropdownMichelle;

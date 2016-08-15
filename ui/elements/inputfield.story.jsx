@@ -13,5 +13,4 @@ storiesOf('elements/InputMichelle', module)
     />
   </div>
 ))
-
 ;

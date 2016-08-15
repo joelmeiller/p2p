@@ -10,7 +10,7 @@ storiesOf('elements/StarsRating', module)
   <div className="app flex-center-middle">
     <StarsRating
       totalRating={5}
-      actualRating={2}
+      actualRating={2.5}
     />
   </div>
 ))
