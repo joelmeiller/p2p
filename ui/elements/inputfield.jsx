@@ -18,7 +18,7 @@ const InputMichelle = React.createClass({
   render() {
     return (
       <TextField
-        hintText="Gib etwas ein"
+        hintText={this.props.hintText}
         defaultValue={this.props.michelle}
       />
     );
