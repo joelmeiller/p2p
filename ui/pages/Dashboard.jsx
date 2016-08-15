@@ -1,10 +1,14 @@
 import React from 'react';
 
 
-const Dashboard = () => (
+const Dashboard = (props) => (
   <div className="page">
-    What ever is here
+    <h1>{props.title}</h1>
   </div>
 );
+
+Dashboard.propTypes = {
+  title: React.PropTypes.string,
+};
 
 export default Dashboard;
