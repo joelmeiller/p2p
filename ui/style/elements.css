@@ -6,9 +6,11 @@
 }
 
 p {
-  font-family: "Times New Roman", Times, serif;
-  padding: 10px;
+  font-family: "RobotoDraft","Roboto",sans-serif;
+
+  padding: 0px;
 }
+
 p.bold {
   font-weight: bold;
 }
@@ -20,4 +22,7 @@ p.italic {
 h1 {
   font-size: 3em;
   padding: 20px 10px;
+}
+.container {
+  width: 100%;
 }

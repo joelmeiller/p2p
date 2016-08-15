@@ -3,28 +3,18 @@ import React from 'react';
 
 //Material Imports
 import CheckboxMichelle from '../elements/checkbox.jsx';
-import InputMichelle from '../elements/inputfield.jsx';
-import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-const LabelCheckbox = React.createClass({
-  childContextTypes: {
-    muiTheme: React.PropTypes.object.isRequired,
-  },
-
-    getChildContext() {
-      return {muiTheme: getMuiTheme(baseTheme)};
-    },
-
-    render() {
+const LabelCheckbox = (props) => {
       return (
-        <Checkbox
-            label={this.props.checkboxLabel}
-        />
-        <TextField
-            defaultValue={this.props.michelle}
-        />
+        <div className="container">
+          <div className="row">
+            <div className="col-xs-6"><p>
+                {props.textSontiges}</p></div>
+            <div className="col-xs-6"><CheckboxMichelle
+                label={props.checkboxLabel}/></div>
+          </div>
+        </div>
       );
-    },
-  });
-  export default LabelCheckbox;
+};
+
+export default LabelCheckbox;

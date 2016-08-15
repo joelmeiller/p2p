@@ -1,23 +1,23 @@
 
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
-import LabelCheckbox from './LabelCheckbox.jsx';
+import LabelStars from './LabelStars.jsx';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-storiesOf('components/LabelCheckbox', module)
+storiesOf('components/LabelStars', module)
 .addDecorator(story => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>
     {story()}
   </MuiThemeProvider>
 ))
-.add('::checked', () => (
+.add('::V2', () => (
   <div className="app flex-center-middle">
-    <LabelCheckbox
-      textSontiges="Kann eigene und fremde Anliegen..."
-      checkboxLabel="I'm a nice Checkbox"
-    />
+    <LabelStars
+      textSontiges="Michelle Andrey, QM"
+      starsTotalCount={5}
+      valueEffective={3}    />
   </div>
 ))
 ;
