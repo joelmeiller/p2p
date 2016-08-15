@@ -1,32 +1,35 @@
-//React Imports
+// React Imports
 import React from 'react';
 
-//Material Imports
+// Material Imports
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
-import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 
-const DropdownMichelle = React.createClass({
-  childContextTypes: {
-    muiTheme: React.PropTypes.object.isRequired,
-  },
+injectTapEventPlugin();
 
-  getChildContext() {
-    return {muiTheme: getMuiTheme(baseTheme)};
-  },
-      render() {
-        return (
-          <div>
-            <DropDownMenu >
-              <MenuItem value={this.props.val1} primaryText="Never" />
-              <MenuItem value={this.props.val2} primaryText="Every Night" />
-              <MenuItem value={this.props.val3} primaryText="Weeknights" />
-              <MenuItem value={this.props.val4} primaryText="Weekends" />
-              <MenuItem value={this.props.val5} primaryText="Weekly" />
-            </DropDownMenu>
-          </div>
-        );
-      },
-    });
+const DropdownMichelle = (props) => {
+  console.log(props);
+  return (
+    <div>
+      <DropDownMenu value={props.selectedValue} onChange={props.handleChange}>
+        {(() => (props.menuItems ? props.menuItems.map((item) =>
+          <MenuItem key={item.value} value={item.value} primaryText={item.label} />) : undefined
+        ))()}
+      </DropDownMenu>
+    </div>
+  );
+};
+
+DropdownMichelle.propTypes = {
+  menuItems: React.PropTypes.arrayOf(
+    React.PropTypes.shape({
+      label: React.PropTypes.string,
+      value: React.PropTypes.string,
+    })
+  ),
+  selectedValue: React.PropTypes.string,
+  handleChange: React.PropTypes.func,
+};
+
 export default DropdownMichelle;

@@ -4,16 +4,31 @@ import React from 'react';
 import { storiesOf } from '@kadira/storybook';
 import DropdownMichelle from './dropdown.jsx';
 
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+
 
 storiesOf('elements/DropdownMichelle', module)
-.add('::empty', () => (
+.addDecorator(story => (
+  <MuiThemeProvider muiTheme={getMuiTheme()}>
+    {story()}
+  </MuiThemeProvider>
+))
+.add('::standard', () => (
   <div className="app flex-center-middle">
     <DropdownMichelle
-    val1="erster Eintrag"
-    val2="zweiter Eintrag"
-    val3="dritter Eintrag"
-    val4="vierter Eintrag"
-    val5="fünfter Eintrag"
+      selectedValue="test_1"
+      menuItems={[
+        {
+          label: 'Test 1',
+          value: 'test_1',
+        },
+        {
+          label: 'Test 2',
+          value: 'test_2',
+        },
+      ]}
+      onChange={() => console.log('Changed to')}
     />
   </div>
 ))

@@ -48,6 +48,7 @@
     "react-addons-css-transition-group": "^15.3.0",
     "react-addons-update": "^15.3.0",
     "react-dom": "^15.3.0",
+    "react-rater": "^0.3.4",
     "react-star-rating-component": "^1.0.0",
     "react-tap-event-plugin": "^1.0.0",
     "sass-loader": "^4.0.0"
