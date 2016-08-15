@@ -1,3 +1,6 @@
+// node imports
+import 'babel-polyfill';
+
 // React imports
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -16,9 +19,9 @@ const store = configureStore();
 const history = syncHistoryWithStore(browserHistory, store);
 
 ReactDOM.render(
-<Provider store={store}>
-  <Router history={history}>
-     <Route path="/" component={App}>
+<Provider store={store} >
+  <Router history={history} >
+     <Route path="/" component={App} >
        <IndexRoute component={Dashboard} />
      </Route>
   </Router>
