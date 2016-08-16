@@ -6,28 +6,25 @@ import InputMichelle from '../elements/inputfield.jsx';
 import DropdownMichelle from '../elements/dropdown.jsx';
 import FontIcon from 'material-ui/FontIcon';
 
-const styles = {
-  marginTop: {
-    margin-top:-8,
-  },
-};
-
 const NameMailRole = (props) => {
       return (
         <div className="container">
           <div className="row">
-            <div className="col-xs-2"><InputMichelle
+            <div className="col-xs-3"><InputMichelle
               hintText={props.hintName}
               defaultValue={props.textName}/>
             </div>
-            <div className="col-xs-2"><InputMichelle
+            <div className="col-xs-3"><InputMichelle
               hintText={props.hintMail}
               defaultValue={props.textMail}/>
             </div>
-            <div className="col-xs-2"><DropdownMichelle
-              style={styles.marginTop}
-              selectedValue="Role"
+            <div className="col-xs-2 dropdown-margin-top"><DropdownMichelle
+              selectedValue=""
                 menuItems={[
+                  {
+                    label: 'Role',
+                    value: 'R',
+                  },
                   {
                     label: 'Quality Manager',
                     value: 'QM',
@@ -56,12 +53,10 @@ const NameMailRole = (props) => {
                 onChange={() => console.log('Changed to')}
               />
             </div>
-            <div className="col-xs-2"><a href="url">add Role</a>
+            <div className="col-xs-1 a-margin-top"><a href="url">add Role</a>
             </div>
-            <div className="col-xs-2">
+            <div className="col-xs-1">
               <FontIcon className="material-icons">edit</FontIcon>
-            </div>
-            <div className="col-xs-2">
               <FontIcon className="material-icons">delete</FontIcon>
             </div>
           </div>
