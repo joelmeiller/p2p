@@ -26,3 +26,10 @@ h1 {
 .container {
   width: 100%;
 }
+
+a {
+  font-family: "RobotoDraft","Roboto",sans-serif;
+  color: #00bcd4;
+
+
+}
