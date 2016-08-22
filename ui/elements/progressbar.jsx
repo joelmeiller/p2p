@@ -19,9 +19,10 @@ const ProgressMichelle = React.createClass({
     return (
       <LinearProgress
       mode="determinate"
-      value={this.props.valueMichelle} 
+      value={this.props.valueProgress}
       />
     );
   },
 });
+
 export default ProgressMichelle;

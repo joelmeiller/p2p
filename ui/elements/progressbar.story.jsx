@@ -9,7 +9,7 @@ storiesOf('elements/ProgressMichelle', module)
 .add('::empty', () => (
   <div className="app flex-center-middle">
     <ProgressMichelle
-    valueMichelle={30}
+    valueProgress={80}
     />
   </div>
 ))
