@@ -1,24 +1,25 @@
+/* eslint-disable max-len */
 
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
-import TMProgress from './labelProgressbar.jsx';
+import Header2withRole from './Header2withRole.jsx';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-storiesOf('components/LabelProgressbar', module)
+
+storiesOf('elements/Header', module)
 .addDecorator(story => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>
     {story()}
   </MuiThemeProvider>
 ))
-
-.add('::small', () => (
+.add('::Header2withRole', () => (
   <div className="app flex-center-middle">
-    <TMProgress
-      nameTM="Michelle Andrey"
-      roleTM="QM"
-      progress={45}/>
+    <Header2withRole
+    h2title="Teammembers"
+    h2Role="QM"
+    />
   </div>
 ))
 ;

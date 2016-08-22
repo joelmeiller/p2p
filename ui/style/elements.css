@@ -14,18 +14,21 @@ p.italic {
 
 h1 {
   font-size: 3em;
+  font-weight: 200;
   padding: 20px 10px;
   color: #00bcd4;
 }
 
 h2 {
-  font-size: 3em;
+  font-size: 2em;
+  font-weight: 200;
   padding: 20px 10px;
   color: #00bcd4;
 }
 
 h3 {
-  font-size: 2em;
+  font-size: 1em;
+  font-weight: 200;
   padding: 20px 10px;
   color: #00bcd4;
 }
@@ -47,12 +50,13 @@ a {
   margin-top: -8px;
 }
 
-.progress-margin-top{
-  margin-top: 9px;
-}
-
 .dropdown-margin-top:first-child menuItems {
   color: #00bcd4;
+}
+
+
+.progress-margin-top{
+  margin-top: 9px;
 }
 
 .a-margin-top{
@@ -67,4 +71,8 @@ a {
 
 .container {
   width: 100%;
+}
+
+.dv-star-rating {
+  
 }

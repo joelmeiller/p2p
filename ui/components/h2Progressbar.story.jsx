@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
-import TMProgress from './labelProgressbar.jsx';
+import H2Progress from './h2Progressbar.jsx';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -13,11 +13,11 @@ storiesOf('components/LabelProgressbar', module)
   </MuiThemeProvider>
 ))
 
-.add('::small', () => (
+.add('::withH2', () => (
   <div className="app flex-center-middle">
-    <TMProgress
-      nameTM="Michelle Andrey"
-      roleTM="QM"
+    <H2Progress
+      h2titleName="Michelle Andrey"
+      h2RoleName="QM"
       progress={45}/>
   </div>
 ))
