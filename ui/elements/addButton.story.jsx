@@ -7,13 +7,13 @@ import addButton from './addButton.jsx';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-storiesOf('elements/Button', module)
+storiesOf('elements/addButton', module)
 .addDecorator(story => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>
     {story()}
   </MuiThemeProvider>
 ))
-.add('::add', () => (
+.add('::standard', () => (
   <div className="app flex-center-middle">
     <addButton
     add="Im a button"
