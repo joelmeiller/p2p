@@ -13,26 +13,25 @@ p.italic {
 }
 
 h1 {
-  font-size: 3em;
+  font-size: 4em;
   font-weight: 200;
-  padding: 20px 10px;
+  padding: 0px 0px;
   color: #00bcd4;
 }
 
 h2 {
-  font-size: 2em;
+  font-size: 3em;
   font-weight: 200;
-  padding: 20px 10px;
+  padding: 0px 0px;
   color: #00bcd4;
 }
 
 h3 {
-  font-size: 1em;
+  font-size: 1.5em;
   font-weight: 200;
-  padding: 20px 10px;
+  padding: 0px 0px;
   color: #00bcd4;
 }
-
 
 hr {
   width:100%;
@@ -40,20 +39,20 @@ hr {
   background: #00bcd4;
 }
 
-
 a {
   font-family: "RobotoDraft","Roboto",sans-serif;
   color: #00bcd4;
 }
 
-.dropdown-margin-top {
-  margin-top: -8px;
-}
-
-.dropdown-margin-top:first-child menuItems {
+/*.dropdown-first-disabled:first-child menuItems {
   color: #00bcd4;
 }
+*/
 
+.dropdown-margin-top {
+  margin-top: -8px;
+  color:#aabbcc;
+}
 
 .progress-margin-top{
   margin-top: 9px;
@@ -63,10 +62,21 @@ a {
   margin-top: 10px;
 }
 
+.header2-margin-top {
+  margin-top: -42px;
+}
+
 .label {
   background-color: #eeeeee;
   border: 2px solid #666666;
   width: 600px;
+}
+
+.h3-padding {
+  padding: 0px;
+}
+.h3-line-width {
+  width: 800px;
 }
 
 .container {
@@ -74,5 +84,5 @@ a {
 }
 
 .dv-star-rating {
-  
+
 }

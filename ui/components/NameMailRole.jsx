@@ -18,7 +18,8 @@ const NameMailRole = (props) => {
               hintText={props.hintMail}
               defaultValue={props.textMail}/>
             </div>
-            <div className="col-xs-2 dropdown-margin-top"><DropdownMichelle
+            <div className="col-xs-2 dropdown-margin-top dropdown-first-disabled">
+              <DropdownMichelle
               selectedValue=""
                 menuItems={[
                   {

@@ -9,7 +9,7 @@ const H2Progress = (props) => {
       return (
         <div className="container">
           <div className="row">
-            <div className="col-xs-4">
+            <div className="col-xs-4 header2-margin-top">
               <Header2withRole
                 h2title={props.h2titleName}
                 h2Role={props.h2RoleName}/>

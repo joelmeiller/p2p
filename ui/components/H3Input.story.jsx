@@ -1,24 +1,23 @@
 
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
-import TMProgress from './labelProgressbar.jsx';
+import H3Input from './H3Input.jsx';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-storiesOf('components/LabelProgressbar', module)
+storiesOf('components/Input', module)
 .addDecorator(story => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>
     {story()}
   </MuiThemeProvider>
 ))
-
-.add('::label', () => (
+.add('::h3', () => (
   <div className="app flex-center-middle">
-    <TMProgress
-      nameTM="Michelle Andrey"
-      roleTM="QM"
-      progress={45}/>
+    <H3Input
+      h3Title="Bewertungen und mögliche Verbesserungsvorschläge:"
+      labelHint="Das Mitglied hat sich..."
+    />
   </div>
 ))
 ;

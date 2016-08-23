@@ -13,7 +13,7 @@ storiesOf('components/LabelProgressbar', module)
   </MuiThemeProvider>
 ))
 
-.add('::withH2', () => (
+.add('::H2', () => (
   <div className="app flex-center-middle">
     <H2Progress
       h2titleName="Michelle Andrey"

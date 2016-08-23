@@ -11,7 +11,7 @@ const Header2withRole = (props) => {
   return (
     <div className="container">
       <div className="row">
-        <div className="col-xs-6"><h2>
+        <div className="col-xs-12"><h2>
           {props.h2title}, {props.h2Role}</h2>
         </div>
       </div>

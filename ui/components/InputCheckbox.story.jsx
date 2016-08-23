@@ -6,7 +6,6 @@ import InputCheckbox from './InputCheckbox.jsx';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-
 storiesOf('components/InputCheckbox', module)
 .addDecorator(story => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>
