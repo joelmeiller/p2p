@@ -72,6 +72,11 @@ a {
   width: 600px;
 }
 
+.margin-topAndleft {
+  margin-left: -65px;
+  margin-top: 3px;
+}
+
 /*component H3Input*/
 .h3-padding {
   padding: 0px;
@@ -79,7 +84,7 @@ a {
 
 /*component H3Input*/
 .h3-line-width div div {
-  width: 800px !important;;
+  width: 800px !important;
 }
 
 .container {
@@ -87,5 +92,4 @@ a {
 }
 
 .dv-star-rating {
-
 }
