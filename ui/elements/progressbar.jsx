@@ -3,6 +3,7 @@ import React from 'react';
 
 //Material Imports
 import LinearProgress from 'material-ui/LinearProgress';
+
 import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 

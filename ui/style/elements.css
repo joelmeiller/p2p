@@ -72,11 +72,14 @@ a {
   width: 600px;
 }
 
+/*component H3Input*/
 .h3-padding {
   padding: 0px;
 }
-.h3-line-width {
-  width: 800px;
+
+/*component H3Input*/
+.h3-line-width div div {
+  width: 800px !important;;
 }
 
 .container {
