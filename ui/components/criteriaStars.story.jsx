@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
-import LabelStars from './LabelStars.jsx';
+import CriteriaStars from './criteriaStars.jsx';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -12,12 +12,13 @@ storiesOf('components/Label', module)
     {story()}
   </MuiThemeProvider>
 ))
-.add('::PersonStars', () => (
+.add('::CriteriaStars', () => (
   <div className="app flex-center-middle">
-    <LabelStars
-      textSontiges="Michelle Andrey, QM"
+    <CriteriaStars
+      textCriteria="Weicht Konflikten aus"
       starsTotalCount={5}
-      valueEffective={3}    />
+      valueEffective={3}
+      />
   </div>
 ))
 ;

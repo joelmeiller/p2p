@@ -56,7 +56,7 @@ const NameMailRole = (props) => {
             </div>
             <div className="col-xs-1 a-margin-top"><a href="url">add Role</a>
             </div>
-            <div className="col-xs-1">
+            <div className="col-xs-1 icon-margin-top">
               <FontIcon className="material-icons">edit</FontIcon>
               <FontIcon className="material-icons">delete</FontIcon>
             </div>

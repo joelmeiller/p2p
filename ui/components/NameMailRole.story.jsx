@@ -6,13 +6,13 @@ import NameMailRole from './NameMailRole.jsx';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-storiesOf('components/NameMailRole', module)
+storiesOf('components/Form', module)
 .addDecorator(story => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>
     {story()}
   </MuiThemeProvider>
 ))
-.add('::Line', () => (
+.add('::NameMailRole', () => (
   <div className="app flex-center-middle">
     <NameMailRole
       hintName="Name"

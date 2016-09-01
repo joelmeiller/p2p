@@ -1,23 +1,25 @@
 
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
-import LabelStars from './LabelStars.jsx';
+import BlockCriteria from './blockCriteria.jsx';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-storiesOf('components/Label', module)
+storiesOf('components/Block', module)
 .addDecorator(story => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>
     {story()}
   </MuiThemeProvider>
 ))
-.add('::PersonStars', () => (
+.add('::criteriaStars', () => (
   <div className="app flex-center-middle">
-    <LabelStars
-      textSontiges="Michelle Andrey, QM"
-      starsTotalCount={5}
-      valueEffective={3}    />
+    <BlockCriteria
+      criteriaTitle="Team Kompetenzen"
+      criteriaText="Bringt sich selbst im Team ein"
+      criteriaTotalCount={5}
+      criteriaEffective={3}
+      />
   </div>
 ))
 ;
