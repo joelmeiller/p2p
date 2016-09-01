@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
-import BlockCriteria from './blockCriteria.jsx';
+import BlockSubcriteria from './blockSubcriteria.jsx';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -12,13 +12,16 @@ storiesOf('components/Block', module)
     {story()}
   </MuiThemeProvider>
 ))
-.add('::criteriaStars', () => (
+.add('::SubcriteriaStars', () => (
   <div className="app flex-center-middle">
-    <BlockCriteria
-      criteriaTitle="Team Kompetenzen"
-      criteriaText="Bringt sich selbst im Team ein"
+    <BlockSubcriteria
+      criteriaTitle="Konflikt Kompetenzen"
+      criteriaText="Weicht Konflikten aus"
       criteriaTotalCount={5}
       criteriaEffective={3}
+      criteriaText2="Trägt Konflikte unparteiisch und kooperativ aus"
+      criteriaTotalCount2={5}
+      criteriaEffective2={3}
       />
   </div>
 ))
