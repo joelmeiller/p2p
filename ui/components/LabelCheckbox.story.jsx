@@ -1,18 +1,18 @@
 
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
-import LabelCheckbox from './LabelCheckbox.jsx';
+import LabelCheckbox from './labelCheckbox.jsx';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-storiesOf('components/LabelCheckbox', module)
+storiesOf('components/Label', module)
 .addDecorator(story => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>
     {story()}
   </MuiThemeProvider>
 ))
-.add('::checked', () => (
+.add('::checkbox', () => (
   <div className="app flex-center-middle">
     <LabelCheckbox
       textSontiges="Kann eigene und fremde Anliegen..."
