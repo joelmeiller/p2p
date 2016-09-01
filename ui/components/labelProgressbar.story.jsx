@@ -13,7 +13,7 @@ storiesOf('components/LabelProgressbar', module)
   </MuiThemeProvider>
 ))
 
-.add('::label', () => (
+.add('::basic', () => (
   <div className="app flex-center-middle">
     <TMProgress
       nameTM="Michelle Andrey"

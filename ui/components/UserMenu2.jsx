@@ -13,7 +13,6 @@ import Assessment from 'material-ui/svg-icons/action/assessment';
 import FontIcon from 'material-ui/FontIcon';
 import Grade from 'material-ui/svg-icons/action/grade';
 import Logout from 'material-ui/svg-icons/action/eject';
-import AccountCircle from 'material-ui/svg-icons/action/account_circle'
 
 const style = {
   paper: {

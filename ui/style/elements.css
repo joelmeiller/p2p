@@ -20,7 +20,7 @@ h1 {
 }
 
 h2 {
-  font-size: 3em;
+  font-size: 2em;
   font-weight: 200;
   padding: 0px 0px;
   color: #00bcd4;
@@ -62,8 +62,10 @@ a {
   margin-top: 10px;
 }
 
+/*component labelProgressbarHeader*/
+
 .header2-margin-top {
-  margin-top: -42px;
+  margin-top: -28px;
 }
 
 .label {
@@ -83,8 +85,8 @@ a {
 }
 
 /*component H3Input*/
-.h3-line-width div div {
-  width: 800px !important;
+.h3-line-width{
+  width: 800px !important !important;
 }
 
 .container {

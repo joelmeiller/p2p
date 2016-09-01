@@ -9,7 +9,7 @@ const IconLabel = (props) => {
         <div className="container">
           <div className="row">
             <div className="col-xs-1">
-                <FontIcon className="material-icons">dashboard</FontIcon>
+                <FontIcon className="material-icons blue">dashboard</FontIcon>
               </div>
             <div className="col-xs-11 margin-topAndleft"><p>
                 {props.labelMenu}</p></div>
