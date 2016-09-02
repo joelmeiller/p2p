@@ -9,7 +9,6 @@ storiesOf('elements/Button', module)
 .add('::add', () => (
   <div className="app flex-center-middle">
     <AddButton
-
     />
   </div>
 ))

@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
-import UserMenu from './UserMenu.jsx';
+import UserMenuCoach from './UserMenuCoach.jsx';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -12,13 +12,9 @@ storiesOf('components/UserMenu', module)
     {story()}
   </MuiThemeProvider>
 ))
-.add('::UserMenu', () => (
+.add('::Coach', () => (
   <div className="app flex-center-middle">
-    <UserMenu
-      firstLabel="Evaluation"
-      secondLabel="My Rating"
-      thirdLabel="My Account"
-      fourthLabel="Logout"
+    <UserMenuCoach
       />
   </div>
 ))
