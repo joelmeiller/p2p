@@ -25,17 +25,20 @@ const style = {
 
 const UserMenuTM = (props) => {
       return (
-        <div>
+        <div className="container">
+          <div className="row">
+            <div className="col-xs-12">
           <Paper style={style.paper}>
             <Menu>
-              <MenuItem primaryText="Evaluation" leftIcon={<Assessment />} />
-              <MenuItem primaryText="My Rating" leftIcon={<Grade />} />
-              <MenuItem primaryText="My Account" leftIcon={<AccountBox />} />
-              <MenuItem primaryText="Logout" leftIcon={<ExitToApp />} />
-
+              <MenuItem primaryText={props.entry1} leftIcon={<Assessment />} />
+              <MenuItem primaryText={props.entry2} leftIcon={<Grade />} />
+              <MenuItem primaryText={props.entry3} leftIcon={<AccountBox />} />
+              <MenuItem primaryText={props.entry4} leftIcon={<ExitToApp />} />
             </Menu>
           </Paper>
         </div>
+      </div>
+    </div>
         );
 };
 

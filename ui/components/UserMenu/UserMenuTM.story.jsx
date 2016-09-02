@@ -15,6 +15,10 @@ storiesOf('components/UserMenu', module)
 .add('::TM', () => (
   <div className="app flex-center-middle">
     <UserMenuTM
+      entry1="Evaluation"
+      entry2="My Rating"
+      entry3="My Account"
+      entry4="Logout"
       />
   </div>
 ))

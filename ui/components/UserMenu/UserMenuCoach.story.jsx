@@ -15,6 +15,13 @@ storiesOf('components/UserMenu', module)
 .add('::Coach', () => (
   <div className="app flex-center-middle">
     <UserMenuCoach
+      entry1="Dashboard"
+      entry2="Roles"
+      entry3="Criteria"
+      entry4="Project Settings"
+      entry5="Grading"
+      entry6="My Account"
+      entry7="Logout"
       />
   </div>
 ))

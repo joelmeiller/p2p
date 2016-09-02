@@ -28,19 +28,22 @@ const style = {
 
 const UserMenuQM = (props) => {
       return (
-        <div>
-          <Paper style={style.paper}>
-            <Menu>
-              <MenuItem primaryText="Dashboard" leftIcon={<Dashboard />} />
-              <MenuItem primaryText="Evaluation" leftIcon={<Grade />} />
-              <MenuItem primaryText="Teammembers" leftIcon={<Accessibility />} />
-              <MenuItem primaryText="Criteria" leftIcon={<List />} />
-              <MenuItem primaryText="Project Settings" leftIcon={<Settings />} />
-              <MenuItem primaryText="My Account" leftIcon={<AccountBox />} />
-              <MenuItem primaryText="Logout" leftIcon={<ExitToApp />} />
-
-            </Menu>
-          </Paper>
+        <div className="container">
+          <div className="row">
+            <div className="col-xs-12">
+              <Paper style={style.paper}>
+                <Menu>
+                  <MenuItem primaryText={props.entry1} leftIcon={<Dashboard />} />
+                  <MenuItem primaryText={props.entry2} leftIcon={<Grade />} />
+                  <MenuItem primaryText={props.entry3} leftIcon={<Accessibility />} />
+                  <MenuItem primaryText={props.entry4} leftIcon={<List />} />
+                  <MenuItem primaryText={props.entry5} leftIcon={<Settings />} />
+                  <MenuItem primaryText={props.entry6} leftIcon={<AccountBox />} />
+                  <MenuItem primaryText={props.entry7} leftIcon={<ExitToApp />} />
+                </Menu>
+              </Paper>
+            </div>
+          </div>
         </div>
         );
 };

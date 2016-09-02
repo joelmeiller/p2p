@@ -15,6 +15,13 @@ storiesOf('components/UserMenu', module)
 .add('::QM', () => (
   <div className="app flex-center-middle">
     <UserMenuQM
+      entry1="Dashboard"
+      entry2="Evaluation"
+      entry3="Teammembers"
+      entry4="Criteria"
+      entry5="Project Settings"
+      entry6="My Account"
+      entry7="Logout"
       />
   </div>
 ))
