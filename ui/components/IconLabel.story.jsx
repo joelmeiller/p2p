@@ -6,13 +6,13 @@ import IconLabel from './IconLabel.jsx';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-storiesOf('components/IconLabel', module)
+storiesOf('components/Label', module)
 .addDecorator(story => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>
     {story()}
   </MuiThemeProvider>
 ))
-.add('::IconLabel', () => (
+.add('::icon', () => (
   <div className="app flex-center-middle">
     <IconLabel
       labelMenu="Dashboard"

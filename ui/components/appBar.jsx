@@ -7,11 +7,9 @@ import AppBar from 'material-ui/AppBar';
 
 const AppBarHeader = (props) => {
   return (
-
-          <AppBar
-            title={props.AppBarTitle}
-          />
-
+    <AppBar
+      title={props.AppBarTitle}
+    />
   );
 };
 

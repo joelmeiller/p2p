@@ -2,17 +2,29 @@
 
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
-import TabMichelle from './tab.jsx';
+import TabHeader from './tab.jsx';
 
-storiesOf('elements/TabMichelle', module)
-.add('::empty', () => (
-  <div class="slds-tabs--default">
-    <ul class="slds-tabs--default__nav" role="tablist"><TabMichelle header1="Tab1"/>
-    </ul>
-    <ul class="slds-tabs--default__nav" role="tablist"><TabMichelle header2="Tab2"/>
-    </ul>
-    <ul class="slds-tabs--default__nav" role="tablist"><TabMichelle header3="Tab3"/>
-    </ul>
-    </div>
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+
+storiesOf('components/Tab', module)
+.addDecorator(story => (
+  <MuiThemeProvider muiTheme={getMuiTheme()}>
+    {story()}
+  </MuiThemeProvider>
+))
+.add('::header', () => (
+  <div className="app flex-center-middle">
+    <TabHeader
+      tab1="Michelle"
+      tab2="Rebekka"
+      tab3="Martin"
+      tab4="Bettina"
+      tab5="Andreas"
+      tab6="Joel"
+      tab7="Remo"
+      tab8="Thierry"
+      />
+  </div>
 ))
 ;
