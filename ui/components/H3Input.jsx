@@ -16,6 +16,7 @@ const H3Input = (props) => {
         </div>
         <div className="col-xs-12 h3-line-width">
           <InputMichelle
+            value={props.value}
             hintText={props.labelHint}
           />
         </div>

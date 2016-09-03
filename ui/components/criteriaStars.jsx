@@ -10,10 +10,12 @@ const CriteriaStars = (props) => {
           <div className="row">
             <div className="col-xs-6"><p>
                 {props.textCriteria}</p></div>
-            <div className="col-xs-6"><StarsRating2
-              starCount={props.starsTotalCount}
-              value={props.valueEffective}
-              />
+            <div className="col-xs-6">
+              <StarsRating2
+                starCount={props.starsTotalCount}
+                value={props.valueEffective}
+                name={props.textCriteria}
+                />
             </div>
           </div>
         </div>

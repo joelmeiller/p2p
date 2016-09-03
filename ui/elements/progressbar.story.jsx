@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
+
 import ProgressMichelle from './progressbar.jsx';
 
 

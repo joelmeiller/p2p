@@ -20,6 +20,8 @@ const InputMichelle = React.createClass({
       <TextField
         hintText={this.props.hintText}
         defaultValue={this.props.michelle}
+        value={this.props.value}
+        fullWidth
       />
     );
   },

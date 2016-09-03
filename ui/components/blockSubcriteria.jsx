@@ -15,22 +15,17 @@ const BlockSubcriteria = (props) => {
               />
             </div>
           </div>
-          <div className="row">
-            <div className="col-xs-12"><CriteriaStars
-              textCriteria={props.criteriaText}
-              starsTotalCount={props.criteriaTotalCount}
-              valueEffective={props.criteriaEffective}
-              />
+          {(() => (props.criterias ? props.criterias.map((criteria) =>
+            <div className="row">
+              <div className="col-xs-12">
+                <CriteriaStars
+                  textCriteria={criteria.label}
+                  starsTotalCount={props.criteriaTotalCount}
+                  valueEffective={criteria.stars}
+                  />
+              </div>
             </div>
-          </div>
-          <div className="row">
-            <div className="col-xs-12"><CriteriaStars
-              textCriteria={props.criteriaText2}
-              starsTotalCount={props.criteriaTotalCount2}
-              valueEffective={props.criteriaEffective2}
-              />
-            </div>
-          </div>
+          ) : undefined))()}
         </div>
       );
 };
