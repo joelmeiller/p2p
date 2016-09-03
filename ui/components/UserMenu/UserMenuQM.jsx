@@ -12,8 +12,6 @@ import Settings from 'material-ui/svg-icons/action/settings';
 
 import FontIcon from 'material-ui/FontIcon';
 
-
-
 const style = {
   paper: {
     display: 'inline-block',

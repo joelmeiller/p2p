@@ -98,9 +98,7 @@ a {
   width: 100%;
 }
 
-.material-icons.blue {
-  color: #00bcd4;
-}
-
 .dv-star-rating {
+  font-size:3rem;
+  color:#555;
 }
