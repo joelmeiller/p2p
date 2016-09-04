@@ -13,7 +13,7 @@ const Header2_line = (props) => {
       <div className="row">
         <div className="col-xs-6"><h2>
           {props.myTitle}</h2>
-        </div><hr />
+      </div><hr className="blue" />
       </div>
     </div>
     );

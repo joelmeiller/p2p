@@ -1,3 +1,7 @@
+:root {
+  --blue-color: #00bcd4;
+}
+
 /* element styling */
 body {
   font-family: "RobotoDraft","Roboto",sans-serif;
@@ -36,6 +40,9 @@ h3 {
 hr {
   width:100%;
   height:1px;
+}
+
+hr.blue {
   background: #00bcd4;
 }
 
@@ -101,4 +108,8 @@ a {
 .dv-star-rating {
   font-size:3rem;
   color:#555;
+}
+
+.dv-star-rating-star {
+  margin-right:10px;
 }
