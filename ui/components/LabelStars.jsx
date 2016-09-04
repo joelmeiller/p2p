@@ -9,9 +9,9 @@ const LabelStars = (props) => {
         <div className="container">
           <div className="row">
             <div className="col-xs-6"><p>
-                {props.textSontiges}</p></div>
+                {props.text}</p></div>
             <div className="col-xs-6"><StarsRating2
-              value={props.valueEffective}
+              value={props.stars}
               />
             </div>
           </div>

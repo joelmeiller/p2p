@@ -12,12 +12,12 @@ storiesOf('components/Label', module)
     {story()}
   </MuiThemeProvider>
 ))
-.add('::PersonStars', () => (
+.add('::LabelStars', () => (
   <div className="app flex-center-middle">
     <LabelStars
-      textSontiges="Michelle Andrey, QM"
-      starsTotalCount={5}
-      valueEffective={3}    />
+      text="Michelle Andrey, QM"
+      stars={3}
+      />
   </div>
 ))
 ;
