@@ -7,7 +7,7 @@ import LinearProgress from 'material-ui/LinearProgress';
 import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-const ProgressMichelle = React.createClass({
+const ProgressBar = React.createClass({
   childContextTypes: {
     muiTheme: React.PropTypes.object.isRequired,
   },
@@ -19,11 +19,11 @@ const ProgressMichelle = React.createClass({
   render() {
     return (
       <LinearProgress
-      mode="determinate"
-      value={this.props.valueProgress}
-      />
+        mode="determinate"
+        value={this.props.value}
+        />
     );
   },
 });
 
-export default ProgressMichelle;
+export default ProgressBar;

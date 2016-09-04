@@ -3,15 +3,13 @@
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
 
-import ProgressMichelle from './progressbar.jsx';
+import ProgressBar from './ProgressBar.jsx';
 
-
-storiesOf('elements/ProgressMichelle', module)
-.add('::empty', () => (
+storiesOf('elements', module)
+.add('::ProgressBar', () => (
   <div className="app flex-center-middle">
-    <ProgressMichelle
-    valueProgress={80}
-    />
+    <ProgressBar
+      value={80}
+      />
   </div>
-))
-;
+));
