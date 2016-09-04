@@ -1,22 +1,20 @@
-/* eslint-disable max-len */
-
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
-import DropdownMichelle from './dropdown.jsx';
+import Dropdown from './Dropdown.jsx';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 
-storiesOf('elements/DropdownMichelle', module)
+storiesOf('elements', module)
 .addDecorator(story => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>
     {story()}
   </MuiThemeProvider>
 ))
-.add('::standard', () => (
+.add('::Dropdown', () => (
   <div className="app flex-center-middle">
-    <DropdownMichelle
+    <Dropdown
       selectedValue="test_1"
       menuItems={[
         {

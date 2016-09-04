@@ -1,9 +1,7 @@
-//React Imports
 import React from 'react';
 
-//Material Imports
 import InputMichelle from '../elements/inputfield.jsx';
-import DropdownMichelle from '../elements/dropdown.jsx';
+import Dropdown from '../elements/Dropdown.jsx';
 import FontIcon from 'material-ui/FontIcon';
 
 const NameMailRole = (props) => {
@@ -19,7 +17,7 @@ const NameMailRole = (props) => {
               defaultValue={props.textMail}/>
             </div>
             <div className="col-xs-2 dropdown-margin-top dropdown-first-disabled">
-              <DropdownMichelle
+              <Dropdown
               selectedValue=""
                 menuItems={[
                   {

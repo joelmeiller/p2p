@@ -1,14 +1,13 @@
 // React Imports
 import React from 'react';
 
-// Material Imports
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 injectTapEventPlugin();
 
-const DropdownMichelle = (props) => {
+const Dropdown = (props) => {
   console.log(props);
   return (
     <div>
@@ -21,7 +20,7 @@ const DropdownMichelle = (props) => {
   );
 };
 
-DropdownMichelle.propTypes = {
+Dropdown.propTypes = {
   menuItems: React.PropTypes.arrayOf(
     React.PropTypes.shape({
       label: React.PropTypes.string,
@@ -32,4 +31,4 @@ DropdownMichelle.propTypes = {
   handleChange: React.PropTypes.func,
 };
 
-export default DropdownMichelle;
+export default Dropdown;
