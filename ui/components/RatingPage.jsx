@@ -1,7 +1,5 @@
-//React Imports
 import React from 'react';
 
-//Material Imports
 import FinalRating from './FinalRating.jsx';
 import MemberCard from './MemberCard.jsx';
 

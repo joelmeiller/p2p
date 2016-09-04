@@ -25,4 +25,4 @@ const MemberProgress = (props) => {
   );
 };
 
-export default TMProgress;
+export default MemberProgress;

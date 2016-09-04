@@ -1,7 +1,5 @@
-//React Imports
 import React from 'react';
 
-//Material Imports
 import StarsRating2 from '../elements/starsV2.jsx';
 import Header2 from '../elements/Header/Header2.jsx';
 
