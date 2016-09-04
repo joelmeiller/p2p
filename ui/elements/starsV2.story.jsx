@@ -9,7 +9,6 @@ storiesOf('elements/StarsRating', module)
 .add('::V2', () => (
   <div className="app flex-center-middle">
     <StarsRating2
-      startCountMichelle={5}
       valueEffective={3}
     />
   </div>

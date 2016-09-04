@@ -20,7 +20,6 @@ const BlockSubcriteria = (props) => {
               <div className="col-xs-12">
                 <CriteriaStars
                   textCriteria={criteria.label}
-                  starsTotalCount={props.criteriaTotalCount}
                   valueEffective={criteria.stars}
                   />
               </div>

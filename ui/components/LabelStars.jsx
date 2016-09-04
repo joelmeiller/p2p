@@ -11,7 +11,6 @@ const LabelStars = (props) => {
             <div className="col-xs-6"><p>
                 {props.textSontiges}</p></div>
             <div className="col-xs-6"><StarsRating2
-              starCount={props.starsTotalCount}
               value={props.valueEffective}
               />
             </div>

@@ -12,7 +12,6 @@ const CriteriaStars = (props) => {
                 {props.textCriteria}</p></div>
             <div className="col-xs-6">
               <StarsRating2
-                starCount={props.starsTotalCount}
                 value={props.valueEffective}
                 name={props.textCriteria}
                 />

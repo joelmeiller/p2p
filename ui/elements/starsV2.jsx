@@ -21,7 +21,7 @@ const StarsRating2 = React.createClass({
   render() {
     return (
         <StarRatingComponent
-          starCount={this.props.startCountMichelle}
+          starCount={5}
           value={this.props.value}
           name={this.props.name}
           />

@@ -16,7 +16,6 @@ storiesOf('components/Label', module)
   <div className="app flex-center-middle">
     <CriteriaStars
       textCriteria="Weicht Konflikten aus"
-      starsTotalCount={5}
       valueEffective={3}
       />
   </div>

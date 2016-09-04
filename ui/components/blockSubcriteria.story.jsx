@@ -16,12 +16,15 @@ storiesOf('components/Block', module)
   <div className="app flex-center-middle">
     <BlockSubcriteria
       criteriaTitle="Konflikt Kompetenzen"
-      criteriaText="Weicht Konflikten aus"
-      criteriaTotalCount={5}
-      criteriaEffective={3}
-      criteriaText2="Trägt Konflikte unparteiisch und kooperativ aus"
-      criteriaTotalCount2={5}
-      criteriaEffective2={3}
+      criterias={[
+        {
+          label: "Weicht Konflikten aus",
+          stars: 3
+        }, {
+          label: "Trägt Konflikte unparteiisch und kooperativ aus",
+          stars: 3
+        }
+      ]}
       />
   </div>
 ))
