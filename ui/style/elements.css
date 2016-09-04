@@ -8,6 +8,12 @@ body {
   padding: 0px;
 }
 
+/* used in: FinalRating */
+.flex-align-middle {
+  display: flex;
+  align-items: center;
+}
+
 p.bold {
   font-weight: bold;
 }
@@ -111,5 +117,6 @@ a {
 }
 
 .dv-star-rating-star {
+  margin-bottom:0px;
   margin-right:10px;
 }

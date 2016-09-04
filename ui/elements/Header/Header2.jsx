@@ -10,11 +10,7 @@ const Header2 = (props) => {
   console.log(props);
   return (
     <div className="container">
-      <div className="row">
-        <div className="col-xs-6"><h2>
-          {props.h2title}</h2>
-        </div>
-      </div>
+      <h2 style={{margin:0}}>{props.h2title}</h2>
     </div>
     );
   };
