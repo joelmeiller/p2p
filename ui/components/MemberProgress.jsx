@@ -1,16 +1,14 @@
-//React Imports
 import React from 'react';
 
-//Material Imports
 import ProgressBar from '../elements/ProgressBar.jsx';
 
-const TMProgress = (props) => {
+const MemberProgress = (props) => {
   return (
     <div className="container">
       <div className="row">
         <div className="col-xs-2">
           <p>
-            {props.nameTM}, {props.roleTM}
+            {props.name}, {props.role}
           </p>
         </div>
         <div className="col-xs-8 progress-margin-top">
