@@ -10,9 +10,11 @@ const LabelStars = (props) => {
           <div className="row">
             <div className="col-xs-6"><p>
                 {props.text}</p></div>
-            <div className="col-xs-6"><StarsRating2
-              value={props.stars}
-              />
+            <div className="col-xs-6">
+              <StarsRating2
+                name={props.name || props.text}
+                value={props.stars}
+                />
             </div>
           </div>
         </div>

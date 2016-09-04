@@ -24,10 +24,10 @@ Dropdown.propTypes = {
   menuItems: React.PropTypes.arrayOf(
     React.PropTypes.shape({
       label: React.PropTypes.string,
-      value: React.PropTypes.string,
+      value: React.PropTypes.any,
     })
   ),
-  selectedValue: React.PropTypes.string,
+  selectedValue: React.PropTypes.any,
   handleChange: React.PropTypes.func,
 };
 
