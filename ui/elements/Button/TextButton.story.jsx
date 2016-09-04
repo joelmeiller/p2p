@@ -2,14 +2,12 @@
 
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
-import SaveButton from './saveButton.jsx';
-
+import TextButton from './TextButton.jsx';
 
 storiesOf('elements/Button', module)
-.add('::save', () => (
+.add('::text', () => (
   <div className="app flex-center-middle">
-    <SaveButton
-    />
+    <TextButton text="text" />
   </div>
 ))
 ;

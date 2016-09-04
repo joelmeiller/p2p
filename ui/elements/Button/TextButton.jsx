@@ -7,7 +7,7 @@ import FlatButton from 'material-ui/FlatButton';
 import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-const CancelButton = React.createClass({
+const TextButton = React.createClass({
   childContextTypes: {
     muiTheme: React.PropTypes.object.isRequired,
   },
@@ -19,10 +19,10 @@ const CancelButton = React.createClass({
   render() {
     return (
       <div>
-        <FlatButton label="cancel" primary={true} />
+        <FlatButton label={this.props.text} primary={this.props.primary || false} />
       </div>
     );
   },
 });
 
-export default CancelButton;
+export default TextButton;
