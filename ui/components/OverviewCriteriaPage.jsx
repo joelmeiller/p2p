@@ -27,6 +27,11 @@ const OverviewCriteriaPage = React.createClass({
         </div>
         {
           this.props.criterias[this.state.idx].ratings.map(function(rating, i) {
+            // Beware: We need to specify both a unique "name" (StarRatingComponent
+            // uses that "name" to generate unique IDs for the star elements) and a
+            // unique "key" (React will try to keep state between renderings and if
+            // no "key" is specified then the LabelStar components won't change when
+            // the dropdown changes...)
             return (
               <LabelStars
                 text={rating.name + ', ' + rating.role}

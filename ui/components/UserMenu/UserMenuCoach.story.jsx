@@ -1,7 +1,16 @@
-
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
-import UserMenuCoach from './UserMenuCoach.jsx';
+import UserMenu from './UserMenu.jsx';
+
+import Accessibility from 'material-ui/svg-icons/action/accessibility';
+import Dashboard from 'material-ui/svg-icons/action/dashboard';
+import AccountBox from 'material-ui/svg-icons/action/account-box';
+import ExitToApp from 'material-ui/svg-icons/action/exit-to-app';
+import List from 'material-ui/svg-icons/action/list';
+import Settings from 'material-ui/svg-icons/action/settings';
+import Grade from 'material-ui/svg-icons/action/grade';
+
+import FontIcon from 'material-ui/FontIcon';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -14,15 +23,31 @@ storiesOf('components/UserMenu', module)
 ))
 .add('::Coach', () => (
   <div className="app flex-center-middle">
-    <UserMenuCoach
-      entry1="Dashboard"
-      entry2="Roles"
-      entry3="Criteria"
-      entry4="Project Settings"
-      entry5="Grading"
-      entry6="My Account"
-      entry7="Logout"
+    <UserMenu
+      entries={[
+        {
+          name:"Dashboard",
+          icon:<Dashboard />
+        }, {
+          name:"Roles",
+          icon:<Accessibility />
+        }, {
+          name:"Criteria",
+          icon:<List />
+        }, {
+          name:"Project Settings",
+          icon:<Settings />
+        }, {
+          name:"Grading",
+          icon:<Grade />
+        }, {
+          name:"My Account",
+          icon:<AccountBox />
+        }, {
+          name:"Logout",
+          icon:<ExitToApp />
+        },
+      ]}
       />
-  </div>
-))
-;
+</div>
+));
