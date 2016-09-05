@@ -13,7 +13,7 @@ const Header3_line = (props) => {
       <div className="row">
         <div className="col-xs-6"><h3>
           {props.myTitle}</h3>
-        </div><hr />
+        </div><hr className="blue" />
       </div>
     </div>
     );

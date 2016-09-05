@@ -6,7 +6,7 @@ import CheckboxMichelle from './checkbox.jsx';
 
 
 storiesOf('elements/Checkbox', module)
-.add('::unchecked', () => (
+.add('::checkbox', () => (
   <div className="app flex-center-middle">
     <CheckboxMichelle
       checkboxLabel="I'm a nice Checkbox"
