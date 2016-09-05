@@ -1,17 +1,14 @@
-/* eslint-disable max-len */
-
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
-import InputMichelle from './inputfield.jsx';
+import Inputfield from './Inputfield.jsx';
 
-
-storiesOf('elements/InputMichelle', module)
-.add('::empty', () => (
+storiesOf('elements', module)
+.add('::Inputfield', () => (
   <div className="app flex-center-middle">
-    <InputMichelle
-      hintText="Gib etwas ein, Bitch!"
-      michelle="42 Supergeil"
-    />
+    <Inputfield
+      hintText="Gib etwas ein!"
+      defaultValue="42 Supergeil"
+      />
   </div>
 ))
 ;

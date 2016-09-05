@@ -15,8 +15,8 @@ storiesOf('components/Input', module)
 .add('::h3', () => (
   <div className="app flex-center-middle">
     <H3Input
-      h3Title="Bewertungen und mögliche Verbesserungsvorschläge:"
-      labelHint="Das Mitglied hat sich..."
+      myTitle="Bewertungen und mögliche Verbesserungsvorschläge:"
+      hintText="Das Mitglied hat sich..."
     />
   </div>
 ))

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import InputMichelle from '../elements/inputfield.jsx';
+import Inputfield from '../elements/Inputfield.jsx';
 import Dropdown from '../elements/Dropdown.jsx';
 import FontIcon from 'material-ui/FontIcon';
 
@@ -8,13 +8,13 @@ const NameMailRole = (props) => {
       return (
         <div className="container">
           <div className="row">
-            <div className="col-xs-3"><InputMichelle
-              hintText={props.hintName}
-              defaultValue={props.textName}/>
+            <div className="col-xs-3"><Inputfield
+              hintText={props.hintText}
+              defaultValue={props.defaultValue}/>
             </div>
-            <div className="col-xs-3"><InputMichelle
-              hintText={props.hintMail}
-              defaultValue={props.textMail}/>
+            <div className="col-xs-3"><Inputfield
+              hintText={props.hintText2}
+              defaultValue={props.defaultValue2}/>
             </div>
             <div className="col-xs-2 dropdown-margin-top dropdown-first-disabled">
               <Dropdown

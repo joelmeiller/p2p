@@ -1,12 +1,10 @@
-//React Imports
 import React from 'react';
 
-//Material Imports
 import TextField from 'material-ui/TextField';
 import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-const InputMichelle = React.createClass({
+const Inputfield = React.createClass({
   childContextTypes: {
     muiTheme: React.PropTypes.object.isRequired,
   },
@@ -19,7 +17,7 @@ const InputMichelle = React.createClass({
     return (
       <TextField
         hintText={this.props.hintText}
-        defaultValue={this.props.michelle}
+        defaultValue={this.props.defaultValue}
         value={this.props.value}
         fullWidth
       />
@@ -27,4 +25,4 @@ const InputMichelle = React.createClass({
   },
 });
 
-export default InputMichelle;
+export default Inputfield;

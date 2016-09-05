@@ -15,10 +15,8 @@ storiesOf('components/Form', module)
 .add('::NameMailRole', () => (
   <div className="app flex-center-middle">
     <NameMailRole
-      hintName="Name"
-      textName="Michelle Andrey"
-      hintMail="Mail"
-      textMail="michelle.andreyatstudents.fhnw.ch"
+      hintText="Name"
+      hintText2="Mail"
       hintRole="Role"
       textRole="QM"
     />

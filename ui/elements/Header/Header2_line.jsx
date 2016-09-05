@@ -1,7 +1,5 @@
-// React Imports
 import React from 'react';
 
-// Material Imports
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 //injectTapEventPlugin();

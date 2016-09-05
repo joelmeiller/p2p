@@ -15,7 +15,7 @@ storiesOf('components/Input', module)
 .add('::icon', () => (
   <div className="app flex-center-middle">
     <InputCheckbox
-      hintTextMichelle="Criteria"
+      hintText="Criteria"
       checkboxLabel="I'm a nice Checkbox"
     />
   </div>

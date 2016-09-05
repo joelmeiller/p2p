@@ -2,7 +2,7 @@
 import React from 'react';
 
 // Material Imports
-import InputMichelle from '../elements/inputfield.jsx';
+import Inputfield from '../elements/Inputfield.jsx';
 import Header3 from '../elements/Header/Header3.jsx';
 
 const H3Input = (props) => {
@@ -11,13 +11,13 @@ const H3Input = (props) => {
       <div className="row">
         <div className="col-xs-12 h3-padding">
           <Header3
-            myTitle={props.h3Title}
+            myTitle={props.myTitle}
           />
         </div>
         <div className="col-xs-12 h3-line-width">
-          <InputMichelle
+          <Inputfield
             value={props.value}
-            hintText={props.labelHint}
+            hintText={props.hintText}
           />
         </div>
       </div>
@@ -25,8 +25,8 @@ const H3Input = (props) => {
   );
 };
 
-InputMichelle.propTypes = {
-  labelHint: React.PropTypes.string,
+Inputfield.propTypes = {
+  hintText: React.PropTypes.string,
 };
 
 export default H3Input;

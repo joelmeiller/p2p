@@ -1,8 +1,6 @@
-// React Imports
 import React from 'react';
 
-// Material Imports
-import InputMichelle from '../elements/inputfield.jsx';
+import Inputfield from '../elements/Inputfield.jsx';
 import FontIcon from 'material-ui/FontIcon';
 
 
@@ -11,8 +9,8 @@ const InputCheckbox = (props) => {
     <div className="container">
       <div className="row">
         <div className="col-xs-6">
-          <InputMichelle
-            hintText={props.hintTextMichelle}
+          <Inputfield
+            hintText={props.hintText}
           />
         </div>
         <div className="col-xs-6">
@@ -24,7 +22,7 @@ const InputCheckbox = (props) => {
 };
 
 InputCheckbox.propTypes = {
-  hintTextMichelle: React.PropTypes.string,
+  hintText: React.PropTypes.string,
 };
 
 export default InputCheckbox;
