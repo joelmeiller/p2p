@@ -2,6 +2,8 @@ import React from 'react';
 
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 import {cyan500} from 'material-ui/styles/colors';
+import FontIcon from 'material-ui/FontIcon';
+
 import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
@@ -17,6 +19,8 @@ const ProjectList = (props) => {
                 <TableHeaderColumn style={{color:cyan500}}>Last Update</TableHeaderColumn>
                 <TableHeaderColumn style={{color:cyan500}}>Status</TableHeaderColumn>
                 <TableHeaderColumn style={{color:cyan500}}>Team Coach</TableHeaderColumn>
+                  <TableHeaderColumn style={{color:cyan500}}>Edit</TableHeaderColumn>
+
               </TableRow>
             </TableHeader>
             <TableBody displayRowCheckbox={false}>
@@ -26,6 +30,7 @@ const ProjectList = (props) => {
                   <TableRowColumn>{entry.lastUpdate}</TableRowColumn>
                   <TableRowColumn>{entry.status}</TableRowColumn>
                   <TableRowColumn>{entry.teamCoach}</TableRowColumn>
+                  <TableRowColumn><FontIcon className="material-icons">edit</FontIcon></TableRowColumn>
                   />
               </TableRow>
             ) : undefined))()}
