@@ -1,6 +1,6 @@
 import React from 'react';
 
-import AppBar from 'material-ui/AppBar';
+import AppBar from 'material-ui/appBar';
 
 const AppBarHeader = (props) => {
   return (

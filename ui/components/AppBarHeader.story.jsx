@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
-import AppBarHeader from './appBar.jsx';
+import AppBarHeader from './AppBarHeader.jsx';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
