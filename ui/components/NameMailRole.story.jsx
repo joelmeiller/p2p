@@ -9,7 +9,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 storiesOf('components/Form', module)
 .addDecorator(story => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>
-    {story()}
+    {story()}Î
   </MuiThemeProvider>
 ))
 .add('::NameMailRole', () => (
