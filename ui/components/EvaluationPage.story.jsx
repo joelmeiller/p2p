@@ -14,6 +14,26 @@ storiesOf('components/Page', module)
 .add('::EvaluationPage', () => (
   <div className="app flex-center-middle">
     <EvaluationPage
+      title="Evaluation"
+      members={[
+        {
+          label:"Michelle"
+        }, {
+          label:"Rebekka"
+        }, {
+          label:"Martin"
+        }, {
+          label:"Bettina"
+        }, {
+          label:"Andreas"
+        }, {
+          label:"Joel"
+        }, {
+          label:"Remo"
+        }, {
+          label:"Thierry"
+        }
+      ]}
       memberName="Martin Steiner"
       memberRole="QM"
       pageProgress={20}

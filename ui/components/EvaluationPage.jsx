@@ -1,14 +1,21 @@
-//React Imports
 import React from 'react';
 
-//Material Imports
 import H2Progress from './labelProgressbarHeader.jsx';
 import BlockSubcriteria from './blockSubcriteria.jsx';
 import H3Input from './H3Input.jsx';
+import TabHeaderMember from './TabHeaderMember.jsx';
 
 const EvaluationPage = (props) => {
   return (
     <div className="container">
+      <div className="row" style={{marginBottom:30}}>
+        <div className="col-xs-12">
+          <TabHeaderMember
+            title={props.title}
+            members={props.members}
+            />
+        </div>
+      </div>
       <div className="row">
         <div className="col-xs-12">
           <H2Progress
