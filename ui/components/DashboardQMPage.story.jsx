@@ -14,6 +14,25 @@ storiesOf('components/Page', module)
 .add('::DashboardQMPage', () => (
   <div className="app flex-center-middle">
     <DashboardQMPage
+      members={[
+        {
+          label:"Michelle"
+        }, {
+          label:"Rebekka"
+        }, {
+          label:"Martin"
+        }, {
+          label:"Bettina"
+        }, {
+          label:"Andreas"
+        }, {
+          label:"Joel"
+        }, {
+          label:"Remo"
+        }, {
+          label:"Thierry"
+        }
+      ]}
       entries={[
         {
           name: "Michelle Steiner",
