@@ -6,7 +6,7 @@ import AppBarHeader from './AppBarHeader.jsx';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-storiesOf('components/Bar', module)
+storiesOf('components/AppBarHeader', module)
 .addDecorator(story => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>
     {story()}
