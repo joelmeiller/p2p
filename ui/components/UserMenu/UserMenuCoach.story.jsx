@@ -26,7 +26,7 @@ storiesOf('components/UserMenu', module)
     <UserMenu
       entries={[
         {
-          name:"Dashboard",
+          name:"Projects",
           icon:<Dashboard />
         }, {
           name:"Roles",

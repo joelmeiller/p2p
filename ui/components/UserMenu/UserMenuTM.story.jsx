@@ -2,7 +2,7 @@ import React from 'react';
 
 import Accessibility from 'material-ui/svg-icons/action/accessibility';
 import AccountBox from 'material-ui/svg-icons/action/account-box';
-import List from 'material-ui/svg-icons/action/list';
+import Dashboard from 'material-ui/svg-icons/action/dashboard';
 import ExitToApp from 'material-ui/svg-icons/action/exit-to-app';
 import Assessment from 'material-ui/svg-icons/action/assessment';
 
@@ -23,8 +23,8 @@ storiesOf('components/UserMenu', module)
     <UserMenu
       entries={[
         {
-          name:"Evaluation",
-          icon:<List />
+          name:"Progress",
+          icon:<Dashboard />
         }, {
           name:"My Ratings",
           icon:<Assessment />
