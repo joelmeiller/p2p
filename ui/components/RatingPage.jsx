@@ -2,10 +2,18 @@ import React from 'react';
 
 import FinalRating from './FinalRating.jsx';
 import MemberCard from './MemberCard.jsx';
+import TabHeaderMember from './TabHeaderMember.jsx';
 
 const RatingPage = (props) => {
   return (
     <div className="container">
+      <div className="row" style={{marginBottom:30}}>
+        <div className="col-xs-12">
+          <TabHeaderMember
+            title={props.title}
+            />
+        </div>
+      </div>
       <div className="row" style={{marginBottom:30}}>
         <div className="col-xs-12">
           <FinalRating finalRating={props.finalRating} />

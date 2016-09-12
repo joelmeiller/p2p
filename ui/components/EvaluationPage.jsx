@@ -13,6 +13,7 @@ const EvaluationPage = (props) => {
           <TabHeaderMember
             title={props.title}
             members={props.members}
+            initialSelectedIndex={props.initialSelectedIndex}
             />
         </div>
       </div>

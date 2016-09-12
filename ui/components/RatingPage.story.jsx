@@ -14,6 +14,7 @@ storiesOf('components/Page', module)
 .add('::RatingPage', () => (
   <div className="app flex-center-middle">
     <RatingPage
+      title="My Rating"
       finalRating={3}
       ratings={[
         {

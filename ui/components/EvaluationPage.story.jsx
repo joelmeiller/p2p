@@ -34,6 +34,7 @@ storiesOf('components/Page', module)
           label:"Thierry"
         }
       ]}
+      initialSelectedIndex={2}
       memberName="Martin Steiner"
       memberRole="QM"
       pageProgress={20}
