@@ -14,6 +14,26 @@ storiesOf('components/Page', module)
 .add('::ProgressPage', () => (
   <div className="app flex-center-middle">
     <ProgressPage
+      title="Progress"
+      members={[
+        {
+          label:"Michelle"
+        }, {
+          label:"Rebekka"
+        }, {
+          label:"Martin"
+        }, {
+          label:"Bettina"
+        }, {
+          label:"Andreas"
+        }, {
+          label:"Joel"
+        }, {
+          label:"Remo"
+        }, {
+          label:"Thierry"
+        }
+      ]}
       progress={[
         {
           name: "Michelle Steiner",
