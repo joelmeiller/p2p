@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
-import TabHeader from './TabHeader.jsx';
+import TabHeaderMember from './TabHeaderMember.jsx';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -13,7 +13,8 @@ storiesOf('components/AppBarHeader', module)
 ))
 .add('::TabHeaderMember', () => (
   <div className="app flex-center-middle">
-    <TabHeader
+    <TabHeaderMember
+      title="IP4: KLAV"
       members={[
         {
           label:"Michelle"
