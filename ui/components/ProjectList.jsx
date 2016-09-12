@@ -19,8 +19,7 @@ const ProjectList = (props) => {
                 <TableHeaderColumn style={{color:cyan500}}>Last Update</TableHeaderColumn>
                 <TableHeaderColumn style={{color:cyan500}}>Status</TableHeaderColumn>
                 <TableHeaderColumn style={{color:cyan500}}>Team Coach</TableHeaderColumn>
-                  <TableHeaderColumn style={{color:cyan500}}>Edit</TableHeaderColumn>
-
+                <TableHeaderColumn style={{color:cyan500}}>Edit</TableHeaderColumn>
               </TableRow>
             </TableHeader>
             <TableBody displayRowCheckbox={false}>

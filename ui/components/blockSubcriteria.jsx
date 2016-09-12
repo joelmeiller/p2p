@@ -1,7 +1,5 @@
-//React Imports
 import React from 'react';
 
-//Material Imports
 import Header2_line from '../elements/Header/Header2_line.jsx';
 import CriteriaStars from './criteriaStars.jsx';
 
