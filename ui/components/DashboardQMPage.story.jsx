@@ -20,51 +20,51 @@ storiesOf('components/Page', module)
           name: "Michelle Steiner",
           role: "QM",
           stars: 3,
-          deviation: 2,
-          grade: 5.1,
+          deviation: "deviation: "+2,
+          grade: "grade: "+5.1,
           status: "approved"
         }, {
           name: "Rebekka Burri",
           role: "TEC",
           stars: 3,
-          deviation: 0,
-          grade: 5.0,
+          deviation: "deviation: "+0,
+          grade: "grade: "+5.0,
           status: "approved"
         }, {
           name: "Martin Steiner",
           role: "QM",
           stars: 1,
-          deviation: 2,
-          grade: 4.5,
+          deviation: "deviation: "+2,
+          grade: "grade: "+4.5,
           status: "approved"
         }, {
           name: "Bettina Rust",
           role: "REQ",
           stars: 5,
-          deviation: 0,
-          grade: 6.0,
+          deviation: "deviation: "+0,
+          grade: "grade: "+6.0,
           status: "approved"
         }, {
           name: "Andreas Lee",
           role: "UM",
           stars: 5,
-          deviation: 0,
-          grade: 6.0,
+          deviation: "deviation: "+0,
+          grade: "grade: "+6.0,
           status: "approved"
         }
         , {
           name: "Joel Dumont",
           role: "REQ",
           stars: 4,
-          deviation: 0,
-          grade: 6.0,
+          deviation: "deviation: "+0,
+          grade: "grade: "+6.0,
           status: "pending"
         }, {
-          name: "Thierrz Bill",
+          name: "Thierry Bill",
           role: "IM",
           stars: 5,
-          deviation: 0,
-          grade: 6.0,
+          deviation: "deviation: "+0,
+          grade: "grade: "+6.0,
           status: "approved"
         }
       ]}

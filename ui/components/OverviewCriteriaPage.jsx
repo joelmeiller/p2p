@@ -2,6 +2,7 @@ import React from 'react';
 
 import Dropdown from '../elements/Dropdown.jsx';
 import LabelStars from './LabelStars.jsx';
+import TabHeaderMember from './TabHeaderMember.jsx';
 
 const OverviewCriteriaPage = React.createClass({
   onDropdownChange: function(event, index, value) {
@@ -14,6 +15,14 @@ const OverviewCriteriaPage = React.createClass({
     var that=this;
     return (
       <div className="container">
+        <div className="row" style={{marginBottom:30}}>
+          <div className="col-xs-12">
+            <TabHeaderMember
+              title={props.title}
+              members={props.members}
+              />
+          </div>
+        </div>
         <div className="row" style={{marginBottom:30}}>
           <div className="col-xs-12">
             <Dropdown

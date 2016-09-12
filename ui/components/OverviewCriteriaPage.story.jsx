@@ -14,6 +14,14 @@ storiesOf('components/Page', module)
 .add('::OverviewCriteriaPage', () => (
   <div className="app flex-center-middle">
     <OverviewCriteriaPage
+      title="Dashboard"
+      members={[
+        {
+          label:"Nach Kriterien"
+        }, {
+          label:"Nach Teammitglieder"
+        }
+      ]}
       criterias={[
         {
           title: "Hält Zusagen ein",
