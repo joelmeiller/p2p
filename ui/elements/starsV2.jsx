@@ -1,7 +1,5 @@
-//React Imports
 import React from 'react';
 
-//Material Imports
 import StarRatingComponent from 'react-star-rating-component';
 import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
