@@ -1,7 +1,5 @@
-//React Imports
 import React from 'react';
 
-//Material Imports
 import FontIcon from 'material-ui/FontIcon';
 import {blue500} from 'material-ui/styles/colors';
 
