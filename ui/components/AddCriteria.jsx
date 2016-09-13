@@ -3,8 +3,7 @@ import React from 'react';
 import Inputfield from '../elements/Inputfield.jsx';
 import FontIcon from 'material-ui/FontIcon';
 
-
-const InputCheckbox = (props) => {
+const AddCriteria = (props) => {
   return (
     <div className="container">
       <div className="row">
@@ -21,8 +20,8 @@ const InputCheckbox = (props) => {
   );
 };
 
-InputCheckbox.propTypes = {
+AddCriteria.propTypes = {
   hintText: React.PropTypes.string,
 };
 
-export default InputCheckbox;
+export default AddCriteria;

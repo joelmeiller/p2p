@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
-import InputCheckbox from './InputCheckbox.jsx';
+import AddCriteria from './AddCriteria.jsx';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -14,7 +14,7 @@ storiesOf('components/Input', module)
 ))
 .add('::icon', () => (
   <div className="app flex-center-middle">
-    <InputCheckbox
+    <AddCriteria
       hintText="Criteria"
       checkboxLabel="I'm a nice Checkbox"
     />
