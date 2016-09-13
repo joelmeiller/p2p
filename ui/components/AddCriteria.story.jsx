@@ -16,7 +16,6 @@ storiesOf('components/Input', module)
   <div className="app flex-center-middle">
     <AddCriteria
       hintText="Criteria"
-      checkboxLabel="I'm a nice Checkbox"
     />
   </div>
 ))

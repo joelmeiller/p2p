@@ -15,7 +15,7 @@ storiesOf('components/Label', module)
 .add('::checkbox', () => (
   <div className="app flex-center-middle">
     <LabelCheckbox
-      textSontiges="Kann eigene und fremde Anliegen..."
+      text="Kann eigene und fremde Anliegen..."
       checkboxLabel="I'm a nice Checkbox"
     />
   </div>
