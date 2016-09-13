@@ -8,6 +8,8 @@ import ExitToApp from 'material-ui/svg-icons/action/exit-to-app';
 import List from 'material-ui/svg-icons/action/list';
 import Settings from 'material-ui/svg-icons/action/settings';
 
+import {blue500} from 'material-ui/styles/colors';
+
 import { storiesOf } from '@kadira/storybook';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -26,25 +28,25 @@ storiesOf('components/UserMenu', module)
       entries={[
         {
           name:"Dashboard",
-          icon:<Dashboard />
+          icon:<Dashboard color={blue500}/>
         }, {
           name:"Evaluation",
-          icon:<Grade />
+          icon:<Grade color={blue500}/>
         }, {
           name:"Teammembers",
-          icon:<Accessibility />
+          icon:<Accessibility color={blue500}/>
         }, {
           name:"Criteria",
-          icon:<List />
+          icon:<List color={blue500}/>
         }, {
           name:"Project Settings",
-          icon:<Settings />
+          icon:<Settings color={blue500}/>
         }, {
           name:"My Account",
-          icon:<AccountBox />
+          icon:<AccountBox color={blue500}/>
         }, {
           name:"Logout",
-          icon:<ExitToApp />
+          icon:<ExitToApp color={blue500}/>
         },
       ]}
       />

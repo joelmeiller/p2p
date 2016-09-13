@@ -6,6 +6,8 @@ import Dashboard from 'material-ui/svg-icons/action/dashboard';
 import ExitToApp from 'material-ui/svg-icons/action/exit-to-app';
 import Assessment from 'material-ui/svg-icons/action/assessment';
 
+import {blue500} from 'material-ui/styles/colors';
+
 import { storiesOf } from '@kadira/storybook';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -24,16 +26,16 @@ storiesOf('components/UserMenu', module)
       entries={[
         {
           name:"Progress",
-          icon:<Dashboard />
+          icon:<Dashboard color={blue500}/>
         }, {
           name:"My Ratings",
-          icon:<Assessment />
+          icon:<Assessment color={blue500}/>
         }, {
           name:"My Account",
-          icon:<AccountBox />
+          icon:<AccountBox color={blue500}/>
         }, {
           name:"Logout",
-          icon:<ExitToApp />
+          icon:<ExitToApp color={blue500}/>
         },
       ]}
       />

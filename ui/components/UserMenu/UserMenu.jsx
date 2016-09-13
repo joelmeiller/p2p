@@ -3,7 +3,6 @@ import Paper from 'material-ui/Paper';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 
-
 const style = {
   paper: {
     display: 'inline-block',
@@ -24,7 +23,7 @@ const UserMenu = (props) => {
           <Paper style={style.paper}>
             <Menu>
             {(() => (props.entries ? props.entries.map((entry) =>
-                  <MenuItem primaryText={entry.name} leftIcon={entry.icon} />
+                  <MenuItem primaryText={entry.name} leftIcon={entry.icon}/>
             ) : undefined))()}
           </Menu>
         </Paper>
