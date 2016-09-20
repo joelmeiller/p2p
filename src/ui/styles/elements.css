@@ -1,0 +1,117 @@
+:root {
+  --blue-color: #00bcd4;
+}
+
+/* element styling */
+body {
+  font-family: "RobotoDraft","Roboto",sans-serif;
+  padding: 0px;
+}
+
+/* used in: FinalRating */
+.flex-align-middle {
+  display: flex;
+  align-items: center;
+}
+
+p.bold {
+  font-weight: bold;
+}
+
+p.italic {
+  font-style: italic;
+}
+
+h1 {
+  font-size: 4em;
+  font-weight: 200;
+  padding: 0px 0px;
+  color: #00bcd4;
+}
+
+h2 {
+  font-size: 2em;
+  font-weight: 200;
+  padding: 0px 0px;
+  color: #00bcd4;
+}
+
+h3 {
+  font-size: 1.5em;
+  font-weight: 200;
+  padding: 0px 0px;
+  color: #00bcd4;
+}
+
+hr {
+  width:100%;
+  height:1px;
+}
+
+hr.blue {
+  background: #00bcd4;
+}
+
+a {
+  font-family: "RobotoDraft","Roboto",sans-serif;
+  color: #00bcd4;
+}
+
+.dropdown-margin-top {
+  margin-top: -8px;
+  color:#aabbcc;
+}
+
+.progress-margin-top{
+  margin-top: 9px;
+}
+
+.a-margin-top{
+  margin-top: 10px;
+}
+
+/*component labelProgressbarHeader*/
+
+.header2-margin-top {
+  margin-top: -28px;
+}
+
+.label {
+  background-color: #eeeeee;
+  border: 2px solid #666666;
+  width: 600px;
+}
+
+.margin-topAndleft {
+  margin-left: -65px;
+  margin-top: 3px;
+}
+
+/*component H3Input*/
+.h3-padding {
+  padding: 0px;
+}
+
+/*component H3Input*/
+.h3-line-width{
+  width: 800px !important !important;
+}
+
+/*component Form*/
+.icon-margin-top {
+  margin-top: 4px;
+}
+
+.container {
+  width: 100%;
+}
+
+.dv-star-rating {
+  font-size:2.5rem;
+  color:#555;
+}
+
+.dv-star-rating-star {
+  margin-bottom:0px;
+  margin-right:10px;
+}
