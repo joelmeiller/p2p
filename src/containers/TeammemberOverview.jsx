@@ -4,47 +4,44 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
 // Component imports
-import ProgressPage from '../ui/components/ProgressPage.jsx';
+import ProgressPage from '../ui/pages/ProgressPage.jsx';
 
 // Action imports
 import { fetchTeamIfNeeded } from '../actions/team.js';
-import { selectMember } from '../actions/member.js';
+import { selectMember } from '../actions/team.js';
+import { setTitle } from '../ui/layouts/app.jsx';
 
 
 class TeammemberOverviewComponent extends Component {
   componentDidMount() {
+    this.props.setTitle();
     this.props.fetchTeam('test');
   }
 
   render() {
-    return(
-      <ProgressPage
-        {...this.props}
-      />
-    );
+    return( <ProgressPage {...this.props} /> );
   }
 }
 
-const mapStateToProps = (globalState) => {
+const mapStateToProps = (globalState, props) => {
   const { members, isFetching } = globalState.team;
 
   return {
     members,
     isFetching,
+    ...props,
   }
 };
 
 const mapDispatchToProps = (dispatch, props) => ({
+  setTitle: () => dispatch(setTitle('Dashboard')),
   fetchTeam: (project) => dispatch(fetchTeamIfNeeded(project)),
-  handleSelectMember: (member) => {
-    dispatch(selectMember(member));
-    props.router.push(`/team/${member.id}`);
-  }
+  handleSelectMember: (member) => dispatch(selectMember(member, props)),
 });
 
-const TeammemberOverview = withRouter(connect(
+const TeammemberOverview = connect(
   mapStateToProps,
   mapDispatchToProps
-)(TeammemberOverviewComponent));
+)(TeammemberOverviewComponent);
 
-export default TeammemberOverview;
+export default withRouter(TeammemberOverview);

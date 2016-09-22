@@ -2,15 +2,18 @@
 import { getTeam } from '../middleware/getTeam.mock.js';
 
 
-export const REQUEST_TEAM = 'REQUEST_TEAM';
-export const RECEIVE_TEAM = 'RECEIVE_TEAM';
-export const SELECT_PROJECT = 'SELECT_PROJECT';
-export const INVALIDATE_PROJECT = 'INVALIDATE_PROJECT';
+export const REQUEST_TEAM = '/team/REQUEST_TEAM';
+export const RECEIVE_TEAM = '/team/RECEIVE_TEAM';
+export const INVALIDATE_PROJECT = '/team/INVALIDATE_PROJECT';
+export const SELECT_MEMBER = '/team/SELECT_MEMBER';
 
-export const selectProject = (project) => ({
-  type: SELECT_PROJECT,
-  project,
-});
+export const selectMember = (member, props) => {
+  props.router.push(`/team/evaluation`);
+  return {
+    type: SELECT_MEMBER,
+    member,
+  };
+};
 
 export const invalidateProject = (project) => ({
   type: INVALIDATE_PROJECT,

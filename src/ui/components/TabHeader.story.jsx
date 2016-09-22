@@ -11,7 +11,7 @@ storiesOf('components/AppBarHeader', module)
     {story()}
   </MuiThemeProvider>
 ))
-.add('::TabHeaderMember', () => (
+.add('::TabHeader', () => (
   <div className="app flex-center-middle">
     <TabHeader
       members={[

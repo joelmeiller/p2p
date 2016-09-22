@@ -1,6 +1,12 @@
-export const SELECT_MEMBER = 'SELECT_MEMBER';
+export const INITIALIZE = '/member/INITIALIZE';
+export const SELECT_MEMBER = '/member/SELECT_MEMBER';
 
-export const selectMember = (member) => ({
+export const selectMember = (index) => ({
   type: SELECT_MEMBER,
-  member,
+  index,
+});
+
+export const initialize = (index) => ({
+  type: INITIALIZE,
+  initialIndex: index,
 });

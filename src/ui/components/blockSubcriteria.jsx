@@ -4,7 +4,7 @@ import Header2Line from '../elements/Header/Header2Line.jsx';
 import CriteriaStars from './criteriaStars.jsx';
 
 const BlockSubcriteria = (props) => (
-  <div className="container">
+  <div className="container" key={`category-${props.index}`}>
     <div className="row">
       <div className="col-xs-12">
         <Header2Line
@@ -12,8 +12,8 @@ const BlockSubcriteria = (props) => (
         />
       </div>
     </div>
-    {(() => (props.criterias ? props.criterias.map((criteria) =>
-      <div className="row">
+    {(() => (props.criterias ? props.criterias.forEach((criteria, index) =>
+      <div className="row" key={`criteria-${index}`}>
         <div className="col-xs-12">
           <CriteriaStars
             textCriteria={criteria.label}
@@ -26,6 +26,7 @@ const BlockSubcriteria = (props) => (
 );
 
 BlockSubcriteria.propTypes = {
+  index: React.PropTypes.number,
   title: React.PropTypes.string,
   criterias: React.PropTypes.array,
 }

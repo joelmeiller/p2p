@@ -1,28 +1,22 @@
 import React from 'react';
 
 import {Tabs, Tab} from 'material-ui/Tabs';
-import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-const styles = {
-  headline: {
-    fontSize: 24,
-    paddingTop: 16,
-    marginBottom: 12,
-    fontWeight: 400,
-  },
-}
 
 const TabHeader = (props) => {
   return (
     <div className="container">
       <div className="row">
         <div className="col-xs-12">
-          <Tabs>
-            {(() => (props.members ? props.members.map((members) =>
+          <Tabs
+            initialSelectedIndex={props.selectedIndex}
+          >
+            {(() => (props.members ? props.members.forEach((member, index) =>
               <Tab
-                label={members.label}
-                />
+                label={member.label}
+                value={index}
+                onChange={props.handleSelectMember}
+              />
             ) : undefined))()}
           </Tabs>
         </div>
@@ -30,5 +24,10 @@ const TabHeader = (props) => {
     </div>
   );
 };
+
+TabHeader.propTypes = {
+  selectedIndex: React.PropTypes.number,
+  members: React.PropTypes.array,
+}
 
 export default TabHeader;

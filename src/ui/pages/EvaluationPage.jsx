@@ -1,8 +1,9 @@
 import React from 'react';
 
-import H2Progress from './labelProgressbarHeader.jsx';
-import BlockSubcriteria from './blockSubcriteria.jsx';
-import H3Input from './H3Input.jsx';
+import H2Progress from '../components/labelProgressbarHeader.jsx';
+import BlockSubcriteria from '../components/blockSubcriteria.jsx';
+import H3Input from '../components/H3Input.jsx';
+
 
 const EvaluationPage = (props) => {
   return (
@@ -16,15 +17,12 @@ const EvaluationPage = (props) => {
             />
         </div>
       </div>
-      {(() => (props.criteriaBlocks ? props.criteriaBlocks.map((block) =>
-        <div className="row">
-          <div className="col-xs-12">
-            <BlockSubcriteria
-              title={block.title}
-              criterias={block.criterias}
-              />
-          </div>
-        </div>
+      {(() => (props.criteriaBlocks ? props.criteriaBlocks.forEach((block, index) =>
+        <BlockSubcriteria
+          index={index}
+          title={block.title}
+          criterias={block.criterias}
+        />
       ) : undefined))()}
       <div className="row">
         <div className="col-xs-12">
