@@ -6,13 +6,15 @@ import {Tabs, Tab} from 'material-ui/Tabs';
 const TabHeader = (props) => {
   return (
     <div className="nav">
-      <Tabs initialSelectedIndex={props.selectedIndex} >
+      <Tabs
+        initialSelectedIndex={props.selectedIndex}
+        onChange={props.onChange}
+      >
         {props.members.map((member, i) =>
           <Tab
             key={`tab-${i}`}
             label={member.name}
             value={i}
-            onActive={props.onChange}
           />
         )}
       </Tabs>

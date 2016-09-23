@@ -8,7 +8,7 @@ import ProgressPage from '../ui/pages/ProgressPage.jsx';
 
 // Action imports
 import { fetchTeamIfNeeded } from '../actions/team.js';
-import { selectMember } from '../actions/team.js';
+import { showMemberEvaluation } from '../actions/team.js';
 import { setTitle } from '../ui/layouts/app.jsx';
 
 
@@ -24,12 +24,11 @@ class TeammemberOverviewComponent extends Component {
 }
 
 const mapStateToProps = (globalState, props) => {
-  const { members, selectedIndex, isFetching } = globalState.team;
+  const { members, isFetching } = globalState.team;
 
   return {
     members,
     isFetching,
-    selectedIndex,
     ...props,
   }
 };
@@ -37,7 +36,7 @@ const mapStateToProps = (globalState, props) => {
 const mapDispatchToProps = (dispatch, props) => ({
   setTitle: () => dispatch(setTitle('Dashboard')),
   fetchTeam: project => dispatch(fetchTeamIfNeeded(project)),
-  handleSelectMember: member => dispatch(selectMember(member, props, dispatch)),
+  handleSelectMember: member => dispatch(showMemberEvaluation(member, props, dispatch)),
 });
 
 const TeammemberOverview = connect(

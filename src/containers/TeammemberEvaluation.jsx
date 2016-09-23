@@ -38,7 +38,8 @@ EvaluationContainer.propTypes = {
 }
 
 const mapStateToProps = (globalState, props) => {
-  const { selectedIndex, members } = globalState.team;
+  const { members } = globalState.team;
+  const { selectedIndex } = globalState.member;
 
   return {
     members,

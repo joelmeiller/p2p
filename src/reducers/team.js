@@ -28,10 +28,9 @@ const reducer = (state = initialState, action) => {
         lastUpdated: action.receivedAt,
       };
     case SELECT_MEMBER:
-      const index = state.members.indexOf(action.member);
       return {
         ...state,
-        selectedIndex: (index > -1) ? index : 0,
+        selectedIndex: state.members.indexOf(action.member),
       };
     default:
       return state;
