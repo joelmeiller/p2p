@@ -18,14 +18,15 @@ const EvaluationContainer = (props) => (
     <TabHeader
       members={props.members}
       selectedIndex={props.selectedIndex}
+      onChange={props.handleSelectMember}
     />
     <SwipeableViews
       index={props.selectedIndex}
       onChangeIndex={props.handleSelectMember}
     >
-      {(() => props.members.map(member => (
-        <EvaluationPage {...member} />
-      )))()}
+      {(() => props.members.map(member =>
+        <EvaluationPage key={member.id} {...member} />
+      ))()}
     </SwipeableViews>
   </div>
 )
@@ -38,7 +39,6 @@ EvaluationContainer.propTypes = {
 
 const mapStateToProps = (globalState, props) => {
   const { selectedIndex, members } = globalState.team;
-  console.log(selectedIndex, props);
 
   return {
     members,

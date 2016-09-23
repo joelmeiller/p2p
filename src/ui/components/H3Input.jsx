@@ -16,8 +16,9 @@ const H3Input = (props) => {
         </div>
         <div className="col-xs-12 h3-line-width">
           <Inputfield
-            value={props.value}
             hintText={props.hintText}
+            name={props.name}
+            value={props.value}
           />
         </div>
       </div>
@@ -26,9 +27,10 @@ const H3Input = (props) => {
 };
 
 Inputfield.propTypes = {
+  hintText: React.PropTypes.string,
+  name: React.PropTypes.string,
   title: React.PropTypes.string,
   value: React.PropTypes.string,
-  hintText: React.PropTypes.string,
 };
 
 export default H3Input;

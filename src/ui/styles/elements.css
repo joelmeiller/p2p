@@ -57,6 +57,11 @@ a {
   color: #00bcd4;
 }
 
+.nav {
+  width: 100%;
+  border: none;
+}
+
 .dropdown-margin-top {
   margin-top: -8px;
   color:#aabbcc;

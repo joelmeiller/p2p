@@ -1,13 +1,14 @@
 
 import { getTeam } from '../middleware/getTeam.mock.js';
-
+import { setTitle } from '../ui/layouts/app.jsx';
 
 export const REQUEST_TEAM = '/team/REQUEST_TEAM';
 export const RECEIVE_TEAM = '/team/RECEIVE_TEAM';
 export const INVALIDATE_PROJECT = '/team/INVALIDATE_PROJECT';
 export const SELECT_MEMBER = '/team/SELECT_MEMBER';
 
-export const selectMember = (member, props) => {
+export const selectMember = (member, props, dispatch) => {
+  dispatch(setTitle('Evaluation'));
   props.router.push(`/team/evaluation`);
   return {
     type: SELECT_MEMBER,

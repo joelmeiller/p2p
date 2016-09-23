@@ -24,19 +24,20 @@ class TeammemberOverviewComponent extends Component {
 }
 
 const mapStateToProps = (globalState, props) => {
-  const { members, isFetching } = globalState.team;
+  const { members, selectedIndex, isFetching } = globalState.team;
 
   return {
     members,
     isFetching,
+    selectedIndex,
     ...props,
   }
 };
 
 const mapDispatchToProps = (dispatch, props) => ({
   setTitle: () => dispatch(setTitle('Dashboard')),
-  fetchTeam: (project) => dispatch(fetchTeamIfNeeded(project)),
-  handleSelectMember: (member) => dispatch(selectMember(member, props)),
+  fetchTeam: project => dispatch(fetchTeamIfNeeded(project)),
+  handleSelectMember: member => dispatch(selectMember(member, props, dispatch)),
 });
 
 const TeammemberOverview = connect(
