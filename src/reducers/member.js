@@ -2,6 +2,7 @@ import {
   SELECT_MEMBER,
   UPDATE_COMMENT,
   UPDATE_RATING,
+  ERROR_RESET_UPDATE,
 } from '../actions/member.js';
 
 const initialValues = {
@@ -14,18 +15,21 @@ const initialState = {
 };
 
 const reducer = (state = initialState, action) => {
+  const newState = { ...state };
+  newState.resetMember = undefined;
+
   const values = { ...state.values };
 
   switch (action.type) {
     case SELECT_MEMBER:
       return {
-        ...state,
+        ...newState,
         selectedIndex: action.index,
       };
     case UPDATE_COMMENT:
       values.comment = action.comment;
       return {
-        ...state,
+        ...newState,
         values,
         memberUpdated: true,
       };
@@ -38,12 +42,17 @@ const reducer = (state = initialState, action) => {
         values.ratings.push({ id: action.id, stars: action.stars });
       }
       return {
-        ...state,
+        ...newState,
         values,
         memberUpdated: true,
       };
+    case ERROR_RESET_UPDATE:
+      return {
+        ...newState,
+        resetMember: action.member,
+      };
     default:
-      return state;
+      return newState;
   }
 };
 

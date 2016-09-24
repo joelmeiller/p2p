@@ -22,7 +22,7 @@ const EvaluationContainer = props => (
     <TabHeader
       members={props.members}
       selectedIndex={props.selectedIndex}
-      onChange={index => props.handleSelectMember(index, props.members)}
+      onChange={index => props.handleSelectMember(index, props)}
     />
     <EvaluationPage
       {...props.selectedMember}
@@ -44,8 +44,8 @@ EvaluationContainer.propTypes = {
 };
 
 const mapStateToProps = (globalState, props) => {
-  const { members } = globalState.team;
-  const { selectedIndex, values } = globalState.member;
+  let { members } = globalState.team;
+  const { selectedIndex, values, resetMember } = globalState.member;
   const selectedMember = members[selectedIndex];
 
   const categories = selectedMember.categories.map(category => ({
@@ -57,6 +57,10 @@ const mapStateToProps = (globalState, props) => {
     }),
   }));
 
+  if (resetMember) {
+    members = members.map(m => (m.id === resetMember.id ? resetMember : m));
+  }
+
   return {
     members,
     selectedIndex,
@@ -67,8 +71,8 @@ const mapStateToProps = (globalState, props) => {
   };
 };
 
-const mapDispatchToProps = (dispatch, props) => ({
-  handleSelectMember: (index, members) => dispatch(selectMember(index, members, props)),
+const mapDispatchToProps = dispatch => ({
+  handleSelectMember: (index, props) => dispatch(selectMember(index, props)),
   handleCommentChanged: value => dispatch(updateComment(value)),
   handleRatingChanged: (nextValue, prevValue, id) => dispatch(updateRating(nextValue, id)),
 });
