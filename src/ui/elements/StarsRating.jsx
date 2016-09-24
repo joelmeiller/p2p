@@ -4,9 +4,9 @@ import StarRatingComponent from 'react-star-rating-component';
 
 
 // Note : props.name must be unique. Using the same props.name for different
-//        StarsRating2 will result in the ratings to be "connected".
+//        StarsRating will result in the ratings to be "connected".
 
-const StarsRating2 = (props) => (
+const StarsRating = (props) => (
   <StarRatingComponent
     starCount={5}
     value={props.value}
@@ -14,9 +14,9 @@ const StarsRating2 = (props) => (
   />
 );
 
-StarsRating2.propTypes = {
+StarsRating.propTypes = {
   value: React.PropTypes.number.isRequired,
   name: React.PropTypes.string.isRequired,
 }
 
-export default StarsRating2;
+export default StarsRating;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import StarsRating2 from '../elements/starsV2.jsx';
+import StarsRating from '../elements/StarsRating.jsx';
 
 const LabelStarsDB = (props) => {
   return (
@@ -11,7 +11,7 @@ const LabelStarsDB = (props) => {
         </div>
         <div className="row">
           <div className="col-xs-3" style={{marginTop:-11}}>
-            <StarsRating2
+            <StarsRating
               name={props.name || props.text}
               value={props.stars}
               />

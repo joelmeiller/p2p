@@ -7,8 +7,7 @@ import { connect } from 'react-redux';
 import ProgressPage from '../ui/pages/ProgressPage.jsx';
 
 // Action imports
-import { fetchTeamIfNeeded } from '../actions/team.js';
-import { showMemberEvaluation } from '../actions/team.js';
+import { fetchTeamIfNeeded, showMemberEvaluation } from '../actions/team.js';
 import { setTitle } from '../ui/layouts/app.jsx';
 
 
@@ -19,9 +18,14 @@ class TeammemberOverviewComponent extends Component {
   }
 
   render() {
-    return( <ProgressPage {...this.props} /> );
+    return (<ProgressPage {...this.props} />);
   }
 }
+
+TeammemberOverviewComponent.propTypes = {
+  setTitle: React.PropTypes.func,
+  fetchTeam: React.PropTypes.func,
+};
 
 const mapStateToProps = (globalState, props) => {
   const { members, isFetching } = globalState.team;
@@ -30,10 +34,10 @@ const mapStateToProps = (globalState, props) => {
     members,
     isFetching,
     ...props,
-  }
+  };
 };
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   setTitle: () => dispatch(setTitle('Dashboard')),
   fetchTeam: project => dispatch(fetchTeamIfNeeded(project)),
   handleSelectMember: (member, props) => dispatch(showMemberEvaluation(member, props)),

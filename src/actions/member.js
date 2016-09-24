@@ -1,19 +1,29 @@
 export const INITIALIZE = '/member/INITIALIZE';
 export const SELECT_MEMBER = '/member/SELECT_MEMBER';
 export const UPDATE_COMMENT = '/member/UPDATE_COMMENT';
+export const UPDATE_RATING = '/member/UPDATE_RATING';
 
 
-export const selectMember = (index) => ({
-  type: SELECT_MEMBER,
-  index,
-});
+export const selectMember = (index, members, props) => {
+  props.router.push(`/team/${members[index].slug}`);
+  return {
+    type: SELECT_MEMBER,
+    index,
+  };
+};
 
-export const updateComment = (value) => ({
+export const updateComment = value => ({
   type: UPDATE_COMMENT,
   comment: value,
 });
 
-export const initialize = (index) => ({
+export const updateRating = (value, id) => ({
+  type: UPDATE_RATING,
+  id,
+  stars: value,
+});
+
+export const initialize = index => ({
   type: INITIALIZE,
   initialIndex: index,
 });

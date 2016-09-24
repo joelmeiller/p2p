@@ -7,6 +7,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 
 // Material Design Theme
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -21,7 +22,6 @@ import TeammemberEvaluation from './containers/TeammemberEvaluation.jsx';
 // Load CSS styles
 import './ui/styles/import.css';
 
-import injectTapEventPlugin from 'react-tap-event-plugin';
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
@@ -32,14 +32,14 @@ const store = configureStore();
 const history = syncHistoryWithStore(browserHistory, store);
 
 ReactDOM.render(
-<MuiThemeProvider>
-  <Provider store={store} >
-    <Router history={history} >
-       <Route path="/" component={App} >
-         <IndexRoute component={TeammemberOverview} />
-         <Route path="/team/evaluation" component={TeammemberEvaluation} />
-       </Route>
-    </Router>
-  </Provider>
-</MuiThemeProvider>
+  <MuiThemeProvider>
+    <Provider store={store} >
+      <Router history={history} >
+        <Route path="/" component={App} >
+          <IndexRoute component={TeammemberOverview} />
+          <Route path="/team/:slug" component={TeammemberEvaluation} />
+        </Route>
+      </Router>
+    </Provider>
+  </MuiThemeProvider>
 , document.getElementById('react-root'));

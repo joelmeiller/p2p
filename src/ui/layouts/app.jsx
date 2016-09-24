@@ -10,7 +10,7 @@ const initialState = {
   title: 'Dashboard',
 };
 
-export const setTitle = (title) => ({
+export const setTitle = title => ({
   type: SET_TITLE,
   title,
 });
@@ -25,9 +25,9 @@ export const reducer = (state = initialState, action) => {
     default:
       return state;
   }
-}
+};
 
-const App = (props) => (
+const App = props => (
   <div className="app">
     <AppBarHeader title={props.title} />
     <main>

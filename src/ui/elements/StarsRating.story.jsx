@@ -1,12 +1,12 @@
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
-import StarsRating2 from './starsV2.jsx';
+import StarsRating from './StarsRating.jsx';
 
 
 storiesOf('elements/StarsRating', module)
-.add('::V2', () => (
+.add('::three selected', () => (
   <div className="app flex-center-middle">
-    <StarsRating2
+    <StarsRating
       valueEffective={3}
     />
   </div>

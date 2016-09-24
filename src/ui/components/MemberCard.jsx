@@ -6,7 +6,7 @@ import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import {cyan500} from 'material-ui/styles/colors';
 
-import StarsRating2 from '../elements/starsV2.jsx';
+import StarsRating from '../elements/StarsRating.jsx';
 import TextButton from '../elements/Button/TextButton.jsx';
 
 const MemberCard = (props) => {
@@ -18,7 +18,7 @@ const MemberCard = (props) => {
           paddingLeft: 10,
           paddingTop: 10
         }}>
-        <StarsRating2
+        <StarsRating
           value={props.stars}
           name={'member-star-' + props.title}
           />

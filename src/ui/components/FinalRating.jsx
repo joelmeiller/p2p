@@ -1,6 +1,6 @@
 import React from 'react';
 
-import StarsRating2 from '../elements/starsV2.jsx';
+import StarsRating from '../elements/StarsRating.jsx';
 import Header2 from '../elements/Header/Header2.jsx';
 
 const FinalRating = (props) => {
@@ -12,7 +12,7 @@ const FinalRating = (props) => {
             <Header2 h2title={'Your final rating is ' + props.finalRating + ':'} />
           </div>
           <div>
-            <StarsRating2
+            <StarsRating
               value={props.finalRating}
               name={'finalRating'}
               />

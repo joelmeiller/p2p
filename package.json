@@ -59,7 +59,26 @@
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9000 -s ./"
   },
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
+  },
   "eslintConfig": {
-    "extends": "./node_modules/react-scripts/config/eslint.js"
+    "parserOptions": {
+      "ecmaFeatures": {
+        "experimentalObjectRestSpread": true
+      }
+    },
+    "plugins": [
+      "react"
+    ],
+    "extends": [
+      "plugin:react/recommended",
+      "airbnb"
+    ],
+    "rules": {
+      "max-lines": "warn"
+    }
   }
 }

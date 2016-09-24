@@ -2,7 +2,7 @@
 import React from 'react';
 
 //Material Imports
-import StarsRating2 from '../elements/starsV2.jsx';
+import StarsRating from '../elements/StarsRating.jsx';
 
 const LabelStars = (props) => {
       return (
@@ -11,7 +11,7 @@ const LabelStars = (props) => {
             <div className="col-xs-6"><p>
                 {props.text}</p></div>
             <div className="col-xs-6">
-              <StarsRating2
+              <StarsRating
                 name={props.name || props.text}
                 value={props.stars}
                 />

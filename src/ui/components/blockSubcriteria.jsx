@@ -1,7 +1,9 @@
 import React from 'react';
 
+import LabeledStarRating from '../elements/LabeledStarRating.jsx';
+
 import Header2Line from '../elements/Header/Header2Line.jsx';
-import CriteriaStars from './criteriaStars.jsx';
+
 
 const BlockSubcriteria = (props) => (
   <div className="container" >
@@ -12,13 +14,14 @@ const BlockSubcriteria = (props) => (
         />
       </div>
     </div>
-    {(() => (props.criterias ? props.criterias.map((criteria, i) =>
-      <div className="row" key={`criteria-${i}`}>
+    {(() => (props.criterias ? props.criterias.map((criteria) =>
+      <div className="row" key={criteria.id}>
         <div className="col-xs-12">
-          <CriteriaStars
-            textCriteria={criteria.label}
-            valueEffective={criteria.stars}
-            />
+          <LabeledStarRating
+            value={criteria.stars}
+            onRatingChanged={props.onRatingChanged}
+            {...criteria}
+          />
         </div>
       </div>
     ) : undefined))()}
@@ -29,6 +32,7 @@ BlockSubcriteria.propTypes = {
   index: React.PropTypes.number,
   title: React.PropTypes.string,
   criterias: React.PropTypes.array,
+  onRatingChanged: React.PropTypes.func,
 }
 
 export default BlockSubcriteria;
