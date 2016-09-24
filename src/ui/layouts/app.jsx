@@ -1,6 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import AccountBox from 'material-ui/svg-icons/action/account-box';
+import Dashboard from 'material-ui/svg-icons/action/dashboard';
+import ExitToApp from 'material-ui/svg-icons/action/exit-to-app';
+import Assessment from 'material-ui/svg-icons/action/assessment';
+
+import { blue500 } from 'material-ui/styles/colors';
+
+
 import AppBarHeader from '../components/AppBarHeader.jsx';
 
 
@@ -29,7 +37,27 @@ export const reducer = (state = initialState, action) => {
 
 const App = props => (
   <div className="app">
-    <AppBarHeader title={props.title} />
+    <AppBarHeader
+      title={props.title}
+      menuItems={[
+        {
+          name: 'Dashboard',
+          icon: <Dashboard color={blue500} />,
+          path: '/',
+        }, {
+          name: 'My Ratings',
+          icon: <Assessment color={blue500} />,
+          path: '/myrating',
+        }, {
+          name: 'My Account',
+          icon: <AccountBox color={blue500} />,
+          path: '/settings',
+        }, {
+          name: 'Logout',
+          icon: <ExitToApp color={blue500} />,
+        },
+      ]}
+    />
     <main>
       {props.children}
     </main>

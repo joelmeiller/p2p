@@ -35,7 +35,7 @@ export const selectMember = (index, props) => (dispatch) => {
       }
     });
   }
-  props.router.push(`/team/${props.members[index].slug}`);
+  props.router.push(`/team/rating/${props.members[index].slug}`);
   dispatch(dispatchSelectMember(index));
 };
 

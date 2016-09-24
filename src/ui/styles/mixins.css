@@ -1,3 +1,11 @@
 .push-top {
   margin-top: 20px;
 }
+
+.push-bottom-medium {
+  margin-bottom: 30px;
+}
+
+.push-bottom-small {
+  margin-bottom: 15px;
+}

@@ -120,3 +120,18 @@ a {
   margin-bottom:0px;
   margin-right:10px;
 }
+
+.paper {
+  display: 'inline-block';
+  float: 'left';
+  margin: '16px 32px 16px 0';
+}
+
+.rightIcon {
+  textAlign: 'center';
+  lineHeight: '24px';
+}
+
+.nav-icon path {
+  color: #ffffff;
+}

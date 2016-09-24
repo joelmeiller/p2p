@@ -1,9 +1,11 @@
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
-import RatingPage from './RatingPage.jsx';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+
+import RatingPage from './RatingPage.jsx';
+
 
 storiesOf('components/Page', module)
 .addDecorator(story => (

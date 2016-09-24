@@ -1,12 +1,11 @@
 import React from 'react';
 
-import Accessibility from 'material-ui/svg-icons/action/accessibility';
 import AccountBox from 'material-ui/svg-icons/action/account-box';
 import Dashboard from 'material-ui/svg-icons/action/dashboard';
 import ExitToApp from 'material-ui/svg-icons/action/exit-to-app';
 import Assessment from 'material-ui/svg-icons/action/assessment';
 
-import {blue500} from 'material-ui/styles/colors';
+import { blue500 } from 'material-ui/styles/colors';
 
 import { storiesOf } from '@kadira/storybook';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';

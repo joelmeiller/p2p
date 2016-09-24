@@ -5,6 +5,7 @@ import { reducer as form } from 'redux-form';
 import { routerReducer as routing } from 'react-router-redux';
 
 import { reducer as app } from '../ui/layouts/app.jsx';
+import { default as myrating } from '../reducers/myrating.js';
 import { default as team } from '../reducers/team.js';
 import { default as member } from '../reducers/member.js';
 
@@ -14,6 +15,7 @@ const configureStore = () => {
       app,
       form,
       member,
+      myrating,
       routing,
       team,
     }),
@@ -25,6 +27,6 @@ const configureStore = () => {
   );
 
   return store;
-}
+};
 
 export default configureStore;

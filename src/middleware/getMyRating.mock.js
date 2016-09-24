@@ -1,15 +1,16 @@
 // Node imports
 import mock from 'fetch-mock';
 
-import { getTeam as origin } from './getTeam.js';
+import { getMyRating as origin } from './getMyRating.js';
 
 const data = {
+  rating: 3,
   members: [{
     id: '123324',
     name: 'Max Muster',
     slug: 'max-muster',
     role: 'QM',
-    progress: 45,
+    rating: 3,
     categories: [{
       id: '234234234',
       title: 'Konflikt Kompetenzen',
@@ -45,7 +46,7 @@ const data = {
     name: 'Joel Meiller',
     slug: 'joel-meiller',
     role: 'TM',
-    progress: 30,
+    rating: 5,
     categories: [{
       id: '234234234',
       title: 'Konflikt Kompetenzen',
@@ -81,7 +82,7 @@ const data = {
     name: 'Andrey Michelle',
     slug: 'andrey-michelle',
     role: 'RE',
-    progress: 90,
+    rating: 2,
     categories: [{
       id: '234234234',
       title: 'Konflikt Kompetenzen',
@@ -117,7 +118,7 @@ const data = {
     name: 'Hans Klein',
     slug: 'hans-klein',
     role: 'SA',
-    progress: 50,
+    rating: 3,
     categories: [{
       id: '234234234',
       title: 'Konflikt Kompetenzen',
@@ -152,10 +153,10 @@ const data = {
 };
 
 
-export const getTeam = (project, callback) => {
+export const getMyRating = (project, callback) => {
   // Patch the fetch() global to always return the same value for GET
   // requests to all URLs.
-  mock.get('http://localhost:3000/p2p/api/team/test', data);
+  mock.get('http://localhost:3000/p2p/api/myrating/test', data);
 
   origin(project, callback);
 

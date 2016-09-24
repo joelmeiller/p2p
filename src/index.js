@@ -16,6 +16,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import configureStore from './store/configureStore.js';
 
 import App from './ui/layouts/app.jsx';
+import MyRatingOverview from './containers/MyRatingOverview.jsx';
 import TeammemberOverview from './containers/TeammemberOverview.jsx';
 import TeammemberEvaluation from './containers/TeammemberEvaluation.jsx';
 
@@ -37,7 +38,8 @@ ReactDOM.render(
       <Router history={history} >
         <Route path="/" component={App} >
           <IndexRoute component={TeammemberOverview} />
-          <Route path="/team/:slug" component={TeammemberEvaluation} />
+          <Route path="/myrating" component={MyRatingOverview} />
+          <Route path="/team/rating/:slug" component={TeammemberEvaluation} />
         </Route>
       </Router>
     </Provider>
