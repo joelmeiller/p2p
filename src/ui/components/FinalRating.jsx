@@ -8,7 +8,7 @@ const FinalRating = (props) => {
     <div className="container">
       <div className="row">
         <div className="col-xs-12 flex-align-middle">
-          <div>
+          <div className="title-left">
             <Header2 h2title={'Your final rating is ' + props.finalRating + ':'} />
           </div>
           <div>

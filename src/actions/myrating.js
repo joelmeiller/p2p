@@ -32,13 +32,13 @@ const requestTeam = project => ({
 const receiveRating = (project, data) => ({
   type: RECEIVE_RATING,
   project,
+  rating: data.rating,
   members: data.members,
 });
 
 const fetchTeam = project => (dispatch) => {
   dispatch(requestTeam(project));
   getMyRating(project, (data) => {
-    console.log(data);
     dispatch(receiveRating(project, data));
   });
 };

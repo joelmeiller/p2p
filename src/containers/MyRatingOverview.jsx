@@ -28,9 +28,10 @@ MyRatingOverviewComponent.propTypes = {
 };
 
 const mapStateToProps = (globalState, props) => {
-  const { members, isFetching } = globalState.myrating;
+  const { members, rating, isFetching } = globalState.myrating;
 
   return {
+    rating,
     members,
     isFetching,
     ...props,

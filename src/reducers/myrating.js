@@ -22,6 +22,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         isFetching: false,
         didInvalidate: false,
+        rating: action.rating,
         members: action.members,
         lastUpdated: action.receivedAt,
       };
