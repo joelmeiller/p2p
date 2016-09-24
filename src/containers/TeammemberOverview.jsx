@@ -33,10 +33,10 @@ const mapStateToProps = (globalState, props) => {
   }
 };
 
-const mapDispatchToProps = (dispatch, props) => ({
+const mapDispatchToProps = (dispatch) => ({
   setTitle: () => dispatch(setTitle('Dashboard')),
   fetchTeam: project => dispatch(fetchTeamIfNeeded(project)),
-  handleSelectMember: member => dispatch(showMemberEvaluation(member, props, dispatch)),
+  handleSelectMember: (member, props) => dispatch(showMemberEvaluation(member, props)),
 });
 
 const TeammemberOverview = connect(

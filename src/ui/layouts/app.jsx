@@ -47,7 +47,7 @@ const mapStateToProps = (globalState, props) => {
   return {
     title,
     ...props,
-  }
-}
+  };
+};
 
 export default connect(mapStateToProps)(App);

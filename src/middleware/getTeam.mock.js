@@ -34,6 +34,7 @@ const data = {
         stars: 1,
       }],
     }],
+    comment: '',
   }, {
     id: '123325',
     name: 'Joel Meiller',
@@ -95,6 +96,7 @@ const data = {
         stars: 4,
       }],
     }],
+    comment: '',
   }, {
     id: '123328',
     name: 'Hans Klein',

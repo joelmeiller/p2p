@@ -1,7 +1,6 @@
 // React imports
 import React from 'react';
 import { connect } from 'react-redux';
-import SwipeableViews from 'react-swipeable-views';
 
 // Component imports
 import TabHeader from '../ui/components/TabHeader.jsx';
@@ -10,7 +9,10 @@ import TabHeader from '../ui/components/TabHeader.jsx';
 import EvaluationPage from '../ui/pages/EvaluationPage.jsx';
 
 // Action imports
-import { selectMember } from '../actions/member.js';
+import {
+  selectMember,
+  updateComment,
+} from '../actions/member.js';
 
 
 const EvaluationContainer = (props) => (
@@ -20,36 +22,37 @@ const EvaluationContainer = (props) => (
       selectedIndex={props.selectedIndex}
       onChange={props.handleSelectMember}
     />
-    <SwipeableViews
-      index={props.selectedIndex}
-      onChangeIndex={props.handleSelectMember}
-    >
-      {(() => props.members.map(member =>
-        <EvaluationPage key={member.id} {...member} />
-      ))()}
-    </SwipeableViews>
+    <EvaluationPage
+      {...props.selectedMember}
+      onCommentChanged={props.handleCommentChanged}
+    />
   </div>
 )
 
 EvaluationContainer.propTypes = {
   handleSelectMember: React.PropTypes.func,
+  handleCommentChanged: React.PropTypes.func,
   members: React.PropTypes.array.isRequired,
   selectedIndex: React.PropTypes.number,
 }
 
 const mapStateToProps = (globalState, props) => {
   const { members } = globalState.team;
-  const { selectedIndex } = globalState.member;
+  const { selectedIndex, values } = globalState.member;
+  const selectedMember = members[selectedIndex];
 
   return {
     members,
     selectedIndex,
+    selectedMember,
+    values,
     ...props,
   }
 };
 
-const mapDispatchToProps = (dispatch, props) => ({
+const mapDispatchToProps = (dispatch) => ({
   handleSelectMember: (index) => dispatch(selectMember(index)),
+  handleCommentChanged: (value) => dispatch(updateComment(value)),
 });
 
 const TeammemberEvaluation = connect(

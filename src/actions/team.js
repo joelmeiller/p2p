@@ -6,17 +6,11 @@ import { selectMember } from './member.js';
 export const REQUEST_TEAM = '/team/REQUEST_TEAM';
 export const RECEIVE_TEAM = '/team/RECEIVE_TEAM';
 export const INVALIDATE_PROJECT = '/team/INVALIDATE_PROJECT';
-export const SELECT_MEMBER = '/team/SELECT_MEMBER';
 
-export const showMemberEvaluation = (member, props, dispatch) => {
-  console.log(props);
+export const showMemberEvaluation = (member, props) => dispatch => {
   dispatch(setTitle('Evaluation'));
   dispatch(selectMember(props.members.indexOf(member)));
   props.router.push(`/team/evaluation`);
-  return {
-    type: SELECT_MEMBER,
-    memberId: member.id,
-  };
 };
 
 export const invalidateProject = (project) => ({

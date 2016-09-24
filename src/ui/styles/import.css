@@ -1,5 +1,6 @@
 @import './app.css';
 @import './elements.css';
+@import './mixins.css';
 
 
 @import 'https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css';

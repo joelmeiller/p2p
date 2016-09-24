@@ -6,7 +6,7 @@ import H3Input from '../components/H3Input.jsx';
 
 
 const EvaluationPage = (props) => (
-  <div className="container">
+  <div className="container push-top">
     <div className="row">
       <div className="col-xs-12">
         <H2Progress
@@ -28,8 +28,9 @@ const EvaluationPage = (props) => (
         <H3Input
           name="comment"
           title="Bewertungen &amp; mögliche Verbesserungsvorschläge*:"
-          value={props.comment}
+          defaultValue={props.comment}
           labelHint="Das Mitglied hat sich..."
+          onValueChanged={props.onCommentChanged}
           />
       </div>
     </div>
@@ -43,6 +44,7 @@ EvaluationPage.propTypes = {
   progress: React.PropTypes.number,
   comment: React.PropTypes.string,
   criteriaBlocks: React.PropTypes.array.isRequired,
+  onCommentChanged: React.PropTypes.func,
 }
 
 export default EvaluationPage;
