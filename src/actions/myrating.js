@@ -1,32 +1,24 @@
 // Middleware
-import { getMyRating } from '../middleware/getMyRating.mock.js';
+import { default as getMyRating } from '../middleware/getMyRating.mock.js';
 
-export const REQUEST_RATING = '/team/REQUEST_RATING';
-export const RECEIVE_RATING = '/team/RECEIVE_RATING';
-export const INVALIDATE_PROJECT = '/team/INVALIDATE_PROJECT';
+export const REQUEST_RATING = '/team/REQUEST_MYRATING';
+export const RECEIVE_RATING = '/team/RECEIVE_MYRATING';
 
 
-export const invalidateProject = project => ({
-  type: INVALIDATE_PROJECT,
-  project,
-});
-
-const requestTeam = project => ({
+const requestData = () => ({
   type: REQUEST_RATING,
-  project,
 });
 
-const receiveRating = (project, data) => ({
+const receiveData = data => ({
   type: RECEIVE_RATING,
-  project,
   rating: data.rating,
   members: data.members,
 });
 
-const fetchTeam = project => (dispatch) => {
-  dispatch(requestTeam(project));
-  getMyRating(project, (data) => {
-    dispatch(receiveRating(project, data));
+const fetchData = () => (dispatch) => {
+  dispatch(requestData());
+  getMyRating((data) => {
+    dispatch(receiveData(data));
   });
 };
 
@@ -37,8 +29,8 @@ const shouldFetchRating = (state) => {
   return !state.team.isFetching;
 };
 
-export const fetchMyRatingIfNeeded = project => (dispatch, state) => {
+export const fetchMyRating = () => (dispatch, state) => {
   if (shouldFetchRating(state)) {
-    dispatch(fetchTeam(project));
+    dispatch(fetchData());
   }
 };

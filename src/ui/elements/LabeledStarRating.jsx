@@ -11,7 +11,11 @@ const LabeledStarRating = props => (
   <div className="container">
     <div className="row">
       <div className="col-xs-6">
-        <p>{props.label}</p>
+        <p
+          className={classNames({
+            warning: !props.value,
+          })}
+        >{props.label}</p>
       </div>
       <div
         className={classNames('col-xs-6', 'star', {
@@ -32,12 +36,13 @@ const LabeledStarRating = props => (
 
 
 LabeledStarRating.propTypes = {
-  value: React.PropTypes.number.isRequired,
+  value: React.PropTypes.number,
   label: React.PropTypes.string.isRequired,
   id: React.PropTypes.string.isRequired,
   onRatingChanged: React.PropTypes.func,
   readonly: React.PropTypes.bool,
   smallStars: React.PropTypes.bool,
 };
+
 
 export default LabeledStarRating;

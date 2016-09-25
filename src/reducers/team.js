@@ -15,6 +15,7 @@ const reducer = (state = initialState, action) => {
     case REQUEST_TEAM:
       return {
         ...state,
+        asQM: action.asQM,
         isFetching: true,
         didInvalidate: false,
       };

@@ -1,7 +1,9 @@
 :root {
-  --colorPrimary: #000000;
+  --colorPrimary: #333333;
+  --colorPrimaryInverse: #ffffff;
   --colorSecondary: #00bcd4;
   --colorWarning: #cc0000;
+  --colorWarningBack: #660000;
 }
 
 /* element styling */

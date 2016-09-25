@@ -11,7 +11,7 @@ storiesOf('components/Page', module)
     {story()}
   </MuiThemeProvider>
 ))
-.add('::SettingsPage', () => (
+.add('-SettingsPage', () => (
   <div className="app flex-center-middle">
     <SettingsPage
       title="Project Settings"

@@ -1,4 +1,8 @@
-.push-top {
+.push-top-mini {
+  margin-top: 10px;
+}
+
+.push-top-small {
   margin-top: 20px;
 }
 
@@ -37,3 +41,15 @@
 .flex {
   display: flex;
 }
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.warning {
+  color: var(--colorWarning) !important;
+}
+.warning-background {
+  background-color: var(--colorWarningBack) !important;
+}
+

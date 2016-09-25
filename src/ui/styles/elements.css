@@ -91,15 +91,15 @@
   margin-right: 30px;
 }
 
-.member-card-rating {
-  background-color: #00bcd4;
+.card.rating {
+  background-color: var(--colorSecondary);
   margin: 0;
   padding-left: 10px;
   padding-top: 10px;
 }
 
-.member-card-header {
-  background-color: #00bcd4;
+.card.header {
+  background-color: var(--colorSecondary);
   padding-top: 0,
 }
 
@@ -111,4 +111,8 @@
 }
 .star.small .dv-star-rating {
   font-size: 20px !important;
+}
+
+.status {
+  color: var(--colorSecondary);
 }

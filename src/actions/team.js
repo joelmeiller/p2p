@@ -1,5 +1,6 @@
 // Middleware
-import { getTeam } from '../middleware/getTeam.mock.js';
+import { default as getTeam } from '../middleware/getTeam.mock.js';
+import { default as getTeamRating } from '../middleware/getTeamRating.mock.js';
 
 // Actions
 import { setTitle } from '../ui/layouts/app.jsx';
@@ -24,38 +25,36 @@ export const showMemberEvaluation = (member, props) => (dispatch) => {
   }
 };
 
-export const invalidateProject = project => ({
-  type: INVALIDATE_PROJECT,
-  project,
-});
 
-const requestTeam = project => ({
+const requestData = asQM => ({
   type: REQUEST_TEAM,
-  project,
+  asQM,
 });
 
-const receiveTeam = (project, data) => ({
+const receiveData = (asQM, data) => ({
   type: RECEIVE_TEAM,
-  project,
   members: data.members,
+  asQM,
 });
 
-const fetchTeam = project => (dispatch) => {
-  dispatch(requestTeam(project));
-  getTeam(project, (data) => {
-    dispatch(receiveTeam(project, data));
+const fetchData = asQM => (dispatch) => {
+  dispatch(requestData(asQM));
+
+  const getDataMiddleware = asQM ? getTeamRating : getTeam;
+  getDataMiddleware((data) => {
+    dispatch(receiveData(asQM, data));
   });
 };
 
-const shouldFetchTeam = (state) => {
+const shouldFetchData = (state) => {
   if (!state.team) {
     return true;
   }
   return !state.team.isFetching;
 };
 
-export const fetchTeamIfNeeded = project => (dispatch, state) => {
-  if (shouldFetchTeam(state)) {
-    dispatch(fetchTeam(project));
+export const fetchTeam = asQM => (dispatch, state) => {
+  if (shouldFetchData(asQM, state)) {
+    dispatch(fetchData(asQM));
   }
 };

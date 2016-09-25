@@ -1,3 +1,6 @@
+// Node imports
+import classNames from 'classnames';
+
 // React Imports
 import React from 'react';
 
@@ -10,7 +13,11 @@ import TextButton from '../elements/Button/TextButton.jsx';
 
 const MemberCard = props => (
   <Card>
-    <div className="member-card-rating" >
+    <div
+      className={classNames('card rating', {
+        'warning-background': props.statusWarning,
+      })}
+    >
       <StarsRating
         readonly
         value={props.rating}
@@ -18,8 +25,10 @@ const MemberCard = props => (
       />
     </div>
     <CardHeader
-      className="member-card-header"
-      title={`${props.name}, ${props.role}`}
+      className={classNames('card header', {
+        'warning-background': props.statusWarning,
+      })}
+      title={props.role ? `${props.name}, ${props.role}` : props.name}
       actAsExpander
       showExpandableButton={false}
       titleStyle={{
@@ -50,6 +59,7 @@ MemberCard.propTypes = {
   rating: React.PropTypes.number,
   comment: React.PropTypes.string,
   onReadMore: React.PropTypes.func,
+  statusWarning: React.PropTypes.bool,
 };
 
 export default MemberCard;

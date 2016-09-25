@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
-import OverviewCriteriaPage from './OverviewCriteriaPage.jsx';
+import CriteriaPage from './CriteriaPage.jsx';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -11,9 +11,9 @@ storiesOf('components/Page', module)
     {story()}
   </MuiThemeProvider>
 ))
-.add('::OverviewCriteriaPage', () => (
+.add('::CriteriaPage', () => (
   <div className="app flex-center-middle">
-    <OverviewCriteriaPage
+    <CriteriaPage
       title="Dashboard"
       members={[
         {

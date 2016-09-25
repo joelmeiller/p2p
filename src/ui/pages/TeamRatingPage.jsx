@@ -8,9 +8,13 @@ import LabeledStarRatingWithGrade from '../components/LabeledStarRatingWithGrade
 
 
 const TeamRatingPage = props => (
-  <div className="container">
+  <div className="container push-top-small">
     {(() => (props.members ? props.members.map(member =>
-      <div key={member.id} className="row">
+      <div
+        key={member.id}
+        className="row"
+        onClick={() => props.handleSelectMember(member, props)}
+      >
         <div className="col-xs-12">
           <LabeledStarRatingWithGrade
             {...member}
@@ -23,11 +27,12 @@ const TeamRatingPage = props => (
       </div>
     ) : undefined))()}
     <div className="row">
-      <div className="col-xs-12" style={{ marginTop: 10 }}>
+      <div className="col-xs-12 push-top-mini">
         <FlatButton
           label="Submit All Ratings"
           primary
-          disabled={props.canSubmit}
+          disabled={!props.canSubmit}
+          labelStyle={{ fontWeight: 'bold' }}
         />
       </div>
     </div>
@@ -35,14 +40,24 @@ const TeamRatingPage = props => (
 );
 
 TeamRatingPage.propTypes = {
-  members: React.PropTypes.arrayOf({
-    id: React.PropTypes.string,
-    name: React.PropTypes.string,
-    role: React.PropTypes.string,
-    rating: React.PropTypes.number,
-    comment: React.PropTypes.string,
-  }).isRequired,
   canSubmit: React.PropTypes.bool,
+  members: React.PropTypes.arrayOf(
+    React.PropTypes.shape({
+      deviation: React.PropTypes.number,
+      deviationWarning: React.PropTypes.bool,
+      grade: React.PropTypes.number,
+      id: React.PropTypes.string,
+      name: React.PropTypes.string,
+      rating: React.PropTypes.number,
+      role: React.PropTypes.string,
+      status: React.PropTypes.string,
+      statusWarning: React.PropTypes.bool,
+    })
+  ).isRequired,
 };
+
+TeamRatingPage.defaultProps = {
+  canSubmit: false,
+}
 
 export default TeamRatingPage;

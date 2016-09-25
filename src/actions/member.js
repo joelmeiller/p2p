@@ -22,7 +22,7 @@ const showSelectedMember = (index, props) => ({
   members: props.members,
   onClosePath: props.onClosePath,
   index,
-  readonly: props.readonly,
+  readonly: props.readonly || props.isQM,
   title: props.title,
 });
 
@@ -32,7 +32,7 @@ const saveMember = (index, props) => (dispatch) => {
     member.categories = props.values.categories;
     member.comment = props.values.comment;
     console.log(member);
-    updateTeamMember(props.project, member, (err) => {
+    updateTeamMember(member, (err) => {
       console.log(err);
       if (err) {
         dispatch(resetPreviousMember(props.member));

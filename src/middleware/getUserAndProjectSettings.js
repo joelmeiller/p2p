@@ -1,10 +1,9 @@
 // Node imports
 import 'isomorphic-fetch';
 
+export const apiEntrypoint = 'http://localhost:3000/p2p/api/usersettings';
 
-export const apiEntrypoint = 'http://localhost:3000/p2p/api/myrating/test';
-
-export const getMyRating = callback =>
+export const getUserAndProjectSettings = callback =>
   fetch(apiEntrypoint)
     .then(response => response.json())
     .then(data => callback(data));

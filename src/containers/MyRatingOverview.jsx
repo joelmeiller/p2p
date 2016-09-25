@@ -8,7 +8,7 @@ import MemberRatingPage from '../ui/pages/MemberRatingPage.jsx';
 
 // Action imports
 import { setTitle } from '../actions/app.js';
-import { fetchMyRatingIfNeeded } from '../actions/myrating.js';
+import { fetchMyRating } from '../actions/myrating.js';
 import { showMember } from '../actions/member.js';
 
 
@@ -45,7 +45,7 @@ const mapStateToProps = (globalState, props) => {
 
 const mapDispatchToProps = dispatch => ({
   initializeTitle: () => dispatch(setTitle('My Ratings')),
-  fetchMyRating: project => dispatch(fetchMyRatingIfNeeded(project)),
+  fetchMyRating: () => dispatch(fetchMyRating()),
   handleSelectMember: (member, props) => dispatch(showMember(member, props)),
 });
 

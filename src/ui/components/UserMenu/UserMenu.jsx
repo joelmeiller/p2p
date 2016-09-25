@@ -18,8 +18,19 @@ const UserMenu = props => (
   </Menu>
 );
 
-UserMenu.propTypes = {
-  menuItems: React.PropTypes.array.isRequired,
+const menuItemProps = {
+  key: React.PropTypes.string,
+  primaryText: React.PropTypes.string,
+  leftIcon: React.PropTypes.element,
 };
+
+UserMenu.propTypes = {
+  menuItems: React.PropTypes.arrayOf(
+    React.PropTypes.shape(menuItemProps)
+  ).isRequired,
+};
+
+
+export { menuItemProps };
 
 export default withRouter(UserMenu);

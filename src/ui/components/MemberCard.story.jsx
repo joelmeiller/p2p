@@ -12,12 +12,21 @@ storiesOf('components/MemberCard', module)
     {story()}
   </MuiThemeProvider>
 ))
-.add('::MemberCard', () => (
+.add('::filled', () => (
   <div className="app flex-center-middle">
     <MemberCard
-      title="Teammember 1"
-      text="Dieses Mitglied hat sich sehr engagiert und die Zusammenarbeit war sehr angenehm, es wurde..."
-      stars={3}
+      name="Teammember 1"
+      role="RE"
+      comment="Dieses Mitglied hat sich sehr engagiert und die Zusammenarbeit war sehr angenehm, es wurde..."
+      rating={3}
+    />
+  </div>
+))
+.add('::warning', () => (
+  <div className="app flex-center-middle">
+    <MemberCard
+      name="Teammember 1"
+      role="RE"
     />
   </div>
 ))

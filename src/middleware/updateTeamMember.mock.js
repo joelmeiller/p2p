@@ -9,14 +9,14 @@ export const response = {
 };
 
 
-export const updateTeamMember = (project, member, callback) => {
+export const updateTeamMember = (member, callback) => {
   // Patch the fetch() global to always return the same value for GET
   // requests to all URLs.
   mock.get('http://localhost:3000/p2p/api/team/member/test', response);
 
   console.log(JSON.stringify(member));
 
-  origin(project, member, callback);
+  origin(member, callback);
 
   // Unpatch.
   mock.restore();

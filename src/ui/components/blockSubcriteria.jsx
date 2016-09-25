@@ -18,7 +18,7 @@ const BlockSubcriteria = props => (
       <div className="row" key={criteria.id}>
         <div className="col-xs-12">
           <LabeledStarRating
-            value={criteria.stars}
+            value={criteria.rating}
             onRatingChanged={props.onRatingChanged}
             readonly={props.readonly}
             {...criteria}
@@ -32,12 +32,11 @@ const BlockSubcriteria = props => (
 BlockSubcriteria.propTypes = {
   title: React.PropTypes.string,
   readonly: React.PropTypes.bool,
-  criterias: React.PropTypes.arrayOf(
-    React.PropTypes.shape({
-      stars: React.PropTypes.number,
-      onRatingChanged: React.PropTypes.func,
-    })
-  ),
+  criterias: React.PropTypes.arrayOf({
+    rating: React.PropTypes.number,
+    onRatingChanged: React.PropTypes.func,
+  })
+  ,
 };
 
 export default BlockSubcriteria;

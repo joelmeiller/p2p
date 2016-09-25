@@ -26,7 +26,7 @@ const LabeledStarRatingWithGrade = props => (
       </div>
       <div className="col-xs-2">
         <p
-          className={classNames({
+          className={classNames('uppercase', 'bold', 'status', {
             warning: props.statusWarning,
           })}
         >{props.status}</p>

@@ -3,7 +3,7 @@ import React from 'react';
 import MemberProgress from '../components/MemberProgress.jsx';
 
 const ProgressPage = props => (
-  <div className="container push-top">
+  <div className="container push-top-small">
     {props.members ? props.members.map(member =>
       <div key={member.id} className="row">
         <div

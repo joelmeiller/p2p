@@ -1,27 +1,31 @@
 // Node imports
 import mock from 'fetch-mock';
 
-import { apiEntrypoint, getMyRating as origin } from './getMyRating.js';
+import { apiEntrypoint, getTeam as origin } from './getTeam.js';
 
 const data = {
-  rating: 3,
+  baseMark: 5.0,
+  canSubmit: false,
   members: [{
     id: '123324',
     name: 'Max Muster',
     slug: 'max-muster',
     role: 'QM',
-    rating: 3.2,
+    rating: 2.9,
+    deviation: -0.1,
+    grade: 4.9,
+    status: 'accepted',
     categories: [{
       id: '234234234',
       title: 'Konflikt Kompetenzen',
       criterias: [{
         id: '123123123',
         label: 'Weicht konflikten aus',
-        stars: 3,
+        rating: 3,
       }, {
         id: '123123124',
         label: 'Trägt Konflikte unparteiisch und kooperativ aus',
-        stars: 3,
+        rating: 3,
       }],
     }, {
       id: '234234235',
@@ -29,7 +33,7 @@ const data = {
       criterias: [{
         id: '123123125',
         label: 'Bringt sich selber ins Team ein',
-        stars: 1,
+        rating: 1,
       }],
     }, {
       id: '234234236',
@@ -37,7 +41,7 @@ const data = {
       criterias: [{
         id: '123123126',
         label: 'Ist neugierig & Interessiert',
-        stars: 1,
+        rating: 1,
       }],
     }],
     comment: 'Blabla',
@@ -46,18 +50,21 @@ const data = {
     name: 'Joel Meiller',
     slug: 'joel-meiller',
     role: 'TM',
-    rating: 4.8,
+    rating: 3.3,
+    deviation: 0.2,
+    grade: 5.2,
+    status: 'accepted',
     categories: [{
       id: '234234234',
       title: 'Konflikt Kompetenzen',
       criterias: [{
         id: '123123123',
         label: 'Weicht konflikten aus',
-        stars: 2,
+        rating: 2,
       }, {
         id: '123123124',
         label: 'Trägt Konflikte unparteiisch und kooperativ aus',
-        stars: 2,
+        rating: 2,
       }],
     }, {
       id: '2342342345',
@@ -65,7 +72,7 @@ const data = {
       criterias: [{
         id: '123123125',
         label: 'Bringt sich selber ins Team ein',
-        stars: 3,
+        rating: 3,
       }],
     }, {
       id: '234234236',
@@ -73,7 +80,7 @@ const data = {
       criterias: [{
         id: '123123126',
         label: 'Ist neugierig & Interessiert',
-        stars: 5,
+        rating: 5,
       }],
     }],
     comment: 'Könnte sich mehr anstrengen. Aber alles in allem gut gemacht.',
@@ -82,18 +89,22 @@ const data = {
     name: 'Andrey Michelle',
     slug: 'andrey-michelle',
     role: 'RE',
-    rating: 2.3,
+    rating: 1,
+    deviation: -2.0,
+    deviationWarning: true,
+    grade: 3,
+    status: 'accepted',
     categories: [{
       id: '234234234',
       title: 'Konflikt Kompetenzen',
       criterias: [{
         id: '123123123',
         label: 'Weicht konflikten aus',
-        stars: 3,
+        rating: 3,
       }, {
         id: '123123124',
         label: 'Trägt Konflikte unparteiisch und kooperativ aus',
-        stars: 4,
+        rating: 4,
       }],
     }, {
       id: '234234235',
@@ -101,7 +112,7 @@ const data = {
       criterias: [{
         id: '123123125',
         label: 'Bringt sich selber ins Team ein',
-        stars: 3,
+        rating: 3,
       }],
     }, {
       id: '234234236',
@@ -109,7 +120,7 @@ const data = {
       criterias: [{
         id: '123123126',
         label: 'Ist neugierig & Interessiert',
-        stars: 4,
+        rating: 4,
       }],
     }],
     comment: '',
@@ -118,18 +129,22 @@ const data = {
     name: 'Hans Klein',
     slug: 'hans-klein',
     role: 'SA',
-    rating: 3.1,
+    rating: 4.5,
+    deviation: 1.0,
+    grade: 5.9,
+    status: 'pending',
+    statusWarning: true,
     categories: [{
       id: '234234234',
       title: 'Konflikt Kompetenzen',
       criterias: [{
         id: '123123123',
         label: 'Weicht konflikten aus',
-        stars: 1,
+        rating: 1,
       }, {
         id: '123123124',
         label: 'Trägt Konflikte unparteiisch und kooperativ aus',
-        stars: 2,
+        rating: 2,
       }],
     }, {
       id: '234234235',
@@ -137,7 +152,7 @@ const data = {
       criterias: [{
         id: '123123125',
         label: 'Bringt sich selber ins Team ein',
-        stars: 5,
+        rating: 5,
       }],
     }, {
       id: '234234236',
@@ -145,7 +160,7 @@ const data = {
       criterias: [{
         id: '123123126',
         label: 'Ist neugierig & Interessiert',
-        stars: 5,
+        rating: 5,
       }],
     }],
     comment: 'Könnte sich mehr anstrengen. Aber alles in allem gut gemacht.',

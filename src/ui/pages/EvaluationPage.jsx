@@ -10,12 +10,12 @@ import H3Input from '../elements/H3Input.jsx';
 
 
 const EvaluationPage = props => (
-  <div className="container push-top">
+  <div className="container push-top-small">
     <div className="row">
       <div className="col-xs-11">
         {(() => (props.rating ?
           <FinalRating
-            text={`Your rating for ${props.name} is`}
+            text={`Rating for ${props.name} is`}
             value={props.rating}
           /> :
           <H2Progress

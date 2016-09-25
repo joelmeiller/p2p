@@ -3,7 +3,8 @@ import React from 'react';
 import Dropdown from '../elements/Dropdown.jsx';
 import LabeledStarRating from '../elements/LabeledStarRating.jsx';
 
-const OverviewCriteriaPage = React.createClass({
+
+const CriteriaPage = React.createClass({
   getInitialState: () => ({ idx: 0 }),
   onDropdownChange: (event, index) => {
     this.setState({ idx: index });
@@ -12,15 +13,15 @@ const OverviewCriteriaPage = React.createClass({
     const that = this;
     return (
       <div className="container">
-        <div className="row" style={{marginBottom:30}}>
+        <div className="row" style={{ marginBottom: 30 }}>
           <div className="col-xs-12">
             <Dropdown
               handleChange={this.onDropdownChange}
               selectedValue={this.state.idx}
               menuItems={this.props.criterias.map((criteria, idx) => {
-                return {label: criteria.title, value: idx};
+                return { label: criteria.title, value: idx };
               })}
-              />
+            />
           </div>
         </div>
         {this.props.criterias[this.state.idx].ratings.map((rating, i) => (
@@ -30,10 +31,10 @@ const OverviewCriteriaPage = React.createClass({
           // no "key" is specified then the LabelStar components won't change when
           // the dropdown changes...)
           <LabeledStarRating
-            label={rating.name + ', ' + rating.role}
-            value={rating.stars}
-            key={that.state.idx + '_' + i}
-            id={'star_' + that.state.idx + '_' + i}
+            label={ rating.name + ', ' + rating.role}
+            value={ rating.stars}
+            key={ that.state.idx + '_' + i}
+            id={ 'star_' + that.state.idx + '_' + i}
           />)
         )}
         <div className="row">
@@ -45,4 +46,4 @@ const OverviewCriteriaPage = React.createClass({
   },
 });
 
-export default OverviewCriteriaPage;
+export default CriteriaPage;
