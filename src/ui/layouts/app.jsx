@@ -6,22 +6,17 @@ import Dashboard from 'material-ui/svg-icons/action/dashboard';
 import ExitToApp from 'material-ui/svg-icons/action/exit-to-app';
 import Assessment from 'material-ui/svg-icons/action/assessment';
 
-import { blue500 } from 'material-ui/styles/colors';
+// Actions
+import { SET_TITLE } from '../../actions/app.js';
 
-
+// Components
 import AppBarHeader from '../components/AppBarHeader.jsx';
 
-
-const SET_TITLE = 'app/SET_TITLE';
 
 const initialState = {
   title: 'Dashboard',
 };
 
-export const setTitle = title => ({
-  type: SET_TITLE,
-  title,
-});
 
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -42,19 +37,19 @@ const App = props => (
       menuItems={[
         {
           name: 'Dashboard',
-          icon: <Dashboard color={blue500} />,
+          icon: <Dashboard className="menu-icon" />,
           path: '/',
         }, {
           name: 'My Ratings',
-          icon: <Assessment color={blue500} />,
+          icon: <Assessment className="menu-icon" />,
           path: '/myrating',
         }, {
           name: 'My Account',
-          icon: <AccountBox color={blue500} />,
+          icon: <AccountBox className="menu-icon" />,
           path: '/settings',
         }, {
           name: 'Logout',
-          icon: <ExitToApp color={blue500} />,
+          icon: <ExitToApp className="menu-icon" />,
         },
       ]}
     />

@@ -2,7 +2,8 @@
 import { updateTeamMember } from '../middleware/updateTeamMember.mock.js';
 
 // Actions
-import resetTeamMembers from './team.js';
+import { setTitle } from './app.js';
+import { resetTeamMembers } from './team.js';
 
 export const INITIALIZE = '/member/INITIALIZE';
 export const SELECT_MEMBER = '/member/SELECT_MEMBER';
@@ -16,12 +17,13 @@ export const resetPreviousMember = value => ({
   member: value,
 });
 
-const dispatchSelectMember = (props, index, readonly) => ({
+const showSelectedMember = (index, props) => ({
   type: SELECT_MEMBER,
   members: props.members,
   onClosePath: props.onClosePath,
   index,
-  readonly,
+  readonly: props.readonly,
+  title: props.title,
 });
 
 const saveMember = (index, props) => (dispatch) => {
@@ -40,10 +42,20 @@ const saveMember = (index, props) => (dispatch) => {
   }
 };
 
-export const selectMember = (index, props, readonly) => (dispatch) => {
+export const selectMember = (index, props) => (dispatch) => {
   dispatch(saveMember(index, props));
-  props.router.push(`/team/rating/${props.members[index].slug}`);
-  dispatch(dispatchSelectMember(props, index, readonly));
+  dispatch(setTitle(`${props.title} ${props.members[index].name}`));
+  dispatch(showSelectedMember(index, props));
+};
+
+export const showMember = (member, props) => (dispatch) => {
+  const index = props.members ? props.members.indexOf(member) : -1;
+  if (index > -1) {
+    dispatch(selectMember(index, props));
+    props.router.push(`/team/rating/${props.members[index].slug}`);
+  } else {
+    console.log('Member not found');
+  }
 };
 
 export const saveMemberAndClose = props => (dispatch) => {

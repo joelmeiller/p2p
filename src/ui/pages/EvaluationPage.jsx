@@ -39,7 +39,7 @@ const EvaluationPage = props => (
           id={props.id}
           name="comment"
           title="Bewertungen &amp; mögliche Verbesserungsvorschläge*:"
-          defaultValue={props.comment}
+          value={props.comment}
           labelHint="Das Mitglied hat sich..."
           onValueChanged={props.onCommentChanged}
           readonly={props.readonly}

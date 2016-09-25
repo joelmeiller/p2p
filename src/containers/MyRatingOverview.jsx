@@ -7,13 +7,14 @@ import { connect } from 'react-redux';
 import RatingPage from '../ui/pages/RatingPage.jsx';
 
 // Action imports
-import { fetchMyRatingIfNeeded, showMemberRating } from '../actions/myrating.js';
-import { setTitle } from '../ui/layouts/app.jsx';
+import { setTitle } from '../actions/app.js';
+import { fetchMyRatingIfNeeded } from '../actions/myrating.js';
+import { showMember } from '../actions/member.js';
 
 
 class MyRatingOverviewComponent extends Component {
   componentDidMount() {
-    this.props.setTitle();
+    this.props.initializeTitle();
     this.props.fetchMyRating('test');
   }
 
@@ -23,16 +24,19 @@ class MyRatingOverviewComponent extends Component {
 }
 
 MyRatingOverviewComponent.propTypes = {
-  setTitle: React.PropTypes.func,
+  initializeTitle: React.PropTypes.func,
   fetchMyRating: React.PropTypes.func,
 };
 
 const mapStateToProps = (globalState, props) => {
   const { members, rating, isFetching } = globalState.myrating;
+  const readonly = true;
 
   return {
+    title: 'My Rating from',
     onClosePath: '/myrating',
     rating,
+    readonly,
     members,
     isFetching,
     ...props,
@@ -40,9 +44,9 @@ const mapStateToProps = (globalState, props) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  setTitle: () => dispatch(setTitle('My Rating')),
+  initializeTitle: () => dispatch(setTitle('My Ratings')),
   fetchMyRating: project => dispatch(fetchMyRatingIfNeeded(project)),
-  handleSelectMember: (member, props) => dispatch(showMemberRating(member, props)),
+  handleSelectMember: (member, props) => dispatch(showMember(member, props)),
 });
 
 const MyRatingOverview = connect(

@@ -18,7 +18,7 @@ const H3Input = props => (
       </div>
       <div className="col-xs-12 h3-line-width">
         <TextField
-          defaultValue={props.defaultValue}
+          defaultValue={props.value}
           fullWidth
           hintText={props.hintText}
           name={props.name}
@@ -36,7 +36,7 @@ H3Input.propTypes = {
   hintText: React.PropTypes.string,
   onValueChanged: React.PropTypes.func,
   title: React.PropTypes.string,
-  defaultValue: React.PropTypes.string,
+  value: React.PropTypes.string,
   readonly: React.PropTypes.bool,
 };
 

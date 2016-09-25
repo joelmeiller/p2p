@@ -1,25 +1,10 @@
 // Middleware
 import { getMyRating } from '../middleware/getMyRating.mock.js';
 
-// Actions
-import { setTitle } from '../ui/layouts/app.jsx';
-import { selectMember } from './member.js';
-
 export const REQUEST_RATING = '/team/REQUEST_RATING';
 export const RECEIVE_RATING = '/team/RECEIVE_RATING';
 export const INVALIDATE_PROJECT = '/team/INVALIDATE_PROJECT';
 
-
-export const showMemberRating = (member, props) => (dispatch) => {
-  const readonly = true;
-  console.log('show member', member, props);
-  if (member.categories) {
-    dispatch(setTitle(`My Rating from ${member.name}`));
-    dispatch(selectMember(props.members.indexOf(member), props, readonly));
-  } else {
-    console.log('No Criterias defined');
-  }
-};
 
 export const invalidateProject = project => ({
   type: INVALIDATE_PROJECT,
