@@ -13,7 +13,10 @@ const RatingPage = props => (
     <div className="row">
       <div className="col-xs-10">
         {props.members.map(member =>
-          <div className="col-xs-6 push-bottom-medium" >
+          <div
+            className="col-xs-6 push-bottom-medium"
+            key={member.id}
+          >
             <MemberCard
               title={member.name}
               stars={member.rating}
@@ -27,7 +30,7 @@ const RatingPage = props => (
 );
 
 RatingPage.propTypes = {
-  rating: React.PropTypes.string,
+  rating: React.PropTypes.number,
   members: React.PropTypes.array.isRequired,
 };
 
