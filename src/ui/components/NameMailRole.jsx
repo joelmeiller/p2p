@@ -13,6 +13,7 @@ const NameMailRole = props => (
           hintText={props.hintText}
           defaultValue={props.defaultValue}
           fullWidth
+          inputStyle={{ color: '#333333' }}
         />
       </div>
       <div className="col-xs-3">
@@ -20,6 +21,7 @@ const NameMailRole = props => (
           hintText={props.hintText2}
           defaultValue={props.defaultValue2}
           fullWidth
+          inputStyle={{ color: '#333333' }}
         />
       </div>
       <div className="col-xs-2" style={{marginTop:-8}}>

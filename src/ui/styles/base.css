@@ -62,3 +62,9 @@ a {
   font-family: "RobotoDraft","Roboto",sans-serif;
   color: #00bcd4;
 }
+
+button {
+  border: none;
+  background-color: inherit;
+  margin-top: 10px;
+}

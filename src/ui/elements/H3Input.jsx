@@ -24,6 +24,7 @@ const H3Input = props => (
           name={props.name}
           onChange={e => props.onValueChanged(e.target.value)}
           disabled={props.readonly}
+          inputStyle={{ color: '#333333' }}
         />
       </div>
     </div>
