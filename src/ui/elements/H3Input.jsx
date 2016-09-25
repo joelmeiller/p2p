@@ -5,7 +5,7 @@ import React from 'react';
 import TextField from 'material-ui/TextField';
 
 // Local imports
-import Header3 from '../elements/Header/Header3.jsx';
+import Header3 from './Header/Header3.jsx';
 
 
 const H3Input = props => (
@@ -13,7 +13,7 @@ const H3Input = props => (
     <div className="row">
       <div className="col-xs-12 h3-padding">
         <Header3
-          myTitle={props.title}
+          title={props.title}
         />
       </div>
       <div className="col-xs-12 h3-line-width">
@@ -23,6 +23,7 @@ const H3Input = props => (
           hintText={props.hintText}
           name={props.name}
           onChange={e => props.onValueChanged(e.target.value)}
+          disabled={props.readonly}
         />
       </div>
     </div>
@@ -36,6 +37,7 @@ H3Input.propTypes = {
   onValueChanged: React.PropTypes.func,
   title: React.PropTypes.string,
   defaultValue: React.PropTypes.string,
+  readonly: React.PropTypes.bool,
 };
 
 export default H3Input;

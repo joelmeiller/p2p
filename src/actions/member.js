@@ -16,12 +16,14 @@ export const resetPreviousMember = value => ({
   member: value,
 });
 
-const dispatchSelectMember = index => ({
+const dispatchSelectMember = (members, index, readonly) => ({
   type: SELECT_MEMBER,
+  members,
   index,
+  readonly,
 });
 
-export const selectMember = (index, props) => (dispatch) => {
+const saveMember = (index, props) => (dispatch) => {
   if (props.memberUpdated && props.values) {
     const member = props.members[index];
     member.categories = props.values.categories;
@@ -35,8 +37,17 @@ export const selectMember = (index, props) => (dispatch) => {
       }
     });
   }
+};
+
+export const selectMember = (index, props, readonly) => (dispatch) => {
+  dispatch(saveMember(index, props));
   props.router.push(`/team/rating/${props.members[index].slug}`);
-  dispatch(dispatchSelectMember(index));
+  dispatch(dispatchSelectMember(props.members, index, readonly));
+};
+
+export const saveMemberAndClose = props => (dispatch) => {
+  dispatch(saveMember(props.selectedIndex, props));
+  props.router.push(props.onClosePath || '/');
 };
 
 export const updateComment = value => ({

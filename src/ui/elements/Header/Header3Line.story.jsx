@@ -17,7 +17,7 @@ storiesOf('elements/Header', module)
 .add('::Header3Line', () => (
   <div className="app flex-center-middle">
     <Header3Line
-    myTitle="Teammembers"
+    title="Teammembers"
     />
   </div>
 ))

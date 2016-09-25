@@ -14,6 +14,7 @@ const FinalRating = props => (
           <StarsRating
             value={props.finalRating}
             name={'finalRating'}
+            readonly
           />
         </div>
       </div>

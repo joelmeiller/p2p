@@ -25,6 +25,8 @@ const reducer = (state = initialState, action) => {
       return {
         ...newState,
         selectedIndex: action.index,
+        members: action.members,
+        readonly: action.readonly,
       };
     case UPDATE_COMMENT:
       values.comment = action.comment;

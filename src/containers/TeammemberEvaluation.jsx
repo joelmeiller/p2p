@@ -14,6 +14,7 @@ import {
   selectMember,
   updateComment,
   updateRating,
+  saveMemberAndClose,
 } from '../actions/member.js';
 
 
@@ -27,8 +28,10 @@ const EvaluationContainer = props => (
     <EvaluationPage
       {...props.selectedMember}
       categories={props.categories}
+      readonly={props.readonly}
       onCommentChanged={props.handleCommentChanged}
       onRatingChanged={props.handleRatingChanged}
+      onClose={props.handleClose}
     />
   </div>
 );
@@ -37,15 +40,16 @@ EvaluationContainer.propTypes = {
   handleSelectMember: React.PropTypes.func,
   handleCommentChanged: React.PropTypes.func,
   handleRatingChanged: React.PropTypes.func,
+  handleClose: React.PropTypes.func,
   categories: React.PropTypes.array.isRequired,
   members: React.PropTypes.array.isRequired,
   selectedIndex: React.PropTypes.number,
   selectedMember: React.PropTypes.object,
+  readonly: React.PropTypes.bool,
 };
 
 const mapStateToProps = (globalState, props) => {
-  let { members } = globalState.team;
-  const { selectedIndex, values, resetMember } = globalState.member;
+  const { members, selectedIndex, readonly, values, resetMember } = globalState.member;
   const selectedMember = members[selectedIndex];
 
   const categories = selectedMember.categories.map(category => ({
@@ -57,15 +61,17 @@ const mapStateToProps = (globalState, props) => {
     }),
   }));
 
+  let resetMembers;
   if (resetMember) {
-    members = members.map(m => (m.id === resetMember.id ? resetMember : m));
+    resetMembers = members.map(m => (m.id === resetMember.id ? resetMember : m));
   }
 
   return {
-    members,
+    members: resetMembers || members,
     selectedIndex,
     selectedMember,
     categories,
+    readonly,
     values,
     ...props,
   };
@@ -75,6 +81,7 @@ const mapDispatchToProps = dispatch => ({
   handleSelectMember: (index, props) => dispatch(selectMember(index, props)),
   handleCommentChanged: value => dispatch(updateComment(value)),
   handleRatingChanged: (nextValue, prevValue, id) => dispatch(updateRating(nextValue, id)),
+  handleClose: props => dispatch(saveMemberAndClose(props)),
 });
 
 const TeammemberEvaluation = connect(

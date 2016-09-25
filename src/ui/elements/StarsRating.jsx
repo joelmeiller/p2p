@@ -11,12 +11,14 @@ const StarsRating = props => (
     starCount={5}
     value={props.value}
     name={props.name}
+    editing={!props.readonly}
   />
 );
 
 StarsRating.propTypes = {
   value: React.PropTypes.number,
   name: React.PropTypes.string.isRequired,
+  readonly: React.PropTypes.bool,
 };
 
 export default StarsRating;

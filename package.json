@@ -24,8 +24,8 @@
     "webpack-hot-middleware": "^2.12.2"
   },
   "dependencies": {
-    "@kadira/storybook": "^1.36.0",
-    "@kadira/storybook-deployer": "^1.0.0",
+    "@kadira/react-storybook-addon-info": "^3.2.1",
+    "@kadira/storybook": "^2.18.1",
     "babel-polyfill": "^6.13.0",
     "isomorphic-fetch": "^2.2.1",
     "material-ui": "^0.15.4",

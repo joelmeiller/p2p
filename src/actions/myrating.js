@@ -11,9 +11,11 @@ export const INVALIDATE_PROJECT = '/team/INVALIDATE_PROJECT';
 
 
 export const showMemberRating = (member, props) => (dispatch) => {
+  const readonly = true;
+  console.log('show member', member, props);
   if (member.categories) {
     dispatch(setTitle(`My Rating from ${member.name}`));
-    dispatch(selectMember(props.members.indexOf(member), props));
+    dispatch(selectMember(props.members.indexOf(member), props, readonly));
   } else {
     console.log('No Criterias defined');
   }

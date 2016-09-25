@@ -1,65 +1,14 @@
-:root {
-  --blue-color: #00bcd4;
-}
-
-/* element styling */
-body {
-  font-family: "RobotoDraft","Roboto",sans-serif;
-  padding: 0px;
-}
-
-/* used in: FinalRating */
-.flex-align-middle {
-  display: flex;
-  align-items: center;
-}
-
-p.bold {
-  font-weight: bold;
-}
-
-p.italic {
-  font-style: italic;
-}
-
-h1 {
-  font-size: 4em;
-  font-weight: 200;
-  padding: 0px 0px;
-  color: #00bcd4;
-}
-
-h2 {
+.header2 h2 {
   font-size: 2em;
   font-weight: 200;
   padding: 0px 0px;
-  color: #00bcd4;
+  color: var(--colorSecondary);
 }
 
-h3 {
-  font-size: 1.5em;
-  font-weight: 200;
-  padding: 0px 0px;
-  color: #00bcd4;
-}
-
-hr {
-  width:100%;
-  height:1px;
-}
-
-hr.blue {
-  background: #00bcd4;
-}
-
-a {
-  font-family: "RobotoDraft","Roboto",sans-serif;
-  color: #00bcd4;
-}
-
-.nav {
+.header2 hr {
+  background: var(--colorSecondary);
+  height: 1px;
   width: 100%;
-  border: none;
 }
 
 .dropdown-margin-top {
@@ -99,7 +48,7 @@ a {
 
 /*component H3Input*/
 .h3-line-width{
-  width: 800px !important !important;
+  width: 800px !important;
 }
 
 /*component Form*/
@@ -122,14 +71,14 @@ a {
 }
 
 .paper {
-  display: 'inline-block';
-  float: 'left';
-  margin: '16px 32px 16px 0';
+  display: inline-block;
+  float: left;
+  margin: 16px 32px 16px 0;
 }
 
 .rightIcon {
-  textAlign: 'center';
-  lineHeight: '24px';
+  text-align: center;
+  line-height: 24px;
 }
 
 .nav-icon path {
@@ -139,4 +88,16 @@ a {
 .title-left {
   float: left;
   max-width: 60%;
+}
+
+.member-card-rating {
+  background-color: #00bcd4;
+  margin: 0;
+  padding-left: 10px;
+  padding-top: 10px;
+}
+
+.member-card-header {
+  background-color: #00bcd4;
+  padding-top: 0,
 }

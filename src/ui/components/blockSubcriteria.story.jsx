@@ -25,7 +25,7 @@ storiesOf('components/Block', module)
           stars: 3
         }
       ]}
-      />
+    />
   </div>
 ))
 ;

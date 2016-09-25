@@ -21,6 +21,7 @@ const RatingPage = props => (
               title={member.name}
               stars={member.rating}
               text={member.comment}
+              onReadMore={() => props.handleSelectMember(member, props)}
             />
           </div>
         )}
@@ -31,7 +32,14 @@ const RatingPage = props => (
 
 RatingPage.propTypes = {
   rating: React.PropTypes.number,
-  members: React.PropTypes.array.isRequired,
+  members: React.PropTypes.arrayOf(
+    React.PropTypes.shape({
+      id: React.PropTypes.string,
+      name: React.PropTypes.string,
+      rating: React.PropTypes.number,
+      comment: React.PropTypes.string,
+    })
+  ).isRequired,
 };
 
 export default RatingPage;
