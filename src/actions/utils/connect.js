@@ -20,8 +20,7 @@ const shouldFetchData = (state) => {
   return !state.isFetching;
 };
 
-export default (requestAction, receiveAction, middleware, mapData) => (dispatch, state) => {
-  console.log(state);
+export default (requestAction, receiveAction, middleware, mapData) => () => (dispatch, state) => {
   if (shouldFetchData(state)) {
     dispatch(requestData(requestAction));
 
