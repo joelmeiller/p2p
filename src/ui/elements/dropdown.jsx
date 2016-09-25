@@ -7,7 +7,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 
 injectTapEventPlugin();
 
-const Dropdown = (props) => {
+const Dropdown = props => {
   console.log(props);
   return (
     <div>

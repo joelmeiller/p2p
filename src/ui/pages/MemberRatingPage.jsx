@@ -3,14 +3,18 @@ import React from 'react';
 import FinalRating from '../components/FinalRating.jsx';
 import MemberCard from '../components/MemberCard.jsx';
 
-const RatingPage = props => (
-  <div className="container push-top">
-    <div className="card row push-bottom-medium">
+
+const MemberRatingPage = props => (
+  <div className="container">
+    <div className="card row push-top-medium">
       <div className="col-xs-12">
-        <FinalRating finalRating={props.rating} />
+        <FinalRating
+          text="Your final rating is"
+          value={props.rating}
+        />
       </div>
     </div>
-    <div className="row">
+    <div className="row push-top-medium">
       <div className="col-xs-10">
         {props.members.map(member =>
           <div
@@ -18,10 +22,8 @@ const RatingPage = props => (
             key={member.id}
           >
             <MemberCard
-              title={member.name}
-              stars={member.rating}
-              text={member.comment}
               onReadMore={() => props.handleSelectMember(member, props)}
+              {...member}
             />
           </div>
         )}
@@ -30,16 +32,9 @@ const RatingPage = props => (
   </div>
 );
 
-RatingPage.propTypes = {
+MemberRatingPage.propTypes = {
   rating: React.PropTypes.number,
-  members: React.PropTypes.arrayOf(
-    React.PropTypes.shape({
-      id: React.PropTypes.string,
-      name: React.PropTypes.string,
-      rating: React.PropTypes.number,
-      comment: React.PropTypes.string,
-    })
-  ).isRequired,
+  members: React.PropTypes.arrayOf(MemberCard.propTypes).isRequired,
 };
 
-export default RatingPage;
+export default MemberRatingPage;

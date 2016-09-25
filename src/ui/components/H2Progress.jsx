@@ -1,9 +1,9 @@
 import React from 'react';
 
-import ProgressBar from '../elements/progressbar.jsx';
+import ProgressBar from '../elements/ProgressBar.jsx';
 import Header2withRole from '../elements/Header/Header2withRole.jsx';
 
-const H2Progress = (props) => {
+const H2Progress = props => {
   return (
     <div className="container">
       <div className="row">

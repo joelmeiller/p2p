@@ -3,7 +3,8 @@ import React from 'react';
 import IconButton from 'material-ui/IconButton';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 
-import H2Progress from '../components/labelProgressbarHeader.jsx';
+import FinalRating from '../components/FinalRating.jsx';
+import H2Progress from '../components/H2Progress.jsx';
 import BlockSubcriteria from '../components/BlockSubcriteria.jsx';
 import H3Input from '../elements/H3Input.jsx';
 
@@ -12,11 +13,17 @@ const EvaluationPage = props => (
   <div className="container push-top">
     <div className="row">
       <div className="col-xs-11">
-        <H2Progress
-          name={props.name}
-          role={props.role}
-          progress={props.progress}
-        />
+        {(() => (props.rating ?
+          <FinalRating
+            text={`Your rating for ${props.name} is`}
+            value={props.rating}
+          /> :
+          <H2Progress
+            name={props.name}
+            role={props.role}
+            progress={props.progress}
+          />
+        ))()}
       </div>
       <div className="col-xs-1 push-right pull-top-small">
         <IconButton onClick={() => props.onClose(props)}>

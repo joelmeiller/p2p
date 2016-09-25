@@ -1,10 +1,11 @@
 
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
-import LabelCheckbox from './labelCheckbox.jsx';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+
+import LabelCheckbox from './LabelCheckbox.jsx';
 
 storiesOf('components/Label', module)
 .addDecorator(story => (

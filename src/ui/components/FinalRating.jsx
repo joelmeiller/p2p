@@ -4,26 +4,22 @@ import StarsRating from '../elements/StarsRating.jsx';
 import Header2 from '../elements/Header/Header2.jsx';
 
 const FinalRating = props => (
-  <div className="container">
-    <div className="row">
-      <div className="col-xs-12 flex-align-middle">
-        <div className="title-left">
-          <Header2 h2title={`Your final rating is ${props.finalRating}:`} />
-        </div>
-        <div>
-          <StarsRating
-            value={props.finalRating}
-            name={'finalRating'}
-            readonly
-          />
-        </div>
-      </div>
-    </div>
+  <div className="container flex">
+    <Header2
+      className="title-left"
+      title={`${props.text} ${props.value}:`}
+    />
+    <StarsRating
+      value={props.value}
+      name={'finalRating'}
+      readonly
+    />
   </div>
 );
 
 FinalRating.propTypes = {
-  finalRating: React.PropTypes.number,
+  text: React.PropTypes.string,
+  value: React.PropTypes.number,
 };
 
 export default FinalRating;

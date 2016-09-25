@@ -7,7 +7,7 @@ import FontIcon from 'material-ui/FontIcon';
 import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-const ProjectList = (props) => {
+const ProjectList = props => {
   return (
     <div className="container">
       <div className="row">

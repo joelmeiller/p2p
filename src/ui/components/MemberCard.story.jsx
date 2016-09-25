@@ -1,7 +1,6 @@
 
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
-import H3Input from './H3Input.jsx';
 import MemberCard from './MemberCard.jsx';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';

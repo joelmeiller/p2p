@@ -20,7 +20,9 @@ const ProgressPage = props => (
 );
 
 ProgressPage.propTypes = {
-  members: React.PropTypes.array,
+  members: React.PropTypes.arrayOf(
+    React.PropTypes.shape(MemberProgress.propTypes)
+  ),
 };
 
 export default ProgressPage;

@@ -1,9 +1,9 @@
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
-import Dropdown from './Dropdown.jsx';
-
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+
+import Dropdown from './Dropdown.jsx';
 
 
 storiesOf('elements', module)

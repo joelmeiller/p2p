@@ -1,6 +1,7 @@
 :root {
   --colorPrimary: #000000;
   --colorSecondary: #00bcd4;
+  --colorWarning: #cc0000;
 }
 
 /* element styling */
@@ -22,12 +23,18 @@ p.bold {
 p.italic {
   font-style: italic;
 }
+p.warning {
+  color: var(--colorWarning);
+}
+p .prefix {
+  padding-right: 7px;
+}
 
 h1 {
   font-size: 4em;
   font-weight: 200;
   padding: 0px 0px;
-  color: var(--blue-color);
+  color: var(--colorSecondary);
 }
 
 h2 {

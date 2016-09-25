@@ -1,9 +1,10 @@
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
-import LabelStarsDB from './LabelStarsDB.jsx';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+
+import LabeledStarRatingWithGrade from './LabeledStarRatingWithGrade.jsx';
 
 storiesOf('components/Label', module)
 .addDecorator(story => (
@@ -11,16 +12,16 @@ storiesOf('components/Label', module)
     {story()}
   </MuiThemeProvider>
 ))
-.add('::LabelStarsDB', () => (
+.add('::LabeledStarRatingWithGrade', () => (
   <div className="app flex-center-middle">
-    <LabelStarsDB
-      text="Michelle Andrey, QM"
-      name="LabelStarsDB"
-      stars={3}
-      deviation={"deviation: "+2}
-      grade={"grade: "+ 5.1}
+    <LabeledStarRatingWithGrade
+      label="Michelle Andrey, QM"
+      id="123456"
+      value={3}
+      deviation={+2}
+      grade={5.1}
       status="approved"
-      />
+    />
   </div>
 ))
 ;

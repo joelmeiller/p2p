@@ -4,7 +4,7 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
 // Component imports
-import RatingPage from '../ui/pages/RatingPage.jsx';
+import MemberRatingPage from '../ui/pages/MemberRatingPage.jsx';
 
 // Action imports
 import { setTitle } from '../actions/app.js';
@@ -19,7 +19,7 @@ class MyRatingOverviewComponent extends Component {
   }
 
   render() {
-    return (<RatingPage {...this.props} />);
+    return (<MemberRatingPage {...this.props} />);
   }
 }
 

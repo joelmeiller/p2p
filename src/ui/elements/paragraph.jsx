@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Paragraph = (props) => (
+const Paragraph = props => (
   <p className="bold italic" >
     {props.text}
   </p>

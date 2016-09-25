@@ -1,7 +1,7 @@
-//React Imports
+// React Imports
 import React from 'react';
 
-//Material Imports
+// Material Imports
 import FlatButton from 'material-ui/FlatButton';
 
 import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';

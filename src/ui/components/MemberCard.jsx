@@ -13,13 +13,13 @@ const MemberCard = props => (
     <div className="member-card-rating" >
       <StarsRating
         readonly
-        value={props.stars}
-        name={`member-star-${props.title}`}
+        value={props.rating}
+        name={props.id}
       />
     </div>
     <CardHeader
       className="member-card-header"
-      title={props.title}
+      title={`${props.name}, ${props.role}`}
       actAsExpander
       showExpandableButton={false}
       titleStyle={{
@@ -29,7 +29,7 @@ const MemberCard = props => (
       }}
     />
     <CardText expandable={false}>
-      {props.text}
+      {props.comment}
     </CardText>
     <hr style={{ margin: 0 }} />
     <CardActions>
@@ -44,9 +44,11 @@ const MemberCard = props => (
 );
 
 MemberCard.propTypes = {
-  title: React.PropTypes.string,
-  stars: React.PropTypes.number,
-  text: React.PropTypes.string,
+  id: React.PropTypes.string,
+  name: React.PropTypes.string,
+  role: React.PropTypes.string,
+  rating: React.PropTypes.number,
+  comment: React.PropTypes.string,
   onReadMore: React.PropTypes.func,
 };
 

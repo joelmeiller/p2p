@@ -10,7 +10,6 @@ storiesOf('elements', module)
   <div className="app flex-center-middle">
     <ProgressBar
       value={80}
-      />
+    />
   </div>
 ));
-  

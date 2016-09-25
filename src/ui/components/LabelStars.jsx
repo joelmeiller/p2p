@@ -4,7 +4,7 @@ import React from 'react';
 //Material Imports
 import StarsRating from '../elements/StarsRating.jsx';
 
-const LabelStars = (props) => {
+const LabelStars = props => {
       return (
         <div className="container">
           <div className="row">

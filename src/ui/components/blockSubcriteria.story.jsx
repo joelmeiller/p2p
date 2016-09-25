@@ -6,7 +6,7 @@ import BlockSubcriteria from './BlockSubcriteria.jsx';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-storiesOf('components/Block', module)
+storiesOf('components/BlockSubcriteria', module)
 .addDecorator(story => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>
     {story()}
