@@ -16,9 +16,10 @@ export const resetPreviousMember = value => ({
   member: value,
 });
 
-const dispatchSelectMember = (members, index, readonly) => ({
+const dispatchSelectMember = (props, index, readonly) => ({
   type: SELECT_MEMBER,
-  members,
+  members: props.members,
+  onClosePath: props.onClosePath,
   index,
   readonly,
 });
@@ -42,7 +43,7 @@ const saveMember = (index, props) => (dispatch) => {
 export const selectMember = (index, props, readonly) => (dispatch) => {
   dispatch(saveMember(index, props));
   props.router.push(`/team/rating/${props.members[index].slug}`);
-  dispatch(dispatchSelectMember(props.members, index, readonly));
+  dispatch(dispatchSelectMember(props, index, readonly));
 };
 
 export const saveMemberAndClose = props => (dispatch) => {

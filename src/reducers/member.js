@@ -26,6 +26,7 @@ const reducer = (state = initialState, action) => {
         ...newState,
         selectedIndex: action.index,
         members: action.members,
+        onClosePath: action.onClosePath,
         readonly: action.readonly,
       };
     case UPDATE_COMMENT:

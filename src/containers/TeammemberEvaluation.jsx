@@ -32,6 +32,7 @@ const EvaluationContainer = props => (
       onCommentChanged={props.handleCommentChanged}
       onRatingChanged={props.handleRatingChanged}
       onClose={props.handleClose}
+      {...props}
     />
   </div>
 );
@@ -49,7 +50,7 @@ EvaluationContainer.propTypes = {
 };
 
 const mapStateToProps = (globalState, props) => {
-  const { members, selectedIndex, readonly, values, resetMember } = globalState.member;
+  const { members, values, resetMember, selectedIndex, ...other } = globalState.member;
   const selectedMember = members[selectedIndex];
 
   const categories = selectedMember.categories.map(category => ({
@@ -67,13 +68,13 @@ const mapStateToProps = (globalState, props) => {
   }
 
   return {
+    ...other,
+    ...props,
     members: resetMembers || members,
     selectedIndex,
     selectedMember,
     categories,
-    readonly,
     values,
-    ...props,
   };
 };
 

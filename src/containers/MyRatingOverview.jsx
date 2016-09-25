@@ -31,6 +31,7 @@ const mapStateToProps = (globalState, props) => {
   const { members, rating, isFetching } = globalState.myrating;
 
   return {
+    onClosePath: '/myrating',
     rating,
     members,
     isFetching,
