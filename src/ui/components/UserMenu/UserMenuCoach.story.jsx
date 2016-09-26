@@ -25,7 +25,7 @@ storiesOf('components/UserMenu', module)
 .add('::Coach', () => (
   <div className="app flex-center-middle">
     <UserMenu
-      entries={[
+      menuItems={[
         {
           name:"Projects",
           icon:<Dashboard color={blue500}/>

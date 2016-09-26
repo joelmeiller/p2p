@@ -43,15 +43,17 @@ export const reducer = (state = initialState, action) => {
   }
 };
 
-const userMenuTM = [
+const userMenuTM = props => ([
   {
-    name: 'Dashboard',
+    name: 'Evaluation',
     icon: <Dashboard className="menu-icon" />,
-    path: '/',
+    path: `/${props.testParam}`,
+    disabled: props.isFinal,
   }, {
     name: 'My Ratings',
     icon: <Assessment className="menu-icon" />,
     path: '/myrating',
+    disabled: !props.isFinal,
   }, {
     name: 'My Account',
     icon: <AccountBox className="menu-icon" />,
@@ -60,9 +62,9 @@ const userMenuTM = [
     name: 'Logout',
     icon: <ExitToApp className="menu-icon" />,
   },
-];
+]);
 
-const userMenuQM = [
+const userMenuQM = props => ([
   {
     name: 'Dashboard',
     icon: <Dashboard className="menu-icon" />,
@@ -71,6 +73,7 @@ const userMenuQM = [
     name: 'Evaluation',
     icon: <Grade className="menu-icon" />,
     path: '/',
+    disabled: !props.isFinal,
   }, {
     name: 'Teammembers',
     icon: <Accessibility className="menu-icon" />,
@@ -91,7 +94,7 @@ const userMenuQM = [
     name: 'Logout',
     icon: <ExitToApp className="menu-icon" />,
   },
-];
+]);
 
 class App extends Component {
   componentDidMount() {
@@ -99,11 +102,12 @@ class App extends Component {
   }
 
   render() {
+    console.log(this.props);
     return (<div className="app">
       <AppBarHeader
         title={this.props.title}
         username={this.props.username}
-        menuItems={this.props.isQM ? userMenuQM : userMenuTM}
+        menuItems={this.props.isQM ? userMenuQM(this.props) : userMenuTM(this.props)}
       />
       <main>
         {this.props.children}
@@ -125,12 +129,16 @@ const mapStateToProps = (globalState, props) => {
   const { project, user } = globalState.app;
 
   const username = user.role ? `${user.fullName}, ${user.role}` : user.fullName;
+  const isFinal = props.params.test === 'final';
+  const isQM = props.params.test === 'isQM' || user.isQM;
 
   return {
     ...project,
     ...props,
     username,
-    isQM: user.isQM,
+    isQM,
+    isFinal,
+    testParam: props.params.test,
   };
 };
 

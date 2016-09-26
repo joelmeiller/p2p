@@ -24,6 +24,7 @@ const showSelectedMember = (index, props) => ({
   index,
   readonly: props.readonly || props.isQM,
   title: props.title,
+  testParam: props.testParam,
 });
 
 const saveMember = (index, props) => (dispatch) => {
@@ -32,8 +33,8 @@ const saveMember = (index, props) => (dispatch) => {
     member.categories = props.values.categories;
     member.comment = props.values.comment;
     console.log(member);
-    updateTeamMember(member, (err) => {
-      console.log(err);
+    updateTeamMember(member, (err, res) => {
+      console.log(err, res);
       if (err) {
         dispatch(resetPreviousMember(props.member));
         dispatch(resetTeamMembers(props.member));
@@ -60,7 +61,7 @@ export const showMember = (member, props) => (dispatch) => {
 
 export const saveMemberAndClose = props => (dispatch) => {
   dispatch(saveMember(props.selectedIndex, props));
-  props.router.push(props.onClosePath || '/');
+  props.router.push(props.onClosePath || `/${props.testParam}`);
 };
 
 export const updateComment = value => ({

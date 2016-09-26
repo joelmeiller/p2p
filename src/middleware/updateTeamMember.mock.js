@@ -16,7 +16,9 @@ export const updateTeamMember = (member, callback) => {
 
   console.log(JSON.stringify(member));
 
-  origin(member, callback);
+  // origin(member, callback);
+
+  callback(null, response);
 
   // Unpatch.
   mock.restore();

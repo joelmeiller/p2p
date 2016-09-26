@@ -12,6 +12,7 @@ const UserMenu = props => (
         key={item.name}
         primaryText={item.name}
         leftIcon={item.icon}
+        disabled={item.disabled}
         onTouchTap={() => props.router.push(item.path)}
       />
     )}
@@ -22,6 +23,8 @@ const menuItemProps = {
   key: React.PropTypes.string,
   primaryText: React.PropTypes.string,
   leftIcon: React.PropTypes.element,
+  disabled: React.PropTypes.bool,
+  path: React.PropTypes.string,
 };
 
 UserMenu.propTypes = {

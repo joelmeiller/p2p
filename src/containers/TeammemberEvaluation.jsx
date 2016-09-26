@@ -52,6 +52,7 @@ EvaluationContainer.propTypes = {
 const mapStateToProps = (globalState, props) => {
   const { members, values, resetMember, selectedIndex, ...other } = globalState.member;
   const selectedMember = members[selectedIndex];
+  selectedMember.rating = other.testParam === 'final' ? 3 : selectedMember.rating;
 
   const categories = selectedMember.categories.map(category => ({
     ...category,
@@ -66,6 +67,8 @@ const mapStateToProps = (globalState, props) => {
   if (resetMember) {
     resetMembers = members.map(m => (m.id === resetMember.id ? resetMember : m));
   }
+
+  console.log(other);
 
   return {
     ...other,

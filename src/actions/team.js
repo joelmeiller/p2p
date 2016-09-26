@@ -54,7 +54,7 @@ const shouldFetchData = (state) => {
 };
 
 export const fetchTeam = asQM => (dispatch, state) => {
-  if (shouldFetchData(asQM, state)) {
+  if (shouldFetchData(state)) {
     dispatch(fetchData(asQM));
   }
 };

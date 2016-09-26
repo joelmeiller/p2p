@@ -16,7 +16,7 @@ import { showMember } from '../actions/member.js';
 class TeammemberOverviewComponent extends Component {
   componentDidMount() {
     this.props.setTitle();
-    this.props.fetchTeam('test');
+    this.props.fetchTeam(this.props.isQM);
   }
 
   render() {
@@ -36,12 +36,35 @@ const mapStateToProps = (globalState, props) => {
   const { members, readonly, isFetching } = globalState.team;
   const { user } = globalState.app;
 
+  const isFinal = props.params.test === 'final';
+  const isQM = props.params.test === 'isQM' || user.isQM;
+
+  const isReadonly = readonly || isFinal;
+
+  let cleanedMembers;
+  if (props.params.test === 'new') {
+    cleanedMembers = members.map(m => ({
+      ...m,
+      progress: 0,
+      categories: m.categories.map(cat => ({
+        ...cat,
+        criterias: cat.criterias.map(crit => ({
+          ...crit,
+          rating: 0,
+        })),
+      })),
+      comment: '',
+    }));
+  }
+
   return {
     title: 'Rating for',
-    isQM: user.isQM,
-    readonly,
-    members,
+    isQM,
+    readonly: isReadonly,
+    members: cleanedMembers || members,
     isFetching,
+    isFinal,
+    testParam: props.params.test,
     ...props,
   };
 };

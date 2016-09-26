@@ -40,6 +40,8 @@ ReactDOM.render(
           <IndexRoute component={TeammemberOverview} />
           <Route path="/myrating" component={MyRatingOverview} />
           <Route path="/team/rating/:slug" component={TeammemberEvaluation} />
+          {/* Test Routes */}
+          <Route path="/:test" component={TeammemberOverview} />
         </Route>
       </Router>
     </Provider>

@@ -25,7 +25,7 @@ storiesOf('components/UserMenu', module)
 .add('::QM', () => (
   <div className="app flex-center-middle">
     <UserMenu
-      entries={[
+      menuItems={[
         {
           name:"Dashboard",
           icon:<Dashboard color={blue500}/>

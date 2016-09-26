@@ -12,6 +12,7 @@ const ProgressPage = props => (
         >
           <MemberProgress
             {...member}
+            progress={props.isFinal ? 100 : member.progress}
           />
         </div>
       </div>) : undefined
@@ -20,6 +21,7 @@ const ProgressPage = props => (
 );
 
 ProgressPage.propTypes = {
+  isFinal: React.PropTypes.bool,
   members: React.PropTypes.arrayOf(
     React.PropTypes.shape(MemberProgress.propTypes)
   ),

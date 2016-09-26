@@ -13,7 +13,7 @@ const LabeledStarRating = props => (
       <div className="col-xs-6">
         <p
           className={classNames({
-            warning: !props.value,
+            warning: props.isEmpty,
           })}
         >{props.label}</p>
       </div>
@@ -42,6 +42,7 @@ LabeledStarRating.propTypes = {
   onRatingChanged: React.PropTypes.func,
   readonly: React.PropTypes.bool,
   smallStars: React.PropTypes.bool,
+  isEmpty: React.PropTypes.bool,
 };
 
 

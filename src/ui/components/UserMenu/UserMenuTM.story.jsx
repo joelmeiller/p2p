@@ -22,21 +22,22 @@ storiesOf('components/UserMenu', module)
 .add('::TM', () => (
   <div className="app flex-center-middle">
     <UserMenu
-      entries={[
+      menuItems={[
         {
-          name:"Progress",
-          icon:<Dashboard color={blue500}/>
+          name: 'Progress',
+          icon: <Dashboard color={blue500} />,
+          disabled: true,
         }, {
-          name:"My Ratings",
-          icon:<Assessment color={blue500}/>
+          name: 'My Ratings',
+          icon: <Assessment color={blue500} />,
         }, {
-          name:"My Account",
-          icon:<AccountBox color={blue500}/>
+          name: 'My Account',
+          icon: <AccountBox color={blue500} />,
         }, {
-          name:"Logout",
-          icon:<ExitToApp color={blue500}/>
+          name: 'Logout',
+          icon: <ExitToApp color={blue500} />,
         },
       ]}
-      />
-</div>
+    />
+  </div>
 ));
