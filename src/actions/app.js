@@ -11,7 +11,9 @@ export const setTitle = title => ({
   title,
 });
 
-export const fetchUserAndProjectSettings = connect(REQUEST_USER, RECEIVE_USER,
+export const fetchUserAndProjectSettings = connect(
+  REQUEST_USER,
+  RECEIVE_USER,
   getUserAndProjectSettings,
   data => ({
     project: data.project,

@@ -16,7 +16,6 @@ const data = {
       criterias: [{
         id: '123123123',
         label: 'Weicht konflikten aus',
-        rating: 3,
       }, {
         id: '123123124',
         label: 'Trägt Konflikte unparteiisch und kooperativ aus',
@@ -36,7 +35,6 @@ const data = {
       criterias: [{
         id: '123123126',
         label: 'Ist neugierig & Interessiert',
-        rating: 1,
       }],
     }],
     comment: 'Blabla',
@@ -72,7 +70,6 @@ const data = {
       criterias: [{
         id: '123123126',
         label: 'Ist neugierig & Interessiert',
-        rating: 5,
       }],
     }],
     comment: 'Könnte sich mehr anstrengen. Aber alles in allem gut gemacht.',
@@ -111,7 +108,7 @@ const data = {
         rating: 4,
       }],
     }],
-    comment: '',
+    comment: 'Könnte sich mehr anstrengen. Aber alles in allem gut gemacht.',
   }, {
     id: '123328',
     name: 'Hans Klein',
@@ -124,11 +121,9 @@ const data = {
       criterias: [{
         id: '123123123',
         label: 'Weicht konflikten aus',
-        rating: 1,
       }, {
         id: '123123124',
         label: 'Trägt Konflikte unparteiisch und kooperativ aus',
-        rating: 2,
       }],
     }, {
       id: '234234235',
@@ -144,10 +139,9 @@ const data = {
       criterias: [{
         id: '123123126',
         label: 'Ist neugierig & Interessiert',
-        rating: 5,
       }],
     }],
-    comment: 'Könnte sich mehr anstrengen. Aber alles in allem gut gemacht.',
+    comment: '',
   }],
 };
 

@@ -7,8 +7,13 @@ export const REQUEST_RATING = '/team/REQUEST_MYRATING';
 export const RECEIVE_RATING = '/team/RECEIVE_MYRATING';
 
 
-export const fetchMyRating = connect(REQUEST_RATING, RECEIVE_RATING, getMyRating, data => ({
-  members: data.members,
-  rating: data.rating,
-}));
+export const fetchMyRating = connect(
+  REQUEST_RATING,
+  RECEIVE_RATING,
+  getMyRating,
+  data => ({
+    members: data.members,
+    rating: data.rating,
+  })
+);
 

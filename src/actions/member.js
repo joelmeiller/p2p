@@ -1,9 +1,10 @@
 // Middleware
-import { updateTeamMember } from '../middleware/updateTeamMember.mock.js';
+import { updateTeamMember as apiUpdateTeamMember } from '../middleware/updateTeamMember.mock.js';
+import calculateProgress from '../middleware/utils/calculateProgress.js';
 
 // Actions
 import { setTitle } from './app.js';
-import { resetTeamMembers } from './team.js';
+import { updateTeamMember, resetTeamMembers } from './team.js';
 
 export const INITIALIZE = '/member/INITIALIZE';
 export const SELECT_MEMBER = '/member/SELECT_MEMBER';
@@ -27,13 +28,29 @@ const showSelectedMember = (index, props) => ({
   testParam: props.testParam,
 });
 
-const saveMember = (index, props) => (dispatch) => {
+const saveMember = props => (dispatch) => {
   if (props.memberUpdated && props.values) {
-    const member = props.members[index];
+    const member = props.members[props.selectedIndex];
+
+    if (props.values.ratings) {
+      member.categories = member.categories.map(category => ({
+        ...category,
+        criterias: (category.criterias ? category.criterias.map(criteria => ({
+          ...criteria,
+          rating: (props.values.ratings.find(r => r.id === criteria.id) ?
+            props.values.ratings.find(r => r.id === criteria.id).stars : criteria.rating),
+        })) : undefined),
+      })
+      );
+    }
     member.categories = props.values.categories;
-    member.comment = props.values.comment;
+    member.comment = props.values.comment || member.comment;
+    member.progress = calculateProgress(member);
     console.log(member);
-    updateTeamMember(member, (err, res) => {
+
+    dispatch(updateTeamMember(member));
+
+    apiUpdateTeamMember(member, (err, res) => {
       console.log(err, res);
       if (err) {
         dispatch(resetPreviousMember(props.member));
@@ -44,7 +61,7 @@ const saveMember = (index, props) => (dispatch) => {
 };
 
 export const selectMember = (index, props) => (dispatch) => {
-  dispatch(saveMember(index, props));
+  dispatch(saveMember(props));
   dispatch(setTitle(`${props.title} ${props.members[index].name}`));
   dispatch(showSelectedMember(index, props));
 };

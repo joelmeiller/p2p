@@ -25,7 +25,6 @@ const reducer = (state = initialState, action) => {
       return {
         ...newState,
         selectedIndex: action.index,
-        members: action.members,
         onClosePath: action.onClosePath,
         readonly: action.readonly,
         title: action.title,

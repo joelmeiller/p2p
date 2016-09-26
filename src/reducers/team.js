@@ -1,6 +1,7 @@
 import {
   RECEIVE_TEAM,
   REQUEST_TEAM,
+  UPDATE_TEAM,
   ERROR_RESET_TEAMMEMBER,
 } from '../actions/team.js';
 
@@ -15,7 +16,6 @@ const reducer = (state = initialState, action) => {
     case REQUEST_TEAM:
       return {
         ...state,
-        asQM: action.asQM,
         isFetching: true,
         didInvalidate: false,
       };
@@ -26,6 +26,11 @@ const reducer = (state = initialState, action) => {
         didInvalidate: false,
         members: action.members,
         lastUpdated: action.receivedAt,
+      };
+    case UPDATE_TEAM:
+      return {
+        ...state,
+        members: action.members,
       };
     case ERROR_RESET_TEAMMEMBER:
       return {

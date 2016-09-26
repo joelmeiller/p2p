@@ -12,6 +12,9 @@ import { setTitle } from '../actions/app.js';
 import { fetchTeam } from '../actions/team.js';
 import { showMember } from '../actions/member.js';
 
+// Middleware
+import calculateProgress from '../middleware/utils/calculateProgress.js';
+
 
 class TeammemberOverviewComponent extends Component {
   componentDidMount() {
@@ -41,9 +44,14 @@ const mapStateToProps = (globalState, props) => {
 
   const isReadonly = readonly || isFinal;
 
-  let cleanedMembers;
+  let updatedMembers;
+  updatedMembers = members.map(member => ({
+    ...member,
+    progress: calculateProgress(member),
+  }));
+
   if (props.params.test === 'new') {
-    cleanedMembers = members.map(m => ({
+    updatedMembers = members.map(m => ({
       ...m,
       progress: 0,
       categories: m.categories.map(cat => ({
@@ -61,7 +69,7 @@ const mapStateToProps = (globalState, props) => {
     title: 'Rating for',
     isQM,
     readonly: isReadonly,
-    members: cleanedMembers || members,
+    members: updatedMembers,
     isFetching,
     isFinal,
     testParam: props.params.test,
