@@ -8,7 +8,7 @@ const AddCriteria = (props) => {
     <div className="container">
       <div className="row">
         <div className="col-xs-6">
-          <Inputfield
+          <Inputfield style={{fontWeight:"1em"}}
             hintText={props.hintText}
           />
         </div>

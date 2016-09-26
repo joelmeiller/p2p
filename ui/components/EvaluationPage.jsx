@@ -40,7 +40,7 @@ const EvaluationPage = (props) => {
       <div className="row">
         <div className="col-xs-12">
           <H3Input
-            h3Title="Bewertungen &amp; mögliche Verbesserungsvorschläge*:"
+            myTitle="Bewertungen &amp; mögliche Verbesserungsvorschläge*:"
             value={props.evalComment}
             labelHint="Das Mitglied hat sich..."
             />

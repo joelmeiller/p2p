@@ -1,10 +1,11 @@
 import React from 'react';
 
 import Dropdown from '../elements/Dropdown.jsx';
+import BlockSubcriteria from './blockSubcriteria.jsx';
 import LabelStars from './LabelStars.jsx';
 import TabHeaderMember from './TabHeaderMember.jsx';
 
-const OverviewCriteriaPage = React.createClass({
+const OverviewMemberPage = React.createClass({
   onDropdownChange: function(event, index, value) {
     this.setState({idx: index});
   },
@@ -19,7 +20,7 @@ const OverviewCriteriaPage = React.createClass({
           <div className="col-xs-12">
             <TabHeaderMember
               title={this.props.title}
-              members={this.props.members}
+              members={this.props.memberOrCriteria}
               />
           </div>
         </div>
@@ -28,8 +29,8 @@ const OverviewCriteriaPage = React.createClass({
             <Dropdown
               handleChange={this.onDropdownChange}
               selectedValue={this.state.idx}
-              menuItems={this.props.criterias.map((criteria, idx) => {
-                return {label: criteria.title, value: idx};
+              menuItems={this.props.members.map((member, idx) => {
+                return {label: member.title, value: idx};
               })}
               />
           </div>
@@ -60,4 +61,4 @@ const OverviewCriteriaPage = React.createClass({
   }
 });
 
-export default OverviewCriteriaPage;
+export default OverviewMemberPage;

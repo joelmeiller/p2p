@@ -17,10 +17,11 @@ const TabHeaderMember = (props) => {
       </div>
       <div className="row">
         <div className="col-xs-12">
-          <Tabs>
+          <Tabs value={props.value}>
             {(() => (props.members ? props.members.map((members) =>
               <Tab style={{fontWeight:200}}
                 label={members.label}
+                value={members.label}
                 />
             ) : undefined))()}
           </Tabs>

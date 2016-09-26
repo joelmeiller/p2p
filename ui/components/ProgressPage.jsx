@@ -9,7 +9,7 @@ const ProgressPage = (props) => {
       <div className="row" style={{marginBottom:30}}>
         <div className="col-xs-12">
           <TabHeaderMember
-            title={props.title}
+            title={props.title} 
             />
         </div>
       </div>
