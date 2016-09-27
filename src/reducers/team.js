@@ -30,7 +30,9 @@ const reducer = (state = initialState, action) => {
     case UPDATE_TEAM:
       return {
         ...state,
-        members: action.members,
+        members: state.members.map(member =>
+          (member.id === action.member.id ? action.member : member)
+        ),
       };
     case ERROR_RESET_TEAMMEMBER:
       return {

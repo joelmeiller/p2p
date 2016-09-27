@@ -40,14 +40,8 @@ export const fetchTeam = asQM => (dispatch) => {
   dispatch(connectedFetchTeam());
 };
 
-export const updateTeamMember = updatedMember => {
-  const members = state.members;
-
-  return {
-    type: UPDATE_TEAM,
-    members: members.map(member =>
-      (member.id === updatedMember.id ? updatedMember : member)
-    ),
-  };
-};
+export const updateTeamMember = member => ({
+  type: UPDATE_TEAM,
+  member,
+});
 
