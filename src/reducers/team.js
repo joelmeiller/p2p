@@ -12,20 +12,19 @@ const initialState = {
 };
 
 const reducer = (state = initialState, action) => {
-  switch (action.type) {
+  const { type, ...params } = action;
+
+  switch (type) {
     case REQUEST_TEAM:
       return {
         ...state,
         isFetching: true,
-        didInvalidate: false,
       };
     case RECEIVE_TEAM:
       return {
         ...state,
+        ...params,
         isFetching: false,
-        didInvalidate: false,
-        members: action.members,
-        lastUpdated: action.receivedAt,
       };
     case UPDATE_TEAM:
       return {

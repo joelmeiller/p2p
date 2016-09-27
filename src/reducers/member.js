@@ -5,6 +5,7 @@ import {
   ERROR_RESET_UPDATE,
 } from '../actions/member.js';
 
+
 const initialValues = {
   ratings: [],
 };
@@ -22,6 +23,7 @@ const reducer = (state = initialState, action) => {
 
   switch (action.type) {
     case SELECT_MEMBER:
+      values.ratings = [];
       return {
         ...newState,
         selectedIndex: action.index,
@@ -29,9 +31,11 @@ const reducer = (state = initialState, action) => {
         readonly: action.readonly,
         title: action.title,
         testParam: action.testParam,
+        values,
       };
     case UPDATE_COMMENT:
       values.comment = action.comment;
+
       return {
         ...newState,
         values,
@@ -40,11 +44,12 @@ const reducer = (state = initialState, action) => {
     case UPDATE_RATING:
       if (values.ratings.find(r => r.id === action.id)) {
         values.ratings = values.ratings.map(rating => (
-          rating.id === action.id ? { id: action.id, stars: action.stars } : rating)
+          rating.id === action.id ? { id: action.id, rating: action.rating } : rating)
         );
       } else {
-        values.ratings.push({ id: action.id, stars: action.stars });
+        values.ratings.push({ id: action.id, rating: action.rating });
       }
+
       return {
         ...newState,
         values,

@@ -12,7 +12,7 @@ import { setTitle } from '../actions/app.js';
 import { fetchTeam } from '../actions/team.js';
 import { showMember } from '../actions/member.js';
 
-// Middleware
+// Utils impors
 import calculateProgress from '../middleware/utils/calculateProgress.js';
 
 
@@ -36,50 +36,24 @@ TeammemberOverviewComponent.propTypes = {
 };
 
 const mapStateToProps = (globalState, props) => {
-  const { members, readonly, isFetching } = globalState.team;
-  const { user } = globalState.app;
+  const { members, readonly } = globalState.team;
 
-  const isFinal = props.params.test === 'final';
-  const isQM = props.params.test === 'isQM' || user.isQM;
-
-  const isReadonly = readonly || isFinal;
-
-  let updatedMembers;
-  updatedMembers = members.map(member => ({
+  const updatedMembers = members.map(member => ({
     ...member,
     progress: calculateProgress(member),
   }));
 
-  if (props.params.test === 'new') {
-    updatedMembers = members.map(m => ({
-      ...m,
-      progress: 0,
-      categories: m.categories.map(cat => ({
-        ...cat,
-        criterias: cat.criterias.map(crit => ({
-          ...crit,
-          rating: 0,
-        })),
-      })),
-      comment: '',
-    }));
-  }
-
   return {
     title: 'Rating for',
-    isQM,
-    readonly: isReadonly,
+    readonly,
     members: updatedMembers,
-    isFetching,
-    isFinal,
-    testParam: props.params.test,
     ...props,
   };
 };
 
 const mapDispatchToProps = dispatch => ({
   setTitle: () => dispatch(setTitle('Dashboard')),
-  fetchTeam: asQM => dispatch(fetchTeam(asQM)),
+  fetchTeam: () => dispatch(fetchTeam()),
   handleSelectMember: (member, props) => dispatch(showMember(member, props)),
 });
 

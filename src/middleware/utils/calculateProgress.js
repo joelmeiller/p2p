@@ -12,7 +12,7 @@ export default (member) => {
     }
   });
 
-  setCriteria += (member.comment && member !== '') ? 1 : 0;
+  setCriteria += (member.comment && member.comment !== '') ? 1 : 0;
 
-  return totalCriteria > 0 ? (setCriteria / totalCriteria) * 100 : 0;
+  return totalCriteria > 0 ? Math.round((setCriteria / totalCriteria) * 100) : 0;
 };

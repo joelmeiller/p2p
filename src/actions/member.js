@@ -1,10 +1,12 @@
 // Middleware
 import { updateTeamMember as apiUpdateTeamMember } from '../middleware/updateTeamMember.mock.js';
-import calculateProgress from '../middleware/utils/calculateProgress.js';
 
 // Actions
 import { setTitle } from './app.js';
 import { updateTeamMember, resetTeamMembers } from './team.js';
+
+// Utils
+import getCriteriaValues from './utils/getCriteriaValues.js';
 
 export const INITIALIZE = '/member/INITIALIZE';
 export const SELECT_MEMBER = '/member/SELECT_MEMBER';
@@ -20,12 +22,10 @@ export const resetPreviousMember = value => ({
 
 const showSelectedMember = (index, props) => ({
   type: SELECT_MEMBER,
-  members: props.members,
   onClosePath: props.onClosePath,
   index,
   readonly: props.readonly || props.isQM,
   title: props.title,
-  testParam: props.testParam,
 });
 
 const saveMember = (props, index, close) => (dispatch) => {
@@ -33,29 +33,25 @@ const saveMember = (props, index, close) => (dispatch) => {
     const member = props.members[props.selectedIndex];
 
     if (props.values.ratings) {
-      member.categories = member.categories.map(category => ({
-        ...category,
-        criterias: (category.criterias ? category.criterias.map(criteria => ({
-          ...criteria,
-          rating: (props.values.ratings.find(r => r.id === criteria.id) ?
-            props.values.ratings.find(r => r.id === criteria.id).stars : criteria.rating),
-        })) : undefined),
-      })
-      );
+      member.categories = getCriteriaValues(member, props.values);
     }
     member.comment = props.values.comment || member.comment;
 
     dispatch(updateTeamMember(member));
 
-    if (!close) dispatch(showSelectedMember(index, props));
-
     apiUpdateTeamMember(member, (err, res) => {
-      console.log(err, res);
       if (err) {
         dispatch(resetPreviousMember(props.member));
         dispatch(resetTeamMembers(props.member));
       }
     });
+  }
+
+  if (close) {
+    props.router.push(props.onClosePath || `/${props.testParam}`);
+  } else {
+    dispatch(showSelectedMember(index, props));
+    props.router.push(`/team/rating/${props.members[index].slug}`);
   }
 };
 
@@ -76,8 +72,7 @@ export const showMember = (member, props) => (dispatch) => {
 };
 
 export const saveMemberAndClose = props => (dispatch) => {
-  dispatch(saveMember(props, null, true));
-  props.router.push(props.onClosePath || `/${props.testParam}`);
+  dispatch(saveMember(props, 0, true));
 };
 
 export const updateComment = value => ({
@@ -88,7 +83,7 @@ export const updateComment = value => ({
 export const updateRating = (value, id) => ({
   type: UPDATE_RATING,
   id,
-  stars: value,
+  rating: value,
 });
 
 export const initialize = index => ({

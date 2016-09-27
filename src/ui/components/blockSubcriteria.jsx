@@ -18,7 +18,7 @@ const BlockSubcriteria = props => (
       <div className="row" key={criteria.id}>
         <div className="col-xs-12">
           <LabeledStarRating
-            value={criteria.rating}
+            value={criteria.rating ? criteria.rating : 0}
             onRatingChanged={props.onRatingChanged}
             readonly={props.readonly}
             {...criteria}

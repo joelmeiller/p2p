@@ -1,12 +1,11 @@
 // Middleware
 import { default as getTeam } from '../middleware/getTeam.mock.js';
-import { default as getTeamRating } from '../middleware/getTeamRating.mock.js';
-
-import connect from './utils/connect.js';
+// import { default as getTeamRating } from '../middleware/getTeamRating.mock.js';
 
 // Actions
 import { setTitle } from '../ui/layouts/app.jsx';
 import { selectMember } from './member.js';
+
 
 export const REQUEST_TEAM = '/team/REQUEST_TEAM';
 export const RECEIVE_TEAM = '/team/RECEIVE_TEAM';
@@ -14,10 +13,12 @@ export const UPDATE_TEAM = '/team/UPDATE_TEAM';
 export const INVALIDATE_PROJECT = '/team/INVALIDATE_PROJECT';
 export const ERROR_RESET_TEAMMEMBER = '/team/ERROR_RESET_TEAMMEMBER';
 
+
 export const resetTeamMember = member => ({
   type: ERROR_RESET_TEAMMEMBER,
   member,
 });
+
 
 export const showMemberEvaluation = (member, props) => (dispatch) => {
   if (member.categories) {
@@ -28,20 +29,44 @@ export const showMemberEvaluation = (member, props) => (dispatch) => {
   }
 };
 
-export const fetchTeam = asQM => (dispatch) => {
-  const connectedFetchTeam = connect(
-    REQUEST_TEAM,
-    RECEIVE_TEAM,
-    (asQM ? getTeamRating : getTeam),
-    data => ({
-      members: data.members,
-    })
-  );
-  dispatch(connectedFetchTeam());
+
+export const updateTeamMember = updatedMember => (dispatch, getState) => {
+  const state = getState();
+  const members = state.team ? state.team.members : [];
+
+  return {
+    type: UPDATE_TEAM,
+    members: members.map(member =>
+      (member.id === updatedMember.id ? updatedMember : member)
+    ),
+  };
 };
 
-export const updateTeamMember = member => ({
-  type: UPDATE_TEAM,
-  member,
+
+const requestData = () => ({
+  type: REQUEST_TEAM,
 });
+
+const receiveData = data => ({
+  type: RECEIVE_TEAM,
+  members: data.members,
+  fetched: true,
+});
+
+const shouldFetchData = (state) => {
+  if (!state.team || state.relaod) {
+    return true;
+  }
+  return !state.team.isFetching && !state.team.fetched;
+};
+
+export const fetchTeam = () => (dispatch, getState) => {
+  if (shouldFetchData(getState())) {
+    dispatch(requestData());
+
+    getTeam((data) => {
+      dispatch(receiveData(data));
+    });
+  }
+};
 

@@ -1,23 +1,29 @@
-import {
-  RECEIVE_RATING,
-  REQUEST_RATING,
-} from '../actions/myrating.js';
+// Actions
+import { SET_TITLE, REQUEST_USER, RECEIVE_USER } from '../actions/app.js';
+
 
 const initialState = {
-  members: [],
+  title: 'Dashboard',
+  user: {},
+  project: {},
   isFetching: false,
-  didInvalidate: false,
+  fetched: false,
 };
 
 const reducer = (state = initialState, action) => {
   const { type, ...params } = action;
   switch (type) {
-    case REQUEST_RATING:
+    case SET_TITLE:
+      return {
+        ...state,
+        ...params,
+      };
+    case REQUEST_USER:
       return {
         ...state,
         isFetching: true,
       };
-    case RECEIVE_RATING:
+    case RECEIVE_USER:
       return {
         ...state,
         ...params,

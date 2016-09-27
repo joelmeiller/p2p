@@ -9,7 +9,6 @@ const data = {
     name: 'Max Muster',
     slug: 'max-muster',
     role: 'QM',
-    progress: 45,
     categories: [{
       id: '234234234',
       title: 'Konflikt Kompetenzen',
@@ -43,7 +42,6 @@ const data = {
     name: 'Joel Meiller',
     slug: 'joel-meiller',
     role: 'TM',
-    progress: 30,
     categories: [{
       id: '234234234',
       title: 'Konflikt Kompetenzen',
@@ -78,7 +76,6 @@ const data = {
     name: 'Andrey Michelle',
     slug: 'andrey-michelle',
     role: 'RE',
-    progress: 90,
     categories: [{
       id: '234234234',
       title: 'Konflikt Kompetenzen',
@@ -114,7 +111,6 @@ const data = {
     name: 'Hans Klein',
     slug: 'hans-klein',
     role: 'SA',
-    progress: 50,
     categories: [{
       id: '234234234',
       title: 'Konflikt Kompetenzen',
