@@ -21,7 +21,7 @@ const userMenuTM = props => ([
   {
     name: 'Evaluation',
     icon: <Dashboard className="menu-icon" />,
-    path: `/${props.testParam}`,
+    path: '/',
     disabled: props.isFinal,
   }, {
     name: 'My Ratings',

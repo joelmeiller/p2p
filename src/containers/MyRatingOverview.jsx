@@ -15,7 +15,7 @@ import { showMember } from '../actions/member.js';
 class MyRatingOverviewComponent extends Component {
   componentDidMount() {
     this.props.initializeTitle();
-    this.props.fetchMyRating('test');
+    this.props.fetchMyRating();
   }
 
   render() {

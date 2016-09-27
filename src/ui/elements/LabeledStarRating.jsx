@@ -6,7 +6,9 @@ import React from 'react';
 
 import StarRatingComponent from 'react-star-rating-component';
 
-const LabeledStarRating = props => (
+const LabeledStarRating = props => {
+  console.log(props);
+  return (
   <div className="container">
     <div className="row">
       <div className="col-xs-6">
@@ -32,6 +34,7 @@ const LabeledStarRating = props => (
     </div>
   </div>
 );
+};
 
 
 LabeledStarRating.propTypes = {

@@ -30,7 +30,6 @@ const reducer = (state = initialState, action) => {
         onClosePath: action.onClosePath,
         readonly: action.readonly,
         title: action.title,
-        testParam: action.testParam,
         values,
       };
     case UPDATE_COMMENT:

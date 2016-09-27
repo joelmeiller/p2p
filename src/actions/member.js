@@ -48,7 +48,7 @@ const saveMember = (props, index, close) => (dispatch) => {
   }
 
   if (close) {
-    props.router.push(props.onClosePath || `/${props.testParam}`);
+    props.router.push(props.onClosePath);
   } else {
     dispatch(showSelectedMember(index, props));
     props.router.push(`/team/rating/${props.members[index].slug}`);

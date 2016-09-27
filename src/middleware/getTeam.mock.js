@@ -127,7 +127,6 @@ const data = {
       criterias: [{
         id: '123123125',
         label: 'Bringt sich selber ins Team ein',
-        rating: 5,
       }],
     }, {
       id: '234234236',

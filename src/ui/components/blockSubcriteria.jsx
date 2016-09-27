@@ -14,17 +14,17 @@ const BlockSubcriteria = props => (
         />
       </div>
     </div>
-    {(() => (props.criterias ? props.criterias.map(criteria =>
+    {(() => (props.criterias ? props.criterias.map(criteria => (
       <div className="row" key={criteria.id}>
         <div className="col-xs-12">
           <LabeledStarRating
-            value={criteria.rating ? criteria.rating : 0}
+            value={criteria.rating || 0}
             onRatingChanged={props.onRatingChanged}
             readonly={props.readonly}
             {...criteria}
           />
         </div>
-      </div>
+      </div>)
     ) : undefined))()}
   </div>
 );
