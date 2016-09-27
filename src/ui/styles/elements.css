@@ -1,0 +1,118 @@
+.header2 h2 {
+  font-size: 2em;
+  font-weight: 200;
+  padding: 0px 0px;
+  color: var(--colorSecondary);
+}
+
+.header2 hr {
+  background: var(--colorSecondary);
+  height: 1px;
+  width: 100%;
+}
+
+.dropdown-margin-top {
+  margin-top: -8px;
+  color:#aabbcc;
+}
+
+.progress-margin-top{
+  margin-top: 9px;
+}
+
+.a-margin-top{
+  margin-top: 10px;
+}
+
+/*component labelProgressbarHeader*/
+
+.header2-margin-top {
+  margin-top: -28px;
+}
+
+.label {
+  background-color: #eeeeee;
+  border: 2px solid #666666;
+  width: 600px;
+}
+
+.margin-topAndleft {
+  margin-left: -65px;
+  margin-top: 3px;
+}
+
+/*component H3Input*/
+.h3-padding {
+  padding: 0px;
+}
+
+/*component H3Input*/
+.h3-line-width{
+  width: 800px !important;
+}
+
+/*component Form*/
+.icon-margin-top {
+  margin-top: 4px;
+}
+
+.container {
+  width: 100%;
+}
+
+.dv-star-rating {
+  font-size:2.5rem;
+  color:#555;
+}
+
+.dv-star-rating-star {
+  margin-bottom:0px;
+  margin-right:10px;
+}
+
+.paper {
+  display: inline-block;
+  float: left;
+  margin: 16px 32px 16px 0;
+}
+
+.rightIcon {
+  text-align: center;
+  line-height: 24px;
+}
+
+.nav-icon path {
+  color: #ffffff;
+}
+
+.title-left {
+  float: left;
+  max-width: 60%;
+  margin-right: 30px;
+}
+
+.card.rating {
+  background-color: var(--colorSecondary);
+  margin: 0;
+  padding-left: 10px;
+  padding-top: 10px;
+}
+
+.card.header {
+  background-color: var(--colorSecondary);
+  padding-top: 0,
+}
+
+.star {
+  min-width: 180px;
+}
+.star.small {
+  margin-top: -8px;
+}
+.star.small .dv-star-rating {
+  font-size: 20px !important;
+}
+
+.status {
+  color: var(--colorSecondary);
+}

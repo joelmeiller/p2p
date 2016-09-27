@@ -1,0 +1,70 @@
+:root {
+  --colorPrimary: #333333;
+  --colorPrimaryInverse: #ffffff;
+  --colorSecondary: #00bcd4;
+  --colorWarning: #cc0000;
+  --colorWarningBack: #660000;
+}
+
+/* element styling */
+body {
+  font-family: "RobotoDraft","Roboto",sans-serif;
+  padding: 0px;
+}
+
+/* used in: FinalRating */
+.flex-align-middle {
+  display: flex;
+  align-items: center;
+}
+
+p.bold {
+  font-weight: bold;
+}
+
+p.italic {
+  font-style: italic;
+}
+p.warning {
+  color: var(--colorWarning);
+}
+p .prefix {
+  padding-right: 7px;
+}
+
+h1 {
+  font-size: 4em;
+  font-weight: 200;
+  padding: 0px 0px;
+  color: var(--colorSecondary);
+}
+
+h2 {
+  font-size: 2em;
+  font-weight: 200;
+  padding: 0px 0px;
+  color: #00bcd4;
+}
+
+h3 {
+  font-size: 1.5em;
+  font-weight: 200;
+  padding: 0px 0px;
+  color: #00bcd4;
+}
+
+hr {
+  width:100%;
+  height:1px;
+}
+
+a {
+  font-family: "RobotoDraft","Roboto",sans-serif;
+  color: #00bcd4;
+}
+
+button {
+  border: none;
+  background-color: inherit;
+  margin-top: 10px;
+}
