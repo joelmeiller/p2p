@@ -34,7 +34,8 @@ const MemberRatingPage = props => (
 
 MemberRatingPage.propTypes = {
   rating: React.PropTypes.number,
-  members: React.PropTypes.arrayOf(MemberCard.propTypes).isRequired,
+  members: React.PropTypes.arrayOf(
+    React.PropTypes.shape(MemberCard.propTypes)).isRequired,
 };
 
 export default MemberRatingPage;
