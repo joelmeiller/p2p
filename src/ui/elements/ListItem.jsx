@@ -10,6 +10,7 @@ const ListItem = props => (
     <div className="row">
       <div className="col-xs-8">
         <TextField
+          name={props.id}
           value={props.text}
           fullWidth
           disabled={props.readonly || !props.self}
@@ -19,13 +20,14 @@ const ListItem = props => (
       {(!props.readonly ?
         <div className="col-xs-4">
           <FlatButton
-            onClick={() => props.onEdit()}
+            // onClick={props.onEdit()}
             icon={<FontIcon className="material-icons">edit</FontIcon>}
-            disabled={!props.self}
+            disabled={props.readonly || !props.self}
           />
           <FlatButton
-            onClick={() => props.onDelete()}
+            onClick={props.onDelete}
             icon={<FontIcon className="material-icons">delete</FontIcon>}
+            disabled={props.readonly}
           />
         </div> : undefined)
       }
@@ -34,6 +36,7 @@ const ListItem = props => (
 );
 
 ListItem.propTypes = {
+  id: React.PropTypes.string,
   text: React.PropTypes.string.isRequired,
   self: React.PropTypes.bool,
   readonly: React.PropTypes.bool,

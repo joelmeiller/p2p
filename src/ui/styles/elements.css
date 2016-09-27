@@ -11,6 +11,10 @@
   width: 100%;
 }
 
+.menu {
+  width: 150px;
+}
+
 .dropdown-margin-top {
   margin-top: -8px;
   color:#aabbcc;

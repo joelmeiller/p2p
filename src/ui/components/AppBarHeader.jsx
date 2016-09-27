@@ -7,7 +7,7 @@ import NavIcon from 'material-ui/svg-icons/navigation/menu';
 import FlatButton from 'material-ui/FlatButton';
 
 
-import { default as UserMenu, menuItemProps } from './UserMenu/UserMenu.jsx';
+import { default as UserMenu } from './UserMenu/UserMenu.jsx';
 
 const AppBarHeader = props => (
   <AppBar
@@ -23,7 +23,7 @@ const AppBarHeader = props => (
           <IconButton><NavIcon className="nav-icon" /></IconButton>
         }
       >
-        <UserMenu menuItems={props.menuItems} />
+        <UserMenu menu={props.menu} />
       </IconMenu>
     }
     iconElementRight={
@@ -40,7 +40,7 @@ const AppBarHeader = props => (
 AppBarHeader.propTypes = {
   title: React.PropTypes.string,
   username: React.PropTypes.string,
-  menuItems: React.PropTypes.arrayOf(React.PropTypes.shape(menuItemProps)),
+  menu: React.PropTypes.array,
 };
 
 AppBarHeader.defaultProps = {

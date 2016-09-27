@@ -9,8 +9,8 @@ const data = {
     firstName: 'Johann',
     lastName: 'Misteli',
     role: 'QM',
-    isQM: false,
-    // isFinal: true, // <-- set to show my rating
+    isQM: true,
+    isFinal: false, // <-- set to show my rating
   },
   project: {
     title: 'IP5: P2P Web App',

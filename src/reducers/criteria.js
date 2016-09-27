@@ -1,7 +1,8 @@
 import {
-  RECEIVE_RATING,
-  REQUEST_RATING,
-} from '../actions/myrating.js';
+  RECEIVE_CRITERIA,
+  REQUEST_CRITERIA,
+  DELETE_CRITERIA,
+} from '../actions/criteria.js';
 
 const initialState = {
   members: [],
@@ -12,16 +13,21 @@ const initialState = {
 const reducer = (state = initialState, action) => {
   const { type, ...params } = action;
   switch (type) {
-    case REQUEST_RATING:
+    case REQUEST_CRITERIA:
       return {
         ...state,
         isFetching: true,
       };
-    case RECEIVE_RATING:
+    case RECEIVE_CRITERIA:
       return {
         ...state,
         ...params,
         isFetching: false,
+      };
+    case DELETE_CRITERIA:
+      return {
+        ...state,
+        ...params,
       };
     default:
       return state;
