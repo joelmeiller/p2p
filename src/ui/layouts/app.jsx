@@ -102,7 +102,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.props);
     return (<div className="app">
       <AppBarHeader
         title={this.props.title}

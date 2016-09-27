@@ -53,7 +53,6 @@ const mapStateToProps = (globalState, props) => {
   const { members } = globalState.team;
   const { values, selectedIndex, ...other } = globalState.member;
   const selectedMember = members[selectedIndex];
-  selectedMember.rating = other.testParam === 'final' ? 3 : selectedMember.rating;
 
   const categories = selectedMember.categories.map(category => ({
     ...category,

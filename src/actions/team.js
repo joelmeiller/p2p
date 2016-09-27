@@ -28,17 +28,19 @@ export const showMemberEvaluation = (member, props) => (dispatch) => {
   }
 };
 
-export const fetchTeam = asQM => connect(
-  REQUEST_TEAM,
-  RECEIVE_TEAM,
-  (asQM ? getTeamRating : getTeam),
-  data => ({
-    members: data.members,
-  })
-);
+export const fetchTeam = asQM => (dispatch) => {
+  const connectedFetchTeam = connect(
+    REQUEST_TEAM,
+    RECEIVE_TEAM,
+    (asQM ? getTeamRating : getTeam),
+    data => ({
+      members: data.members,
+    })
+  );
+  dispatch(connectedFetchTeam());
+};
 
-export const updateTeamMember = updatedMember => (dispatch, state) => {
-  console.log(state);
+export const updateTeamMember = updatedMember => {
   const members = state.members;
 
   return {

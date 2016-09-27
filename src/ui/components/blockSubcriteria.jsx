@@ -32,10 +32,12 @@ const BlockSubcriteria = props => (
 BlockSubcriteria.propTypes = {
   title: React.PropTypes.string,
   readonly: React.PropTypes.bool,
-  criterias: React.PropTypes.arrayOf({
-    rating: React.PropTypes.number,
-    onRatingChanged: React.PropTypes.func,
-  })
+  criterias: React.PropTypes.arrayOf(
+    React.PropTypes.shape({
+      rating: React.PropTypes.number,
+      onRatingChanged: React.PropTypes.func,
+    })
+  )
   ,
 };
 

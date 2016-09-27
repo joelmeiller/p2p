@@ -28,7 +28,7 @@ const showSelectedMember = (index, props) => ({
   testParam: props.testParam,
 });
 
-const saveMember = props => (dispatch) => {
+const saveMember = (props, index, close) => (dispatch) => {
   if (props.memberUpdated && props.values) {
     const member = props.members[props.selectedIndex];
 
@@ -43,12 +43,11 @@ const saveMember = props => (dispatch) => {
       })
       );
     }
-    member.categories = props.values.categories;
     member.comment = props.values.comment || member.comment;
-    member.progress = calculateProgress(member);
-    console.log(member);
 
     dispatch(updateTeamMember(member));
+
+    if (!close) dispatch(showSelectedMember(index, props));
 
     apiUpdateTeamMember(member, (err, res) => {
       console.log(err, res);
@@ -61,15 +60,15 @@ const saveMember = props => (dispatch) => {
 };
 
 export const selectMember = (index, props) => (dispatch) => {
-  dispatch(saveMember(props));
+  dispatch(saveMember(props, index));
   dispatch(setTitle(`${props.title} ${props.members[index].name}`));
-  dispatch(showSelectedMember(index, props));
 };
 
 export const showMember = (member, props) => (dispatch) => {
   const index = props.members ? props.members.indexOf(member) : -1;
   if (index > -1) {
-    dispatch(selectMember(index, props));
+    dispatch(setTitle(`${props.title} ${props.members[index].name}`));
+    dispatch(showSelectedMember(index, props));
     props.router.push(`/team/rating/${props.members[index].slug}`);
   } else {
     console.log('Member not found');
@@ -77,7 +76,7 @@ export const showMember = (member, props) => (dispatch) => {
 };
 
 export const saveMemberAndClose = props => (dispatch) => {
-  dispatch(saveMember(props.selectedIndex, props));
+  dispatch(saveMember(props, null, true));
   props.router.push(props.onClosePath || `/${props.testParam}`);
 };
 
