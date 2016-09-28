@@ -16,6 +16,12 @@ const data = {
       label: 'Trägt Konflikte unparteiisch und kooperativ aus',
     }],
     selectCriterias: [{
+      id: '123123123',
+      label: 'Weicht konflikten aus',
+    }, {
+      id: '123123124',
+      label: 'Trägt Konflikte unparteiisch und kooperativ aus',
+    }, {
       id: '123123126',
       label: 'Geht aktiv auf Konflikte zu',
     }, {
@@ -30,6 +36,9 @@ const data = {
       label: 'Bringt sich selber ins Team ein',
     }],
     selectCriterias: [{
+      id: '123123125',
+      label: 'Bringt sich selber ins Team ein',
+    }, {
       id: '123123234',
       label: 'Kann ein Team führen',
     }, {
@@ -44,6 +53,7 @@ const data = {
       label: 'Ist neugierig & Interessiert',
       self: true,
     }],
+    selectCriterias: [],
   }],
 };
 

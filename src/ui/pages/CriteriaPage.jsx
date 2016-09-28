@@ -12,6 +12,7 @@ const CriteriaPage = props => (
           readonly={props.readonly}
           onDelete={props.handleDelete}
           onAdd={props.handleAdd}
+          onChange={value => props.handleChange(value, category.id)}
         />
       </div>) : undefined
     }
@@ -23,6 +24,7 @@ CriteriaPage.propTypes = {
   categories: React.PropTypes.array,
   handleDelete: React.PropTypes.func,
   handleAdd: React.PropTypes.func,
+  handleChange: React.PropTypes.func,
 };
 
 export default CriteriaPage;

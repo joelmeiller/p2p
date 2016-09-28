@@ -19,74 +19,70 @@ import AppBarHeader from '../components/AppBarHeader.jsx';
 
 const userMenuTM = props => ([
   {
-    menuItems: [{
-      name: 'Dashboard',
-      icon: <Dashboard className="menu-icon" />,
-      path: '/team/rating',
-      disabled: props.isFinal,
-    }, {
-      name: 'My Ratings',
-      icon: <Assessment className="menu-icon" />,
-      path: '/myrating',
-      disabled: !props.isFinal,
-    }],
+    name: 'Dashboard',
+    icon: <Dashboard className="menu-icon" />,
+    path: '/team/rating',
+    disabled: props.isFinal,
   }, {
-    menuItems: [{
-      name: 'My Account',
-      icon: <AccountBox className="menu-icon" />,
-      path: '/settings',
-    }],
+    name: 'My Ratings',
+    icon: <Assessment className="menu-icon" />,
+    path: '/myrating',
+    disabled: !props.isFinal,
   }, {
-    menuItems: [{
-      name: 'Logout',
-      icon: <ExitToApp className="menu-icon" />,
-    }],
+    divider: true,
+  }, {
+    name: 'My Account',
+    icon: <AccountBox className="menu-icon" />,
+    path: '/settings',
+  }, {
+    divider: true,
+  }, {
+    name: 'Logout',
+    icon: <ExitToApp className="menu-icon" />,
   }]);
 
 const userMenuQM = props => ([
   {
-    menuItems: [{
-      name: 'Dashboard',
-      icon: <Dashboard className="menu-icon" />,
-      path: '/dashboard',
-    }],
+    name: 'Dashboard',
+    icon: <Dashboard className="menu-icon" />,
+    path: '/dashboard',
   }, {
-    menuItems: [{
-      name: 'Evaluation',
-      icon: <Grade className="menu-icon" />,
-      path: '/team/rating',
-      disabled: props.isFinal,
-    }, {
-      name: 'My Ratings',
-      icon: <Assessment className="menu-icon" />,
-      path: '/myrating',
-      disabled: !props.isFinal,
-    }],
+    divider: true,
   }, {
-    menuItems: [{
-      name: 'Teammembers',
-      icon: <Accessibility className="menu-icon" />,
-      path: '/team/edit',
-    }, {
-      name: 'Criteria',
-      icon: <List className="menu-icon" />,
-      path: '/criteria/edit',
-    }, {
-      name: 'Project Settings',
-      icon: <Settings className="menu-icon" />,
-      path: '/project/settings',
-    }],
+    name: 'Evaluation',
+    icon: <Grade className="menu-icon" />,
+    path: '/team/rating',
+    disabled: props.isFinal,
   }, {
-    menuItems: [{
-      name: 'My Account',
-      icon: <AccountBox className="menu-icon" />,
-      path: '/settings',
-    }],
+    name: 'My Ratings',
+    icon: <Assessment className="menu-icon" />,
+    path: '/myrating',
+    disabled: !props.isFinal,
   }, {
-    menuItems: [{
-      name: 'Logout',
-      icon: <ExitToApp className="menu-icon" />,
-    }],
+    divider: true,
+  }, {
+    name: 'Teammembers',
+    icon: <Accessibility className="menu-icon" />,
+    path: '/team/edit',
+  }, {
+    name: 'Criteria',
+    icon: <List className="menu-icon" />,
+    path: '/criteria/edit',
+  }, {
+    name: 'Project Settings',
+    icon: <Settings className="menu-icon" />,
+    path: '/project/settings',
+  }, {
+    divider: true,
+  }, {
+    name: 'My Account',
+    icon: <AccountBox className="menu-icon" />,
+    path: '/settings',
+  }, {
+    divider: true,
+  }, {
+    name: 'Logout',
+    icon: <ExitToApp className="menu-icon" />,
   }]);
 
 class App extends Component {
@@ -99,7 +95,7 @@ class App extends Component {
       <AppBarHeader
         title={this.props.title}
         username={this.props.username}
-        menu={this.props.isQM ? userMenuQM(this.props) : userMenuTM(this.props)}
+        menuItems={this.props.isQM ? userMenuQM(this.props) : userMenuTM(this.props)}
       />
       <main>
         {this.props.children}

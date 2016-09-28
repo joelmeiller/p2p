@@ -23,7 +23,7 @@ const AppBarHeader = props => (
           <IconButton><NavIcon className="nav-icon" /></IconButton>
         }
       >
-        <UserMenu menu={props.menu} />
+        <UserMenu menuItems={props.menuItems} />
       </IconMenu>
     }
     iconElementRight={
@@ -40,7 +40,7 @@ const AppBarHeader = props => (
 AppBarHeader.propTypes = {
   title: React.PropTypes.string,
   username: React.PropTypes.string,
-  menu: React.PropTypes.array,
+  menuItems: React.PropTypes.array,
 };
 
 AppBarHeader.defaultProps = {

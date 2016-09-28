@@ -10,6 +10,7 @@ import CriteriaPage from '../ui/pages/CriteriaPage.jsx';
 import { setTitle } from '../actions/app.js';
 import {
   addCriteria,
+  setCriteria,
   deleteCriteria,
   fetchCriteria,
 } from '../actions/criteria.js';
@@ -34,11 +35,18 @@ CriteriaOverviewComponent.propTypes = {
 const mapStateToProps = (globalState, props) => {
   const { categories, readonly } = globalState.criteria;
 
+  const updatedCategories = categories ? categories.map(category => ({
+    ...category,
+    selectCriterias: category.selectCriterias.filter(selectedCriteria =>
+      !category.criterias.find(criteria =>
+        criteria.id === selectedCriteria.id)),
+  })) : [];
+
   return {
-    title: 'Criteria',
-    categories,
-    readonly,
     ...props,
+    title: 'Criteria',
+    categories: updatedCategories,
+    readonly,
   };
 };
 
@@ -46,7 +54,8 @@ const mapDispatchToProps = dispatch => ({
   initializeTitle: () => dispatch(setTitle('My Ratings')),
   fetchCriteria: () => dispatch(fetchCriteria()),
   handleDelete: criteria => dispatch(deleteCriteria(criteria)),
-  handleAdd: criteria => dispatch(addCriteria(criteria)),
+  handleAdd: categoryId => dispatch(addCriteria(categoryId)),
+  handleChange: (criteriaId, categeoryId) => dispatch(setCriteria(criteriaId, categeoryId)),
 });
 
 const CriteriaOverview = connect(

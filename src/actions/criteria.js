@@ -4,7 +4,9 @@ import { default as apiDeleteCriteria } from '../middleware/criteria/deleteCrite
 import { default as apiAddCriteria } from '../middleware/criteria/addCriteria.mock.js';
 import { default as apiError } from './error.js';
 
+export const ADD_CRITERIA = '/criteria/ADD_CRITERIA';
 export const DELETE_CRITERIA = '/criteria/DELETE_CRITERIA';
+export const SET_CRITERIA = '/criteria/SET_CRITERIA';
 export const REQUEST_CRITERIA = '/criteria/REQUEST_CRITERIA';
 export const RECEIVE_CRITERIA = '/criteria/RECEIVE_CRITERIA';
 
@@ -56,24 +58,40 @@ export const deleteCriteria = criteria => (dispatch, getState) => {
   });
 };
 
-export const addCriteria = values => (dispatch, getState) => {
-  const state = getState();
-  const categories = (state.criteria ? state.criteria.categories : [])
-    .map(category => (category.id === values.categoryId ? {
-      ...category,
-      criterias: (category.criterias ?
-        category.criterias.push(values) :
-        [values]),
-    } : category));
+export const setCriteria = (criteriaId, categoryId) => ({
+  type: SET_CRITERIA,
+  selectedCriteriaId: criteriaId,
+  selectedCategoryId: categoryId,
+});
 
-  apiAddCriteria(values, (err) => {
-    if (err) dispatch(apiError(fetchCriteria));
-  });
+export const addCriteria = addCategoryId => (dispatch, getState) => {
+  const state = getState().criteria;
 
-  dispatch({
-    type: DELETE_CRITERIA,
-    categories,
-  });
+  if (state && state.selectedCategoryId && state.selectedCriteriaId) {
+    const category = state.categories.find(c =>
+      c.id === addCategoryId && c.id === state.selectedCategoryId);
+
+    if (category) {
+      const newCriteriaIndex = category.selectCriterias.findIndex(crit =>
+        crit.id === state.selectedCriteriaId);
+
+      if (newCriteriaIndex > -1) {
+        category.criterias.push(category.selectCriterias[newCriteriaIndex]);
+
+        const categories = state.categories.map(cat =>
+          (cat.id === category.id ?
+          category : cat)
+        );
+
+        apiAddCriteria(state.selectedCriteriaId, (err) => {
+          if (err) dispatch(apiError(fetchCriteria));
+        });
+
+        dispatch({
+          type: ADD_CRITERIA,
+          categories,
+        });
+      }
+    }
+  }
 };
-
-

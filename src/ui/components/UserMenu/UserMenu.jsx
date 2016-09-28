@@ -1,22 +1,23 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 
-import { Menu, MenuItem } from 'material-ui';
+import { Menu, MenuItem, Divider } from 'material-ui';
 
 
 const UserMenu = props => (
   <Menu>
-    {props.menu.map(division => (
-      division.menuItems.map(item => (
+    {props.menuItems.map((menuItem, i) => (
+      menuItem.name ?
         <MenuItem
-          key={item.name}
-          primaryText={item.name}
-          leftIcon={item.icon}
-          disabled={item.disabled}
-          onTouchTap={() => props.router.push(item.path)}
-        />
-      ))
-    ))}
+          key={i}
+          primaryText={menuItem.name}
+          leftIcon={menuItem.icon}
+          disabled={menuItem.disabled}
+          onTouchTap={() => props.router.push(menuItem.path)}
+        /> :
+        <Divider key={i} />
+      )
+    )}
   </Menu>
 );
 
@@ -29,11 +30,7 @@ const menuItemProps = {
 };
 
 UserMenu.propTypes = {
-  menu: React.PropTypes.arrayOf(
-    React.PropTypes.shape({
-      menuItems: React.PropTypes.arrayOf(React.PropTypes.shape(menuItemProps)),
-    })
-  ).isRequired,
+  menuItems: React.PropTypes.array.isRequired,
 };
 
 

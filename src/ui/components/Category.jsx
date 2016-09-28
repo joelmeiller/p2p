@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { FlatButton } from 'material-ui';
+import { RaisedButton } from 'material-ui';
 
 import Dropdown from '../elements/Dropdown.jsx';
 import Header2Line from '../elements/Header/Header2Line.jsx';
@@ -11,6 +11,8 @@ const Category = (props) => {
   const dropdown = (
     <Dropdown
       items={props.selectCriterias}
+      onChange={props.onChange}
+      selectedCriteriaId={props.selectedCriteriaId}
     />
   );
 
@@ -37,34 +39,36 @@ const Category = (props) => {
           </div>
         </div>
       ) : undefined}
-      <div className="row">
-        <div className="col-xs-8">
-          {dropdown}
-        </div>
-        <div className="col-xs-4">
-          <FlatButton
-            onClick={() => {
-              console.log(dropdown);
-              props.onAdd(dropdown.value);
-            }}
-            icon={<span className="button-text">add</span>}
-            disabled={props.readonly}
-          />
-        </div>
-      </div>
+      {(props.selectCriterias && props.selectCriterias.length > 0 ?
+        <div className="row">
+          <div className="col-xs-8">
+            {dropdown}
+          </div>
+          <div className="col-xs-2 push-top-mini">
+            <RaisedButton
+              label="Add"
+              primary
+              onClick={() => props.onAdd(props.id)}
+              disabled={props.readonly}
+            />
+          </div>
+        </div> : undefined)
+      }
     </div>
   );
 };
 
 Category.propTypes = {
+  id: React.PropTypes.string,
   title: React.PropTypes.string,
+  selectedCriteriaId: React.PropTypes.string,
+  onChange: React.PropTypes.func,
   readonly: React.PropTypes.bool,
   criterias: React.PropTypes.arrayOf(
     React.PropTypes.shape({
       id: React.PropTypes.string,
       label: React.PropTypes.string,
       self: React.PropTypes.bool,
-      onDelete: React.PropTypes.func,
     })
   ),
   selectCriterias: React.PropTypes.arrayOf(
@@ -74,6 +78,7 @@ Category.propTypes = {
     })
   ),
   onAdd: React.PropTypes.func,
+  onDelete: React.PropTypes.func,
 };
 
 export default Category;

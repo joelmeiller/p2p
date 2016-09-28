@@ -6,11 +6,14 @@ import MenuItem from 'material-ui/MenuItem';
 
 
 const Dropdown = props => (
-  <DropDownMenu>
-    {(() => (props.items ? props.items.map((item) =>
+  <DropDownMenu
+    onChange={(event, index, value) => props.onChange(value)}
+    value={props.selectedCriteriaId}
+  >
+    {(() => (props.items ? props.items.map((item, i) =>
       <MenuItem
-        key={item.value}
-        value={item.value}
+        key={i}
+        value={item.id}
         primaryText={item.label}
       />) : undefined
     ))()}
@@ -19,13 +22,14 @@ const Dropdown = props => (
 
 
 Dropdown.propTypes = {
+  selectedCriteriaId: React.PropTypes.string,
+  handleChange: React.PropTypes.func,
   items: React.PropTypes.arrayOf(
     React.PropTypes.shape({
       label: React.PropTypes.string,
       value: React.PropTypes.object,
     })
   ),
-  selectedValue: React.PropTypes.object,
 };
 
 export default Dropdown;
