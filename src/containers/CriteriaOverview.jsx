@@ -11,6 +11,8 @@ import { setTitle } from '../actions/app.js';
 import {
   addCriteria,
   setCriteria,
+  setCriteriaValue,
+  saveCriteria,
   deleteCriteria,
   fetchCriteria,
 } from '../actions/criteria.js';
@@ -33,7 +35,7 @@ CriteriaOverviewComponent.propTypes = {
 };
 
 const mapStateToProps = (globalState, props) => {
-  const { categories, readonly } = globalState.criteria;
+  const { categories, readonly, ...other } = globalState.criteria;
 
   const updatedCategories = categories ? categories.map(category => ({
     ...category,
@@ -44,6 +46,7 @@ const mapStateToProps = (globalState, props) => {
 
   return {
     ...props,
+    ...other,
     title: 'Criteria',
     categories: updatedCategories,
     readonly,
@@ -56,6 +59,8 @@ const mapDispatchToProps = dispatch => ({
   handleDelete: criteria => dispatch(deleteCriteria(criteria)),
   handleAdd: categoryId => dispatch(addCriteria(categoryId)),
   handleChange: (criteriaId, categeoryId) => dispatch(setCriteria(criteriaId, categeoryId)),
+  handleValueChanged: (value, criteriaId, categeoryId) => dispatch(setCriteriaValue(value, criteriaId, categeoryId)),
+  handleSave: (criteriaId, categeoryId) => dispatch(saveCriteria(criteriaId, categeoryId)),
 });
 
 const CriteriaOverview = connect(

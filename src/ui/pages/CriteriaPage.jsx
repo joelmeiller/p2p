@@ -13,6 +13,9 @@ const CriteriaPage = props => (
           onDelete={props.handleDelete}
           onAdd={props.handleAdd}
           onChange={value => props.handleChange(value, category.id)}
+          onValueChanged={props.handleValueChanged}
+          onSave={props.handleSave}
+          selectedCriteriaId={(category.id === props.selectedCategoryId) ? props.selectedCriteriaId : undefined}
         />
       </div>) : undefined
     }
@@ -25,6 +28,10 @@ CriteriaPage.propTypes = {
   handleDelete: React.PropTypes.func,
   handleAdd: React.PropTypes.func,
   handleChange: React.PropTypes.func,
+  handleValueChanged: React.PropTypes.func,
+  handleSave: React.PropTypes.func,
+  selectedCategoryId: React.PropTypes.string,
+  selectedCriteriaId: React.PropTypes.string,
 };
 
 export default CriteriaPage;

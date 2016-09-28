@@ -31,9 +31,15 @@ const Category = (props) => {
             <ListItem
               id={criteria.id}
               text={criteria.label}
-              self={criteria.self}
+              editable={criteria.self}
+              edit={<RaisedButton
+                label="Save"
+                primary
+                onClick={() => props.onSave(criteria.id, props.id)}
+                disabled={props.readonly}
+              />}
               readonly={props.readonly}
-              // onEdit={() => props.onEdit(criteria)}
+              onChanged={value => props.onValueChanged(value, criteria.id, props.id)}
               onDelete={() => props.onDelete(criteria)}
             />
           </div>
@@ -63,6 +69,7 @@ Category.propTypes = {
   title: React.PropTypes.string,
   selectedCriteriaId: React.PropTypes.string,
   onChange: React.PropTypes.func,
+  onValueChange: React.PropTypes.func,
   readonly: React.PropTypes.bool,
   criterias: React.PropTypes.arrayOf(
     React.PropTypes.shape({
@@ -79,6 +86,7 @@ Category.propTypes = {
   ),
   onAdd: React.PropTypes.func,
   onDelete: React.PropTypes.func,
+  onSave: React.PropTypes.func,
 };
 
 export default Category;

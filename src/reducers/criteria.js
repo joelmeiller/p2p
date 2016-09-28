@@ -3,6 +3,7 @@ import {
   REQUEST_CRITERIA,
   DELETE_CRITERIA,
   SET_CRITERIA,
+  SET_CRITERIA_VALUE,
   ADD_CRITERIA,
 } from '../actions/criteria.js';
 
@@ -28,6 +29,7 @@ const reducer = (state = initialState, action) => {
       };
     case DELETE_CRITERIA:
     case SET_CRITERIA:
+    case SET_CRITERIA_VALUE:
     case ADD_CRITERIA:
       return {
         ...state,
