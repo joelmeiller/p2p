@@ -50,7 +50,6 @@ const requestData = () => ({
 const receiveData = data => ({
   type: RECEIVE_TEAM,
   members: data.members,
-  fetched: true,
 });
 
 const shouldFetchData = (state) => {

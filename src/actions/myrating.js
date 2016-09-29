@@ -13,7 +13,6 @@ const receiveData = data => ({
   type: RECEIVE_RATING,
   members: data.members,
   rating: data.rating,
-  fetched: true,
 });
 
 const shouldFetchData = (state) => {

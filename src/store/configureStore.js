@@ -5,6 +5,7 @@ import { routerReducer as routing } from 'react-router-redux';
 
 import { default as app } from '../reducers/app.js';
 import { default as criteria } from '../reducers/criteria.js';
+import { default as inbox } from '../reducers/inbox.js';
 import { default as member } from '../reducers/member.js';
 import { default as myrating } from '../reducers/myrating.js';
 import { default as team } from '../reducers/team.js';
@@ -14,6 +15,7 @@ const configureStore = () => {
     combineReducers({
       app,
       criteria,
+      inbox,
       member,
       myrating,
       routing,

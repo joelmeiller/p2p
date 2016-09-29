@@ -7,7 +7,7 @@ import Category from '../components/Category.jsx';
 
 const CriteriaPage = props => (
   <div className="container push-top-small">
-    {props.categories ? props.categories.map(category =>
+    {(props.categories ? props.categories.map(category =>
       <div key={category.id} className="row">
         <Category
           {...category}
@@ -21,7 +21,7 @@ const CriteriaPage = props => (
             props.selectedCriteriaId : undefined
           }
         />
-      </div>) : undefined
+      </div>) : undefined)
     }
     <div className="row push-top-large">
       <div className="col-xs-4 align-right">
@@ -44,7 +44,7 @@ const CriteriaPage = props => (
 
 CriteriaPage.propTypes = {
   readonly: React.PropTypes.bool,
-  categories: React.PropTypes.array,
+  categories: React.PropTypes.arrayOf(React.PropTypes.shape(Category.propTypes)),
   handleDelete: React.PropTypes.func,
   handleAdd: React.PropTypes.func,
   handleChange: React.PropTypes.func,

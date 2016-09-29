@@ -21,7 +21,7 @@ const userMenuTM = props => ([
   {
     name: 'Dashboard',
     icon: <Dashboard className="menu-icon" />,
-    path: '/team/rating',
+    path: '/',
     disabled: props.isFinal,
   }, {
     name: 'My Ratings',
@@ -45,7 +45,7 @@ const userMenuQM = props => ([
   {
     name: 'Dashboard',
     icon: <Dashboard className="menu-icon" />,
-    path: '/dashboard',
+    path: '/',
   }, {
     divider: true,
   }, {

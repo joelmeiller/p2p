@@ -9,6 +9,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 
 import App from './app.jsx';
+import Dashboard from '../../containers/Dashboard.jsx';
 import CriteriaOverview from '../../containers/CriteriaOverview.jsx';
 import MyRatingOverview from '../../containers/MyRatingOverview.jsx';
 import TeammemberOverview from '../../containers/TeammemberOverview.jsx';
@@ -22,7 +23,7 @@ export default (store) => {
       <Provider store={store} >
         <Router history={history} >
           <Route path="/" component={App} >
-            <IndexRoute component={TeammemberOverview} />
+            <IndexRoute component={Dashboard} />
 
             <Route path="/team/rating" component={TeammemberOverview} />
             <Route path="/team/rating/:slug" component={TeammemberEvaluation} />

@@ -14,13 +14,11 @@ export const RECEIVE_CRITERIA = '/criteria/RECEIVE_CRITERIA';
 
 const requestData = () => ({
   type: REQUEST_CRITERIA,
-  fetched: false,
 });
 
 const receiveData = data => ({
   type: RECEIVE_CRITERIA,
   ...data,
-  fetched: true,
 });
 
 const shouldFetchData = (state) => {
