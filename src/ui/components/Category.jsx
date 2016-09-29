@@ -35,7 +35,7 @@ const Category = (props) => {
               edit={<RaisedButton
                 label="Save"
                 primary
-                onClick={() => props.onSave(criteria.id, props.id)}
+                onClick={() => props.onEdit(criteria.id, props.id)}
                 disabled={props.readonly}
               />}
               readonly={props.readonly}
@@ -86,7 +86,7 @@ Category.propTypes = {
   ),
   onAdd: React.PropTypes.func,
   onDelete: React.PropTypes.func,
-  onSave: React.PropTypes.func,
+  onEdit: React.PropTypes.func,
 };
 
 export default Category;

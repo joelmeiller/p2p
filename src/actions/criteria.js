@@ -1,12 +1,11 @@
 // Middleware
 import { default as apiGetCriteria } from '../middleware/getCriteria.mock.js';
-import { default as apiDeleteCriteria } from '../middleware/criteria/deleteCriteria.mock.js';
-import { default as apiAddCriteria } from '../middleware/criteria/addCriteria.mock.js';
-import { default as apiSaveCriteria } from '../middleware/criteria/saveCriteria.mock.js';
+import { default as apiSaveCriterias } from '../middleware/criteria/saveCriteria.mock.js';
 import { default as apiError } from './error.js';
 
 export const ADD_CRITERIA = '/criteria/ADD_CRITERIA';
-export const SAVE_CRITERIA = '/criteria/SAVE_CRITERIA';
+export const EDIT_CRITERIA = '/criteria/EDIT_CRITERIA';
+export const SAVE_CRITERIAS = '/criteria/SAVE_CRITERIAS';
 export const DELETE_CRITERIA = '/criteria/DELETE_CRITERIA';
 export const SET_CRITERIA = '/criteria/SET_CRITERIA';
 export const SET_CRITERIA_VALUE = '/criteria/SET_CRITERIA_VALUE';
@@ -51,10 +50,6 @@ export const deleteCriteria = criteria => (dispatch, getState) => {
         crit.id !== criteria.id) : []),
     }));
 
-  apiDeleteCriteria(criteria.id, (err) => {
-    if (err) dispatch(apiError(fetchCriteria));
-  });
-
   dispatch({
     type: DELETE_CRITERIA,
     categories,
@@ -85,10 +80,6 @@ export const addCriteria = addCategoryId => (dispatch, getState) => {
           (cat.id === category.id ?
           category : cat)
         );
-
-        apiAddCriteria(state.selectedCriteriaId, (err) => {
-          if (err) dispatch(apiError(fetchCriteria));
-        });
 
         dispatch({
           type: ADD_CRITERIA,
@@ -121,13 +112,36 @@ export const saveCriteria = criteriaId => (dispatch, getState) => {
       ),
     }));
 
-    apiSaveCriteria(state.changedValue, criteriaId, (err) => {
+    dispatch({
+      type: EDIT_CRITERIA,
+      categories,
+    });
+  }
+};
+
+export const saveCriterias = props => (dispatch, getState) => {
+  const state = getState().criteria;
+
+  if (state && state.criterias) {
+    apiSaveCriterias(state.selectedCriteriaId, (err) => {
       if (err) dispatch(apiError(fetchCriteria));
     });
 
     dispatch({
-      type: SAVE_CRITERIA,
-      categories,
+      type: SAVE_CRITERIAS,
+      categories: state.categories,
     });
   }
+
+  props.router.push('/');
+};
+
+export const cancel = props => (dispatch) => {
+  dispatch(requestData());
+
+  apiGetCriteria((data) => {
+    dispatch(receiveData(data));
+  });
+
+  props.router.push('/');
 };

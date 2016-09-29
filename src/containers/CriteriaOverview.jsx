@@ -10,11 +10,13 @@ import CriteriaPage from '../ui/pages/CriteriaPage.jsx';
 import { setTitle } from '../actions/app.js';
 import {
   addCriteria,
+  deleteCriteria,
+  editCriteria,
+  fetchCriteria,
+  saveCriterias,
   setCriteria,
   setCriteriaValue,
-  saveCriteria,
-  deleteCriteria,
-  fetchCriteria,
+  cancel,
 } from '../actions/criteria.js';
 
 
@@ -53,14 +55,16 @@ const mapStateToProps = (globalState, props) => {
   };
 };
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch, props) => ({
   initializeTitle: () => dispatch(setTitle('My Ratings')),
   fetchCriteria: () => dispatch(fetchCriteria()),
   handleDelete: criteria => dispatch(deleteCriteria(criteria)),
   handleAdd: categoryId => dispatch(addCriteria(categoryId)),
   handleChange: (criteriaId, categeoryId) => dispatch(setCriteria(criteriaId, categeoryId)),
   handleValueChanged: (value, criteriaId, categeoryId) => dispatch(setCriteriaValue(value, criteriaId, categeoryId)),
-  handleSave: (criteriaId, categeoryId) => dispatch(saveCriteria(criteriaId, categeoryId)),
+  handleEdit: (criteriaId, categeoryId) => dispatch(editCriteria(criteriaId, categeoryId)),
+  handleSave: () => dispatch(saveCriterias(props)),
+  handleCancel: () => dispatch(cancel(props)),
 });
 
 const CriteriaOverview = connect(

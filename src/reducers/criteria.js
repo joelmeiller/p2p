@@ -5,6 +5,7 @@ import {
   SET_CRITERIA,
   SET_CRITERIA_VALUE,
   ADD_CRITERIA,
+  SAVE_CRITERIA,
 } from '../actions/criteria.js';
 
 const initialState = {
@@ -31,6 +32,7 @@ const reducer = (state = initialState, action) => {
     case SET_CRITERIA:
     case SET_CRITERIA_VALUE:
     case ADD_CRITERIA:
+    case SAVE_CRITERIA:
       return {
         ...state,
         ...params,

@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { RaisedButton } from 'material-ui';
+
 import Category from '../components/Category.jsx';
 
 
@@ -14,11 +16,29 @@ const CriteriaPage = props => (
           onAdd={props.handleAdd}
           onChange={value => props.handleChange(value, category.id)}
           onValueChanged={props.handleValueChanged}
-          onSave={props.handleSave}
-          selectedCriteriaId={(category.id === props.selectedCategoryId) ? props.selectedCriteriaId : undefined}
+          onEdit={props.handleEdit}
+          selectedCriteriaId={(category.id === props.selectedCategoryId) ?
+            props.selectedCriteriaId : undefined
+          }
         />
       </div>) : undefined
     }
+    <div className="row push-top-large">
+      <div className="col-xs-4 align-right">
+        <RaisedButton
+          label="Cancel"
+          onClick={props.handleCancel}
+        />
+      </div>
+      <div className="col-xs-4">
+        <RaisedButton
+          label="Save"
+          primary
+          onClick={props.handleSave}
+          disabled={props.readonly}
+        />
+      </div>
+    </div>
   </div>
 );
 
@@ -29,7 +49,9 @@ CriteriaPage.propTypes = {
   handleAdd: React.PropTypes.func,
   handleChange: React.PropTypes.func,
   handleValueChanged: React.PropTypes.func,
+  handleEdit: React.PropTypes.func,
   handleSave: React.PropTypes.func,
+  handleCancel: React.PropTypes.func,
   selectedCategoryId: React.PropTypes.string,
   selectedCriteriaId: React.PropTypes.string,
 };
