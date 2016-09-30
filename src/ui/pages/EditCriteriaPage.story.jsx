@@ -4,10 +4,10 @@ import { storiesOf } from '@kadira/storybook';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-import CriteriaPage from './CriteriaPage.jsx';
+import EditCriteriaPage from './EditCriteriaPage.jsx';
 
 
-storiesOf('pages/CriteriaPage', module)
+storiesOf('pages/EditCriteriaPage', module)
 .addDecorator(story => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>
     {story()}
@@ -15,7 +15,7 @@ storiesOf('pages/CriteriaPage', module)
 ))
 .add('::filled', () => (
   <div className="app flex-center-middle">
-    <CriteriaPage
+    <EditCriteriaPage
       categories={[{
         id: '12345',
         title: 'Konflikt Kompetenzen',
@@ -47,7 +47,7 @@ storiesOf('pages/CriteriaPage', module)
 ))
 .add('::empty', () => (
   <div className="app flex-center-middle">
-    <CriteriaPage
+    <EditCriteriaPage
       categories={[{
         id: '12345',
         title: 'Konflikt Kompetenzen',
@@ -67,7 +67,7 @@ storiesOf('pages/CriteriaPage', module)
 ))
 .add('::readonly', () => (
   <div className="app flex-center-middle">
-    <CriteriaPage
+    <EditCriteriaPage
       readonly
       categories={[{
         id: '12345',

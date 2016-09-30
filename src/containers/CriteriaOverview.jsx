@@ -4,7 +4,7 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
 // Component imports
-import CriteriaPage from '../ui/pages/CriteriaPage.jsx';
+import EditCriteriaPage from '../ui/pages/EditCriteriaPage.jsx';
 
 // Action imports
 import { setTitle } from '../actions/app.js';
@@ -27,7 +27,7 @@ class CriteriaOverviewComponent extends Component {
   }
 
   render() {
-    return (<CriteriaPage {...this.props} />);
+    return (<EditCriteriaPage {...this.props} />);
   }
 }
 

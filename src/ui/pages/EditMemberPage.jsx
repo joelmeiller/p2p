@@ -2,27 +2,24 @@ import React from 'react';
 
 import { RaisedButton } from 'material-ui';
 
-import Category from '../components/Category.jsx';
+import EditableMember from '../components/EditableMember.jsx';
 
 
-const CriteriaPage = props => (
+const EditMemberPage = props => (
   <div className="container push-top-small">
-    {(props.categories ? props.categories.map(category =>
-      <div key={category.id} className="row">
-        <Category
-          {...category}
+    {(props.members.map(member =>
+      <div key={member.id} className="row">
+        <EditableMember
+          {...member}
           readonly={props.readonly}
           onDelete={props.handleDelete}
-          onAdd={props.handleAdd}
-          onChange={value => props.handleChange(value, category.id)}
-          onValueChanged={props.handleValueChanged}
-          onEdit={props.handleEdit}
-          selectedCriteriaId={(category.id === props.selectedCategoryId) ?
-            props.selectedCriteriaId : undefined
-          }
+          onRoleChanged={value => props.handleRoleChanged(value, member.id)}
+          onNameChanged={value => props.handleNameChanged(value, member.id)}
+          onEmailChanged={value => props.handleEmailChanged(value, member.id)}
+          editable={false}
         />
-      </div>) : undefined)
-    }
+      </div>)
+    )}
     <div className="row push-top-large">
       <div className="col-xs-4 align-right">
         <RaisedButton
@@ -42,13 +39,14 @@ const CriteriaPage = props => (
   </div>
 );
 
-CriteriaPage.propTypes = {
+EditMemberPage.propTypes = {
   readonly: React.PropTypes.bool,
-  categories: React.PropTypes.arrayOf(React.PropTypes.shape(Category.propTypes)),
+  members: React.PropTypes.arrayOf(React.PropTypes.shape(EditableMember.propTypes)).isRequired,
   handleDelete: React.PropTypes.func,
   handleAdd: React.PropTypes.func,
-  handleChange: React.PropTypes.func,
-  handleValueChanged: React.PropTypes.func,
+  handleRoleChanged: React.PropTypes.func,
+  handleNameChanged: React.PropTypes.func,
+  handleEmailChanged: React.PropTypes.func,
   handleEdit: React.PropTypes.func,
   handleSave: React.PropTypes.func,
   handleCancel: React.PropTypes.func,
@@ -56,5 +54,5 @@ CriteriaPage.propTypes = {
   selectedCriteriaId: React.PropTypes.string,
 };
 
-export default CriteriaPage;
+export default EditMemberPage;
 

@@ -7,12 +7,16 @@ import Header2Line from '../elements/Header/Header2Line.jsx';
 import ListItem from '../elements/ListItem.jsx';
 
 
-const Category = (props) => {
+const EditableCategory = (props) => {
+  const selectedCriteriaId = props.selectedCriteriaId ||
+    (props.selectCriterias && props.selectCriterias.length > 0 ?
+      props.selectCriterias[0].id : undefined);
+
   const dropdown = (
     <Dropdown
       items={props.selectCriterias}
       onChange={props.onChange}
-      selectedCriteriaId={props.selectedCriteriaId}
+      selectedValue={selectedCriteriaId}
     />
   );
 
@@ -55,7 +59,7 @@ const Category = (props) => {
               label="Add"
               primary
               onClick={() => props.onAdd(props.id)}
-              disabled={props.readonly}
+              disabled={props.readonly || !props.selectedCriteriaId}
             />
           </div>
         </div> : undefined)
@@ -64,7 +68,7 @@ const Category = (props) => {
   );
 };
 
-Category.propTypes = {
+EditableCategory.propTypes = {
   id: React.PropTypes.string,
   title: React.PropTypes.string,
   selectedCriteriaId: React.PropTypes.string,
@@ -89,4 +93,4 @@ Category.propTypes = {
   onEdit: React.PropTypes.func,
 };
 
-export default Category;
+export default EditableCategory;
