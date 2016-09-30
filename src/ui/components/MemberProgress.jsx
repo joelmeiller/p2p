@@ -15,7 +15,7 @@ const MemberProgress = props => (
             warning: props.statusWarning,
           })}
         >
-          {props.name}, {props.role}
+          {props.name}, {props.activeRole}
         </p>
       </div>
       <div className="col-xs-8 progress-margin-top">
@@ -34,7 +34,7 @@ const MemberProgress = props => (
 
 MemberProgress.propTypes = {
   name: React.PropTypes.string,
-  role: React.PropTypes.string,
+  activeRole: React.PropTypes.string,
   progress: React.PropTypes.number,
   statusWarning: React.PropTypes.bool,
 };

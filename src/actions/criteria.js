@@ -95,28 +95,6 @@ export const setCriteriaValue = (value, criteriaId, categoryId) => ({
   changedValue: value,
 });
 
-export const saveCriteria = criteriaId => (dispatch, getState) => {
-  const state = getState().criteria;
-
-  if (state.changedValue && state.changedValue !== '' &&
-    criteriaId === state.changedCriteriaId) {
-    const categories = state.categories.map(cat => ({
-      ...cat,
-      criterias: cat.criterias.map(crit =>
-        (crit.id === criteriaId ? {
-          ...crit,
-          label: state.changedValue,
-        } : crit)
-      ),
-    }));
-
-    dispatch({
-      type: EDIT_CRITERIA,
-      categories,
-    });
-  }
-};
-
 export const saveCriterias = props => (dispatch, getState) => {
   const state = getState().criteria;
 

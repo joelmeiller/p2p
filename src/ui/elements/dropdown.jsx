@@ -1,5 +1,7 @@
 // React Imports
 import React from 'react';
+import TextTruncate from 'react-text-truncate';
+
 
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
@@ -13,8 +15,14 @@ const Dropdown = props => (
     {(() => (props.items ? props.items.map((item, i) =>
       <MenuItem
         key={i}
-        value={item.value || item.id}
-        primaryText={item.label}
+        value={item.id}
+        primaryText={
+          <TextTruncate
+            line={1}
+            truncateText={'...'}
+            text={item.label}
+          />
+        }
       />) : undefined
     ))()}
   </DropDownMenu>
@@ -27,7 +35,7 @@ Dropdown.propTypes = {
   items: React.PropTypes.arrayOf(
     React.PropTypes.shape({
       label: React.PropTypes.string,
-      value: React.PropTypes.object,
+      value: React.PropTypes.string,
     })
   ),
 };

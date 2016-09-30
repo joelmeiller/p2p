@@ -2,10 +2,10 @@ import React from 'react';
 
 import { RaisedButton } from 'material-ui';
 
-import EditableMember from '../components/EditableMember.jsx';
+import EditableMember, { roleType } from '../components/EditableMember.jsx';
 
 
-const EditMemberPage = props => (
+const EditTeamPage = props => (
   <div className="container push-top-small">
     {(props.members.map(member =>
       <div key={member.id} className="row">
@@ -13,10 +13,11 @@ const EditMemberPage = props => (
           {...member}
           readonly={props.readonly}
           onDelete={props.handleDelete}
-          onRoleChanged={value => props.handleRoleChanged(value, member.id)}
-          onNameChanged={value => props.handleNameChanged(value, member.id)}
-          onEmailChanged={value => props.handleEmailChanged(value, member.id)}
+          onRoleChanged={value => props.handleValueChanged({ role: value }, member.id)}
+          onNameChanged={value => props.handleNameChanged({ name: value }, member.id)}
+          onEmailChanged={value => props.handleEmailChanged({ email: value }, member.id)}
           editable={false}
+          selectRoles={props.roles}
         />
       </div>)
     )}
@@ -39,20 +40,16 @@ const EditMemberPage = props => (
   </div>
 );
 
-EditMemberPage.propTypes = {
+EditTeamPage.propTypes = {
   readonly: React.PropTypes.bool,
   members: React.PropTypes.arrayOf(React.PropTypes.shape(EditableMember.propTypes)).isRequired,
+  roles: React.PropTypes.arrayOf(React.PropTypes.shape(roleType)),
   handleDelete: React.PropTypes.func,
   handleAdd: React.PropTypes.func,
-  handleRoleChanged: React.PropTypes.func,
-  handleNameChanged: React.PropTypes.func,
-  handleEmailChanged: React.PropTypes.func,
-  handleEdit: React.PropTypes.func,
+  handleValueChanged: React.PropTypes.func,
   handleSave: React.PropTypes.func,
   handleCancel: React.PropTypes.func,
-  selectedCategoryId: React.PropTypes.string,
-  selectedCriteriaId: React.PropTypes.string,
 };
 
-export default EditMemberPage;
+export default EditTeamPage;
 

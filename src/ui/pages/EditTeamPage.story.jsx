@@ -4,10 +4,10 @@ import { storiesOf } from '@kadira/storybook';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-import EditMemberPage from './EditMemberPage.jsx';
+import EditTeamPage from './EditTeamPage.jsx';
 
 
-storiesOf('pages/EditMemberPage', module)
+storiesOf('pages/EditTeamPage', module)
 .addDecorator(story => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>
     {story()}
@@ -15,14 +15,16 @@ storiesOf('pages/EditMemberPage', module)
 ))
 .add('::filled', () => (
   <div className="app flex-center-middle">
-    <EditMemberPage
+    <EditTeamPage
       members={[{
         id: '1234',
         name: 'Michelle Steiner',
         email: 'michelle.steiner@students.fhnw.ch',
+        self: true,
         roles: [{
           type: 'QM',
           title: 'Quality Manager',
+          active: true,
         }],
       }, {
         id: '1235',
@@ -31,6 +33,7 @@ storiesOf('pages/EditMemberPage', module)
         roles: [{
           type: 'SA',
           title: 'Software Architekt',
+          active: true,
         }],
       }, {
         id: '1236',
@@ -39,6 +42,7 @@ storiesOf('pages/EditMemberPage', module)
         roles: [{
           type: 'PL',
           title: 'Projektleiter',
+          active: true,
         }],
       }, {
         id: '1237',
@@ -47,6 +51,7 @@ storiesOf('pages/EditMemberPage', module)
         roles: [{
           type: 'RE',
           title: 'Requirements Engineer',
+          active: true,
         }],
       }]}
       roles={[{
@@ -70,14 +75,16 @@ storiesOf('pages/EditMemberPage', module)
 ))
 .add('::empty', () => (
   <div className="app flex-center-middle">
-    <EditMemberPage
+    <EditTeamPage
       members={[{
         id: '1234',
         name: 'Michelle Steiner',
         email: 'michelle.steiner@students.fhnw.ch',
+        self: true,
         roles: [{
           type: 'QM',
           title: 'Quality Manager',
+          active: true,
         }],
       }]}
       roles={[{
@@ -101,15 +108,17 @@ storiesOf('pages/EditMemberPage', module)
 ))
 .add('::readonly', () => (
   <div className="app flex-center-middle">
-    <EditMemberPage
+    <EditTeamPage
       readonly
       members={[{
         id: '1234',
         name: 'Michelle Steiner',
         email: 'michelle.steiner@students.fhnw.ch',
+        self: true,
         roles: [{
           type: 'QM',
           title: 'Quality Manager',
+          active: true,
         }],
       }, {
         id: '1235',
@@ -118,6 +127,7 @@ storiesOf('pages/EditMemberPage', module)
         roles: [{
           type: 'SA',
           title: 'Software Architekt',
+          active: true,
         }],
       }, {
         id: '1236',
@@ -126,6 +136,7 @@ storiesOf('pages/EditMemberPage', module)
         roles: [{
           type: 'PL',
           title: 'Projektleiter',
+          active: true,
         }],
       }, {
         id: '1237',
@@ -134,6 +145,7 @@ storiesOf('pages/EditMemberPage', module)
         roles: [{
           type: 'RE',
           title: 'Requirements Engineer',
+          active: true,
         }],
       }]}
       roles={[{

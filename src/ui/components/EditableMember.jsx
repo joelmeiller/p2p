@@ -4,19 +4,21 @@ import { FontIcon, FlatButton, TextField } from 'material-ui';
 
 import Dropdown from '../elements/Dropdown.jsx';
 
+import { getActiveRole } from '../../middleware/utils/activeRole.js';
+
 const EditableMember = (props) => {
   const selectRoles = props.selectRoles ? props.selectRoles.filter(selectRole =>
     !props.roles.find(role => role.type === selectRole.type))
-    .map(role => ({ label: role.title, value: role })) : [];
+    .map(role => ({ label: role.title, value: role.type })) : [];
 
-  const activeRole = props.roles.filter(r => r.active)
+  const activeRole = getActiveRole(props.roles);
   console.log(activeRole);
 
   const dropdown = (
     <Dropdown
       items={selectRoles}
       onChange={props.onRoleChanged}
-      selectedValue={activeRole}
+      selectedValue={activeRole.type}
       disabled={props.readonly || props.self}
     />
   );
@@ -57,7 +59,7 @@ const EditableMember = (props) => {
   );
 };
 
-const roleType = {
+export const roleType = {
   type: React.PropTypes.string.isRequired,
   title: React.PropTypes.string.isRequired,
   active: React.PropTypes.bool,

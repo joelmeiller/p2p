@@ -51,6 +51,7 @@
     "react-star-rating-component": "^1.2.1",
     "react-stars": "^2.1.0",
     "react-tap-event-plugin": "^1.0.0",
+    "react-text-truncate": "^0.8.3",
     "redux": "^3.5.2",
     "redux-form": "^6.0.2",
     "redux-logger": "^2.6.1",

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 // Component imports
 import Inbox from './Inbox.jsx';
 import ProjectOverview from './ProjectOverview.jsx';
-import TeammemberOverview from './TeammemberOverview.jsx';
+import TeamRatingOverview from './TeamRatingOverview.jsx';
 
 
 const Dashboard = props => (
@@ -13,7 +13,7 @@ const Dashboard = props => (
     <Inbox />
     {(props.isCoach ?
       <ProjectOverview /> :
-      <TeammemberOverview />)
+      <TeamRatingOverview />)
     }
   </div>
 );
