@@ -10,7 +10,7 @@ import EditTeamPage from '../ui/pages/EditTeamPage.jsx';
 import { setTitle } from '../actions/app.js';
 import {
   addMember,
-  deleteMember,
+  removeMember,
   fetchTeam,
   saveTeam,
   setNewMemberValue,
@@ -55,7 +55,7 @@ const mapStateToProps = (globalState, props) => {
 const mapDispatchToProps = (dispatch, props) => ({
   initializeTitle: () => dispatch(setTitle('Teammembers')),
   fetchTeam: () => dispatch(fetchTeam()),
-  handleDelete: member => dispatch(deleteMember(member)),
+  handleDelete: memberId => dispatch(removeMember(memberId)),
   handleAdd: student => dispatch(addMember(student)),
   handleRoleChanged: (role, memberId) => dispatch(updateRoleOfMember(role, memberId)),
   handleValueChanged: value => dispatch(setNewMemberValue(value)),

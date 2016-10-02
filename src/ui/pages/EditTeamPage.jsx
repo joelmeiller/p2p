@@ -5,7 +5,6 @@ import React from 'react';
 import { RaisedButton } from 'material-ui';
 
 import EditableMember, { roleType } from '../components/EditableMember.jsx';
-import AddMember from '../components/AddMember.jsx';
 import Header2Line from '../elements/Header/Header2Line.jsx';
 import AutoSuggest from '../elements/AutoSuggest.jsx';
 
@@ -32,7 +31,7 @@ const EditTeamPage = props => (
           <EditableMember
             {...member}
             readonly={props.readonly}
-            onDelete={props.handleDelete}
+            onDelete={() => props.handleDelete(member.id)}
             onRoleChanged={value => props.handleRoleChanged({ roleId: value }, member.id)}
             selectRoles={props.roles}
           />
@@ -47,14 +46,6 @@ const EditTeamPage = props => (
         />
       </div>
     </div>
-    <AddMember
-      onNameChanged={value => props.handleValueChanged({ name: value })}
-      onEmailChanged={value => props.handleValueChanged({ email: value })}
-      onRoleChanged={value => props.handleValueChanged({ roleId: value })}
-      selectRoles={props.roles}
-      selectedRole={props.newMemberRoleId}
-      canAdd={props.canAdd}
-    />
     <div className="row push-top-medium">
       <div className="col-xs-4 align-right">
         <RaisedButton

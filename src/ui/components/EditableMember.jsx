@@ -59,7 +59,7 @@ const EditableMember = (props) => {
       {dropdown}
       <div className="col-xs-1 pull-top-small">
         <FlatButton
-          onClick={() => props.onDelete(props.id)}
+          onClick={props.onDelete}
           icon={<FontIcon className="material-icons">delete</FontIcon>}
           disabled={props.readonly}
         />
@@ -75,7 +75,6 @@ export const roleType = {
 };
 
 EditableMember.propTypes = {
-  id: React.PropTypes.string,
   name: React.PropTypes.string,
   email: React.PropTypes.string,
   roles: React.PropTypes.arrayOf(

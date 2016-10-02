@@ -10,7 +10,7 @@ import EditCriteriaPage from '../ui/pages/EditCriteriaPage.jsx';
 import { setTitle } from '../actions/app.js';
 import {
   addCriteria,
-  deleteCriteria,
+  removeCriteria,
   editCriteria,
   fetchCriteria,
   saveCriterias,
@@ -58,7 +58,7 @@ const mapStateToProps = (globalState, props) => {
 const mapDispatchToProps = (dispatch, props) => ({
   initializeTitle: () => dispatch(setTitle('My Ratings')),
   fetchCriteria: () => dispatch(fetchCriteria()),
-  handleDelete: criteria => dispatch(deleteCriteria(criteria)),
+  handleDelete: criteria => dispatch(removeCriteria(criteria)),
   handleAdd: categoryId => dispatch(addCriteria(categoryId)),
   handleChange: (criteriaId, categeoryId) => dispatch(setCriteria(criteriaId, categeoryId)),
   handleValueChanged: (value, criteriaId, categeoryId) => dispatch(setCriteriaValue(value, criteriaId, categeoryId)),

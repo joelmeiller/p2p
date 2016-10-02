@@ -7,13 +7,14 @@ import { setTitle } from './app.js';
 import { selectMember } from './member.js';
 
 
-export const REQUEST_TEAM = '/team/REQUEST_TEAM';
-export const RECEIVE_TEAM = '/team/RECEIVE_TEAM';
-export const UPDATE_TEAM = '/team/UPDATE_TEAM';
-export const SET_NEW_MEMBER_VALUE = '/team/SET_NEW_MEMBER_VALUE';
-export const INVALIDATE_PROJECT = '/team/INVALIDATE_PROJECT';
-export const ERROR_RESET_TEAMMEMBER = '/team/ERROR_RESET_TEAMMEMBER';
 export const ADD_MEMBER = '/team/ADD_MEMBER';
+export const ERROR_RESET_TEAMMEMBER = '/team/ERROR_RESET_TEAMMEMBER';
+export const INVALIDATE_PROJECT = '/team/INVALIDATE_PROJECT';
+export const RECEIVE_TEAM = '/team/RECEIVE_TEAM';
+export const REMOVE_MEMBER = '/team/REMOVE_MEMBER';
+export const REQUEST_TEAM = '/team/REQUEST_TEAM';
+export const SET_NEW_MEMBER_VALUE = '/team/SET_NEW_MEMBER_VALUE';
+export const UPDATE_TEAM = '/team/UPDATE_TEAM';
 
 
 export const resetMember = member => ({
@@ -86,6 +87,18 @@ export const addMember = student => ({
     roles: [],
   },
 });
+
+export const removeMember = memberId => (dispatch, getState) => {
+  const state = getState().team;
+
+  const members = (state.members || []).filter(member =>
+    member.id !== memberId);
+
+  dispatch({
+    type: REMOVE_MEMBER,
+    members,
+  });
+};
 
 
 const requestData = () => ({

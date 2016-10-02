@@ -1,10 +1,11 @@
 import {
-  RECEIVE_TEAM,
-  REQUEST_TEAM,
-  UPDATE_TEAM,
-  SET_NEW_MEMBER_VALUE,
-  ERROR_RESET_TEAMMEMBER,
   ADD_MEMBER,
+  ERROR_RESET_TEAMMEMBER,
+  RECEIVE_TEAM,
+  REMOVE_MEMBER,
+  REQUEST_TEAM,
+  SET_NEW_MEMBER_VALUE,
+  UPDATE_TEAM,
 } from '../actions/team.js';
 
 const initialState = {
@@ -34,6 +35,7 @@ const reducer = (state = initialState, action) => {
         isFetching: false,
       };
     case UPDATE_TEAM:
+    case REMOVE_MEMBER:
     case SET_NEW_MEMBER_VALUE:
       return {
         ...state,
