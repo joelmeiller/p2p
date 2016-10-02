@@ -98,8 +98,8 @@ export const setCriteriaValue = (value, criteriaId, categoryId) => ({
 export const saveCriterias = props => (dispatch, getState) => {
   const state = getState().criteria;
 
-  if (state.criterias) {
-    apiSaveCriterias(state.selectedCriteriaId, (err) => {
+  if (state.categories) {
+    apiSaveCriterias(state.categories, (err) => {
       if (err) dispatch(apiError(fetchCriteria));
     });
 

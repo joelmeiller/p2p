@@ -1,6 +1,7 @@
 // Middleware
-import { default as getTeam } from '../middleware/getTeam.mock.js';
-// import { default as getTeamRating } from '../middleware/getTeamRating.mock.js';
+import { default as apiGetTeam } from '../middleware/getTeam.mock.js';
+import { default as apiSaveTeam } from '../middleware/team/saveTeam.mock.js';
+import { default as apiError } from './error.js';
 
 // Actions
 import { setTitle } from './app.js';
@@ -8,19 +9,40 @@ import { selectMember } from './member.js';
 
 
 export const ADD_MEMBER = '/team/ADD_MEMBER';
-export const ERROR_RESET_TEAMMEMBER = '/team/ERROR_RESET_TEAMMEMBER';
 export const INVALIDATE_PROJECT = '/team/INVALIDATE_PROJECT';
 export const RECEIVE_TEAM = '/team/RECEIVE_TEAM';
 export const REMOVE_MEMBER = '/team/REMOVE_MEMBER';
 export const REQUEST_TEAM = '/team/REQUEST_TEAM';
 export const SET_NEW_MEMBER_VALUE = '/team/SET_NEW_MEMBER_VALUE';
 export const UPDATE_TEAM = '/team/UPDATE_TEAM';
+export const SAVE_TEAM = '/team/SAVE_TEAM';
 
-
-export const resetMember = member => ({
-  type: ERROR_RESET_TEAMMEMBER,
-  member,
+const requestData = () => ({
+  type: REQUEST_TEAM,
 });
+
+const receiveData = data => ({
+  type: RECEIVE_TEAM,
+  members: data.members,
+  roles: data.roles,
+});
+
+const shouldFetchData = (state) => {
+  if (!state.team || state.relaod) {
+    return true;
+  }
+  return !state.team.isFetching && !state.team.fetched;
+};
+
+export const fetchTeam = () => (dispatch, getState) => {
+  if (shouldFetchData(getState())) {
+    dispatch(requestData());
+
+    apiGetTeam((data) => {
+      dispatch(receiveData(data));
+    });
+  }
+};
 
 
 export const showMemberEvaluation = (member, props) => (dispatch) => {
@@ -85,6 +107,7 @@ export const addMember = student => ({
   member: {
     ...student,
     roles: [],
+    categories: [],
   },
 });
 
@@ -101,30 +124,31 @@ export const removeMember = memberId => (dispatch, getState) => {
 };
 
 
-const requestData = () => ({
-  type: REQUEST_TEAM,
-});
+export const saveTeam = props => (dispatch, getState) => {
+  const state = getState().team;
 
-const receiveData = data => ({
-  type: RECEIVE_TEAM,
-  members: data.members,
-  roles: data.roles,
-});
+  if (state.members) {
+    apiSaveTeam(state.members, (err) => {
+      if (err) dispatch(apiError(fetchTeam));
+    });
 
-const shouldFetchData = (state) => {
-  if (!state.team || state.relaod) {
-    return true;
-  }
-  return !state.team.isFetching && !state.team.fetched;
-};
-
-export const fetchTeam = () => (dispatch, getState) => {
-  if (shouldFetchData(getState())) {
-    dispatch(requestData());
-
-    getTeam((data) => {
-      dispatch(receiveData(data));
+    dispatch({
+      type: SAVE_TEAM,
+      members: state.members,
     });
   }
+
+  props.router.push('/');
 };
+
+export const cancel = props => (dispatch) => {
+  dispatch(requestData());
+
+  apiGetTeam((data) => {
+    dispatch(receiveData(data));
+  });
+
+  props.router.push('/');
+};
+
 

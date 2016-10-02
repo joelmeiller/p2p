@@ -6,6 +6,7 @@ import {
   REQUEST_TEAM,
   SET_NEW_MEMBER_VALUE,
   UPDATE_TEAM,
+  SAVE_TEAM,
 } from '../actions/team.js';
 
 const initialState = {
@@ -34,9 +35,10 @@ const reducer = (state = initialState, action) => {
         addedMember: undefined,
         isFetching: false,
       };
-    case UPDATE_TEAM:
     case REMOVE_MEMBER:
+    case SAVE_TEAM:
     case SET_NEW_MEMBER_VALUE:
+    case UPDATE_TEAM:
       return {
         ...state,
         ...params,

@@ -2,7 +2,7 @@
 import fetch from 'isomorphic-fetch';
 
 
-export const saveCriteria = (values, callback) => {
+export const saveTeam = (values, callback) => {
   fetch('http://localhost:3000/p2p/api/team/member/test', {
     method: 'POST',
     headers: {

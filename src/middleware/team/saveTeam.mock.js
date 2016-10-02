@@ -1,7 +1,7 @@
 // Node imports
 import mock from 'fetch-mock';
 
-// import { saveCriteria as origin } from './saveCriteria.js';
+// import { saveTeam as origin } from './saveTeam.js';
 
 export const response = {
   status: 'OK',
@@ -12,7 +12,7 @@ export const response = {
 export default (values, callback) => {
   // Patch the fetch() global to always return the same value for GET
   // requests to all URLs.
-  mock.get('http://localhost:3000/p2p/api/team/categories/save', response);
+  mock.get('http://localhost:3000/p2p/api/team/members/save', response);
 
   // origin(member, callback);
 
