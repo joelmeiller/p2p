@@ -1,89 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import Accessibility from 'material-ui/svg-icons/action/accessibility';
-import AccountBox from 'material-ui/svg-icons/action/account-box';
-import Assessment from 'material-ui/svg-icons/action/assessment';
-import Dashboard from 'material-ui/svg-icons/action/dashboard';
-import ExitToApp from 'material-ui/svg-icons/action/exit-to-app';
-import Grade from 'material-ui/svg-icons/action/grade';
-import List from 'material-ui/svg-icons/action/list';
-import Settings from 'material-ui/svg-icons/action/settings';
 
 // Actions
 import { fetchUserAndProjectSettings } from '../../actions/app.js';
 
 // Components
 import AppBarHeader from '../components/AppBarHeader.jsx';
-
-
-const userMenuTM = props => ([
-  {
-    name: 'Dashboard',
-    icon: <Dashboard className="menu-icon" />,
-    path: '/',
-    disabled: props.isFinal,
-  }, {
-    name: 'My Ratings',
-    icon: <Assessment className="menu-icon" />,
-    path: '/myrating',
-    disabled: !props.isFinal,
-  }, {
-    divider: true,
-  }, {
-    name: 'My Account',
-    icon: <AccountBox className="menu-icon" />,
-    path: '/settings',
-  }, {
-    divider: true,
-  }, {
-    name: 'Logout',
-    icon: <ExitToApp className="menu-icon" />,
-  }]);
-
-const userMenuQM = props => ([
-  {
-    name: 'Dashboard',
-    icon: <Dashboard className="menu-icon" />,
-    path: '/',
-  }, {
-    divider: true,
-  }, {
-    name: 'Evaluation',
-    icon: <Grade className="menu-icon" />,
-    path: '/team/rating',
-    disabled: props.isFinal,
-  }, {
-    name: 'My Ratings',
-    icon: <Assessment className="menu-icon" />,
-    path: '/myrating',
-    disabled: !props.isFinal,
-  }, {
-    divider: true,
-  }, {
-    name: 'Teammembers',
-    icon: <Accessibility className="menu-icon" />,
-    path: '/team/edit',
-  }, {
-    name: 'Criteria',
-    icon: <List className="menu-icon" />,
-    path: '/criteria/edit',
-  }, {
-    name: 'Project Settings',
-    icon: <Settings className="menu-icon" />,
-    path: '/project/settings',
-  }, {
-    divider: true,
-  }, {
-    name: 'My Account',
-    icon: <AccountBox className="menu-icon" />,
-    path: '/settings',
-  }, {
-    divider: true,
-  }, {
-    name: 'Logout',
-    icon: <ExitToApp className="menu-icon" />,
-  }]);
 
 class App extends Component {
   componentDidMount() {
@@ -93,9 +16,7 @@ class App extends Component {
   render() {
     return (<div className="app">
       <AppBarHeader
-        title={this.props.title}
-        username={this.props.username}
-        menuItems={this.props.isQM ? userMenuQM(this.props) : userMenuTM(this.props)}
+        {...this.props}
       />
       <main>
         {this.props.children}
@@ -105,11 +26,8 @@ class App extends Component {
 }
 
 App.propTypes = {
-  title: React.PropTypes.string,
-  username: React.PropTypes.string,
   children: React.PropTypes.node,
   fetchUserAndProject: React.PropTypes.func,
-  isQM: React.PropTypes.bool,
 };
 
 
