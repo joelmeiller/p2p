@@ -13,7 +13,8 @@ import {
   deleteMember,
   fetchTeam,
   saveTeam,
-  setMemberValue,
+  setNewMemberValue,
+  updateRoleOfMember,
   cancel,
 } from '../actions/team.js';
 
@@ -35,17 +36,19 @@ TeamOverviewComponent.propTypes = {
 };
 
 const mapStateToProps = (globalState, props) => {
-  const { members, roles, readonly, ...other } = globalState.team;
+  const { members, addedMember, newMemberValues, canAdd, ...otherStates } = globalState.team;
 
-  console.log(roles);
+  if (addedMember) {
+    members.push(addedMember);
+  }
 
   return {
     ...props,
-    ...other,
+    ...otherStates,
     title: 'Teammembers',
     members,
-    roles,
-    readonly,
+    newMemberRoleId: newMemberValues.roleId,
+    canAdd,
   };
 };
 
@@ -53,8 +56,9 @@ const mapDispatchToProps = (dispatch, props) => ({
   initializeTitle: () => dispatch(setTitle('Teammembers')),
   fetchTeam: () => dispatch(fetchTeam()),
   handleDelete: member => dispatch(deleteMember(member)),
-  handleAdd: () => dispatch(addMember()),
-  handleValueChanged: (value, memberId) => dispatch(setMemberValue(value, memberId)),
+  handleAdd: student => dispatch(addMember(student)),
+  handleRoleChanged: (role, memberId) => dispatch(updateRoleOfMember(role, memberId)),
+  handleValueChanged: value => dispatch(setNewMemberValue(value)),
   handleSave: () => dispatch(saveTeam(props)),
   handleCancel: () => dispatch(cancel(props)),
 });

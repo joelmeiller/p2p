@@ -21,24 +21,24 @@ storiesOf('components/EditableMember', module)
       name="Michelle Steiner"
       email="michelle.steiner@students.fhnw.ch"
       roles={[{
-        type: 'QM',
+        id: 'QM',
         title: 'Quality Manager',
         active: true,
       }]}
       selectRoles={[{
-        type: 'IM',
+        id: 'IM',
         title: 'Information Manager',
       }, {
-        type: 'QM',
+        id: 'QM',
         title: 'Quality Manager',
       }, {
-        type: 'RE',
+        id: 'RE',
         title: 'Requirements Engineer',
       }, {
-        type: 'SA',
+        id: 'SA',
         title: 'Software Architekt',
       }, {
-        type: 'PL',
+        id: 'PL',
         title: 'Projektleiter',
       }]}
     />
@@ -52,7 +52,7 @@ storiesOf('components/EditableMember', module)
       email="michelle.steiner@students.fhnw.ch"
       readonly
       roles={[{
-        type: 'SA',
+        id: 'SA',
         title: 'Software Architekt',
         active: true,
       }]}
@@ -67,7 +67,7 @@ storiesOf('components/EditableMember', module)
       name="Michelle Steiner"
       email="michelle.steiner@students.fhnw.ch"
       roles={[{
-        type: 'QM',
+        id: 'QM',
         title: 'Quality Manager',
         active: true,
       }]}
@@ -82,11 +82,11 @@ storiesOf('components/EditableMember', module)
       email="michelle.steiner@students.fhnw.ch"
       readonly
       roles={[{
-        type: 'SA',
+        id: 'SA',
         title: 'Software Architekt',
         active: true,
       }, {
-        type: 'RE',
+        id: 'RE',
         title: 'Requirements Engineer',
       }]}
     />

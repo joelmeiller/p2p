@@ -12,6 +12,7 @@ const EditableCategory = (props) => {
     (props.selectCriterias && props.selectCriterias.length > 0 ?
       props.selectCriterias[0].id : undefined);
 
+  console.log(props.selectCriterias);
   const dropdown = (
     <Dropdown
       items={props.selectCriterias}
@@ -49,7 +50,7 @@ const EditableCategory = (props) => {
           </div>
         </div>
       ) : undefined}
-      {(props.selectCriterias && props.selectCriterias.length > 0 ?
+      {(props.selectCriterias && props.selectCriterias.length > 0 && !props.readonly ?
         <div className="row">
           <div className="col-xs-8">
             {dropdown}

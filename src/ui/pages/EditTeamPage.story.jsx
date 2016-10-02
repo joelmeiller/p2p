@@ -22,7 +22,7 @@ storiesOf('pages/EditTeamPage', module)
         email: 'michelle.steiner@students.fhnw.ch',
         self: true,
         roles: [{
-          type: 'QM',
+          id: 'QM',
           title: 'Quality Manager',
           active: true,
         }],
@@ -31,7 +31,7 @@ storiesOf('pages/EditTeamPage', module)
         name: 'Rebekka Burri',
         email: 'rebekka.burri@students.fhnw.ch',
         roles: [{
-          type: 'SA',
+          id: 'SA',
           title: 'Software Architekt',
           active: true,
         }],
@@ -40,7 +40,7 @@ storiesOf('pages/EditTeamPage', module)
         name: 'Martin Muster',
         email: 'martin.muster@students.fhnw.ch',
         roles: [{
-          type: 'PL',
+          id: 'PL',
           title: 'Projektleiter',
           active: true,
         }],
@@ -49,25 +49,25 @@ storiesOf('pages/EditTeamPage', module)
         name: 'Bettina Rust',
         email: 'bettina.rust@students.fhnw.ch',
         roles: [{
-          type: 'RE',
+          id: 'RE',
           title: 'Requirements Engineer',
           active: true,
         }],
       }]}
       roles={[{
-        type: 'IM',
+        id: 'IM',
         title: 'Information Manager',
       }, {
-        type: 'QM',
+        id: 'QM',
         title: 'Quality Manager',
       }, {
-        type: 'RE',
+        id: 'RE',
         title: 'Requirements Engineer',
       }, {
-        type: 'SA',
+        id: 'SA',
         title: 'Software Architekt',
       }, {
-        type: 'PL',
+        id: 'PL',
         title: 'Projektleiter',
       }]}
     />
@@ -82,25 +82,25 @@ storiesOf('pages/EditTeamPage', module)
         email: 'michelle.steiner@students.fhnw.ch',
         self: true,
         roles: [{
-          type: 'QM',
+          id: 'QM',
           title: 'Quality Manager',
           active: true,
         }],
       }]}
       roles={[{
-        type: 'IM',
+        id: 'IM',
         title: 'Information Manager',
       }, {
-        type: 'QM',
+        id: 'QM',
         title: 'Quality Manager',
       }, {
-        type: 'RE',
+        id: 'RE',
         title: 'Requirements Engineer',
       }, {
-        type: 'SA',
+        id: 'SA',
         title: 'Software Architekt',
       }, {
-        type: 'PL',
+        id: 'PL',
         title: 'Projektleiter',
       }]}
     />
@@ -116,7 +116,7 @@ storiesOf('pages/EditTeamPage', module)
         email: 'michelle.steiner@students.fhnw.ch',
         self: true,
         roles: [{
-          type: 'QM',
+          id: 'QM',
           title: 'Quality Manager',
           active: true,
         }],
@@ -125,7 +125,7 @@ storiesOf('pages/EditTeamPage', module)
         name: 'Rebekka Burri',
         email: 'rebekka.burri@students.fhnw.ch',
         roles: [{
-          type: 'SA',
+          id: 'SA',
           title: 'Software Architekt',
           active: true,
         }],
@@ -134,7 +134,7 @@ storiesOf('pages/EditTeamPage', module)
         name: 'Martin Muster',
         email: 'martin.muster@students.fhnw.ch',
         roles: [{
-          type: 'PL',
+          id: 'PL',
           title: 'Projektleiter',
           active: true,
         }],
@@ -143,25 +143,25 @@ storiesOf('pages/EditTeamPage', module)
         name: 'Bettina Rust',
         email: 'bettina.rust@students.fhnw.ch',
         roles: [{
-          type: 'RE',
+          id: 'RE',
           title: 'Requirements Engineer',
           active: true,
         }],
       }]}
       roles={[{
-        type: 'IM',
+        id: 'IM',
         title: 'Information Manager',
       }, {
-        type: 'QM',
+        id: 'QM',
         title: 'Quality Manager',
       }, {
-        type: 'RE',
+        id: 'RE',
         title: 'Requirements Engineer',
       }, {
-        type: 'SA',
+        id: 'SA',
         title: 'Software Architekt',
       }, {
-        type: 'PL',
+        id: 'PL',
         title: 'Projektleiter',
       }]}
     />

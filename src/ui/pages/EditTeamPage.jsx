@@ -1,27 +1,61 @@
+import classNames from 'classnames';
+
 import React from 'react';
 
 import { RaisedButton } from 'material-ui';
 
 import EditableMember, { roleType } from '../components/EditableMember.jsx';
+import AddMember from '../components/AddMember.jsx';
+import Header2Line from '../elements/Header/Header2Line.jsx';
+import AutoSuggest from '../elements/AutoSuggest.jsx';
 
+import { getMembersSuggestions } from '../../middleware/getMemberSuggestions.js';
 
 const EditTeamPage = props => (
   <div className="container push-top-small">
-    {(props.members.map(member =>
-      <div key={member.id} className="row">
-        <EditableMember
-          {...member}
-          readonly={props.readonly}
-          onDelete={props.handleDelete}
-          onRoleChanged={value => props.handleValueChanged({ role: value }, member.id)}
-          onNameChanged={value => props.handleNameChanged({ name: value }, member.id)}
-          onEmailChanged={value => props.handleEmailChanged({ email: value }, member.id)}
-          editable={false}
-          selectRoles={props.roles}
+    <div className="row">
+      <div className="col-xs-12">
+        <Header2Line
+          title="Teammembers"
         />
-      </div>)
-    )}
-    <div className="row push-top-large">
+      </div>
+    </div>
+    <div className="push-top-small">
+      {(props.members.map(member =>
+        <div
+          key={member.id}
+          className={classNames('row', {
+            'push-bottom-small': !member.isQM,
+            'push-bottom-large': member.isQM,
+          })}
+        >
+          <EditableMember
+            {...member}
+            readonly={props.readonly}
+            onDelete={props.handleDelete}
+            onRoleChanged={value => props.handleRoleChanged({ roleId: value }, member.id)}
+            selectRoles={props.roles}
+          />
+        </div>)
+      )}
+    </div>
+    <div className="row push-top-medium">
+      <div className="col-xs-4 align-right">
+        <AutoSuggest
+          middleware={getMembersSuggestions}
+          onSuggestionSelected={props.handleAdd}
+        />
+      </div>
+    </div>
+    <AddMember
+      onNameChanged={value => props.handleValueChanged({ name: value })}
+      onEmailChanged={value => props.handleValueChanged({ email: value })}
+      onRoleChanged={value => props.handleValueChanged({ roleId: value })}
+      selectRoles={props.roles}
+      selectedRole={props.newMemberRoleId}
+      canAdd={props.canAdd}
+    />
+    <div className="row push-top-medium">
       <div className="col-xs-4 align-right">
         <RaisedButton
           label="Cancel"
@@ -42,13 +76,16 @@ const EditTeamPage = props => (
 
 EditTeamPage.propTypes = {
   readonly: React.PropTypes.bool,
+  canAdd: React.PropTypes.bool,
   members: React.PropTypes.arrayOf(React.PropTypes.shape(EditableMember.propTypes)).isRequired,
+  newMemberRoleId: React.PropTypes.string,
   roles: React.PropTypes.arrayOf(React.PropTypes.shape(roleType)),
   handleDelete: React.PropTypes.func,
   handleAdd: React.PropTypes.func,
   handleValueChanged: React.PropTypes.func,
   handleSave: React.PropTypes.func,
   handleCancel: React.PropTypes.func,
+  selectedRole: React.PropTypes.string,
 };
 
 export default EditTeamPage;

@@ -17,12 +17,15 @@
   margin-top: 50px;
 }
 
+
+.push-bottom-small {
+  margin-bottom: 20px;
+}
 .push-bottom-medium {
   margin-bottom: 30px;
 }
-
-.push-bottom-small {
-  margin-bottom: 15px;
+.push-bottom-large {
+  margin-bottom: 50px;
 }
 
 .align-right {
@@ -41,6 +44,9 @@
 }
 .pull-top-small {
   margin-top: -15px;
+}
+.pull-top-medium {
+  margin-top: -25px;
 }
 
 .center {

@@ -1,54 +1,63 @@
 import React from 'react';
+import TextTruncate from 'react-text-truncate';
 
-import { FontIcon, FlatButton, TextField } from 'material-ui';
+import { FontIcon, FlatButton } from 'material-ui';
 
-import Dropdown from '../elements/Dropdown.jsx';
+import { default as Dropdown } from '../elements/Dropdown.jsx';
 
-import { getActiveRole } from '../../middleware/utils/activeRole.js';
+import { getActiveRole, getActiveRoleTitle } from '../../middleware/utils/activeRole.js';
 
 const EditableMember = (props) => {
-  const selectRoles = props.selectRoles ? props.selectRoles.filter(selectRole =>
-    !props.roles.find(role => role.type === selectRole.type))
-    .map(role => ({ label: role.title, value: role.type })) : [];
-
   const activeRole = getActiveRole(props.roles);
-  console.log(activeRole);
 
-  const dropdown = (
-    <Dropdown
-      items={selectRoles}
-      onChange={props.onRoleChanged}
-      selectedValue={activeRole.type}
-      disabled={props.readonly || props.self}
-    />
+  const selectRoles = (activeRole ?
+    (props.selectRoles || []).map(role =>
+      ({ label: role.title, id: role.id })
+    ) : [{
+      id: 'XX',
+      label: 'Select Role',
+      disabled: true,
+    }].concat((props.selectRoles || []).map(role =>
+      ({ label: role.title, id: role.id })
+    ))
+  );
+
+  const dropdown = (props.isQM ?
+    <div className="col-xs-3">
+      <TextTruncate
+        line={1}
+        truncateText={'...'}
+        text={getActiveRoleTitle(props.roles)}
+      />
+    </div> :
+    <div className="col-xs-3 pull-top-small">
+      <Dropdown
+        items={selectRoles}
+        onChange={props.onRoleChanged}
+        selectedValue={activeRole ? activeRole.id : 'XX'}
+        readonly={props.readonly || props.isQM}
+      />
+    </div>
   );
 
   return (
-    <div className="row">
+    <div>
       <div className="col-xs-3">
-        <TextField
-          name={props.id}
-          defaultValue={props.name}
-          onChange={e => props.onNameChanged(e.target.value)}
-          fullWidth
-          disabled={props.readonly || !props.editable}
-          inputStyle={{ color: '#333333' }}
+        <TextTruncate
+          line={1}
+          truncateText={'...'}
+          text={props.name}
         />
       </div>
       <div className="col-xs-4">
-        <TextField
-          name={props.id}
-          defaultValue={props.email}
-          onChange={e => props.onEmailChanged(e.target.value)}
-          fullWidth
-          disabled={props.readonly || !props.editable}
-          inputStyle={{ color: '#333333' }}
+        <TextTruncate
+          line={1}
+          truncateText={'...'}
+          text={props.email}
         />
       </div>
-      <div className="col-xs-3 pull-top-mini">
-        {dropdown}
-      </div>
-      <div className="col-xs-1 push-top-nano">
+      {dropdown}
+      <div className="col-xs-1 pull-top-small">
         <FlatButton
           onClick={() => props.onDelete(props.id)}
           icon={<FontIcon className="material-icons">delete</FontIcon>}
@@ -60,7 +69,7 @@ const EditableMember = (props) => {
 };
 
 export const roleType = {
-  type: React.PropTypes.string.isRequired,
+  id: React.PropTypes.string.isRequired,
   title: React.PropTypes.string.isRequired,
   active: React.PropTypes.bool,
 };
@@ -72,11 +81,8 @@ EditableMember.propTypes = {
   roles: React.PropTypes.arrayOf(
     React.PropTypes.shape(roleType)
   ),
-  editable: React.PropTypes.bool,
-  self: React.PropTypes.bool,
+  isQM: React.PropTypes.bool,
   onRoleChanged: React.PropTypes.func,
-  onNameChanged: React.PropTypes.func,
-  onEmailChanged: React.PropTypes.func,
   readonly: React.PropTypes.bool,
   selectedRole: React.PropTypes.objectOf(
     React.PropTypes.shape(roleType)
@@ -84,7 +90,6 @@ EditableMember.propTypes = {
   selectRoles: React.PropTypes.arrayOf(
     React.PropTypes.shape(roleType)
   ),
-  onAdd: React.PropTypes.func,
   onDelete: React.PropTypes.func,
 };
 

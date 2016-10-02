@@ -4,6 +4,7 @@
   --colorSecondary: #00bcd4;
   --colorWarning: #cc0000;
   --colorWarningBack: #660000;
+  --colorDisabled: rgba(0, 0, 0, 0.298039);
 }
 
 /* element styling */

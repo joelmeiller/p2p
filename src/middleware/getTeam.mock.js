@@ -9,9 +9,9 @@ const data = {
     name: 'Michelle Steiner',
     email: 'michelle.steiner@students.fhnw.ch',
     slug: 'michelle-steiner',
-    self: true,
+    isQM: true,
     roles: [{
-      type: 'QM',
+      id: 'QM',
       title: 'Quality Manager',
       active: true,
     }],
@@ -47,9 +47,10 @@ const data = {
     id: '123325',
     name: 'Rebekka Burri',
     email: 'rebekka.burri@students.fhnw.ch',
+    self: true,
     slug: 'rebekka-burri',
     roles: [{
-      type: 'SA',
+      id: 'SA',
       title: 'Software Architekt',
       active: true,
     }],
@@ -88,7 +89,7 @@ const data = {
     email: 'martin.muster@students.fhnw.ch',
     slug: 'martin-muster',
     roles: [{
-      type: 'PL',
+      id: 'PL',
       title: 'Projektleiter',
       active: true,
     }],
@@ -128,7 +129,7 @@ const data = {
     email: 'bettina.rust@students.fhnw.ch',
     slug: 'bettina-rust',
     roles: [{
-      type: 'RE',
+      id: 'RE',
       title: 'Requirements Engineer',
       active: true,
     }],
@@ -160,19 +161,19 @@ const data = {
     comment: '',
   }],
   roles: [{
-    type: 'IM',
+    id: 'IM',
     title: 'Information Manager',
   }, {
-    type: 'QM',
+    id: 'QM',
     title: 'Quality Manager',
   }, {
-    type: 'RE',
+    id: 'RE',
     title: 'Requirements Engineer',
   }, {
-    type: 'SA',
+    id: 'SA',
     title: 'Software Architekt',
   }, {
-    type: 'PL',
+    id: 'PL',
     title: 'Projektleiter',
   }],
 };
