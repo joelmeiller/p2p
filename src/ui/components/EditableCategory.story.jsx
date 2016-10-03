@@ -5,10 +5,10 @@ import { storiesOf } from '@kadira/storybook';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-import Category from './Category.jsx';
+import EditableCategory from './EditableCategory.jsx';
 
 
-storiesOf('components/Category', module)
+storiesOf('components/EditableCategory', module)
 .addDecorator(story => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>
     {story()}
@@ -16,7 +16,7 @@ storiesOf('components/Category', module)
 ))
 .add('::filled', () => (
   <div className="app flex-center-middle">
-    <Category
+    <EditableCategory
       id="12345"
       title="Teamkompetenzen"
       criterias={[{
@@ -31,7 +31,7 @@ storiesOf('components/Category', module)
 ))
 .add('::readonly', () => (
   <div className="app flex-center-middle">
-    <Category
+    <EditableCategory
       id="12345"
       title="Teamkompetenzen"
       criterias={[{
@@ -48,7 +48,7 @@ storiesOf('components/Category', module)
 ))
 .add('::self', () => (
   <div className="app flex-center-middle">
-    <Category
+    <EditableCategory
       id="12345"
       title="Teamkompetenzen"
       criterias={[{
@@ -65,7 +65,7 @@ storiesOf('components/Category', module)
 ))
 .add('::self & readonly', () => (
   <div className="app flex-center-middle">
-    <Category
+    <EditableCategory
       id="12345"
       title="Teamkompetenzen"
       criterias={[{

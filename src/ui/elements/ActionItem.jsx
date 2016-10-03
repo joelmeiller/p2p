@@ -32,7 +32,7 @@ const ActionItem = props => (
 ActionItem.propTypes = {
   type: React.PropTypes.string.isRequired,
   actionText: React.PropTypes.string,
-  date: React.PropTypes.date,
+  date: React.PropTypes.string,
   status: React.PropTypes.string,
   message: React.PropTypes.string,
   onPerformAction: React.PropTypes.func,

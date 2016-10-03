@@ -3,7 +3,7 @@ import { updateTeamMember as apiUpdateTeamMember } from '../middleware/updateTea
 
 // Actions
 import { setTitle } from './app.js';
-import { updateTeamMember, resetTeamMembers } from './team.js';
+import { updateMember, resetMembers } from './team.js';
 
 // Utils
 import getCriteriaValues from './utils/getCriteriaValues.js';
@@ -37,12 +37,12 @@ const saveMember = (props, index, close) => (dispatch) => {
     }
     member.comment = props.values.comment || member.comment;
 
-    dispatch(updateTeamMember(member));
+    dispatch(updateMember(member));
 
     apiUpdateTeamMember(member, (err, res) => {
       if (err) {
         dispatch(resetPreviousMember(props.member));
-        dispatch(resetTeamMembers(props.member));
+        dispatch(resetMembers(props.member));
       }
     });
   }

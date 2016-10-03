@@ -1,11 +1,11 @@
 import {
+  ADD_CRITERIA,
   RECEIVE_CRITERIA,
+  REMOVE_CRITERIA,
   REQUEST_CRITERIA,
-  DELETE_CRITERIA,
+  SAVE_CRITERIA,
   SET_CRITERIA,
   SET_CRITERIA_VALUE,
-  ADD_CRITERIA,
-  SAVE_CRITERIA,
 } from '../actions/criteria.js';
 
 const initialState = {
@@ -28,11 +28,11 @@ const reducer = (state = initialState, action) => {
         ...params,
         isFetching: false,
       };
-    case DELETE_CRITERIA:
+    case ADD_CRITERIA:
+    case REMOVE_CRITERIA:
+    case SAVE_CRITERIA:
     case SET_CRITERIA:
     case SET_CRITERIA_VALUE:
-    case ADD_CRITERIA:
-    case SAVE_CRITERIA:
       return {
         ...state,
         ...params,

@@ -6,7 +6,7 @@ import { default as apiError } from './error.js';
 export const ADD_CRITERIA = '/criteria/ADD_CRITERIA';
 export const EDIT_CRITERIA = '/criteria/EDIT_CRITERIA';
 export const SAVE_CRITERIAS = '/criteria/SAVE_CRITERIAS';
-export const DELETE_CRITERIA = '/criteria/DELETE_CRITERIA';
+export const REMOVE_CRITERIA = '/criteria/REMOVE_CRITERIA';
 export const SET_CRITERIA = '/criteria/SET_CRITERIA';
 export const SET_CRITERIA_VALUE = '/criteria/SET_CRITERIA_VALUE';
 export const REQUEST_CRITERIA = '/criteria/REQUEST_CRITERIA';
@@ -40,9 +40,9 @@ export const fetchCriteria = () => (dispatch, getState) => {
   }
 };
 
-export const deleteCriteria = criteria => (dispatch, getState) => {
-  const state = getState();
-  const categories = (state.criteria ? state.criteria.categories : [])
+export const removeCriteria = criteria => (dispatch, getState) => {
+  const state = getState().criteria;
+  const categories = (state.categories || [])
     .map(category => ({
       ...category,
       criterias: (category.criterias ? category.criterias.filter(crit =>
@@ -50,7 +50,7 @@ export const deleteCriteria = criteria => (dispatch, getState) => {
     }));
 
   dispatch({
-    type: DELETE_CRITERIA,
+    type: REMOVE_CRITERIA,
     categories,
   });
 };
@@ -96,33 +96,11 @@ export const setCriteriaValue = (value, criteriaId, categoryId) => ({
   changedValue: value,
 });
 
-export const saveCriteria = criteriaId => (dispatch, getState) => {
-  const state = getState().criteria;
-
-  if (state.changedValue && state.changedValue !== '' &&
-    criteriaId === state.changedCriteriaId) {
-    const categories = state.categories.map(cat => ({
-      ...cat,
-      criterias: cat.criterias.map(crit =>
-        (crit.id === criteriaId ? {
-          ...crit,
-          label: state.changedValue,
-        } : crit)
-      ),
-    }));
-
-    dispatch({
-      type: EDIT_CRITERIA,
-      categories,
-    });
-  }
-};
-
 export const saveCriterias = props => (dispatch, getState) => {
   const state = getState().criteria;
 
-  if (state && state.criterias) {
-    apiSaveCriterias(state.selectedCriteriaId, (err) => {
+  if (state.categories) {
+    apiSaveCriterias(state.categories, (err) => {
       if (err) dispatch(apiError(fetchCriteria));
     });
 

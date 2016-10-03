@@ -9,10 +9,10 @@ export const response = {
 };
 
 
-export default (value, criteriaId, callback) => {
+export default (values, callback) => {
   // Patch the fetch() global to always return the same value for GET
   // requests to all URLs.
-  mock.get('http://localhost:3000/p2p/api/team/criteria/test', response);
+  mock.get('http://localhost:3000/p2p/api/team/categories/save', response);
 
   // origin(member, callback);
 

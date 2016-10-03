@@ -2,14 +2,14 @@ import React from 'react';
 
 import { RaisedButton } from 'material-ui';
 
-import Category from '../components/Category.jsx';
+import EditableCategory from '../components/EditableCategory.jsx';
 
 
 const CriteriaPage = props => (
   <div className="container push-top-small">
     {(props.categories ? props.categories.map(category =>
       <div key={category.id} className="row">
-        <Category
+        <EditableCategory
           {...category}
           readonly={props.readonly}
           onDelete={props.handleDelete}
@@ -44,7 +44,7 @@ const CriteriaPage = props => (
 
 CriteriaPage.propTypes = {
   readonly: React.PropTypes.bool,
-  categories: React.PropTypes.arrayOf(React.PropTypes.shape(Category.propTypes)),
+  categories: React.PropTypes.arrayOf(React.PropTypes.shape(EditableCategory.propTypes)),
   handleDelete: React.PropTypes.func,
   handleAdd: React.PropTypes.func,
   handleChange: React.PropTypes.func,

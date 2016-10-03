@@ -10,6 +10,8 @@ import { default as member } from '../reducers/member.js';
 import { default as myrating } from '../reducers/myrating.js';
 import { default as team } from '../reducers/team.js';
 
+import { reducer as autosuggest } from '../ui/elements/AutoSuggest.jsx';
+
 const configureStore = () => {
   const store = createStore(
     combineReducers({
@@ -20,6 +22,7 @@ const configureStore = () => {
       myrating,
       routing,
       team,
+      autosuggest,
     }),
     {},
     compose(

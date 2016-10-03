@@ -120,3 +120,12 @@
 .status {
   color: var(--colorSecondary);
 }
+
+.option-disabled {
+  color: var(--colorDisabled);
+}
+
+.suggestion-text {
+  text-align: left;
+  width: 90%;
+}

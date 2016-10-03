@@ -1,3 +1,6 @@
+.push-top-nano {
+  margin-top: 5px;
+}
 .push-top-mini {
   margin-top: 10px;
 }
@@ -14,12 +17,15 @@
   margin-top: 50px;
 }
 
+
+.push-bottom-small {
+  margin-bottom: 20px;
+}
 .push-bottom-medium {
   margin-bottom: 30px;
 }
-
-.push-bottom-small {
-  margin-bottom: 15px;
+.push-bottom-large {
+  margin-bottom: 50px;
 }
 
 .align-right {
@@ -33,8 +39,14 @@
   align-items: center;
 }
 
+.pull-top-mini {
+  margin-top: -5px;
+}
 .pull-top-small {
   margin-top: -15px;
+}
+.pull-top-medium {
+  margin-top: -25px;
 }
 
 .center {

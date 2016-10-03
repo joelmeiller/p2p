@@ -4,13 +4,13 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
 // Component imports
-import CriteriaPage from '../ui/pages/CriteriaPage.jsx';
+import EditCriteriaPage from '../ui/pages/EditCriteriaPage.jsx';
 
 // Action imports
 import { setTitle } from '../actions/app.js';
 import {
   addCriteria,
-  deleteCriteria,
+  removeCriteria,
   editCriteria,
   fetchCriteria,
   saveCriterias,
@@ -27,7 +27,7 @@ class CriteriaOverviewComponent extends Component {
   }
 
   render() {
-    return (<CriteriaPage {...this.props} />);
+    return (<EditCriteriaPage {...this.props} />);
   }
 }
 
@@ -58,7 +58,7 @@ const mapStateToProps = (globalState, props) => {
 const mapDispatchToProps = (dispatch, props) => ({
   initializeTitle: () => dispatch(setTitle('My Ratings')),
   fetchCriteria: () => dispatch(fetchCriteria()),
-  handleDelete: criteria => dispatch(deleteCriteria(criteria)),
+  handleDelete: criteria => dispatch(removeCriteria(criteria)),
   handleAdd: categoryId => dispatch(addCriteria(categoryId)),
   handleChange: (criteriaId, categeoryId) => dispatch(setCriteria(criteriaId, categeoryId)),
   handleValueChanged: (value, criteriaId, categeoryId) => dispatch(setCriteriaValue(value, criteriaId, categeoryId)),

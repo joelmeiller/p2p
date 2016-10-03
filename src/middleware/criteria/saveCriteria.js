@@ -2,14 +2,14 @@
 import fetch from 'isomorphic-fetch';
 
 
-export const saveCriteria = (value, criteriaId, callback) => {
+export const saveCriteria = (values, callback) => {
   fetch('http://localhost:3000/p2p/api/team/member/test', {
     method: 'POST',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ value, criteriaId }),
+    body: JSON.stringify(values),
   })
   .then(response => callback(response));
 };

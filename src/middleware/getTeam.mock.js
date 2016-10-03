@@ -6,9 +6,15 @@ import { apiEntrypoint, getTeam as origin } from './getTeam.js';
 const data = {
   members: [{
     id: '123324',
-    name: 'Max Muster',
-    slug: 'max-muster',
-    role: 'QM',
+    name: 'Michelle Steiner',
+    email: 'michelle.steiner@students.fhnw.ch',
+    slug: 'michelle-steiner',
+    isQM: true,
+    roles: [{
+      id: 'QM',
+      title: 'Quality Manager',
+      active: true,
+    }],
     categories: [{
       id: '234234234',
       title: 'Konflikt Kompetenzen',
@@ -39,9 +45,15 @@ const data = {
     comment: 'Blabla',
   }, {
     id: '123325',
-    name: 'Joel Meiller',
-    slug: 'joel-meiller',
-    role: 'TM',
+    name: 'Rebekka Burri',
+    email: 'rebekka.burri@students.fhnw.ch',
+    self: true,
+    slug: 'rebekka-burri',
+    roles: [{
+      id: 'SA',
+      title: 'Software Architekt',
+      active: true,
+    }],
     categories: [{
       id: '234234234',
       title: 'Konflikt Kompetenzen',
@@ -73,9 +85,14 @@ const data = {
     comment: 'Könnte sich mehr anstrengen. Aber alles in allem gut gemacht.',
   }, {
     id: '123327',
-    name: 'Andrey Michelle',
-    slug: 'andrey-michelle',
-    role: 'RE',
+    name: 'Martin Muster',
+    email: 'martin.muster@students.fhnw.ch',
+    slug: 'martin-muster',
+    roles: [{
+      id: 'PL',
+      title: 'Projektleiter',
+      active: true,
+    }],
     categories: [{
       id: '234234234',
       title: 'Konflikt Kompetenzen',
@@ -108,9 +125,14 @@ const data = {
     comment: 'Könnte sich mehr anstrengen. Aber alles in allem gut gemacht.',
   }, {
     id: '123328',
-    name: 'Hans Klein',
-    slug: 'hans-klein',
-    role: 'SA',
+    name: 'Bettina Rust',
+    email: 'bettina.rust@students.fhnw.ch',
+    slug: 'bettina-rust',
+    roles: [{
+      id: 'RE',
+      title: 'Requirements Engineer',
+      active: true,
+    }],
     categories: [{
       id: '234234234',
       title: 'Konflikt Kompetenzen',
@@ -137,6 +159,22 @@ const data = {
       }],
     }],
     comment: '',
+  }],
+  roles: [{
+    id: 'IM',
+    title: 'Information Manager',
+  }, {
+    id: 'QM',
+    title: 'Quality Manager',
+  }, {
+    id: 'RE',
+    title: 'Requirements Engineer',
+  }, {
+    id: 'SA',
+    title: 'Software Architekt',
+  }, {
+    id: 'PL',
+    title: 'Projektleiter',
   }],
 };
 
