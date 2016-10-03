@@ -22,10 +22,12 @@ const TabHeader = props => (
 
 TabHeader.propTypes = {
   selectedIndex: React.PropTypes.number,
-  members: React.PropTypes.arrayOf({
-    id: React.PropTypes.string,
-    name: React.PropTypes.string,
-  }).isRequired,
+  members: React.PropTypes.arrayOf(
+    React.PropTypes.shape({
+      id: React.PropTypes.string,
+      name: React.PropTypes.string,
+    })
+  ).isRequired,
   onChange: React.PropTypes.func,
 };
 

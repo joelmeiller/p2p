@@ -15,7 +15,7 @@ import { showMember } from '../actions/member.js';
 class MyRatingOverviewComponent extends Component {
   componentDidMount() {
     this.props.initializeTitle();
-    this.props.fetchMyRating('test');
+    this.props.fetchMyRating();
   }
 
   render() {
@@ -29,7 +29,7 @@ MyRatingOverviewComponent.propTypes = {
 };
 
 const mapStateToProps = (globalState, props) => {
-  const { members, rating, isFetching } = globalState.myrating;
+  const { members, rating } = globalState.myrating;
   const readonly = true;
 
   return {
@@ -38,7 +38,6 @@ const mapStateToProps = (globalState, props) => {
     rating,
     readonly,
     members,
-    isFetching,
     ...props,
   };
 };

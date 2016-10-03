@@ -1,6 +1,5 @@
 import getUserAndProjectSettings from '../middleware/getUserAndProjectSettings.mock.js';
 
-import connect from './utils/connect.js';
 
 export const SET_TITLE = 'app/SET_TITLE';
 export const REQUEST_USER = 'app/REQUEST_USER_AND_PROJECT';
@@ -11,10 +10,31 @@ export const setTitle = title => ({
   title,
 });
 
-export const fetchUserAndProjectSettings = connect(REQUEST_USER, RECEIVE_USER,
-  getUserAndProjectSettings,
-  data => ({
-    project: data.project,
-    user: data.user,
-  })
-);
+const requestData = () => ({
+  type: REQUEST_USER,
+});
+
+const receiveData = data => ({
+  type: RECEIVE_USER,
+  project: data.project,
+  user: data.user,
+  fetched: true,
+});
+
+const shouldFetchData = (state) => {
+  if (!state.app || state.relaod) {
+    return true;
+  }
+  return !state.app.isFetching && !state.app.fetched;
+};
+
+
+export const fetchUserAndProjectSettings = () => (dispatch, getState) => {
+  if (shouldFetchData(getState())) {
+    dispatch(requestData());
+
+    getUserAndProjectSettings((data) => {
+      dispatch(receiveData(data));
+    });
+  }
+};

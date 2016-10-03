@@ -11,43 +11,17 @@ import List from 'material-ui/svg-icons/action/list';
 import Settings from 'material-ui/svg-icons/action/settings';
 
 // Actions
-import { SET_TITLE, RECEIVE_USER, fetchUserAndProjectSettings } from '../../actions/app.js';
+import { fetchUserAndProjectSettings } from '../../actions/app.js';
 
 // Components
 import AppBarHeader from '../components/AppBarHeader.jsx';
 
 
-const initialState = {
-  title: 'Dashboard',
-  user: {},
-  project: {},
-  isFetching: false,
-};
-
-
-export const reducer = (state = initialState, action) => {
-  switch (action.type) {
-    case SET_TITLE:
-      return {
-        ...state,
-        title: action.title,
-      };
-    case RECEIVE_USER:
-      return {
-        ...state,
-        project: action.project,
-        user: action.user,
-      };
-    default:
-      return state;
-  }
-};
-
 const userMenuTM = props => ([
   {
     name: 'Evaluation',
     icon: <Dashboard className="menu-icon" />,
-    path: `/${props.testParam}`,
+    path: '/',
     disabled: props.isFinal,
   }, {
     name: 'My Ratings',
@@ -102,7 +76,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.props);
     return (<div className="app">
       <AppBarHeader
         title={this.props.title}
@@ -129,16 +102,12 @@ const mapStateToProps = (globalState, props) => {
   const { project, user } = globalState.app;
 
   const username = user.role ? `${user.fullName}, ${user.role}` : user.fullName;
-  const isFinal = props.params.test === 'final';
-  const isQM = props.params.test === 'isQM' || user.isQM;
 
   return {
     ...project,
     ...props,
+    ...user,
     username,
-    isQM,
-    isFinal,
-    testParam: props.params.test,
   };
 };
 

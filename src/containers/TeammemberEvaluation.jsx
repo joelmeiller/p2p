@@ -17,6 +17,10 @@ import {
   saveMemberAndClose,
 } from '../actions/member.js';
 
+// utils
+import calculateProgress from '../middleware/utils/calculateProgress.js';
+import getCriteriaValues from '../actions/utils/getCriteriaValues.js';
+
 
 const EvaluationContainer = props => (
   <div>
@@ -27,7 +31,6 @@ const EvaluationContainer = props => (
     />
     <EvaluationPage
       {...props.selectedMember}
-      categories={props.categories}
       readonly={props.readonly}
       onCommentChanged={props.handleCommentChanged}
       onRatingChanged={props.handleRatingChanged}
@@ -42,7 +45,7 @@ EvaluationContainer.propTypes = {
   handleCommentChanged: React.PropTypes.func,
   handleRatingChanged: React.PropTypes.func,
   handleClose: React.PropTypes.func,
-  categories: React.PropTypes.array.isRequired,
+  // categories: React.PropTypes.array.isRequired,
   members: React.PropTypes.array.isRequired,
   selectedIndex: React.PropTypes.number,
   selectedMember: React.PropTypes.object,
@@ -50,33 +53,21 @@ EvaluationContainer.propTypes = {
 };
 
 const mapStateToProps = (globalState, props) => {
-  const { members, values, resetMember, selectedIndex, ...other } = globalState.member;
+  const { members } = globalState.team;
+  const { values, selectedIndex, ...other } = globalState.member;
   const selectedMember = members[selectedIndex];
-  selectedMember.rating = other.testParam === 'final' ? 3 : selectedMember.rating;
 
-  const categories = selectedMember.categories.map(category => ({
-    ...category,
-    criterias: category.criterias.map((criteria) => {
-      const newRating = values.ratings.find(r => r.id === criteria.id);
-      const rating = newRating ? { ...newRating, label: criteria.label } : criteria;
-      return rating;
-    }),
-  }));
+  selectedMember.categories = getCriteriaValues(selectedMember, values);
+  selectedMember.progress = calculateProgress(selectedMember);
 
-  let resetMembers;
-  if (resetMember) {
-    resetMembers = members.map(m => (m.id === resetMember.id ? resetMember : m));
-  }
-
-  console.log(other);
+  console.log(values.ratings, selectedMember.categories);
 
   return {
     ...other,
     ...props,
-    members: resetMembers || members,
+    members,
     selectedIndex,
     selectedMember,
-    categories,
     values,
   };
 };

@@ -27,9 +27,11 @@
     "@kadira/react-storybook-addon-info": "^3.2.1",
     "@kadira/storybook": "^2.18.1",
     "babel-polyfill": "^6.13.0",
+    "chai": "^3.5.0",
     "classnames": "^2.2.5",
     "isomorphic-fetch": "^2.2.1",
     "material-ui": "^0.15.4",
+    "mocha": "^3.1.0",
     "normalize.css": "^4.2.0",
     "postcss-cssnext": "^2.8.0",
     "postcss-import": "^8.1.2",
@@ -46,6 +48,7 @@
     "react-router": "^2.6.1",
     "react-router-redux": "^4.0.5",
     "react-star-rating-component": "^1.2.1",
+    "react-stars": "^2.1.0",
     "react-tap-event-plugin": "^1.0.0",
     "redux": "^3.5.2",
     "redux-form": "^6.0.2",
@@ -58,7 +61,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "storybook": "start-storybook -p 9000 -s ./"
+    "storybook": "start-storybook -p 9000 -s ./",
+    "unittest": "node_modules/.bin/mocha --compilers js:babel-core/register **/*test.js"
   },
   "babel": {
     "presets": [

@@ -1,20 +1,24 @@
 // Middleware
 import { default as getTeam } from '../middleware/getTeam.mock.js';
-import { default as getTeamRating } from '../middleware/getTeamRating.mock.js';
+// import { default as getTeamRating } from '../middleware/getTeamRating.mock.js';
 
 // Actions
 import { setTitle } from '../ui/layouts/app.jsx';
 import { selectMember } from './member.js';
 
+
 export const REQUEST_TEAM = '/team/REQUEST_TEAM';
 export const RECEIVE_TEAM = '/team/RECEIVE_TEAM';
+export const UPDATE_TEAM = '/team/UPDATE_TEAM';
 export const INVALIDATE_PROJECT = '/team/INVALIDATE_PROJECT';
 export const ERROR_RESET_TEAMMEMBER = '/team/ERROR_RESET_TEAMMEMBER';
+
 
 export const resetTeamMember = member => ({
   type: ERROR_RESET_TEAMMEMBER,
   member,
 });
+
 
 export const showMemberEvaluation = (member, props) => (dispatch) => {
   if (member.categories) {
@@ -26,35 +30,43 @@ export const showMemberEvaluation = (member, props) => (dispatch) => {
 };
 
 
-const requestData = asQM => ({
+export const updateTeamMember = updatedMember => (dispatch, getState) => {
+  const state = getState();
+  const members = state.team ? state.team.members : [];
+
+  return {
+    type: UPDATE_TEAM,
+    members: members.map(member =>
+      (member.id === updatedMember.id ? updatedMember : member)
+    ),
+  };
+};
+
+
+const requestData = () => ({
   type: REQUEST_TEAM,
-  asQM,
 });
 
-const receiveData = (asQM, data) => ({
+const receiveData = data => ({
   type: RECEIVE_TEAM,
   members: data.members,
-  asQM,
+  fetched: true,
 });
 
-const fetchData = asQM => (dispatch) => {
-  dispatch(requestData(asQM));
-
-  const getDataMiddleware = asQM ? getTeamRating : getTeam;
-  getDataMiddleware((data) => {
-    dispatch(receiveData(asQM, data));
-  });
-};
-
 const shouldFetchData = (state) => {
-  if (!state.team) {
+  if (!state.team || state.relaod) {
     return true;
   }
-  return !state.team.isFetching;
+  return !state.team.isFetching && !state.team.fetched;
 };
 
-export const fetchTeam = asQM => (dispatch, state) => {
-  if (shouldFetchData(state)) {
-    dispatch(fetchData(asQM));
+export const fetchTeam = () => (dispatch, getState) => {
+  if (shouldFetchData(getState())) {
+    dispatch(requestData());
+
+    getTeam((data) => {
+      dispatch(receiveData(data));
+    });
   }
 };
+

@@ -1,6 +1,7 @@
 import {
   RECEIVE_TEAM,
   REQUEST_TEAM,
+  UPDATE_TEAM,
   ERROR_RESET_TEAMMEMBER,
 } from '../actions/team.js';
 
@@ -11,21 +12,26 @@ const initialState = {
 };
 
 const reducer = (state = initialState, action) => {
-  switch (action.type) {
+  const { type, ...params } = action;
+
+  switch (type) {
     case REQUEST_TEAM:
       return {
         ...state,
-        asQM: action.asQM,
         isFetching: true,
-        didInvalidate: false,
       };
     case RECEIVE_TEAM:
       return {
         ...state,
+        ...params,
         isFetching: false,
-        didInvalidate: false,
-        members: action.members,
-        lastUpdated: action.receivedAt,
+      };
+    case UPDATE_TEAM:
+      return {
+        ...state,
+        members: state.members.map(member =>
+          (member.id === action.member.id ? action.member : member)
+        ),
       };
     case ERROR_RESET_TEAMMEMBER:
       return {
