@@ -5,25 +5,25 @@ import { assert } from 'chai';
 import { getActiveRole, getActiveRoleType, getActiveRoleTitle } from '../src/middleware/utils/activeRole.js';
 
 const rolesWithActive = [{
-  type: 'SA',
+  id: 'SA',
   title: 'Software Architekt',
   active: true,
 }, {
-  type: 'QM',
+  id: 'QM',
   title: 'Quality Manager',
 }, {
-  type: 'RE',
+  id: 'RE',
   title: 'Requirements Engineer',
 }];
 
 const rolesNoActive = [{
-  type: 'SA',
+  id: 'SA',
   title: 'Software Architekt',
 }, {
-  type: 'QM',
+  id: 'QM',
   title: 'Quality Manager',
 }, {
-  type: 'RE',
+  id: 'RE',
   title: 'Requirements Engineer',
 }];
 
@@ -32,7 +32,7 @@ describe('middleware/utils/activeRole', () => {
     it('with active role', () => {
       const activeRole = getActiveRole(rolesWithActive);
       assert.isDefined(activeRole);
-      assert.equal(activeRole.type, rolesWithActive[0].type);
+      assert.equal(activeRole.id, rolesWithActive[0].id);
       assert.equal(activeRole.title, rolesWithActive[0].title);
     });
     it('no active role / empty', () => {
@@ -46,7 +46,7 @@ describe('middleware/utils/activeRole', () => {
 
   describe('getActiveRoleType', () => {
     it('with active role', () => {
-      assert.equal(getActiveRoleType(rolesWithActive), rolesWithActive[0].type);
+      assert.equal(getActiveRoleType(rolesWithActive), rolesWithActive[0].id);
     });
     it('no active role / empty', () => {
       assert.equal(getActiveRoleType(rolesNoActive), '-');
