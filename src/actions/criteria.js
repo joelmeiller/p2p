@@ -12,6 +12,7 @@ export const SET_CRITERIA_VALUE = '/criteria/SET_CRITERIA_VALUE';
 export const REQUEST_CRITERIA = '/criteria/REQUEST_CRITERIA';
 export const RECEIVE_CRITERIA = '/criteria/RECEIVE_CRITERIA';
 
+
 const requestData = () => ({
   type: REQUEST_CRITERIA,
 });
