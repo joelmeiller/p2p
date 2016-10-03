@@ -3,7 +3,7 @@ import { default as getTeam } from '../middleware/getTeam.mock.js';
 // import { default as getTeamRating } from '../middleware/getTeamRating.mock.js';
 
 // Actions
-import { setTitle } from '../ui/layouts/app.jsx';
+import { setTitle } from './app.js';
 import { selectMember } from './member.js';
 
 
@@ -32,14 +32,14 @@ export const showMemberEvaluation = (member, props) => (dispatch) => {
 
 export const updateTeamMember = updatedMember => (dispatch, getState) => {
   const state = getState();
-  const members = state.team ? state.team.members : [];
+  const members = (state.team ? state.team.members : [])
+    .map(member =>
+      (member.id === updatedMember.id ? updatedMember : member));
 
-  return {
+  dispatch({
     type: UPDATE_TEAM,
-    members: members.map(member =>
-      (member.id === updatedMember.id ? updatedMember : member)
-    ),
-  };
+    members,
+  });
 };
 
 
@@ -50,7 +50,6 @@ const requestData = () => ({
 const receiveData = data => ({
   type: RECEIVE_TEAM,
   members: data.members,
-  fetched: true,
 });
 
 const shouldFetchData = (state) => {

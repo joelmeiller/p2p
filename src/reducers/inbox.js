@@ -1,30 +1,31 @@
-// Actions
-import { SET_TITLE, REQUEST_USER, RECEIVE_USER } from '../actions/app.js';
-
+import {
+  RECEIVE_INBOX,
+  REQUEST_INBOX,
+  PERFORM_ACTION,
+} from '../actions/inbox.js';
 
 const initialState = {
-  title: 'Dashboard',
-  user: {},
-  project: {},
-  hasEvaluation: false,
+  actions: [],
   isFetching: false,
   fetched: false,
 };
 
 const reducer = (state = initialState, action) => {
   const { type, ...params } = action;
+
   switch (type) {
-    case SET_TITLE:
-      return {
-        ...state,
-        ...params,
-      };
-    case REQUEST_USER:
+    case REQUEST_INBOX:
       return {
         ...state,
         isFetching: true,
       };
-    case RECEIVE_USER:
+    case RECEIVE_INBOX:
+      return {
+        ...state,
+        ...params,
+        isFetching: false,
+      };
+    case PERFORM_ACTION:
       return {
         ...state,
         ...params,

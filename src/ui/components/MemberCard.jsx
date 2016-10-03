@@ -6,9 +6,9 @@ import React from 'react';
 
 // Material Imports
 import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
+import { FlatButton } from 'material-ui';
 
 import StarsRating from '../elements/StarsRating.jsx';
-import TextButton from '../elements/Button/TextButton.jsx';
 
 
 const MemberCard = props => (
@@ -42,12 +42,11 @@ const MemberCard = props => (
     </CardText>
     <hr style={{ margin: 0 }} />
     <CardActions>
-      <div onClick={props.onReadMore}>
-        <TextButton
-          text="Read More"
-          primary
-        />
-      </div>
+      <FlatButton
+        label="Read More"
+        primary
+        onClick={props.onReadMore}
+      />
     </CardActions>
   </Card>
 );

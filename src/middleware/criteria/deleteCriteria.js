@@ -2,14 +2,14 @@
 import fetch from 'isomorphic-fetch';
 
 
-export const updateTeamMember = (project, member, callback) => {
+export const deleteCriteria = (criteriaId, callback) => {
   fetch('http://localhost:3000/p2p/api/team/member/test', {
-    method: 'POST',
+    method: 'DELETE',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(member),
+    body: JSON.stringify(criteria),
   })
   .then(response => callback(response));
 };

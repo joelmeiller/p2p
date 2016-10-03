@@ -10,7 +10,7 @@ import LabeledStarRatingWithGrade from '../components/LabeledStarRatingWithGrade
 const TeamRatingPage = props => (
   <div className="container push-top-small">
     {(() => (props.members ? props.members.map(member =>
-      <div
+      <button
         key={member.id}
         className="row"
         onClick={() => props.handleSelectMember(member, props)}
@@ -24,7 +24,7 @@ const TeamRatingPage = props => (
             smallStars
           />
         </div>
-      </div>
+      </button>
     ) : undefined))()}
     <div className="row">
       <div className="col-xs-12 push-top-mini">

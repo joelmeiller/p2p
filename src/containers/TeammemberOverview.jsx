@@ -8,7 +8,6 @@ import ProgressPage from '../ui/pages/ProgressPage.jsx';
 import TeamRatingPage from '../ui/pages/TeamRatingPage.jsx';
 
 // Action imports
-import { setTitle } from '../actions/app.js';
 import { fetchTeam } from '../actions/team.js';
 import { showMember } from '../actions/member.js';
 
@@ -18,21 +17,26 @@ import calculateProgress from '../middleware/utils/calculateProgress.js';
 
 class TeammemberOverviewComponent extends Component {
   componentDidMount() {
-    this.props.setTitle();
     this.props.fetchTeam(this.props.isQM);
   }
 
   render() {
-    return (this.props.isQM ?
-      <TeamRatingPage {...this.props} /> :
-      <ProgressPage {...this.props} />);
+    return (this.props.isQM || this.props.isFinal ?
+      <div className="container push-top-small">
+        <h2>Bewertungsübersicht</h2>
+        <TeamRatingPage {...this.props} />
+      </div> :
+      <div className="container push-top-small">
+        <h2>Bewertungsfortschritt</h2>
+        <ProgressPage {...this.props} />
+      </div>);
   }
 }
 
 TeammemberOverviewComponent.propTypes = {
-  setTitle: React.PropTypes.func,
   fetchTeam: React.PropTypes.func,
   isQM: React.PropTypes.bool,
+  isFinal: React.PropTypes.bool,
 };
 
 const mapStateToProps = (globalState, props) => {
@@ -52,7 +56,6 @@ const mapStateToProps = (globalState, props) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  setTitle: () => dispatch(setTitle('Dashboard')),
   fetchTeam: () => dispatch(fetchTeam()),
   handleSelectMember: (member, props) => dispatch(showMember(member, props)),
 });

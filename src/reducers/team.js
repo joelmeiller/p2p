@@ -8,7 +8,7 @@ import {
 const initialState = {
   members: [],
   isFetching: false,
-  didInvalidate: false,
+  fetched: false,
 };
 
 const reducer = (state = initialState, action) => {

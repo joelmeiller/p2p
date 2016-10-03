@@ -19,7 +19,7 @@ import AppBarHeader from '../components/AppBarHeader.jsx';
 
 const userMenuTM = props => ([
   {
-    name: 'Evaluation',
+    name: 'Dashboard',
     icon: <Dashboard className="menu-icon" />,
     path: '/',
     disabled: props.isFinal,
@@ -29,14 +29,17 @@ const userMenuTM = props => ([
     path: '/myrating',
     disabled: !props.isFinal,
   }, {
+    divider: true,
+  }, {
     name: 'My Account',
     icon: <AccountBox className="menu-icon" />,
     path: '/settings',
   }, {
+    divider: true,
+  }, {
     name: 'Logout',
     icon: <ExitToApp className="menu-icon" />,
-  },
-]);
+  }]);
 
 const userMenuQM = props => ([
   {
@@ -44,10 +47,19 @@ const userMenuQM = props => ([
     icon: <Dashboard className="menu-icon" />,
     path: '/',
   }, {
+    divider: true,
+  }, {
     name: 'Evaluation',
     icon: <Grade className="menu-icon" />,
-    path: '/',
+    path: '/team/rating',
+    disabled: props.isFinal,
+  }, {
+    name: 'My Ratings',
+    icon: <Assessment className="menu-icon" />,
+    path: '/myrating',
     disabled: !props.isFinal,
+  }, {
+    divider: true,
   }, {
     name: 'Teammembers',
     icon: <Accessibility className="menu-icon" />,
@@ -61,14 +73,17 @@ const userMenuQM = props => ([
     icon: <Settings className="menu-icon" />,
     path: '/project/settings',
   }, {
+    divider: true,
+  }, {
     name: 'My Account',
     icon: <AccountBox className="menu-icon" />,
     path: '/settings',
   }, {
+    divider: true,
+  }, {
     name: 'Logout',
     icon: <ExitToApp className="menu-icon" />,
-  },
-]);
+  }]);
 
 class App extends Component {
   componentDidMount() {

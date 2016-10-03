@@ -10,6 +10,10 @@
   margin-top: 30px;
 }
 
+.push-top-large {
+  margin-top: 50px;
+}
+
 .push-bottom-medium {
   margin-bottom: 30px;
 }
@@ -18,7 +22,11 @@
   margin-bottom: 15px;
 }
 
-.push-right {
+.align-right {
+  text-align: right;
+}
+
+.push-center {
   display: -webkit-flex; /* Safari */
   -webkit-align-items: center; /* Safari 7.0+ */
   display: flex;

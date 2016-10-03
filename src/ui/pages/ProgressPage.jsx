@@ -6,7 +6,7 @@ const ProgressPage = props => (
   <div className="container push-top-small">
     {props.members ? props.members.map(member =>
       <div key={member.id} className="row">
-        <div
+        <button
           className="col-xs-12"
           onClick={() => props.handleSelectMember(member, props)}
         >
@@ -14,7 +14,7 @@ const ProgressPage = props => (
             {...member}
             progress={props.isFinal ? 100 : member.progress}
           />
-        </div>
+        </button>
       </div>) : undefined
     }
   </div>

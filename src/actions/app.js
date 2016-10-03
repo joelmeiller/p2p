@@ -18,7 +18,6 @@ const receiveData = data => ({
   type: RECEIVE_USER,
   project: data.project,
   user: data.user,
-  fetched: true,
 });
 
 const shouldFetchData = (state) => {
