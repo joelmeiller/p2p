@@ -37,6 +37,7 @@ const AppBarHeader = props => (
   />
 );
 
+
 AppBarHeader.propTypes = {
   title: React.PropTypes.string,
   username: React.PropTypes.string,
