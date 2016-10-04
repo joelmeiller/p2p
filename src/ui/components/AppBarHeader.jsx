@@ -7,7 +7,7 @@ import NavIcon from 'material-ui/svg-icons/navigation/menu';
 import FlatButton from 'material-ui/FlatButton';
 
 
-import { default as UserMenu } from './UserMenu/UserMenu.jsx';
+import { default as UserMenu } from './userMenu/UserMenu.jsx';
 
 const AppBarHeader = props => (
   <AppBar
