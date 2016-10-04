@@ -9,7 +9,9 @@ node_modules/
 # Private keys and local settings
 secrets.json
 
+### Webpack ###
 
+src/main/resources/static/built/
 
 ### Eclipse ###
 
