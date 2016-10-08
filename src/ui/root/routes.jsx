@@ -15,6 +15,7 @@ import TeamOverview from '../../containers/TeamOverview.jsx';
 import MyRatingOverview from '../../containers/MyRatingOverview.jsx';
 import TeamRatingOverview from '../../containers/TeamRatingOverview.jsx';
 import TeammemberEvaluation from '../../containers/TeammemberEvaluation.jsx';
+import ProjectContainer from '../../containers/ProjectContainer.jsx';
 
 
 export default (store) => {
@@ -27,14 +28,17 @@ export default (store) => {
             {/* General routes */}
             <IndexRoute component={Dashboard} />
 
-            {/* TM & QM Reating routes */}
+            {/* TM & QM Rating routes */}
             <Route path="/team/rating" component={TeamRatingOverview} />
             <Route path="/team/rating/:slug" component={TeammemberEvaluation} />
             <Route path="/myrating" component={MyRatingOverview} />
 
-            {/* QM edit routres */}
+            {/* QM edit routes */}
             <Route path="/criteria/edit" component={CriteriaOverview} />
             <Route path="/team/edit" component={TeamOverview} />
+
+            {/* FCoach routes*/}
+            <Route path="/projects/:slug" component={ProjectContainer} />
 
             {/* Test Routes */}
             <Route path="/:test" component={TeamRatingOverview} />
