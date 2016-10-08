@@ -13,30 +13,20 @@ storiesOf('pages/EditProjectPage', module)
     {story()}
   </MuiThemeProvider>
 ))
-.add('::example', () => (
+.add('::edit', () => (
   <div className="app flex-center-middle">
     <EditProjectPage
-      entries={[
+      hintText="Name"
+      hintText2="Coach"
+      selectedValue=""
+      menuItems={[
         {
-          projects:"IP6: Project A",
-          lastUpdate: "12.05.2016",
-          status: "open",
-          teamCoach: "Stefan Vetter"
-        }, {
-          projects:"Project B",
-          lastUpdate: "31.08.2016",
-          status: "open",
-          teamCoach: "Christoph Denzler"
-        }, {
-          projects:"Project C",
-          lastUpdate: "01.09.2016",
-          status: "open",
-          teamCoach: "Stefan Vetter"
-        }, {
-          projects:"Project D",
-          lastUpdate: "01.01.2015",
-          status: "closed",
-          teamCoach: "Markus Oehninger"
+          label: 'Open',
+          value: 'O',
+        },
+        {
+          label: 'Close',
+          value: 'C',
         }
       ]}
       />

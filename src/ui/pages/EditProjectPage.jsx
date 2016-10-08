@@ -6,6 +6,9 @@ import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColu
 import {cyan500} from 'material-ui/styles/colors';
 import FontIcon from 'material-ui/FontIcon';
 import { RaisedButton } from 'material-ui';
+import Header2Line from '../elements/Header/Header2Line.jsx';
+import TextField from 'material-ui/TextField';
+import Dropdown from '../elements/Dropdown.jsx';
 
 
 const EditProjectPage = props => {
@@ -13,41 +16,55 @@ const EditProjectPage = props => {
     <div className="container">
       <div className="row">
         <div className="col-xs-12">
-          <Table>
-            <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
-              <TableRow>
-                <TableHeaderColumn style={{color:cyan500}}>Projects</TableHeaderColumn>
-                <TableHeaderColumn style={{color:cyan500}}>Last Update</TableHeaderColumn>
-                <TableHeaderColumn style={{color:cyan500}}>Status</TableHeaderColumn>
-                <TableHeaderColumn style={{color:cyan500}}>Team Coach</TableHeaderColumn>
-                <TableHeaderColumn style={{color:cyan500}}>Edit</TableHeaderColumn>
-              </TableRow>
-            </TableHeader>
-            <TableBody displayRowCheckbox={false}>
-              {(() => (props.entries ? props.entries.map((entry) =>
-                <TableRow>
-                  <TableRowColumn>{entry.projects}</TableRowColumn>
-                  <TableRowColumn>{entry.lastUpdate}</TableRowColumn>
-                  <TableRowColumn>{entry.status}</TableRowColumn>
-                  <TableRowColumn>{entry.teamCoach}</TableRowColumn>
-                  <TableRowColumn><FontIcon className="material-icons">edit</FontIcon></TableRowColumn>
-                </TableRow>
-              ) : undefined))()}
-            </TableBody>
-          </Table>
+          <Header2Line
+            title="Project: IP: KLAV"
+            />
         </div>
       </div>
       <div className="row">
-        <div className="col-xs-12">
+        <div className="col-xs-4">
+          <TextField
+            hintText={props.hintText}
+            defaultValue={props.defaultValue}
+            fullWidth
+            inputStyle={{ color: '#333333' }}
+            />
+        </div>
+        <div className="col-xs-4">
+          <TextField
+            hintText={props.hintText2}
+            defaultValue={props.defaultValue2}
+            fullWidth
+            inputStyle={{ color: '#333333' }}
+            />
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-xs-4" style={{marginTop:-8}}>
+          <Dropdown
+            menuItems={props.menuItems}
+            selectedValue={props.selectedValue}
+            />
+        </div>
+      </div>
+      <div className="row push-top-medium">
+        <div className="col-xs-4 align-right">
           <RaisedButton
-            label="Add"
+            label="Cancel"
+            onClick={props.handleCancel}
+            />
+        </div>
+        <div className="col-xs-4">
+          <RaisedButton
+            label="Save"
+            primary
+            onClick={props.handleSave}
+            disabled={props.readonly}
             />
         </div>
       </div>
     </div>
   );
 };
-
-//declaration PropTypes
 
 export default EditProjectPage;
