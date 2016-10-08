@@ -1,19 +1,21 @@
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
-import ProjectList from './ProjectList.jsx';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-storiesOf('components/ProjectList', module)
+import EditProjectPage from './EditProjectPage.jsx';
+
+
+storiesOf('pages/EditProjectPage', module)
 .addDecorator(story => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>
     {story()}
   </MuiThemeProvider>
 ))
-.add('::ProjectList', () => (
+.add('::example', () => (
   <div className="app flex-center-middle">
-    <ProjectList
+    <EditProjectPage
       entries={[
         {
           projects:"IP6: Project A",

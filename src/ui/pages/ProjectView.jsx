@@ -1,13 +1,14 @@
+import classNames from 'classnames';
+
 import React from 'react';
 
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 import {cyan500} from 'material-ui/styles/colors';
 import FontIcon from 'material-ui/FontIcon';
+import { RaisedButton } from 'material-ui';
 
-import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-const ProjectList = props => {
+const EditProjectPage = props => {
   return (
     <div className="container">
       <div className="row">
@@ -30,15 +31,23 @@ const ProjectList = props => {
                   <TableRowColumn>{entry.status}</TableRowColumn>
                   <TableRowColumn>{entry.teamCoach}</TableRowColumn>
                   <TableRowColumn><FontIcon className="material-icons">edit</FontIcon></TableRowColumn>
-                  />
-              </TableRow>
-            ) : undefined))()}
-          </TableBody>
-        </Table>
+                </TableRow>
+              ) : undefined))()}
+            </TableBody>
+          </Table>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-xs-12">
+          <RaisedButton
+            label="Add"
+            />
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
 };
 
-export default ProjectList;
+//declaration PropTypes
+
+export default EditProjectPage;
