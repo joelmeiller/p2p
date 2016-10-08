@@ -1,6 +1,7 @@
 // React imports
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
 // Component imports
 import EditProjectPage from '../ui/pages/EditProjectPage.jsx';
@@ -11,7 +12,7 @@ import {
   save,
   cancel,
   fetchProject,
-} from '../actions/projects.js';
+} from '../actions/project.js';
 
 class EditProjectComponent extends Component {
   componentDidMount() {
@@ -50,4 +51,4 @@ const ProjectContainer = connect(
   mapDispatchToProps
 )(EditProjectComponent);
 
-export default ProjectContainer;
+export default withRouter(ProjectContainer);
