@@ -8,8 +8,9 @@ const data = {
     fullName: 'Johann Misteli',
     firstName: 'Johann',
     lastName: 'Misteli',
-    role: 'QM',
-    isQM: true,
+    role: 'Fachjury',
+    isQM: false,
+    isJury: true,
     isFinal: false, // <-- set to show my rating
   },
   project: {

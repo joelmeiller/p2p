@@ -9,7 +9,7 @@ const data = {
     name: 'Michelle Steiner',
     email: 'michelle.steiner@students.fhnw.ch',
     slug: 'michelle-steiner',
-    isQM: true,
+    isQM: false,
     roles: [{
       id: 'QM',
       title: 'Quality Manager',

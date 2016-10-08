@@ -43,6 +43,7 @@ const EditTeamPage = props => (
         <AutoSuggest
           middleware={getMembersSuggestions}
           onSuggestionSelected={props.handleAdd}
+          {...props}
         />
       </div>
     </div>
