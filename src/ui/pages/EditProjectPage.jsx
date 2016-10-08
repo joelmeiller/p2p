@@ -24,6 +24,7 @@ const EditProjectPage = props => (
             defaultValue={props.title}
             fullWidth
             inputStyle={{ color: '#333333' }}
+            onChange={e => props.handleTitleChanged(e.target.value)}
           />
         </div>
         <div className="col-xs-4">
@@ -32,6 +33,7 @@ const EditProjectPage = props => (
             defaultValue={props.coachName}
             fullWidth
             inputStyle={{ color: '#333333' }}
+            onChange={e => props.handleCoachChanged(e.target.value)}
           />
         </div>
       </div>
@@ -64,6 +66,8 @@ const EditProjectPage = props => (
 
 EditProjectPage.propTypes = {
   title: React.PropTypes.string,
+  handleTitleChanged: React.PropTypes.func,
+  handleCoachChanged: React.PropTypes.func,
   coachName: React.PropTypes.string,
   selectStates: React.PropTypes.arrayOf(
     React.PropTypes.shape({

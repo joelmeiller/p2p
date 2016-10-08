@@ -12,6 +12,8 @@ import {
   save,
   cancel,
   fetchProject,
+  setProjectTitle,
+  setCoachName,
 } from '../actions/project.js';
 
 class EditProjectComponent extends Component {
@@ -28,6 +30,7 @@ class EditProjectComponent extends Component {
 EditProjectComponent.propTypes = {
   initializeTitle: React.PropTypes.func,
   fetchProject: React.PropTypes.func,
+
 };
 
 const mapStateToProps = (globalState, props) => {
@@ -44,6 +47,8 @@ const mapDispatchToProps = (dispatch, props) => ({
   fetchProject: () => dispatch(fetchProject()),
   handleSave: () => dispatch(save(props)),
   handleCancel: () => dispatch(cancel(props)),
+  handleTitleChanged: newTitleValue => dispatch(setProjectTitle(newTitleValue)),
+  handleCoachChanged: newCoachValue => dispatch(setCoachName(newCoachValue)),
 });
 
 const ProjectContainer = connect(

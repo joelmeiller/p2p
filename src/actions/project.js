@@ -2,6 +2,9 @@ import getUserAndProjectSettings from '../middleware/getUserAndProjectSettings.m
 
 
 export const CANCEL = 'project/CANCEL';
+export const SAVE = 'project/SAVE';
+export const SET_PROJECT_TITLE = 'project/SET_PROJECT_TITLE';
+export const SET_COACH_NAME = 'project/SET_COACH_NAME';
 export const REQUEST_USER = 'app/REQUEST_USER_AND_PROJECT';
 export const RECEIVE_USER = 'app/RECEIVE_USER_AND_PROJECT';
 
@@ -12,7 +15,30 @@ export const cancel = props => (dispatch) => {
   props.router.push('/');
 };
 
+export const save = props => (dispatch, getState) => {
+  const state = getState().project;
 
+  dispatch({
+    type: SAVE,
+    title: state.title,
+    name: state.name,
+  });
+  props.router.push('/');
+};
+
+export const setProjectTitle = newValue => (dispatch) => {
+  dispatch({
+    type: SET_PROJECT_TITLE,
+    value: newValue,
+  });
+};
+
+export const setCoachName = newValue => (dispatch) => {
+  dispatch({
+    type: SET_COACH_NAME,
+    value: newValue,
+  });
+};
 
 const requestData = () => ({
   type: REQUEST_USER,

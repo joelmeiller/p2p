@@ -2,14 +2,14 @@
 import { default as apiGetProjects } from '../middleware/getProjects.mock.js';
 import { default as apiError } from './error.js';
 
-export const ADD_PROJECT = '/project/ADD_PROJECT';
-export const SHOW_PROJECT = '/project/ADD_PROJECT';
-export const RECEIVE_PROJECTS = '/project/RECEIVE_PROJECTS';
-export const REMOVE_PROJECT = '/project/REMOVE_PROJECT';
-export const REQUEST_PROJECTS = '/project/REQUEST_PROJECTS';
-export const SET_NEW_PROJECT_VALUE = '/project/SET_NEW_PROJECT_VALUE';
-export const UPDATE_PROJECT = '/project/UPDATE_PROJECT';
-export const SAVE_PROJECTS = '/project/SAVE_PROJECTS';
+export const ADD_PROJECT = '/projects/ADD_PROJECT';
+export const SHOW_PROJECT = '/projects/ADD_PROJECT';
+export const RECEIVE_PROJECTS = '/projects/RECEIVE_PROJECTS';
+export const REMOVE_PROJECT = '/projects/REMOVE_PROJECT';
+export const REQUEST_PROJECTS = '/projects/REQUEST_PROJECTS';
+export const SET_NEW_PROJECT_VALUE = '/projects/SET_NEW_PROJECT_VALUE';
+export const UPDATE_PROJECT = '/projects/UPDATE_PROJECT';
+export const SAVE_PROJECTS = '/projects/SAVE_PROJECTS';
 
 const requestData = () => ({
   type: REQUEST_PROJECTS,
@@ -123,5 +123,3 @@ export const cancel = props => (dispatch) => {
 
   props.router.push('/');
 };
-
-
