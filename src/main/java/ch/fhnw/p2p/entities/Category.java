@@ -1,10 +1,17 @@
 package ch.fhnw.p2p.entities;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import ch.fhnw.p2p.entities.Locale.Language;
 import lombok.Data;
 
 /**@author Joël Meiller
@@ -13,55 +20,24 @@ import lombok.Data;
   **/
 @Data
 @Entity
-@Table(name = "tbl-category")
 public class Category {
 
-  // Constants
-  public static enum Type {
-    MEMBER,
-    RATING,
-  }
+	private @Id @GeneratedValue Long id;
+	
+	@ManyToOne
+	@JoinColumn(name="projectId")
+	private Project project;
+	
+	@OneToMany(mappedBy="category")
+	private Set<Criteria> criterias;
+	
+	@OneToMany
+	@JoinColumn(name="localeId")
+	private Set<Locale> title = new HashSet<Locale>();
 
-  public static enum Status {
-    OPEN,
-    READONLY,
-  }
-
-  // Attributes
-  @Id
-  @GeneratedValue
-	private Long id;
-
-  @Enumerated(STRING)
-  private Type type;
-
-	@Enumerated(STRING)
-  private Status status;
-
-  // Attributs that are set only if member type = MEMBER
-  private double rating;
-
-  // Attributs that are set only if member type = RATING
-  private String comment;
-
-
-  // Relations
-  @OneToMany(mappedBy="member")
-  private Set<Criteria> criterias;
-
-  @OneToMany(mappedBy="member")
-  private Set<Role> roles;
-
-
-  // Constructor
 	public Category() {}
 
-	public Cateogry(long id) {
-		this.id = id;
-	}
-
-	public Category(Type type, Set<Criteria> criterias) {
-		this.status = Status.OPEN;
-    this.criterias = criterias;
+	public Category(String text, Language lang) {
+		this.title.add(new Locale (text, lang));
 	}
 }

@@ -1,16 +1,11 @@
 package ch.fhnw.p2p.entities;
 
-import java.util.Set;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
 
 import lombok.Data;
 
@@ -23,7 +18,6 @@ import lombok.Data;
  */
 @Data
 @Entity
-@Table(name = "tbl-role")
 public class Role {
 
 	// Constants
@@ -31,36 +25,38 @@ public class Role {
 		QM, OTHER,
 	}
 
-	public static enum Status {
-		ACTIVE, OLD,
-	}
-
 	// Attributes
-	@Id
-	@GeneratedValue
-	private Long id;
-
+	private @Id @GeneratedValue(strategy=GenerationType.IDENTITY) Long id;
+	
 	@Enumerated(EnumType.STRING)
 	private Type type;
-
-	@Enumerated(EnumType.STRING)
-	private Status status;
 
 	private String shortText;
 	private String longText;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "roles")
-	private Set<Member> members;
+//	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "roles")
+//	private Set<Member> members;
 
 	// Constructor
 	public Role() {
+		this.type = Type.OTHER;
 	}
 
 	public Role(long id) {
 		this.id = id;
+		this.type = Type.OTHER;
 	}
 
-	public Role(Type type) {
-		this.status = Status.OLD;
+	
+	public Role(String longText, String shortText) {
+		this.longText = longText;
+		this.shortText = shortText;
+		this.type = Type.OTHER;
+	}
+	
+	public Role(String longText, String shortText, Type type) {
+		this.shortText = shortText;
+		this.longText = longText;
+		this.type = type;
 	}
 }

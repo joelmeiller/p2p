@@ -6,7 +6,7 @@
 	<groupId>ch.fhnw.p2p</groupId>
 	<artifactId>web-app</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>web-app</name>
 	<description>P2P web app for team evaluation in the FHNW IP projects.</description>
@@ -46,6 +46,11 @@
 	        <artifactId>mysql-connector-java</artifactId>
 	    </dependency>
 		<dependency>
+	        <groupId>com.h2database</groupId>
+	        <artifactId>h2</artifactId>
+	        <scope>test</scope>
+	    </dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
@@ -69,6 +74,7 @@
 				<executions>
 					<execution>
 						<id>install node and npm</id>
+						<phase>package</phase>
 						<goals>
 							<goal>install-node-and-npm</goal>
 						</goals>
@@ -79,6 +85,7 @@
 					</execution>
 					<execution>
 						<id>npm install</id>
+						<phase>package</phase>
 						<goals>
 							<goal>npm</goal>
 						</goals>
@@ -88,6 +95,7 @@
 					</execution>
 					<execution>
 						<id>webpack build</id>
+						<phase>package</phase>
 						<goals>
 							<goal>webpack</goal>
 						</goals>
