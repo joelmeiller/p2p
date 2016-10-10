@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import ch.fhnw.p2p.entities.mixins.Versioning;
 import lombok.Data;
 
 
@@ -18,7 +19,7 @@ import lombok.Data;
  */
 @Data
 @Entity
-public class Role {
+public class Role extends Versioning {
 
 	// Constants
 	public static enum Type {
@@ -31,8 +32,8 @@ public class Role {
 	@Enumerated(EnumType.STRING)
 	private Type type;
 
-	private String shortText;
-	private String longText;
+	private String shortcut;
+	private String title;
 
 //	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "roles")
 //	private Set<Member> members;
@@ -48,15 +49,19 @@ public class Role {
 	}
 
 	
-	public Role(String longText, String shortText) {
-		this.longText = longText;
-		this.shortText = shortText;
+	public Role(String title, String shortcut) {
+		this.title = title;
+		this.shortcut = shortcut;
 		this.type = Type.OTHER;
 	}
 	
-	public Role(String longText, String shortText, Type type) {
-		this.shortText = shortText;
-		this.longText = longText;
-		this.type = type;
+	public Role(String title, String shortcut, Boolean isQM ) {
+		this.shortcut = shortcut;
+		this.title = title;
+		this.type = (isQM ? Type.QM : Type.OTHER);
+	}
+	
+	public String toString() {
+		return this.title + "(" + this.shortcut + ")" + (this.type == Type.QM ? ", marked as Quality Manager" : "");
 	}
 }

@@ -30,8 +30,10 @@ public class RoleTest {
        
         assertNotNull(role.getId());
         assertEquals(Role.Type.OTHER, role.getType());
-        assertNull(role.getLongText());
-        assertNull(role.getShortText());
+        assertNull(role.getTitle());
+        assertNull(role.getShortcut());
+        assertNotNull(role.getVersion());
+        assertNotNull(role.getVersionTSD());
     }
     
     @Test
@@ -40,18 +42,25 @@ public class RoleTest {
         
         assertNotNull(role.getId());
         assertEquals(Role.Type.OTHER, role.getType());
-        assertEquals(role.getLongText(), longText);
-        assertEquals(role.getShortText(), shortText);
+        assertEquals(role.getTitle(), longText);
+        assertEquals(role.getShortcut(), shortText);
     }
     
     @Test
     public void testSaveRoleWithTextAndType() {
-    	role = this.repository.save(new Role(longText, shortText, Role.Type.QM));
+    	role = this.repository.save(new Role(longText, shortText, true));
         
         assertNotNull(role.getId());
         assertEquals(Role.Type.QM, role.getType());
-        assertEquals(role.getLongText(), longText);
-        assertEquals(role.getShortText(), shortText);
+        assertEquals(role.getTitle(), longText);
+        assertEquals(role.getShortcut(), shortText);
+        
+        role = this.repository.save(new Role(longText, shortText, false));
+        
+        assertNotNull(role.getId());
+        assertEquals(Role.Type.OTHER, role.getType());
+        assertEquals(role.getTitle(), longText);
+        assertEquals(role.getShortcut(), shortText);
     }
 
 }

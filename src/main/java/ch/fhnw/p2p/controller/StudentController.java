@@ -14,6 +14,7 @@ import ch.fhnw.p2p.repositories.StudentRepository;
  * @author Joel Meiller
  */
 @Controller
+@RequestMapping("/students")
 public class StudentController {
 
   // ------------------------
