@@ -2,49 +2,47 @@ import classNames from 'classnames';
 
 import React from 'react';
 
-import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
-import {cyan500} from 'material-ui/styles/colors';
-import FontIcon from 'material-ui/FontIcon';
 import { RaisedButton } from 'material-ui';
 import Header2Line from '../elements/Header/Header2Line.jsx';
 import TextField from 'material-ui/TextField';
 import Dropdown from '../elements/Dropdown.jsx';
 
 
-const EditProjectPage = props => {
-  return (
+const EditProjectPage = props => (
     <div className="container">
       <div className="row">
         <div className="col-xs-12">
           <Header2Line
-            title="Project: IP: KLAV"
-            />
+            title={`Project: ${props.title}`}
+          />
         </div>
       </div>
       <div className="row">
         <div className="col-xs-4">
           <TextField
-            hintText={props.hintText}
-            defaultValue={props.defaultValue}
+            hintText="Title"
+            defaultValue={props.title}
             fullWidth
             inputStyle={{ color: '#333333' }}
-            />
+            onChange={e => props.handleTitleChanged(e.target.value)}
+          />
         </div>
         <div className="col-xs-4">
           <TextField
-            hintText={props.hintText2}
-            defaultValue={props.defaultValue2}
+            hintText="Name Coach"
+            defaultValue={props.coachName}
             fullWidth
             inputStyle={{ color: '#333333' }}
-            />
+            onChange={e => props.handleCoachChanged(e.target.value)}
+          />
         </div>
       </div>
       <div className="row">
-        <div className="col-xs-4" style={{marginTop:-8}}>
+        <div className="col-xs-4" style={{ marginTop: -8 }}>
           <Dropdown
-            menuItems={props.menuItems}
-            selectedValue={props.selectedValue}
-            />
+            menuItems={props.selectStates}
+            selectedValue={props.selectedStateId}
+          />
         </div>
       </div>
       <div className="row push-top-medium">
@@ -52,7 +50,7 @@ const EditProjectPage = props => {
           <RaisedButton
             label="Cancel"
             onClick={props.handleCancel}
-            />
+          />
         </div>
         <div className="col-xs-4">
           <RaisedButton
@@ -60,11 +58,27 @@ const EditProjectPage = props => {
             primary
             onClick={props.handleSave}
             disabled={props.readonly}
-            />
+          />
         </div>
       </div>
     </div>
   );
+
+EditProjectPage.propTypes = {
+  title: React.PropTypes.string,
+  handleTitleChanged: React.PropTypes.func,
+  handleCoachChanged: React.PropTypes.func,
+  coachName: React.PropTypes.string,
+  selectStates: React.PropTypes.arrayOf(
+    React.PropTypes.shape({
+      id: React.PropTypes.string,
+      label: React.PropTypes.string,
+    })
+  ),
+  selectedStateId: React.PropTypes.string,
+  handleCancel: React.PropTypes.func,
+  handleSave: React.PropTypes.func,
+  readonly: React.PropTypes.bool,
 };
 
 export default EditProjectPage;
