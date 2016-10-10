@@ -1,5 +1,7 @@
 package ch.fhnw.p2p.entities;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -17,7 +19,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import ch.fhnw.p2p.entities.mixins.Versioning;
+import ch.fhnw.p2p.entities.mixins.VersionedObject;
 import lombok.Data;
 
 /**
@@ -30,59 +32,64 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Member extends Versioning{
+public class Member extends VersionedObject{
 
 	// Constants
-	public static enum Type {
-		MEMBER, RATING,
-	}
-
 	public static enum Status {
-		OPEN, READONLY,
+		NEW, // Set when member is added to project by QM
+		OPEN, // Set when student confirmes project participation
+		READONLY, // Set when student sends the final evaluation
 	}
 
 	// Attributes
 	private @Id @GeneratedValue(strategy=GenerationType.IDENTITY) Long id;
 	
 	@ManyToOne
-	@JoinColumn(name="projectId")
+    @JoinColumn(name = "projectId")
 	private Project project;
 	
-	@Enumerated(EnumType.STRING)
-	private Type type;
+	@ManyToOne
+    @JoinColumn(name = "studentId")
+	private Student student;
+	
+	@OneToMany(mappedBy="member", cascade = CascadeType.ALL)
+	private List<MemberRole> roles;
 
 	@Enumerated(EnumType.STRING)
 	private Status status;
 
 	// Attributs that are set only if member type = MEMBER
-	private double rating;
+	private float rating;
 
 	// Attributs that are set only if member type = RATING
 	private String comment;
 
 	// Relations
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "member")
-	private Set<CriteriaRating> criteriaRatings;
+	private List<MemberRating> memberRatings;
 
-//	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//	@JoinTable(name = "tbl-member-role", joinColumns = {
-//			@JoinColumn(name = "memberId", nullable = false, updatable = false) }, inverseJoinColumns = {
-//					@JoinColumn(name = "roleId", nullable = false, updatable = false) })
-//	private Set<Role> roles;
 
 	// Constructor
 	public Member() {
+		this.status = Status.NEW;
+		this.rating = 0;
+		this.roles = new ArrayList<MemberRole>();
+		this.memberRatings = new ArrayList<MemberRating>();
 	}
 
-	public Member(long id) {
-		this.id = id;
-		this.status = Status.OPEN;
-		this.type = Type.MEMBER;
+	public Member(Project project, Student student) {
+		this();
+		this.project = project;
+		this.student = student;
+	}
+	
+	public Member(Project project, Student student, Role role) {
+		this(project, student);
+		this.roles.add(new MemberRole(this, role));
 	}
 
-	public Member(Type type, Set<CriteriaRating> criteriaRating) {
-		this.type = type;
-		this.status = Status.OPEN;
-		this.criteriaRatings = criteriaRating;
+	public Member(Project project, Student student, Role role, List<MemberRating> memberRatings) {
+		this(project, student, role);
+		this.memberRatings = memberRatings;
 	}
 }

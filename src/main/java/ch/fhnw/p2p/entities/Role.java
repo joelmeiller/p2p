@@ -3,11 +3,8 @@ package ch.fhnw.p2p.entities;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
-import ch.fhnw.p2p.entities.mixins.Versioning;
+import ch.fhnw.p2p.entities.mixins.VersionedObject;
 import lombok.Data;
 
 
@@ -19,7 +16,7 @@ import lombok.Data;
  */
 @Data
 @Entity
-public class Role extends Versioning {
+public class Role extends VersionedObject {
 
 	// Constants
 	public static enum Type {
@@ -27,16 +24,11 @@ public class Role extends Versioning {
 	}
 
 	// Attributes
-	private @Id @GeneratedValue(strategy=GenerationType.IDENTITY) Long id;
-	
 	@Enumerated(EnumType.STRING)
 	private Type type;
 
-	private String shortcut;
 	private String title;
-
-//	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "roles")
-//	private Set<Member> members;
+	private String shortcut;
 
 	// Constructor
 	public Role() {
@@ -49,19 +41,26 @@ public class Role extends Versioning {
 	}
 
 	
-	public Role(String title, String shortcut) {
+	public Role(String title, String shortcut, Locale.Language lang) {
 		this.title = title;
 		this.shortcut = shortcut;
 		this.type = Type.OTHER;
 	}
 	
-	public Role(String title, String shortcut, Boolean isQM ) {
-		this.shortcut = shortcut;
-		this.title = title;
+	public Role(String title, String shortcut, Boolean isQM, Locale.Language lang) {
+		this(title, shortcut, lang);
 		this.type = (isQM ? Type.QM : Type.OTHER);
 	}
 	
-	public String toString() {
-		return this.title + "(" + this.shortcut + ")" + (this.type == Type.QM ? ", marked as Quality Manager" : "");
+	public String toString(Locale.Language lang) {
+		return this.getTitle(lang) + "(" + this.getShortcut(lang) + ")" + (this.type == Type.QM ? ", marked as Quality Manager" : "");
+	}
+	
+	public String getTitle(Locale.Language lang) {
+		return this.title;
+	}
+	
+	public String getShortcut(Locale.Language lang) {
+		return this.shortcut;
 	}
 }

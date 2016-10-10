@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import ch.fhnw.p2p.entities.Locale.Language;
 import ch.fhnw.p2p.entities.Role;
 import ch.fhnw.p2p.repositories.RoleRepository;
 
@@ -15,18 +16,17 @@ import ch.fhnw.p2p.repositories.RoleRepository;
 @DataJpaTest
 public class RoleTest {
 	
-	private static String longText = "Test Manager";
-	private static String shortText = "TM";
+	private final String title = "Test Manager";
+	private final String shortcut = "TM";
+	private final Language defaultLang = Language.DE;
 	
-	
-    private Role role;
 
     @Autowired
     private RoleRepository repository;
 
     @Test
     public void testSaveRoleEmpty() {
-        role = this.repository.save(new Role());
+        Role role = this.repository.save(new Role());
        
         assertNotNull(role.getId());
         assertEquals(Role.Type.OTHER, role.getType());
@@ -38,29 +38,28 @@ public class RoleTest {
     
     @Test
     public void testSaveRoleWithText() {
-    	role = this.repository.save(new Role(longText, shortText));
+    	Role role = this.repository.save(new Role(title, shortcut, defaultLang));
         
         assertNotNull(role.getId());
         assertEquals(Role.Type.OTHER, role.getType());
-        assertEquals(role.getTitle(), longText);
-        assertEquals(role.getShortcut(), shortText);
-    }
+        assertEquals(title, role.getTitle(defaultLang));
+        assertEquals(shortcut, role.getShortcut(defaultLang));
+     }
     
     @Test
     public void testSaveRoleWithTextAndType() {
-    	role = this.repository.save(new Role(longText, shortText, true));
+    	Role role = this.repository.save(new Role(title, shortcut, true, defaultLang));
         
         assertNotNull(role.getId());
         assertEquals(Role.Type.QM, role.getType());
-        assertEquals(role.getTitle(), longText);
-        assertEquals(role.getShortcut(), shortText);
+        assertEquals(title, role.getTitle(defaultLang));
+        assertEquals(shortcut, role.getShortcut(defaultLang));
         
-        role = this.repository.save(new Role(longText, shortText, false));
+        role = this.repository.save(new Role(title, shortcut, false, defaultLang));
         
         assertNotNull(role.getId());
         assertEquals(Role.Type.OTHER, role.getType());
-        assertEquals(role.getTitle(), longText);
-        assertEquals(role.getShortcut(), shortText);
+        assertEquals(title, role.getTitle(defaultLang));
+        assertEquals(shortcut, role.getShortcut(defaultLang));
     }
-
 }

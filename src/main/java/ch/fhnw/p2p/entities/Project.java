@@ -1,15 +1,16 @@
 package ch.fhnw.p2p.entities;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
+import ch.fhnw.p2p.entities.mixins.VersionedObject;
+import ch.fhnw.p2p.utils.Slug;
 import lombok.Data;
 
 /**@author Joël Meiller
@@ -18,15 +19,30 @@ import lombok.Data;
   **/
 @Data
 @Entity
-public class Project {
+public class Project extends VersionedObject {
+	
+	public static enum Status {
+		OPEN,
+		CLOSE,
+	}
 
-	private @Id @GeneratedValue(strategy=GenerationType.IDENTITY) Long id;
+	private String title;
+	private String slug;
 	
-	@OneToMany(mappedBy="project")
-	private Set<Category> categories = new HashSet<Category>();
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "project")
+	private List<Category> categories;
 	
-	@OneToMany(mappedBy="project")
-	private Set<Member> members = new HashSet<Member>();
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "project")
+	private List<Member> members;
+	
+	@Enumerated(EnumType.STRING)
+	private Status status;
 
 	public Project() {}
+	
+	public Project(String title) {
+		this.title = title;
+		this.slug = Slug.makeSlug(title);
+		this.status = Status.OPEN;
+	}
 }

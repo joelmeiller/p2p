@@ -1,26 +1,20 @@
 package ch.fhnw.p2p.entities;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 import ch.fhnw.p2p.entities.Locale.Language;
-
+import ch.fhnw.p2p.entities.mixins.VersionedObject;
 import lombok.Data;
 
 @Data
 @Entity
-public class Criteria {
-	
-	private @Id @GeneratedValue(strategy=GenerationType.IDENTITY) Long id;
+public class Criteria extends VersionedObject{
 	
 	@ManyToOne
 	@JoinColumn(name="categoryId")
@@ -28,7 +22,7 @@ public class Criteria {
 	
 	@OneToMany
 	@JoinColumn(name="localeId")
-	private Set<Locale> label = new HashSet<Locale>();
+	private List<Locale> label;
 
 	public Criteria() {}
 
@@ -38,5 +32,14 @@ public class Criteria {
 
 	public Criteria(String text, Language lang) {
 		this.label.add(new Locale (text, lang));
+	}
+	
+	
+
+	public String getLabel(Locale.Language lang) {
+		for(Locale locale: this.label) {
+			if (locale.getLang() == lang) return locale.getText();
+		}
+		return "";
 	}
 }

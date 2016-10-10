@@ -3,21 +3,15 @@ package ch.fhnw.p2p.entities;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Version;
 
+import ch.fhnw.p2p.entities.mixins.VersionedObject;
 import lombok.Data;
 
 @Data
 @Entity
-public class CriteriaRating {
-	
-	private @Id @GeneratedValue(strategy=GenerationType.IDENTITY) Long id;
+public class MemberRating extends VersionedObject {
 	
 	// Attributes
 	private double rating;
@@ -32,18 +26,8 @@ public class CriteriaRating {
 	private Criteria criteria;
 
 	// Constructor
-	public CriteriaRating() {
-	}
-
-	public CriteriaRating(Criteria criteria) {
+	public MemberRating(Criteria criteria, Member member) {
 		this.criteria = criteria;
+		this.member = member;
 	}
-
-	public CriteriaRating(Criteria criteria, double rating) {
-		this.criteria = criteria;
-		this.rating = rating;
-	}
-	
-	@Version
-	private Integer version;
 }

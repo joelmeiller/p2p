@@ -3,6 +3,9 @@ package ch.fhnw.p2p.entities.mixins;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
@@ -13,19 +16,10 @@ import lombok.Data;
 
 @Data
 @MappedSuperclass
-public abstract class Versioning {
+public abstract class VersionedObject extends Versioning {
 	
-	@Version
-	private Integer version;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "versionTSD", nullable = false)
-    private Date versionTSD;
-    
-    private String createdBy;
-
-    @PrePersist
-    protected void onCreate() {
-    	this.versionTSD = new Date();
-    }
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY) 
+	protected Long id;
+	
 }

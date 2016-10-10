@@ -18,7 +18,7 @@ public class StudentDataLoader implements CommandLineRunner {
 
 	@Override
 	public void run(String... strings) throws Exception {
-		this.repository.save(new Student("Max", "Muster", "max.muster@students.fhnw.ch", "bb"));
+		this.repository.save(new Student("Max", "Muster", "max.muster@students.fhnw.ch", Student.Type.BB));
 		// this.repository.save(new Student("Frodo", "Baggins", "frodo.baggins@students.fhnw.ch", ""));
 	}
 }
