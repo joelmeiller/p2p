@@ -42,12 +42,15 @@ public class Member extends VersionedObject{
 	}
 
 	// Attributes
-	private @Id @GeneratedValue(strategy=GenerationType.IDENTITY) Long id;
+	private double rating;
+	private double deviation;
+
 	
 	@ManyToOne
     @JoinColumn(name = "projectId")
 	private Project project;
 	
+	// Relations
 	@ManyToOne
     @JoinColumn(name = "studentId")
 	private Student student;
@@ -58,14 +61,7 @@ public class Member extends VersionedObject{
 	@Enumerated(EnumType.STRING)
 	private Status status;
 
-	// Attributs that are set only if member type = MEMBER
-	private float rating;
-
-	// Attributs that are set only if member type = RATING
-	private String comment;
-
-	// Relations
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "member")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "sourceMember")
 	private List<MemberRating> memberRatings;
 
 
@@ -73,6 +69,7 @@ public class Member extends VersionedObject{
 	public Member() {
 		this.status = Status.NEW;
 		this.rating = 0;
+		this.deviation = 0;
 		this.roles = new ArrayList<MemberRole>();
 		this.memberRatings = new ArrayList<MemberRating>();
 	}

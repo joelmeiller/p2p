@@ -21,28 +21,28 @@ import lombok.Data;
 @Data
 @Entity
 public class Category extends VersionedObject {
-
-	@ManyToOne
-	@JoinColumn(name="projectId")
-	private Project project;
 	
 	@OneToMany(mappedBy="category")
 	private List<Criteria> criterias;
 	
-	@OneToMany
-	@JoinColumn(name="localeId")
-	private List<Locale> title;
+	
+	private String title;
 
-	public Category() {}
+	public Category() {
+		this.criterias = new ArrayList<Criteria>();
+	}
 
-	public Category(String text, Language lang) {
-		this.title.add(new Locale (text, lang));
+	public Category(String title, Language lang) {
+		this();
+		this.title = title;
+	}
+	
+	public Category(String title, List<Criteria> criterias, Language lang) {
+		this(title, lang);
+		this.criterias = criterias;
 	}
 	
 	public String getTitle(Locale.Language lang) {
-		for(Locale locale: this.title) {
-			if (locale.getLang() == lang) return locale.getText();
-		}
-		return "";
+		return this.title;
 	}
 }

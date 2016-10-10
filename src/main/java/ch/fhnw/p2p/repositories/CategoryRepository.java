@@ -4,9 +4,9 @@ import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import ch.fhnw.p2p.entities.Project;
+import ch.fhnw.p2p.entities.Category;
 
 @Transactional
-public interface ProjectRepository extends JpaRepository<Project, Long> {
+public interface CategoryRepository extends JpaRepository<Category, Long>{
 
 }
