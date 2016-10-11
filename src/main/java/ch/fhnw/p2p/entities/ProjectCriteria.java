@@ -14,8 +14,6 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @Data
-@EqualsAndHashCode(of="id")
-@ToString(of="id")
 @Entity
 public class ProjectCriteria extends VersionedObject {
 	

@@ -18,8 +18,6 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @Data
-@EqualsAndHashCode(of="id")
-@ToString(of="id")
 @Entity
 public class ProjectCategory extends VersionedObject {
 	
@@ -47,9 +45,5 @@ public class ProjectCategory extends VersionedObject {
 		this();
 		this.category = category;
 		this.criterias = category.getCriterias();
-	}
-	
-	public String toString() {
-		return this.id.toString();
 	}
 }

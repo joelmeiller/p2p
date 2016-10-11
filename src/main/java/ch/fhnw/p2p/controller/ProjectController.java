@@ -21,16 +21,14 @@ import ch.fhnw.p2p.entities.Member;
 import ch.fhnw.p2p.entities.Project;
 import ch.fhnw.p2p.entities.ProjectCategory;
 import ch.fhnw.p2p.repositories.MemberRepository;
-import ch.fhnw.p2p.repositories.ProjectCategoryRepository;
 import ch.fhnw.p2p.repositories.ProjectRepository;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * REST api controller for the categories collection
  *
  * @author Joel Meiller
  */
-@Slf4j
+
 @Controller
 @RequestMapping("/project")
 public class ProjectController {
@@ -41,9 +39,6 @@ public class ProjectController {
 	
 	@Autowired
 	private ProjectRepository projectRepo;
-	
-	@Autowired
-	private ProjectCategoryRepository projectCategoryRepo;
 	
 	@Autowired
 	private MemberRepository memberRepo;
@@ -71,10 +66,8 @@ public class ProjectController {
 			return new ResponseEntity<List<ProjectCategory>>(HttpStatus.NO_CONTENT);
 		} else {
 			logger.info("Successfully read " + project.getTitle());
-			List<ProjectCategory> categories = projectCategoryRepo.findByProject(project);
-			logger.info("Found categories (count=" + categories.size() + ")");
-			logger.info(categories.get(0));
-			return new ResponseEntity<List<ProjectCategory>>(categories, HttpStatus.OK);
+			logger.info("Found categories (count=" + project.getCategories().size() + ")");
+			return new ResponseEntity<List<ProjectCategory>>(project.getCategories(), HttpStatus.OK);
 		}
 	}
 	
