@@ -59,5 +59,24 @@ public class ProjectTest {
 		assertNotNull(project.getId());
 		assertEquals(title, project.getTitle());
 		assertEquals(Project.Status.OPEN, project.getStatus());
+		assertEquals(0, project.getCriterias().size());
+		assertEquals(0, project.getMembers().size());
+	}
+	
+	@Test
+	public void testSaveProjectWithTitleAndAddCriterias() {
+		Project project = new Project(title);
+		project.getCriterias().add(new ProjectCriteria(criteria1));
+		project.getCriterias().add(new ProjectCriteria(criteria2));
+		
+		project = repository.save(project);
+		
+		assertNotNull(project.getId());
+		assertEquals(title, project.getTitle());
+		assertEquals(Project.Status.OPEN, project.getStatus());
+		assertEquals(2, project.getCriterias().size());
+		assertEquals(criteria1, project.getCriterias().get(0).getCriteria());
+		assertEquals(criteria2, project.getCriterias().get(1).getCriteria());
+		assertEquals(0, project.getMembers().size());
 	}
 }

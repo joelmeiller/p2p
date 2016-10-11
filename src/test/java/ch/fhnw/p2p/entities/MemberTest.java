@@ -84,7 +84,7 @@ public class MemberTest {
     
     @Test
     public void testSaveMemberWithRatings() {
-    	Member member = new Member(project, student, role, ratings);
+    	Member member = repository.save(new Member(project, student, role, ratings));
     	member.setRating(3.0);
     	member.setDeviation(0.3);
     	repository.save(member);

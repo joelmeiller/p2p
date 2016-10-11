@@ -46,16 +46,16 @@ public class Member extends VersionedObject{
 	private double deviation;
 
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "projectId")
 	private Project project;
 	
 	// Relations
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "studentId")
 	private Student student;
 	
-	@OneToMany(mappedBy="member", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<MemberRole> roles;
 
 	@Enumerated(EnumType.STRING)
@@ -88,5 +88,9 @@ public class Member extends VersionedObject{
 	public Member(Project project, Student student, Role role, List<MemberRating> memberRatings) {
 		this(project, student, role);
 		this.memberRatings = memberRatings;
+	}
+	
+	public String toString() {
+		return this.getStudent().getFirstName() + " " + this.getStudent().getLastName() + " in " + this.getProject().getTitle();
 	}
 }

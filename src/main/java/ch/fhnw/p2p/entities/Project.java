@@ -1,7 +1,6 @@
 package ch.fhnw.p2p.entities;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -11,10 +10,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import ch.fhnw.p2p.entities.mixins.VersionedObject;
-import ch.fhnw.p2p.repositories.ProjectRepository;
 import ch.fhnw.p2p.utils.Slug;
 import lombok.Data;
 
@@ -25,9 +21,6 @@ import lombok.Data;
 @Data
 @Entity
 public class Project extends VersionedObject {
-	
-	@Autowired
-	ProjectRepository repository;
 	
 	public static enum Status {
 		OPEN,
@@ -48,6 +41,8 @@ public class Project extends VersionedObject {
 
 	public Project() {
 		this.status = Status.OPEN;
+		this.criterias = new ArrayList<ProjectCriteria>();
+		this.members = new ArrayList<Member>();
 	}
 	
 	public Project(String title) {
@@ -55,6 +50,4 @@ public class Project extends VersionedObject {
 		this.title = title;
 		this.slug = Slug.makeSlug(title);
 	}
-	
-	
 }

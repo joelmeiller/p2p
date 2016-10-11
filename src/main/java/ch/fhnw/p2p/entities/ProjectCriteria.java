@@ -28,8 +28,7 @@ public class ProjectCriteria extends VersionedObject {
 	// Constructor
 	public ProjectCriteria() {};
 	
-	public ProjectCriteria(Project project, Criteria criteria) {
-		this.project = project;
+	public ProjectCriteria(Criteria criteria) {
 		this.criteria = criteria;
 	}
 }
