@@ -36,26 +36,25 @@ public class ProjectRepositoryTest {
 
     @Before
     public void prepareEntities() {
-    	project = new Project("Test");
-    	student = studentRepo.save(new Student("Max", "Muster", "max.muster@fhnw.ch"));
+    	project = new Project("Not found");
+    	student = studentRepo.save(new Student("Not", "Fount", "not.found@fhnw.ch"));
     	member = new Member(project, student);
-    	
     	project.getMembers().add(member);
     	project = projectRepo.save(project);
     	
-    
-    	System.out.println(project.getMembers());
+    	project = new Project("Test");
+    	student = studentRepo.save(new Student("Max", "Muster", "max.muster@fhnw.ch"));
+    	member = new Member(project, student);
+    	project.getMembers().add(member);
+    	project = projectRepo.save(project);
     	
+    	assertEquals(2, projectRepo.findAll().size());
     	assertEquals(1, project.getMembers().size());
     }
     
     @Test
     public void testFindProjectByMemberAndStatus() {
-    	List<Member> members = new ArrayList<Member>();
-		members.add(member);
-        Project foundProject = projectRepo.findByMembersAndStatus(members, Project.Status.OPEN);
-        
-        System.out.println(foundProject);
+        Project foundProject = projectRepo.findByIdAndStatus(member.getProject().getId(), Project.Status.OPEN);
        
         assertNotNull(foundProject.getId());
         assertEquals(Project.Status.OPEN, foundProject.getStatus());

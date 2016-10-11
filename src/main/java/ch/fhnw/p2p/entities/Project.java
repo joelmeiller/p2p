@@ -10,15 +10,19 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import ch.fhnw.p2p.entities.mixins.VersionedObject;
 import ch.fhnw.p2p.utils.Slug;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**@author Joël Meiller
   *
   *
   **/
 @Data
+@EqualsAndHashCode(of="id")
 @Entity
 public class Project extends VersionedObject {
 	
@@ -31,7 +35,7 @@ public class Project extends VersionedObject {
 	private String slug;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "project")
-	private List<ProjectCriteria> criterias;
+	private List<ProjectCategory> categories;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "project")
 	private List<Member> members;
@@ -41,7 +45,7 @@ public class Project extends VersionedObject {
 
 	public Project() {
 		this.status = Status.OPEN;
-		this.criterias = new ArrayList<ProjectCriteria>();
+		this.categories = new ArrayList<ProjectCategory>();
 		this.members = new ArrayList<Member>();
 	}
 	
@@ -49,5 +53,9 @@ public class Project extends VersionedObject {
 		this();
 		this.title = title;
 		this.slug = Slug.makeSlug(title);
+	}
+	
+	public String toString() {
+		return this.title + "(" + this.id.toString() + ")";
 	}
 }

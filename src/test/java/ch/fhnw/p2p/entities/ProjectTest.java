@@ -24,21 +24,28 @@ public class ProjectTest {
 	private final String title = "Test Project";
 	private final Language defaultLang = Language.DE;
 	private final String label1 = "Test Criteria Label 1";
-	private final String label2 = "Test Criteria Label 2";
+	private final String label12 = "Test Criteria Label 2";
+	private final String label2 = "Test Criteria Label 3";
 
-	private Criteria criteria1, criteria2;
-	private List<Criteria> criterias;
+	private Category category1, category2;
+	private List<Category> categories;
+	private Criteria criteria1, criteria12, criteria2;
+	private List<Criteria> criterias1, criterias2;
 	
 	@Autowired
 	private ProjectRepository repository;
 	
 	@Before
 	public void prepareCriterias() {
+		category1 = new Category("Category 1", defaultLang);
+		category2 = new Category("Category 2", defaultLang);
 		criteria1 = new Criteria(label1, defaultLang);
+		criteria12 = new Criteria(label2, defaultLang);
 		criteria2 = new Criteria(label2, defaultLang);
-		criterias = new ArrayList<Criteria>();
-		criterias.add(criteria1);
-		criterias.add(criteria2);
+		
+		category1.getCriterias().add(criteria1);
+		category1.getCriterias().add(criteria12);
+		category2.getCriterias().add(criteria2);
 	}
 
 	@Test
@@ -59,24 +66,26 @@ public class ProjectTest {
 		assertNotNull(project.getId());
 		assertEquals(title, project.getTitle());
 		assertEquals(Project.Status.OPEN, project.getStatus());
-		assertEquals(0, project.getCriterias().size());
+		assertEquals(0, project.getCategories().size());
 		assertEquals(0, project.getMembers().size());
 	}
 	
 	@Test
 	public void testSaveProjectWithTitleAndAddCriterias() {
 		Project project = new Project(title);
-		project.getCriterias().add(new ProjectCriteria(criteria1));
-		project.getCriterias().add(new ProjectCriteria(criteria2));
+		project.getCategories().add(new ProjectCategory(category1));
+		project.getCategories().add(new ProjectCategory(category2));
 		
 		project = repository.save(project);
 		
 		assertNotNull(project.getId());
 		assertEquals(title, project.getTitle());
 		assertEquals(Project.Status.OPEN, project.getStatus());
-		assertEquals(2, project.getCriterias().size());
-		assertEquals(criteria1, project.getCriterias().get(0).getCriteria());
-		assertEquals(criteria2, project.getCriterias().get(1).getCriteria());
+		assertEquals(2, project.getCategories().size());
+		assertEquals(category1, project.getCategories().get(0).getCategory());
+		assertEquals(2, project.getCategories().get(0).getCriterias().size());
+		assertEquals(category2, project.getCategories().get(1).getCategory());
+		assertEquals(1, project.getCategories().get(1).getCriterias().size());
 		assertEquals(0, project.getMembers().size());
 	}
 }

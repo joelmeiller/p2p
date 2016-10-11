@@ -2,6 +2,7 @@ package ch.fhnw.p2p.entities;
 
 import static org.junit.Assert.*;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import ch.fhnw.p2p.entities.Locale.Language;
 import ch.fhnw.p2p.entities.Role;
 import ch.fhnw.p2p.repositories.MemberRepository;
 
@@ -49,7 +49,7 @@ public class MemberTest {
         assertEquals(Member.Status.NEW, member.getStatus());
         assertNull(member.getProject());
         assertNull(member.getStudent());
-        assertEquals(0, member.getRating(), 0.01);
+        assertEquals(new BigDecimal(0), member.getRating());
         assertEquals(0, member.getMemberRatings().size());
         assertNotNull(member.getVersion());
         assertNotNull(member.getVersionTSD());
@@ -64,7 +64,7 @@ public class MemberTest {
         assertEquals(project, member.getProject());
         assertEquals(student, member.getStudent());
         assertEquals(0, member.getRoles().size());
-        assertEquals(0, member.getRating(), 0.01);
+        assertEquals(new BigDecimal(0), member.getRating());
         assertEquals(0, member.getMemberRatings().size());
      }
     
@@ -78,15 +78,15 @@ public class MemberTest {
         assertEquals(student, member.getStudent());
         assertEquals(1, member.getRoles().size());
         assertEquals(role, member.getRoles().get(0).getRole());
-        assertEquals(0, member.getRating(), 0.01);
+        assertEquals(new BigDecimal(0), member.getRating());
         assertEquals(0, member.getMemberRatings().size());
      }
     
     @Test
     public void testSaveMemberWithRatings() {
     	Member member = repository.save(new Member(project, student, role, ratings));
-    	member.setRating(3.0);
-    	member.setDeviation(0.3);
+    	member.setRating(new BigDecimal(3));
+    	member.setDeviation(new BigDecimal(0.3));
     	repository.save(member);
         
         assertNotNull(member.getId());
@@ -95,8 +95,8 @@ public class MemberTest {
         assertEquals(student, member.getStudent());
         assertEquals(1, member.getRoles().size());
         assertEquals(role, member.getRoles().get(0).getRole());
-        assertEquals(3, member.getRating(), 0.01);
-        assertEquals(0.3, member.getDeviation(), 0.01);
+        assertEquals(new BigDecimal(3), member.getRating());
+        assertEquals(new BigDecimal(0.3), member.getDeviation());
         assertEquals(2, member.getMemberRatings().size());
      }
 }

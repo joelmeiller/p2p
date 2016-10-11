@@ -1,5 +1,7 @@
 package ch.fhnw.p2p.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -86,8 +88,8 @@ public class StudentController {
 	public String getByEmail(String email) {
 		String studentId;
 		try {
-			Student student = studentRepository.findByEmail(email);
-			studentId = String.valueOf(student.getId());
+			Optional<Student> student = studentRepository.findByEmail(email);
+			studentId = String.valueOf(student.get().getId());
 		} catch (Exception ex) {
 			return "Student not found";
 		}

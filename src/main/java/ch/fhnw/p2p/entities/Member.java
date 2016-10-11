@@ -1,26 +1,26 @@
 package ch.fhnw.p2p.entities;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import ch.fhnw.p2p.entities.mixins.VersionedObject;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * Entity Member
@@ -31,6 +31,7 @@ import lombok.Data;
  **/
 
 @Data
+@EqualsAndHashCode(of="id")
 @Entity
 public class Member extends VersionedObject{
 
@@ -42,12 +43,16 @@ public class Member extends VersionedObject{
 	}
 
 	// Attributes
-	private double rating;
-	private double deviation;
+	@NotNull @DecimalMax("5.0") @DecimalMin("0.0")
+	private BigDecimal rating;
+	
+	@NotNull @DecimalMax("5.0") @DecimalMin("0.0")
+	private BigDecimal deviation;
 
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "projectId")
+	@JsonIgnore
 	private Project project;
 	
 	// Relations
@@ -68,8 +73,8 @@ public class Member extends VersionedObject{
 	// Constructor
 	public Member() {
 		this.status = Status.NEW;
-		this.rating = 0;
-		this.deviation = 0;
+		this.rating = new BigDecimal(0);
+		this.deviation = new BigDecimal(0);
 		this.roles = new ArrayList<MemberRole>();
 		this.memberRatings = new ArrayList<MemberRating>();
 	}
@@ -88,9 +93,5 @@ public class Member extends VersionedObject{
 	public Member(Project project, Student student, Role role, List<MemberRating> memberRatings) {
 		this(project, student, role);
 		this.memberRatings = memberRatings;
-	}
-	
-	public String toString() {
-		return this.getStudent().getFirstName() + " " + this.getStudent().getLastName() + " in " + this.getProject().getTitle();
 	}
 }

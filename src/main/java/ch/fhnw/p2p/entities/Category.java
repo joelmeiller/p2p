@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import ch.fhnw.p2p.entities.Locale.Language;
 import ch.fhnw.p2p.entities.mixins.VersionedObject;
 import lombok.Data;

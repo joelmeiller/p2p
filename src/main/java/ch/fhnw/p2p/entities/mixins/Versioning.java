@@ -19,7 +19,7 @@ public abstract class Versioning {
 	private Integer version;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "versionTSD", nullable = false)
+    @Column(nullable = false)
     private Date versionTSD;
     
     private String createdBy;
