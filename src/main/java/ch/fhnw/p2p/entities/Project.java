@@ -34,10 +34,10 @@ public class Project extends VersionedObject {
 	private String title;
 	private String slug;
 	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "project")
-	private List<ProjectCategory> categories;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
+	private List<ProjectCategory> projectCategories;
 	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "project")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
 	private List<Member> members;
 	
 	@Enumerated(EnumType.STRING)
@@ -45,7 +45,7 @@ public class Project extends VersionedObject {
 
 	public Project() {
 		this.status = Status.OPEN;
-		this.categories = new ArrayList<ProjectCategory>();
+		this.projectCategories = new ArrayList<ProjectCategory>();
 		this.members = new ArrayList<Member>();
 	}
 	

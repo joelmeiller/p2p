@@ -33,16 +33,16 @@ public class MemberRating extends VersionedObject {
 	private String comment;
 
 	// Relations
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "sourceMemberId")
 	private Member sourceMember;
 
 	// Relations
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "targetMemberId")
 	private Member targetMember;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "memberRating")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "memberRating")
 	private List<CriteriaRating> criteriaRatings;
 
 	// Constructor

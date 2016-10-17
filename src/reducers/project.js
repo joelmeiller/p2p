@@ -1,5 +1,5 @@
 // Actions
-import { SET_COACH_NAME, SET_PROJECT_TITLE, SAVE, CANCEL, REQUEST_USER, RECEIVE_USER } from '../actions/project.js';
+import { SET_COACH_NAME, SET_PROJECT_TITLE, REQUEST_USER, RECEIVE_USER } from '../actions/project.js';
 
 
 const initialState = {

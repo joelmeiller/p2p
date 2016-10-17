@@ -50,23 +50,23 @@ public class Member extends VersionedObject{
 	private BigDecimal deviation;
 
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "projectId")
 	@JsonIgnore
 	private Project project;
 	
 	// Relations
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne
     @JoinColumn(name = "studentId")
 	private Student student;
 	
-	@OneToMany(mappedBy="member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="member")
 	private List<MemberRole> roles;
 
 	@Enumerated(EnumType.STRING)
 	private Status status;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "sourceMember")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "sourceMember")
 	private List<MemberRating> memberRatings;
 
 

@@ -66,26 +66,33 @@ public class ProjectTest {
 		assertNotNull(project.getId());
 		assertEquals(title, project.getTitle());
 		assertEquals(Project.Status.OPEN, project.getStatus());
-		assertEquals(0, project.getCategories().size());
+		assertEquals(0, project.getProjectCategories().size());
 		assertEquals(0, project.getMembers().size());
 	}
 	
 	@Test
 	public void testSaveProjectWithTitleAndAddCriterias() {
 		Project project = new Project(title);
-		project.getCategories().add(new ProjectCategory(category1));
-		project.getCategories().add(new ProjectCategory(category2));
+		
+		ProjectCategory projectCategory1 = new ProjectCategory(category1);
+		projectCategory1.getProjectCriterias().add(new ProjectCriteria(criteria1));
+		projectCategory1.getProjectCriterias().add(new ProjectCriteria(criteria12));
+		project.getProjectCategories().add(projectCategory1);
+		
+		ProjectCategory projectCategory2 = new ProjectCategory(category2);
+		projectCategory2.getProjectCriterias().add(new ProjectCriteria(criteria2));
+		project.getProjectCategories().add(projectCategory2);
 		
 		project = repository.save(project);
 		
 		assertNotNull(project.getId());
 		assertEquals(title, project.getTitle());
 		assertEquals(Project.Status.OPEN, project.getStatus());
-		assertEquals(2, project.getCategories().size());
-		assertEquals(category1, project.getCategories().get(0).getCategory());
-		assertEquals(2, project.getCategories().get(0).getCriterias().size());
-		assertEquals(category2, project.getCategories().get(1).getCategory());
-		assertEquals(1, project.getCategories().get(1).getCriterias().size());
+		assertEquals(2, project.getProjectCategories().size());
+		assertEquals(category1, project.getProjectCategories().get(0).getCategory());
+		assertEquals(2, project.getProjectCategories().get(0).getProjectCriterias().size());
+		assertEquals(category2, project.getProjectCategories().get(1).getCategory());
+		assertEquals(1, project.getProjectCategories().get(1).getProjectCriterias().size());
 		assertEquals(0, project.getMembers().size());
 	}
 }

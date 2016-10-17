@@ -1,0 +1,30 @@
+VALID JSON (RFC 4627)
+Formatted JSON Data
+[  
+   {  
+      "id":1,
+      "category":{  
+         "id":1,
+         "criterias":[  
+            {  
+               "id":1,
+               "label":"Test Criteria"
+            },
+            {  
+               "id":2,
+               "label":"Another Criteria"
+            }
+         ],
+         "title":"First Category"
+      },
+      "criterias":[  
+         {  
+            "id":1,
+            "criteria":{  
+               "id":1,
+               "label":"Test Criteria"
+            }
+         }
+      ]
+   }
+]

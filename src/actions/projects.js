@@ -1,6 +1,5 @@
 // Middleware
 import { default as apiGetProjects } from '../middleware/getProjects.mock.js';
-import { default as apiError } from './error.js';
 
 export const ADD_PROJECT = '/projects/ADD_PROJECT';
 export const SHOW_PROJECT = '/projects/ADD_PROJECT';

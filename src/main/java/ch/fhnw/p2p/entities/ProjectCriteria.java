@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -14,22 +15,26 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @Data
+@EqualsAndHashCode(of="id")
 @Entity
 public class ProjectCriteria extends VersionedObject {
 	
 	// TODO: Is actually a unidirectional ManyToMany relation and could be refactored
 	
 	// Relations
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "categoryId")
 	@JsonIgnore
-	private Category category;
+	private ProjectCategory category;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "criteriaId")
-	@JsonIgnore
 	private Criteria criteria;
 
+	@Transient
+	private boolean added;
+	@Transient
+	private boolean removed;
 
 	// Constructor
 	public ProjectCriteria() {};

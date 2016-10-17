@@ -18,32 +18,32 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @Data
+@EqualsAndHashCode(of="id")
 @Entity
 public class ProjectCategory extends VersionedObject {
 	
 	// TODO: Is actually a unidirectional ManyToMany relation and could be refactored
 	
 	// Relations
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "projectId")
 	@JsonIgnore
 	private Project project;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "categoryId")
 	private Category category;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="category")
-	private List<Criteria> criterias;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="category", orphanRemoval=true)
+	private List<ProjectCriteria> projectCriterias;
 	
 	// Constructor
 	public ProjectCategory() {
-		this.criterias = new ArrayList<Criteria>();
+		this.projectCriterias = new ArrayList<ProjectCriteria>();
 	};
 	
 	public ProjectCategory(Category category) {
 		this();
 		this.category = category;
-		this.criterias = category.getCriterias();
 	}
 }
