@@ -12,12 +12,14 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import ch.fhnw.p2p.entities.Role.Type;
 import ch.fhnw.p2p.entities.mixins.VersionedObject;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -60,15 +62,22 @@ public class Member extends VersionedObject{
     @JoinColumn(name = "studentId")
 	private Student student;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy="member")
+	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="member")
 	private List<MemberRole> roles;
 
 	@Enumerated(EnumType.STRING)
 	private Status status;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "sourceMember")
+	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "sourceMember")
 	private List<MemberRating> memberRatings;
 
+	// The transient fields are required for the JSON parsing but shall be ignored by hibernate
+	@Transient
+	private boolean added;
+	@Transient
+	private boolean removed;
+	@Transient
+	private long roleId;
 
 	// Constructor
 	public Member() {
@@ -93,5 +102,27 @@ public class Member extends VersionedObject{
 	public Member(Project project, Student student, Role role, List<MemberRating> memberRatings) {
 		this(project, student, role);
 		this.memberRatings = memberRatings;
+	}
+	
+	/**
+	 * get currently active role
+	 * @return active role of member related to user
+	 */
+	public Role getActiveRole() {
+		for (MemberRole role: this.roles) {
+			if (role.isActive()) return role.getRole();
+		}
+		return null;
+	}
+	
+	/**
+	 * checks whether one of roles of the member is the the quality manager (QM) role with special rights
+	 * @return boolean indicating if the member is referenced as QM
+	 */
+	public boolean isQM() {
+		for (MemberRole role: this.roles) {
+			if (role.getRole().getType() == Role.Type.QM) return true;
+		}
+		return false;
 	}
 }
