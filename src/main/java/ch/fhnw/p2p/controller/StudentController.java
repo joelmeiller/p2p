@@ -1,7 +1,6 @@
 package ch.fhnw.p2p.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -13,10 +12,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import ch.fhnw.p2p.entities.Member;
-import ch.fhnw.p2p.entities.ProjectCategory;
 import ch.fhnw.p2p.entities.Student;
 import ch.fhnw.p2p.repositories.MemberRepository;
 import ch.fhnw.p2p.repositories.StudentRepository;

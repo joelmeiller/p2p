@@ -104,7 +104,7 @@ public class ProjectMemberController {
 			for (Member projectMember: updatedMembers) {
 				// Add new
 				if (projectMember.isAdded()) {
-					Role role = roleRepo.findOne(projectMember.getRoleId());
+					Role role = roleRepo.findOne(projectMember.getRoles().get(0).getRole().getId());
 					members.add(new Member(member.getProject(), member.getStudent(), role));
 				}
 

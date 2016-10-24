@@ -8,6 +8,7 @@ import { default as criteria } from '../reducers/criteria.js';
 import { default as inbox } from '../reducers/inbox.js';
 import { default as member } from '../reducers/member.js';
 import { default as myrating } from '../reducers/myrating.js';
+import { default as role } from '../reducers/roles.js';
 import { default as team } from '../reducers/team.js';
 import { default as projects } from '../reducers/projects.js';
 import { default as project } from '../reducers/project.js';
@@ -23,6 +24,7 @@ const configureStore = () => {
       member,
       myrating,
       routing,
+      role,
       team,
       projects,
       project,

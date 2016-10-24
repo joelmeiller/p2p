@@ -1,7 +1,7 @@
 // Node imports
 import fetch from 'isomorphic-fetch';
 
-export const apiEntrypoint = 'http://localhost:8080/api/project/categories';
+const apiEntrypoint = 'http://localhost:8080/api/project/categories';
 
 export default (values, callback) => {
   const categories = values.map(category => ({
@@ -20,8 +20,6 @@ export default (values, callback) => {
       },
     })),
   }));
-
-  console.log(JSON.stringify(categories));
 
   fetch(apiEntrypoint, {
     method: 'POST',

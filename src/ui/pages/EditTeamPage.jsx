@@ -32,7 +32,7 @@ const EditTeamPage = props => (
             {...member}
             readonly={props.readonly}
             onDelete={() => props.handleDelete(member.id)}
-            onRoleChanged={value => props.handleRoleChanged({ roleId: value }, member.id)}
+            onRoleChanged={value => props.handleRoleChanged({ roleId: value }, member)}
             selectRoles={props.roles}
           />
         </div>)
@@ -69,12 +69,11 @@ const EditTeamPage = props => (
 EditTeamPage.propTypes = {
   readonly: React.PropTypes.bool,
   canAdd: React.PropTypes.bool,
-  members: React.PropTypes.arrayOf(React.PropTypes.shape(EditableMember.propTypes)).isRequired,
+  members: React.PropTypes.arrayOf(React.PropTypes.shape(EditableMember.propTypes)),
   newMemberRoleId: React.PropTypes.string,
   roles: React.PropTypes.arrayOf(React.PropTypes.shape(roleType)),
   handleDelete: React.PropTypes.func,
   handleAdd: React.PropTypes.func,
-  handleValueChanged: React.PropTypes.func,
   handleSave: React.PropTypes.func,
   handleCancel: React.PropTypes.func,
   selectedRole: React.PropTypes.string,

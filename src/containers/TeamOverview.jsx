@@ -13,16 +13,19 @@ import {
   removeMember,
   fetchTeam,
   saveTeam,
-  setNewMemberValue,
   updateRoleOfMember,
   cancel,
 } from '../actions/team.js';
+import {
+  fetchRoles,
+} from '../actions/roles.js';
 
 
 class TeamOverviewComponent extends Component {
   componentDidMount() {
     this.props.initializeTitle();
     this.props.fetchTeam();
+    this.props.fetchRoles();
   }
 
   render() {
@@ -36,7 +39,8 @@ TeamOverviewComponent.propTypes = {
 };
 
 const mapStateToProps = (globalState, props) => {
-  const { members, addedMember, newMemberValues, canAdd, ...otherStates } = globalState.team;
+  const { members, addedMember, newMemberValues, ...otherStates } = globalState.team;
+  const { roles } = globalState.role;
 
   if (addedMember) {
     members.push(addedMember);
@@ -47,18 +51,18 @@ const mapStateToProps = (globalState, props) => {
     ...otherStates,
     title: 'Teammembers',
     members,
+    roles,
     newMemberRoleId: newMemberValues.roleId,
-    canAdd,
   };
 };
 
 const mapDispatchToProps = (dispatch, props) => ({
   initializeTitle: () => dispatch(setTitle('Teammembers')),
   fetchTeam: () => dispatch(fetchTeam()),
+  fetchRoles: () => dispatch(fetchRoles()),
   handleDelete: memberId => dispatch(removeMember(memberId)),
   handleAdd: student => dispatch(addMember(student)),
   handleRoleChanged: (role, memberId) => dispatch(updateRoleOfMember(role, memberId)),
-  handleValueChanged: value => dispatch(setNewMemberValue(value)),
   handleSave: () => dispatch(saveTeam(props)),
   handleCancel: () => dispatch(cancel(props)),
 });

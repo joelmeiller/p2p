@@ -2,7 +2,8 @@
 import 'isomorphic-fetch';
 
 // Middleware
-import { default as apiSaveCriterias, apiEntrypoint } from '../middleware/criteria/saveCriteria.js';
+import { default as apiGetCriterias } from '../middleware/criteria/getCriteria.js';
+import { default as apiSaveCriterias } from '../middleware/criteria/saveCriteria.js';
 
 export const ADD_CRITERIA = '/criteria/ADD_CRITERIA';
 export const EDIT_CRITERIA = '/criteria/EDIT_CRITERIA';
@@ -20,20 +21,7 @@ const requestData = () => ({
 
 const receiveData = data => ({
   type: RECEIVE_CRITERIA,
-  categories: data.map(projectCategory => ({
-    id: projectCategory.id.toString(),
-    title: projectCategory.category.title,
-    categoryId: projectCategory.category.id.toString(),
-    criterias: projectCategory.projectCriterias.map(projectCriteria => ({
-      id: projectCriteria.id.toString(),
-      label: projectCriteria.criteria.label,
-      criteriaId: projectCriteria.criteria.id.toString(),
-    })),
-    selectCriterias: projectCategory.category.criterias.map(criteria => ({
-      criteriaId: criteria.id.toString(),
-      label: criteria.label,
-    })),
-  })),
+  categories: data,
 });
 
 const shouldFetchData = (state) => {
@@ -47,17 +35,13 @@ const shouldFetchData = (state) => {
 export const fetchCriteria = () => (dispatch, getState) => {
   if (shouldFetchData(getState())) {
     dispatch(requestData());
-
-    fetch(apiEntrypoint)
-    .then(response => response.json())
-    .then(data => {
-      dispatch(receiveData(data));
-    });
+    apiGetCriterias(data => dispatch(receiveData(data)));
   }
 };
 
 export const removeCriteria = criteria => (dispatch, getState) => {
   const state = getState().criteria;
+
   const categories = (state.categories || [])
     .map(category => ({
       ...category,
@@ -126,7 +110,7 @@ export const saveCriterias = props => (dispatch, getState) => {
       if (data.status === 500) {
         alert('Criteria could not be saved');
       } else {
-        dispatch(receiveData(data));
+        apiGetCriterias(data => dispatch(receiveData(data)));
       }
     });
 
@@ -143,12 +127,7 @@ export const saveCriterias = props => (dispatch, getState) => {
 
 export const cancel = props => (dispatch) => {
   dispatch(requestData());
-
-  fetch(apiEntrypoint)
-  .then(response => response.json())
-  .then(data => {
-    dispatch(receiveData(data));
-  });
+  apiGetCriterias(data => dispatch(receiveData(data)));
 
   props.router.push('/');
 };

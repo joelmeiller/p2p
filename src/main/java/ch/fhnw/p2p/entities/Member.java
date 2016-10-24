@@ -68,7 +68,7 @@ public class Member extends VersionedObject{
 	@Enumerated(EnumType.STRING)
 	private Status status;
 
-	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "sourceMember")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "sourceMember")
 	private List<MemberRating> memberRatings;
 
 	// The transient fields are required for the JSON parsing but shall be ignored by hibernate
@@ -76,8 +76,6 @@ public class Member extends VersionedObject{
 	private boolean added;
 	@Transient
 	private boolean removed;
-	@Transient
-	private long roleId;
 
 	// Constructor
 	public Member() {
