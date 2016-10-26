@@ -12,6 +12,8 @@ export default callback =>
       id: projectCategory.id.toString(),
       title: projectCategory.category.title,
       categoryId: projectCategory.category.id.toString(),
+      isSelfDefined: projectCategory.category.type === 'SELFDEFINED',
+      editable: projectCategory.editable || projectCategory.category.type === 'SELFDEFINED',
       criterias: projectCategory.projectCriterias.map(projectCriteria => ({
         id: projectCriteria.id.toString(),
         label: projectCriteria.criteria.label,

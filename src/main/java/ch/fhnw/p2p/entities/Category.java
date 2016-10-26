@@ -26,7 +26,7 @@ public class Category extends VersionedObject {
 	// Constants
 	public enum Type {
 		PREDEFINED,
-		OWN,
+		SELFDEFINED,
 	}
 	
 	// Attributes

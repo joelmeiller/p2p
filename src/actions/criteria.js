@@ -66,7 +66,36 @@ export const setCriteria = (criteriaId, category) => ({
 export const addCriteria = addCategory => (dispatch, getState) => {
   const state = getState().criteria;
 
-  if (state.selectedCategoryId === addCategory.categoryId && state.selectedCriteriaId) {
+  console.log(state, addCategory);
+
+  // Self defined crtierias
+  if (addCategory.isSelfDefined && state.changedCategoryId === addCategory.categoryId) {
+    const category = state.categories.find(c =>
+      c.categoryId === addCategory.categoryId && c.categoryId === state.changedCategoryId);
+
+    if (category) {
+      const newCriteria = state.changedCriteriaId ? addCategory.find(crit =>
+        crit.criteriaId === state.changedCriteriaId) : {};
+
+      category.criterias.push({
+        ...newCriteria,
+        label: state.changedValue,
+        added: true,
+      });
+
+      const categories = state.categories.map(cat =>
+        (cat.categoryId === category.categoryId ?
+        category : cat)
+      );
+
+      dispatch({
+        type: ADD_CRITERIA,
+        categories,
+      });
+    }
+
+  // Predefined criterias from dropdown
+  } else if (state.selectedCategoryId === addCategory.categoryId && state.selectedCriteriaId) {
     const category = state.categories.find(c =>
       c.categoryId === addCategory.categoryId && c.categoryId === state.selectedCategoryId);
 
@@ -97,8 +126,8 @@ export const addCriteria = addCategory => (dispatch, getState) => {
 
 export const setCriteriaValue = (value, criteria, category) => ({
   type: SET_CRITERIA_VALUE,
-  changedCriteriaId: criteria.criteriaId,
-  changedCateogryId: category.categoryId,
+  changedCriteriaId: criteria ? criteria.criteriaId : undefined,
+  changedCategoryId: category.categoryId,
   changedValue: value,
 });
 
