@@ -10,13 +10,14 @@ import EditCriteriaPage from '../ui/pages/EditCriteriaPage.jsx';
 import { setTitle } from '../actions/app.js';
 import {
   addCriteria,
-  removeCriteria,
+  cancel,
   editCriteria,
   fetchCriteria,
+  removeCriteria,
   saveCriterias,
   setCriteria,
   setCriteriaValue,
-  cancel,
+  setNewCriteriaValue,
 } from '../actions/criteria.js';
 
 
@@ -59,13 +60,14 @@ const mapStateToProps = (globalState, props) => {
 const mapDispatchToProps = (dispatch, props) => ({
   initializeTitle: () => dispatch(setTitle('My Ratings')),
   fetchCriteria: () => dispatch(fetchCriteria()),
-  handleDelete: criteria => dispatch(removeCriteria(criteria)),
   handleAdd: category => dispatch(addCriteria(category)),
-  handleChange: (criteriaId, category) => dispatch(setCriteria(criteriaId, category)),
-  handleValueChanged: (value, criteria, category) => dispatch(setCriteriaValue(value, criteria, category)),
-  handleEdit: (criteria, category) => dispatch(editCriteria(criteria, category)),
-  handleSave: () => dispatch(saveCriterias(props)),
   handleCancel: () => dispatch(cancel(props)),
+  handleChange: (criteriaId, category) => dispatch(setCriteria(criteriaId, category)),
+  handleDelete: criteria => dispatch(removeCriteria(criteria)),
+  handleEdit: (criteria, category) => dispatch(editCriteria(criteria, category)),
+  handleNewValue: (value, category) => dispatch(setNewCriteriaValue(value, category)),
+  handleSave: () => dispatch(saveCriterias(props)),
+  handleValueChanged: (value, criteria, category) => dispatch(setCriteriaValue(value, criteria, category)),
 });
 
 const CriteriaOverview = connect(

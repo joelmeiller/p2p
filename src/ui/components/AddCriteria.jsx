@@ -31,19 +31,20 @@ const AddCriteria = (props) => {
       <div className="row">
         <div className="col-xs-10">
           <TextField
-            name={props.id}
-            onChange={e => props.onValueChanged(e.target.value)}
-            fullWidth
             disabled={props.readonly}
+            fullWidth
             inputStyle={{ color: '#333333' }}
+            name="newSelfDefinedCriteria"
+            onChange={e => props.onNewValue(e.target.value)}
+            value={props.newValue}
           />
         </div>
         <div className="col-xs-2">
           <RaisedButton
-            label="Add"
-            primary
-            onClick={props.onAdd}
             disabled={props.readonly}
+            label="Add"
+            onClick={props.onAdd}
+            primary
           />
         </div>
       </div>
@@ -71,16 +72,18 @@ const AddCriteria = (props) => {
 AddCriteria.propTypes = {
   id: React.PropTypes.string,
   isSelfDefined: React.PropTypes.bool,
-  selectedCriteriaId: React.PropTypes.string,
+  newValue: React.PropTypes.string,
+  onAdd: React.PropTypes.func,
   onValueChange: React.PropTypes.func,
   readonly: React.PropTypes.bool,
+  reset: React.PropTypes.bool,
+  selectedCriteriaId: React.PropTypes.string,
   selectCriterias: React.PropTypes.arrayOf(
     React.PropTypes.shape({
       id: React.PropTypes.string,
       label: React.PropTypes.string,
     })
   ),
-  onAdd: React.PropTypes.func,
 };
 
 export default AddCriteria;

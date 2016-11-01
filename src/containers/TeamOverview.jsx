@@ -39,20 +39,15 @@ TeamOverviewComponent.propTypes = {
 };
 
 const mapStateToProps = (globalState, props) => {
-  const { members, addedMember, newMemberValues, ...otherStates } = globalState.team;
+  const { members, canAdd } = globalState.team;
   const { roles } = globalState.role;
-
-  if (addedMember) {
-    members.push(addedMember);
-  }
 
   return {
     ...props,
-    ...otherStates,
     title: 'Teammembers',
     members,
     roles,
-    newMemberRoleId: newMemberValues.roleId,
+    canAdd,
   };
 };
 

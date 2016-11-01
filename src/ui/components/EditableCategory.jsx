@@ -20,7 +20,7 @@ const EditableCategory = props => (
       <div className="row" key={criteria.criteriaId}>
         <div className="col-xs-12">
           <ListItem
-            id={criteria.criteriaId}
+            id={criteria.criteriaId || criteria.label}
             text={criteria.label}
             editable={props.editable}
             edit={(!props.isSelfDefined ?
@@ -32,7 +32,7 @@ const EditableCategory = props => (
               /> : undefined
             )}
             readonly={props.readonly}
-            onChanged={value => props.onValueChanged(value, criteria)}
+            onBlur={value => props.onValueChanged(value, criteria)}
             onDelete={() => props.onDelete(criteria)}
           />
         </div>

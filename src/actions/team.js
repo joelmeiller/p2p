@@ -8,11 +8,8 @@ import { selectMember } from './member.js';
 
 
 export const ADD_MEMBER = '/team/ADD_MEMBER';
-export const INVALIDATE_PROJECT = '/team/INVALIDATE_PROJECT';
-export const RECEIVE_ROLE = '/team/RECEIVE_ROLE';
 export const RECEIVE_TEAM = '/team/RECEIVE_TEAM';
 export const REMOVE_MEMBER = '/team/REMOVE_MEMBER';
-export const REQUEST_ROLE = '/team/REQUEST_ROLE';
 export const REQUEST_TEAM = '/team/REQUEST_TEAM';
 export const UPDATE_TEAM = '/team/UPDATE_TEAM';
 export const SAVE_TEAM = '/team/SAVE_TEAM';
@@ -56,7 +53,7 @@ export const updateRoleOfMember = (value, updateMember) => (dispatch, getState) 
 
   if (updateMember && value.roleId) {
 
-    const updatedMember = state.members.find(member => member.id === updateMember.id);
+    const updatedMember = state.members.find(member => member.studentId === updateMember.studentId);
     const updatedRoles = updatedMember.roles.map(role => ({
       ...role,
       active: false,
@@ -70,19 +67,30 @@ export const updateRoleOfMember = (value, updateMember) => (dispatch, getState) 
     dispatch({
       type: UPDATE_TEAM,
       members: state.members.map(member =>
-        (member.id === updateMember.id ? updatedMember : member)),
+        (member.studentId === updateMember.studentId ? updatedMember : member)),
     });
   }
 };
 
-export const addMember = student => ({
-  type: ADD_MEMBER,
-  member: {
-    ...student,
-    roles: [],
-    categories: [],
-  },
-});
+export const addMember = (student) => (dispatch, getState) => {
+  const state = getState().team;
+
+  const members = state.members;
+
+  if (members) {
+    members.push({
+      studentId: student.id,
+      name: student.name,
+      slug: student.slug,
+      added: true,
+    });
+
+    dispatch({
+      type: ADD_MEMBER,
+      members,
+    })
+  }
+};
 
 export const removeMember = removedMember => (dispatch, getState) => {
   const state = getState().team;
@@ -90,7 +98,7 @@ export const removeMember = removedMember => (dispatch, getState) => {
   const members = (state.members || [])
     .map(member => ({
       ...member,
-      removed: member.removed || member.id === removedMember.id,
+      removed: member.removed || member.studentId === removedMember.studentId,
     }));
 
   dispatch({

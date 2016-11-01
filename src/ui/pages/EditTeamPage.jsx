@@ -22,7 +22,7 @@ const EditTeamPage = props => (
     <div className="push-top-small">
       {(props.members.map(member =>
         <div
-          key={member.id}
+          key={member.studentId}
           className={classNames('row', {
             'push-bottom-small': !member.isQM,
             'push-bottom-large': member.isQM,
@@ -31,7 +31,7 @@ const EditTeamPage = props => (
           <EditableMember
             {...member}
             readonly={props.readonly}
-            onDelete={() => props.handleDelete(member.id)}
+            onDelete={() => props.handleDelete(member.studentId)}
             onRoleChanged={value => props.handleRoleChanged({ roleId: value }, member)}
             selectRoles={props.roles}
           />

@@ -14,8 +14,9 @@ export default (values, callback) => {
       id: criteria.id,
       added: criteria.added && !criteria.removed,
       removed: criteria.removed && !criteria.added,
+      updated: criteria.updated,
       criteria: {
-        id: criteria.criteriaId,
+        id: (category.isSelfDefined && criteria.added) ? undefined : criteria.criteriaId,
         label: criteria.label,
       },
     })),

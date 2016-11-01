@@ -1,5 +1,6 @@
 // Node imports
 import 'isomorphic-fetch';
+import uuid from 'uuid';
 
 // Middleware
 import { default as apiGetCriterias } from '../middleware/criteria/getCriteria.js';
@@ -11,6 +12,7 @@ export const SAVE_CRITERIAS = '/criteria/SAVE_CRITERIAS';
 export const REMOVE_CRITERIA = '/criteria/REMOVE_CRITERIA';
 export const SET_CRITERIA = '/criteria/SET_CRITERIA';
 export const SET_CRITERIA_VALUE = '/criteria/SET_CRITERIA_VALUE';
+export const SET_NEW_CRITERIA_VALUE = '/criteria/SET_NEW_CRITERIA_VALUE';
 export const REQUEST_CRITERIA = '/criteria/REQUEST_CRITERIA';
 export const RECEIVE_CRITERIA = '/criteria/RECEIVE_CRITERIA';
 
@@ -66,20 +68,15 @@ export const setCriteria = (criteriaId, category) => ({
 export const addCriteria = addCategory => (dispatch, getState) => {
   const state = getState().criteria;
 
-  console.log(state, addCategory);
-
-  // Self defined crtierias
-  if (addCategory.isSelfDefined && state.changedCategoryId === addCategory.categoryId) {
+  // New self defined crtieria
+  if (addCategory.isSelfDefined && state.newCategoryId === addCategory.categoryId) {
     const category = state.categories.find(c =>
-      c.categoryId === addCategory.categoryId && c.categoryId === state.changedCategoryId);
+      c.categoryId === addCategory.categoryId && c.categoryId === state.newCategoryId);
 
     if (category) {
-      const newCriteria = state.changedCriteriaId ? addCategory.find(crit =>
-        crit.criteriaId === state.changedCriteriaId) : {};
-
       category.criterias.push({
-        ...newCriteria,
-        label: state.changedValue,
+        criteriaId: uuid.v4(), // Required for further changes before saving
+        label: state.newValue,
         added: true,
       });
 
@@ -91,6 +88,8 @@ export const addCriteria = addCategory => (dispatch, getState) => {
       dispatch({
         type: ADD_CRITERIA,
         categories,
+        newCategoryId: undefined,
+        newValue: '',
       });
     }
 
@@ -124,11 +123,32 @@ export const addCriteria = addCategory => (dispatch, getState) => {
   }
 };
 
-export const setCriteriaValue = (value, criteria, category) => ({
-  type: SET_CRITERIA_VALUE,
-  changedCriteriaId: criteria ? criteria.criteriaId : undefined,
-  changedCategoryId: category.categoryId,
-  changedValue: value,
+export const setCriteriaValue = (value, criteria, category) => (dispatch, getState) => {
+  const state = getState().criteria;
+
+  // Self defined crtierias
+  if (category.isSelfDefined) {
+    const categories = state.categories.map(cat => (
+      cat.categoryId === category.categoryId ? {
+      ...cat,
+      criterias: cat.criterias.map(crit => ({
+        ...crit,
+        label: crit.criteriaId === criteria.criteriaId ? value : crit.label,
+        updated: !crit.added, // Set as updated only in case it is not a new criteria
+      })),
+    } : cat));
+
+    dispatch({
+      type: SET_CRITERIA_VALUE,
+      categories,
+    });
+  }
+};
+
+export const setNewCriteriaValue = (value, category) => ({
+  type: SET_NEW_CRITERIA_VALUE,
+  newCategoryId: category.categoryId,
+  newValue: value,
 });
 
 export const saveCriterias = props => (dispatch, getState) => {
