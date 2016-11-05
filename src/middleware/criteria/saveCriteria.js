@@ -1,15 +1,36 @@
 // Node imports
 import fetch from 'isomorphic-fetch';
 
+export const apiEntrypoint = 'http://localhost:8080/api/project/categories';
 
-export const saveCriteria = (values, callback) => {
-  fetch('http://localhost:3000/p2p/api/team/member/test', {
+export default (values, callback) => {
+  const categories = values.map(category => ({
+    id: category.id,
+    category: {
+      id: category.categoryId,
+      title: category.title,
+    },
+    projectCriterias: category.criterias.map(criteria => ({
+      id: criteria.id,
+      added: criteria.added && !criteria.removed,
+      removed: criteria.removed && !criteria.added,
+      criteria: {
+        id: criteria.criteriaId,
+        label: criteria.label,
+      },
+    })),
+  }));
+
+  console.log(JSON.stringify(categories));
+
+  fetch(apiEntrypoint, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(values),
+    body: JSON.stringify(categories),
   })
-  .then(response => callback(response));
+  .then(response => response.json())
+  .then(data => callback(data));
 };

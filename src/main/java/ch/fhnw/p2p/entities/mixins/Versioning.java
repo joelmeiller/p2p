@@ -9,6 +9,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
 @Data
@@ -16,12 +18,15 @@ import lombok.Data;
 public abstract class Versioning {
 	
 	@Version
+	@JsonIgnore
 	private Integer version;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "versionTSD", nullable = false)
+    @Column(nullable = false)
+    @JsonIgnore
     private Date versionTSD;
     
+    @JsonIgnore
     private String createdBy;
 
     @PrePersist

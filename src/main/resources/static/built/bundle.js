@@ -64,7 +64,7 @@
 	
 	var _routes2 = _interopRequireDefault(_routes);
 	
-	__webpack_require__(1136);
+	__webpack_require__(1138);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -29183,25 +29183,29 @@
 	
 	var _criteria2 = _interopRequireDefault(_criteria);
 	
-	var _inbox = __webpack_require__(504);
+	var _inbox = __webpack_require__(501);
 	
 	var _inbox2 = _interopRequireDefault(_inbox);
 	
-	var _member = __webpack_require__(508);
+	var _member = __webpack_require__(505);
 	
 	var _member2 = _interopRequireDefault(_member);
 	
-	var _myrating = __webpack_require__(516);
+	var _myrating = __webpack_require__(514);
 	
 	var _myrating2 = _interopRequireDefault(_myrating);
 	
-	var _team = __webpack_require__(520);
+	var _team = __webpack_require__(518);
 	
 	var _team2 = _interopRequireDefault(_team);
 	
-	var _projects = __webpack_require__(521);
+	var _projects = __webpack_require__(519);
 	
 	var _projects2 = _interopRequireDefault(_projects);
+	
+	var _project = __webpack_require__(523);
+	
+	var _project2 = _interopRequireDefault(_project);
 	
 	var _AutoSuggest = __webpack_require__(525);
 	
@@ -29217,6 +29221,7 @@
 	    routing: _reactRouterRedux.routerReducer,
 	    team: _team2.default,
 	    projects: _projects2.default,
+	    project: _project2.default,
 	    autosuggest: _AutoSuggest.reducer
 	  }), {}, (0, _redux.compose)((0, _redux.applyMiddleware)(_reduxThunk2.default), window.devToolsExtension ? window.devToolsExtension() : function (f) {
 	    return f;
@@ -30616,9 +30621,9 @@
 	    fullName: 'Johann Misteli',
 	    firstName: 'Johann',
 	    lastName: 'Misteli',
-	    role: 'Fachjury',
-	    isQM: false,
-	    isJury: true,
+	    role: 'QM',
+	    isQM: true,
+	    isJury: false,
 	    isFinal: false },
 	  project: {
 	    title: 'IP5: P2P Web App',
@@ -31781,20 +31786,17 @@
 	});
 	exports.cancel = exports.saveCriterias = exports.setCriteriaValue = exports.addCriteria = exports.setCriteria = exports.removeCriteria = exports.fetchCriteria = exports.RECEIVE_CRITERIA = exports.REQUEST_CRITERIA = exports.SET_CRITERIA_VALUE = exports.SET_CRITERIA = exports.REMOVE_CRITERIA = exports.SAVE_CRITERIAS = exports.EDIT_CRITERIA = exports.ADD_CRITERIA = undefined;
 	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; // Middleware
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; // Node imports
 	
 	
-	var _getCriteriaMock = __webpack_require__(500);
+	// Middleware
 	
-	var _getCriteriaMock2 = _interopRequireDefault(_getCriteriaMock);
 	
-	var _saveCriteriaMock = __webpack_require__(502);
+	__webpack_require__(496);
 	
-	var _saveCriteriaMock2 = _interopRequireDefault(_saveCriteriaMock);
+	var _saveCriteria = __webpack_require__(500);
 	
-	var _error = __webpack_require__(503);
-	
-	var _error2 = _interopRequireDefault(_error);
+	var _saveCriteria2 = _interopRequireDefault(_saveCriteria);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -31814,9 +31816,29 @@
 	};
 	
 	var receiveData = function receiveData(data) {
-	  return _extends({
-	    type: RECEIVE_CRITERIA
-	  }, data);
+	  return {
+	    type: RECEIVE_CRITERIA,
+	    categories: data.map(function (projectCategory) {
+	      return {
+	        id: projectCategory.id.toString(),
+	        title: projectCategory.category.title,
+	        categoryId: projectCategory.category.id.toString(),
+	        criterias: projectCategory.projectCriterias.map(function (projectCriteria) {
+	          return {
+	            id: projectCriteria.id.toString(),
+	            label: projectCriteria.criteria.label,
+	            criteriaId: projectCriteria.criteria.id.toString()
+	          };
+	        }),
+	        selectCriterias: projectCategory.category.criterias.map(function (criteria) {
+	          return {
+	            criteriaId: criteria.id.toString(),
+	            label: criteria.label
+	          };
+	        })
+	      };
+	    })
+	  };
 	};
 	
 	var shouldFetchData = function shouldFetchData(state) {
@@ -31831,7 +31853,9 @@
 	    if (shouldFetchData(getState())) {
 	      dispatch(requestData());
 	
-	      (0, _getCriteriaMock2.default)(function (data) {
+	      fetch(_saveCriteria.apiEntrypoint).then(function (response) {
+	        return response.json();
+	      }).then(function (data) {
 	        dispatch(receiveData(data));
 	      });
 	    }
@@ -31844,7 +31868,7 @@
 	    var categories = (state.categories || []).map(function (category) {
 	      return _extends({}, category, {
 	        criterias: category.criterias ? category.criterias.filter(function (crit) {
-	          return crit.id !== criteria.id;
+	          return crit.categoryId !== criteria.categoryId;
 	        }) : []
 	      });
 	    });
@@ -31856,34 +31880,37 @@
 	  };
 	};
 	
-	var setCriteria = exports.setCriteria = function setCriteria(criteriaId, categoryId) {
+	var setCriteria = exports.setCriteria = function setCriteria(criteriaId, category) {
 	  return {
 	    type: SET_CRITERIA,
 	    selectedCriteriaId: criteriaId,
-	    selectedCategoryId: categoryId
+	    selectedCategoryId: category.categoryId
 	  };
 	};
 	
-	var addCriteria = exports.addCriteria = function addCriteria(addCategoryId) {
+	var addCriteria = exports.addCriteria = function addCriteria(addCategory) {
 	  return function (dispatch, getState) {
 	    var state = getState().criteria;
 	
-	    if (state.selectedCategoryId === addCategoryId && state.selectedCriteriaId) {
+	    if (state.selectedCategoryId === addCategory.categoryId && state.selectedCriteriaId) {
 	      (function () {
 	        var category = state.categories.find(function (c) {
-	          return c.id === addCategoryId && c.id === state.selectedCategoryId;
+	          return c.categoryId === addCategory.categoryId && c.categoryId === state.selectedCategoryId;
 	        });
 	
 	        if (category) {
-	          var newCriteriaIndex = category.selectCriterias.findIndex(function (crit) {
-	            return crit.id === state.selectedCriteriaId;
+	          var newCriteria = category.selectCriterias.find(function (crit) {
+	            return crit.criteriaId === state.selectedCriteriaId;
 	          });
 	
-	          if (newCriteriaIndex > -1) {
-	            category.criterias.push(category.selectCriterias[newCriteriaIndex]);
+	          if (newCriteria) {
+	            category.criterias.push({
+	              criteriaId: newCriteria.criteriaId,
+	              label: newCriteria.label
+	            });
 	
 	            var categories = state.categories.map(function (cat) {
-	              return cat.id === category.id ? category : cat;
+	              return cat.categoryId === category.categoryId ? category : cat;
 	            });
 	
 	            dispatch({
@@ -31897,11 +31924,11 @@
 	  };
 	};
 	
-	var setCriteriaValue = exports.setCriteriaValue = function setCriteriaValue(value, criteriaId, categoryId) {
+	var setCriteriaValue = exports.setCriteriaValue = function setCriteriaValue(value, criteria, category) {
 	  return {
 	    type: SET_CRITERIA_VALUE,
-	    changedCriteriaId: criteriaId,
-	    changedCateogryId: categoryId,
+	    changedCriteriaId: criteria.criteriaId,
+	    changedCateogryId: category.categoryId,
 	    changedValue: value
 	  };
 	};
@@ -31911,8 +31938,9 @@
 	    var state = getState().criteria;
 	
 	    if (state.categories) {
-	      (0, _saveCriteriaMock2.default)(state.categories, function (err) {
-	        if (err) dispatch((0, _error2.default)(fetchCriteria));
+	      (0, _saveCriteria2.default)(state.categories, function (data) {
+	        console.log(data);
+	        dispatch(receiveData(data));
 	      });
 	
 	      dispatch({
@@ -31929,7 +31957,9 @@
 	  return function (dispatch) {
 	    dispatch(requestData());
 	
-	    (0, _getCriteriaMock2.default)(function (data) {
+	    fetch(_saveCriteria.apiEntrypoint).then(function (response) {
+	      return response.json();
+	    }).then(function (data) {
 	      dispatch(receiveData(data));
 	    });
 	
@@ -31946,79 +31976,49 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.apiEntrypoint = undefined;
 	
-	var _fetchMock = __webpack_require__(492);
+	var _isomorphicFetch = __webpack_require__(496);
 	
-	var _fetchMock2 = _interopRequireDefault(_fetchMock);
-	
-	var _getCriteria = __webpack_require__(501);
+	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	// Node imports
-	var data = {
-	  readonly: false,
-	  categories: [{
-	    id: '234234234',
-	    title: 'Konflikt Kompetenzen',
-	    criterias: [{
-	      id: '123123123',
-	      label: 'Weicht konflikten aus'
-	    }, {
-	      id: '123123124',
-	      label: 'Trägt Konflikte unparteiisch und kooperativ aus'
-	    }],
-	    selectCriterias: [{
-	      id: '123123123',
-	      label: 'Weicht konflikten aus'
-	    }, {
-	      id: '123123124',
-	      label: 'Trägt Konflikte unparteiisch und kooperativ aus'
-	    }, {
-	      id: '123123126',
-	      label: 'Geht aktiv auf Konflikte zu'
-	    }, {
-	      id: '123123127',
-	      label: 'Handelt professionell'
-	    }]
-	  }, {
-	    id: '234234235',
-	    title: 'Team Kompetenzen',
-	    criterias: [{
-	      id: '123123125',
-	      label: 'Bringt sich selber ins Team ein'
-	    }],
-	    selectCriterias: [{
-	      id: '123123125',
-	      label: 'Bringt sich selber ins Team ein'
-	    }, {
-	      id: '123123234',
-	      label: 'Kann ein Team führen'
-	    }, {
-	      id: '123123346',
-	      label: 'Unterstützt das Team proaktiv'
-	    }]
-	  }, {
-	    id: '234234236',
-	    title: 'Eigene Kriterien',
-	    criterias: [{
-	      id: '123123126',
-	      label: 'Ist neugierig & Interessiert',
-	      self: true
-	    }],
-	    selectCriterias: []
-	  }]
-	};
+	var apiEntrypoint = exports.apiEntrypoint = 'http://localhost:8080/api/project/categories'; // Node imports
 	
-	exports.default = function (callback) {
-	  // Patch the fetch() global to always return the same value for GET
-	  // requests to all URLs.
-	  _fetchMock2.default.get(_getCriteria.apiEntrypoint, data);
+	exports.default = function (values, callback) {
+	  var categories = values.map(function (category) {
+	    return {
+	      id: category.id,
+	      category: {
+	        id: category.categoryId,
+	        title: category.title
+	      },
+	      projectCriterias: category.criterias.map(function (criteria) {
+	        return {
+	          id: category.id,
+	          criteria: {
+	            id: criteria.criteriaId,
+	            label: criteria.label
+	          }
+	        };
+	      })
+	    };
+	  });
 	
-	  (0, _getCriteria.getCriteria)(callback);
-	
-	  // Unpatch.
-	  _fetchMock2.default.restore();
+	  (0, _isomorphicFetch2.default)(apiEntrypoint, {
+	    method: 'POST',
+	    headers: {
+	      Accept: 'application/json',
+	      'Content-Type': 'application/json'
+	    },
+	    body: JSON.stringify(categories)
+	  }).then(function (response) {
+	    console.log(response);
+	    return response.json();
+	  }).then(function (data) {
+	    return callback(data);
+	  });
 	};
 
 /***/ },
@@ -32030,90 +32030,10 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.getCriteria = exports.apiEntrypoint = undefined;
-	
-	__webpack_require__(496);
-	
-	var apiEntrypoint = exports.apiEntrypoint = 'http://localhost:3000/p2p/api/criteria/test'; // Node imports
-	var getCriteria = exports.getCriteria = function getCriteria(callback) {
-	  return fetch(apiEntrypoint).then(function (response) {
-	    return response.json();
-	  }).then(function (data) {
-	    return callback(data);
-	  });
-	};
-
-/***/ },
-/* 502 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.response = undefined;
-	
-	var _fetchMock = __webpack_require__(492);
-	
-	var _fetchMock2 = _interopRequireDefault(_fetchMock);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	// import { saveCriteria as origin } from './saveCriteria.js';
-	
-	var response = exports.response = {
-	  status: 'OK',
-	  message: 'Joel Meiller updated'
-	}; // Node imports
-	
-	exports.default = function (values, callback) {
-	  // Patch the fetch() global to always return the same value for GET
-	  // requests to all URLs.
-	  _fetchMock2.default.get('http://localhost:3000/p2p/api/team/categories/save', response);
-	
-	  // origin(member, callback);
-	
-	  callback(null, response);
-	
-	  // Unpatch.
-	  _fetchMock2.default.restore();
-	};
-
-/***/ },
-/* 503 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var API_ERROR = exports.API_ERROR = '/error/API_ERROR';
-	
-	var apiError = exports.apiError = function apiError(message, fetch) {
-	  return function (dispatch) {
-	    dispatch(fetch);
-	    dispatch({
-	      type: API_ERROR,
-	      message: message
-	    });
-	  };
-	};
-
-/***/ },
-/* 504 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
 	
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
-	var _inbox = __webpack_require__(505);
+	var _inbox = __webpack_require__(502);
 	
 	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 	
@@ -32151,7 +32071,7 @@
 	exports.default = reducer;
 
 /***/ },
-/* 505 */
+/* 502 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32164,7 +32084,7 @@
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; // Middleware
 	
 	
-	var _getInboxMock = __webpack_require__(506);
+	var _getInboxMock = __webpack_require__(503);
 	
 	var _getInboxMock2 = _interopRequireDefault(_getInboxMock);
 	
@@ -32216,7 +32136,7 @@
 	};
 
 /***/ },
-/* 506 */
+/* 503 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32229,7 +32149,7 @@
 	
 	var _fetchMock2 = _interopRequireDefault(_fetchMock);
 	
-	var _getInbox = __webpack_require__(507);
+	var _getInbox = __webpack_require__(504);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -32262,7 +32182,7 @@
 	};
 
 /***/ },
-/* 507 */
+/* 504 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32284,7 +32204,7 @@
 	};
 
 /***/ },
-/* 508 */
+/* 505 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32295,7 +32215,7 @@
 	
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
-	var _member = __webpack_require__(509);
+	var _member = __webpack_require__(506);
 	
 	var initialValues = {
 	  ratings: []
@@ -32359,7 +32279,7 @@
 	exports.default = reducer;
 
 /***/ },
-/* 509 */
+/* 506 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32369,13 +32289,13 @@
 	});
 	exports.initialize = exports.updateRating = exports.updateComment = exports.saveMemberAndClose = exports.showMember = exports.selectMember = exports.resetPreviousMember = exports.ERROR_RESET_UPDATE = exports.UPDATE_RATING = exports.UPDATE_COMMENT = exports.SELECT_MEMBER = exports.INITIALIZE = undefined;
 	
-	var _updateTeamMemberMock = __webpack_require__(510);
+	var _updateTeamMemberMock = __webpack_require__(507);
 	
 	var _app = __webpack_require__(490);
 	
-	var _team = __webpack_require__(511);
+	var _team = __webpack_require__(508);
 	
-	var _getCriteriaValues = __webpack_require__(515);
+	var _getCriteriaValues = __webpack_require__(513);
 	
 	var _getCriteriaValues2 = _interopRequireDefault(_getCriteriaValues);
 	
@@ -32488,7 +32408,7 @@
 	};
 
 /***/ },
-/* 510 */
+/* 507 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32524,7 +32444,7 @@
 	};
 
 /***/ },
-/* 511 */
+/* 508 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32540,21 +32460,21 @@
 	// Actions
 	
 	
-	var _getTeamMock = __webpack_require__(512);
+	var _getTeamMock = __webpack_require__(509);
 	
 	var _getTeamMock2 = _interopRequireDefault(_getTeamMock);
 	
-	var _saveTeamMock = __webpack_require__(514);
+	var _saveTeamMock = __webpack_require__(511);
 	
 	var _saveTeamMock2 = _interopRequireDefault(_saveTeamMock);
 	
-	var _error = __webpack_require__(503);
+	var _error = __webpack_require__(512);
 	
 	var _error2 = _interopRequireDefault(_error);
 	
 	var _app = __webpack_require__(490);
 	
-	var _member = __webpack_require__(509);
+	var _member = __webpack_require__(506);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -32727,7 +32647,7 @@
 	};
 
 /***/ },
-/* 512 */
+/* 509 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32740,7 +32660,7 @@
 	
 	var _fetchMock2 = _interopRequireDefault(_fetchMock);
 	
-	var _getTeam = __webpack_require__(513);
+	var _getTeam = __webpack_require__(510);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -32932,7 +32852,7 @@
 	};
 
 /***/ },
-/* 513 */
+/* 510 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32954,7 +32874,7 @@
 	};
 
 /***/ },
-/* 514 */
+/* 511 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32991,7 +32911,28 @@
 	};
 
 /***/ },
-/* 515 */
+/* 512 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var API_ERROR = exports.API_ERROR = '/error/API_ERROR';
+	
+	exports.default = function (error, fetch) {
+	  return function (dispatch) {
+	    dispatch(fetch);
+	    dispatch({
+	      type: API_ERROR,
+	      error: error
+	    });
+	  };
+	};
+
+/***/ },
+/* 513 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -33013,7 +32954,7 @@
 	};
 
 /***/ },
-/* 516 */
+/* 514 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33024,7 +32965,7 @@
 	
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
-	var _myrating = __webpack_require__(517);
+	var _myrating = __webpack_require__(515);
 	
 	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 	
@@ -33058,7 +32999,7 @@
 	exports.default = reducer;
 
 /***/ },
-/* 517 */
+/* 515 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33068,7 +33009,7 @@
 	});
 	exports.fetchMyRating = exports.RECEIVE_RATING = exports.REQUEST_RATING = undefined;
 	
-	var _getMyRatingMock = __webpack_require__(518);
+	var _getMyRatingMock = __webpack_require__(516);
 	
 	var _getMyRatingMock2 = _interopRequireDefault(_getMyRatingMock);
 	
@@ -33111,7 +33052,7 @@
 	};
 
 /***/ },
-/* 518 */
+/* 516 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33124,7 +33065,7 @@
 	
 	var _fetchMock2 = _interopRequireDefault(_fetchMock);
 	
-	var _getMyRating = __webpack_require__(519);
+	var _getMyRating = __webpack_require__(517);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -33290,7 +33231,7 @@
 	};
 
 /***/ },
-/* 519 */
+/* 517 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33312,7 +33253,7 @@
 	};
 
 /***/ },
-/* 520 */
+/* 518 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33323,7 +33264,7 @@
 	
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
-	var _team = __webpack_require__(511);
+	var _team = __webpack_require__(508);
 	
 	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 	
@@ -33380,7 +33321,7 @@
 	exports.default = reducer;
 
 /***/ },
-/* 521 */
+/* 519 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33391,7 +33332,7 @@
 	
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
-	var _projects = __webpack_require__(522);
+	var _projects = __webpack_require__(520);
 	
 	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 	
@@ -33439,7 +33380,7 @@
 	exports.default = reducer;
 
 /***/ },
-/* 522 */
+/* 520 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33449,25 +33390,20 @@
 	});
 	exports.cancel = exports.saveProject = exports.removeProjct = exports.setNewProjectValue = exports.updateProject = exports.showProject = exports.fetchProject = exports.SAVE_PROJECTS = exports.UPDATE_PROJECT = exports.SET_NEW_PROJECT_VALUE = exports.REQUEST_PROJECTS = exports.REMOVE_PROJECT = exports.RECEIVE_PROJECTS = exports.SHOW_PROJECT = exports.ADD_PROJECT = undefined;
 	
-	var _getProjectsMock = __webpack_require__(523);
+	var _getProjectsMock = __webpack_require__(521);
 	
 	var _getProjectsMock2 = _interopRequireDefault(_getProjectsMock);
 	
-	var _error = __webpack_require__(503);
-	
-	var _error2 = _interopRequireDefault(_error);
-	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	// Middleware
-	var ADD_PROJECT = exports.ADD_PROJECT = '/project/ADD_PROJECT';
-	var SHOW_PROJECT = exports.SHOW_PROJECT = '/project/ADD_PROJECT';
-	var RECEIVE_PROJECTS = exports.RECEIVE_PROJECTS = '/project/RECEIVE_PROJECTS';
-	var REMOVE_PROJECT = exports.REMOVE_PROJECT = '/project/REMOVE_PROJECT';
-	var REQUEST_PROJECTS = exports.REQUEST_PROJECTS = '/project/REQUEST_PROJECTS';
-	var SET_NEW_PROJECT_VALUE = exports.SET_NEW_PROJECT_VALUE = '/project/SET_NEW_PROJECT_VALUE';
-	var UPDATE_PROJECT = exports.UPDATE_PROJECT = '/project/UPDATE_PROJECT';
-	var SAVE_PROJECTS = exports.SAVE_PROJECTS = '/project/SAVE_PROJECTS';
+	var ADD_PROJECT = exports.ADD_PROJECT = '/projects/ADD_PROJECT'; // Middleware
+	var SHOW_PROJECT = exports.SHOW_PROJECT = '/projects/ADD_PROJECT';
+	var RECEIVE_PROJECTS = exports.RECEIVE_PROJECTS = '/projects/RECEIVE_PROJECTS';
+	var REMOVE_PROJECT = exports.REMOVE_PROJECT = '/projects/REMOVE_PROJECT';
+	var REQUEST_PROJECTS = exports.REQUEST_PROJECTS = '/projects/REQUEST_PROJECTS';
+	var SET_NEW_PROJECT_VALUE = exports.SET_NEW_PROJECT_VALUE = '/projects/SET_NEW_PROJECT_VALUE';
+	var UPDATE_PROJECT = exports.UPDATE_PROJECT = '/projects/UPDATE_PROJECT';
+	var SAVE_PROJECTS = exports.SAVE_PROJECTS = '/projects/SAVE_PROJECTS';
 	
 	var requestData = function requestData() {
 	  return {
@@ -33600,7 +33536,7 @@
 	};
 
 /***/ },
-/* 523 */
+/* 521 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33613,7 +33549,7 @@
 	
 	var _fetchMock2 = _interopRequireDefault(_fetchMock);
 	
-	var _getProjects = __webpack_require__(524);
+	var _getProjects = __webpack_require__(522);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -33675,7 +33611,7 @@
 	};
 
 /***/ },
-/* 524 */
+/* 522 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33694,6 +33630,160 @@
 	  }).then(function (data) {
 	    return callback(data);
 	  });
+	};
+
+/***/ },
+/* 523 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	var _project = __webpack_require__(524);
+	
+	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; } // Actions
+	
+	
+	var initialState = {
+	  title: undefined,
+	  coach: undefined,
+	  status: 'open',
+	  isFetching: false,
+	  fetched: false
+	};
+	
+	var reducer = function reducer() {
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
+	  var action = arguments[1];
+	  var type = action.type;
+	  var value = action.value;
+	
+	  var params = _objectWithoutProperties(action, ['type', 'value']);
+	
+	  switch (type) {
+	    case _project.SET_PROJECT_TITLE:
+	      return _extends({}, state, params, {
+	        title: value
+	      });
+	    case _project.SET_COACH_NAME:
+	      return _extends({}, state, params, {
+	        name: value
+	      });
+	    case _project.REQUEST_USER:
+	      return _extends({}, state, {
+	        isFetching: true
+	      });
+	    case _project.RECEIVE_USER:
+	      return _extends({}, state, params, {
+	        isFetching: false
+	      });
+	    default:
+	      return state;
+	  }
+	};
+	
+	exports.default = reducer;
+
+/***/ },
+/* 524 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.fetchProject = exports.setCoachName = exports.setProjectTitle = exports.save = exports.cancel = exports.RECEIVE_USER = exports.REQUEST_USER = exports.SET_COACH_NAME = exports.SET_PROJECT_TITLE = exports.SAVE = exports.CANCEL = undefined;
+	
+	var _getUserAndProjectSettingsMock = __webpack_require__(491);
+	
+	var _getUserAndProjectSettingsMock2 = _interopRequireDefault(_getUserAndProjectSettingsMock);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var CANCEL = exports.CANCEL = 'project/CANCEL';
+	var SAVE = exports.SAVE = 'project/SAVE';
+	var SET_PROJECT_TITLE = exports.SET_PROJECT_TITLE = 'project/SET_PROJECT_TITLE';
+	var SET_COACH_NAME = exports.SET_COACH_NAME = 'project/SET_COACH_NAME';
+	var REQUEST_USER = exports.REQUEST_USER = 'app/REQUEST_USER_AND_PROJECT';
+	var RECEIVE_USER = exports.RECEIVE_USER = 'app/RECEIVE_USER_AND_PROJECT';
+	
+	var cancel = exports.cancel = function cancel(props) {
+	  return function (dispatch) {
+	    dispatch({
+	      type: CANCEL
+	    });
+	    props.router.push('/');
+	  };
+	};
+	
+	var save = exports.save = function save(props) {
+	  return function (dispatch, getState) {
+	    var state = getState().project;
+	
+	    dispatch({
+	      type: SAVE,
+	      title: state.title,
+	      name: state.name
+	    });
+	    props.router.push('/');
+	  };
+	};
+	
+	var setProjectTitle = exports.setProjectTitle = function setProjectTitle(newValue) {
+	  return function (dispatch) {
+	    dispatch({
+	      type: SET_PROJECT_TITLE,
+	      value: newValue
+	    });
+	  };
+	};
+	
+	var setCoachName = exports.setCoachName = function setCoachName(newValue) {
+	  return function (dispatch) {
+	    dispatch({
+	      type: SET_COACH_NAME,
+	      value: newValue
+	    });
+	  };
+	};
+	
+	var requestData = function requestData() {
+	  return {
+	    type: REQUEST_USER
+	  };
+	};
+	
+	var receiveData = function receiveData(data) {
+	  return {
+	    type: RECEIVE_USER,
+	    project: data.project,
+	    user: data.user
+	  };
+	};
+	
+	var shouldFetchData = function shouldFetchData(state) {
+	  if (!state.app || state.relaod) {
+	    return true;
+	  }
+	  return !state.app.isFetching && !state.app.fetched;
+	};
+	
+	var fetchProject = exports.fetchProject = function fetchProject() {
+	  return function (dispatch, getState) {
+	    if (shouldFetchData(getState())) {
+	      dispatch(requestData());
+	
+	      (0, _getUserAndProjectSettingsMock2.default)(function (data) {
+	        dispatch(receiveData(data));
+	      });
+	    }
+	  };
 	};
 
 /***/ },
@@ -74221,10 +74311,12 @@
 	
 	var _TeammemberEvaluation2 = _interopRequireDefault(_TeammemberEvaluation);
 	
+	var _ProjectContainer = __webpack_require__(1136);
+	
+	var _ProjectContainer2 = _interopRequireDefault(_ProjectContainer);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	// Material Design Theme
-	// React imports
 	exports.default = function (store) {
 	  var history = (0, _reactRouterRedux.syncHistoryWithStore)(_reactRouter.browserHistory, store);
 	  return _react2.default.createElement(
@@ -74245,12 +74337,16 @@
 	          _react2.default.createElement(_reactRouter.Route, { path: '/myrating', component: _MyRatingOverview2.default }),
 	          _react2.default.createElement(_reactRouter.Route, { path: '/criteria/edit', component: _CriteriaOverview2.default }),
 	          _react2.default.createElement(_reactRouter.Route, { path: '/team/edit', component: _TeamOverview2.default }),
+	          _react2.default.createElement(_reactRouter.Route, { path: '/projects/:slug', component: _ProjectContainer2.default }),
 	          _react2.default.createElement(_reactRouter.Route, { path: '/:test', component: _TeamRatingOverview2.default })
 	        )
 	      )
 	    )
 	  );
 	};
+	
+	// Material Design Theme
+	// React imports
 
 /***/ },
 /* 916 */
@@ -80539,7 +80635,7 @@
 	
 	var _InboxPage2 = _interopRequireDefault(_InboxPage);
 	
-	var _inbox = __webpack_require__(505);
+	var _inbox = __webpack_require__(502);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -95218,7 +95314,7 @@
 	
 	var _ProjectPage2 = _interopRequireDefault(_ProjectPage);
 	
-	var _projects = __webpack_require__(522);
+	var _projects = __webpack_require__(520);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -95506,9 +95602,9 @@
 	
 	var _TeamRatingPage2 = _interopRequireDefault(_TeamRatingPage);
 	
-	var _team = __webpack_require__(511);
+	var _team = __webpack_require__(508);
 	
-	var _member = __webpack_require__(509);
+	var _member = __webpack_require__(506);
 	
 	var _calculateProgress = __webpack_require__(1109);
 	
@@ -96409,7 +96505,7 @@
 	    return _extends({}, category, {
 	      selectCriterias: category.selectCriterias.filter(function (selectedCriteria) {
 	        return !category.criterias.find(function (criteria) {
-	          return criteria.id === selectedCriteria.id;
+	          return criteria.criteriaId === selectedCriteria.criteriaId;
 	        });
 	      })
 	    });
@@ -96433,17 +96529,17 @@
 	    handleDelete: function handleDelete(criteria) {
 	      return dispatch((0, _criteria.removeCriteria)(criteria));
 	    },
-	    handleAdd: function handleAdd(categoryId) {
-	      return dispatch((0, _criteria.addCriteria)(categoryId));
+	    handleAdd: function handleAdd(category) {
+	      return dispatch((0, _criteria.addCriteria)(category));
 	    },
-	    handleChange: function handleChange(criteriaId, categeoryId) {
-	      return dispatch((0, _criteria.setCriteria)(criteriaId, categeoryId));
+	    handleChange: function handleChange(criteriaId, category) {
+	      return dispatch((0, _criteria.setCriteria)(criteriaId, category));
 	    },
-	    handleValueChanged: function handleValueChanged(value, criteriaId, categeoryId) {
-	      return dispatch((0, _criteria.setCriteriaValue)(value, criteriaId, categeoryId));
+	    handleValueChanged: function handleValueChanged(value, criteria, category) {
+	      return dispatch((0, _criteria.setCriteriaValue)(value, criteria, category));
 	    },
-	    handleEdit: function handleEdit(criteriaId, categeoryId) {
-	      return dispatch((0, _criteria.editCriteria)(criteriaId, categeoryId));
+	    handleEdit: function handleEdit(criteria, category) {
+	      return dispatch((0, _criteria.editCriteria)(criteria, category));
 	    },
 	    handleSave: function handleSave() {
 	      return dispatch((0, _criteria.saveCriterias)(props));
@@ -96493,13 +96589,17 @@
 	        _react2.default.createElement(_EditableCategory2.default, _extends({}, category, {
 	          readonly: props.readonly,
 	          onDelete: props.handleDelete,
-	          onAdd: props.handleAdd,
-	          onChange: function onChange(value) {
-	            return props.handleChange(value, category.id);
+	          onAdd: function onAdd() {
+	            return props.handleAdd(category);
 	          },
-	          onValueChanged: props.handleValueChanged,
+	          onChange: function onChange(value) {
+	            return props.handleChange(value, category);
+	          },
+	          onValueChanged: function onValueChanged(value, criteria) {
+	            return props.handleValueChanged(value, criteria, category);
+	          },
 	          onEdit: props.handleEdit,
-	          selectedCriteriaId: category.id === props.selectedCategoryId ? props.selectedCriteriaId : undefined
+	          selectedCriteriaId: category.categoryId === props.selectedCategoryId ? props.selectedCriteriaId : undefined
 	        }))
 	      );
 	    }) : undefined,
@@ -96577,9 +96677,15 @@
 	var EditableCategory = function EditableCategory(props) {
 	  var selectedCriteriaId = props.selectedCriteriaId || (props.selectCriterias && props.selectCriterias.length > 0 ? props.selectCriterias[0].id : undefined);
 	
-	  console.log(props.selectCriterias);
+	  var selectCriterias = props.selectCriterias.map(function (criteria) {
+	    return {
+	      id: criteria.criteriaId,
+	      label: criteria.label
+	    };
+	  });
+	
 	  var dropdown = _react2.default.createElement(_Dropdown2.default, {
-	    items: props.selectCriterias,
+	    items: selectCriterias,
 	    onChange: props.onChange,
 	    selectedValue: selectedCriteriaId
 	  });
@@ -96601,25 +96707,25 @@
 	    props.criterias ? props.criterias.map(function (criteria) {
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'row', key: criteria.id },
+	        { className: 'row', key: criteria.criteriaId },
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'col-xs-12' },
 	          _react2.default.createElement(_ListItem2.default, {
-	            id: criteria.id,
+	            id: criteria.criteriaId,
 	            text: criteria.label,
 	            editable: criteria.self,
 	            edit: _react2.default.createElement(_materialUi.RaisedButton, {
 	              label: 'Save',
 	              primary: true,
 	              onClick: function onClick() {
-	                return props.onEdit(criteria.id, props.id);
+	                return props.onEdit(criteria);
 	              },
 	              disabled: props.readonly
 	            }),
 	            readonly: props.readonly,
 	            onChanged: function onChanged(value) {
-	              return props.onValueChanged(value, criteria.id, props.id);
+	              return props.onValueChanged(value, criteria);
 	            },
 	            onDelete: function onDelete() {
 	              return props.onDelete(criteria);
@@ -96642,9 +96748,7 @@
 	        _react2.default.createElement(_materialUi.RaisedButton, {
 	          label: 'Add',
 	          primary: true,
-	          onClick: function onClick() {
-	            return props.onAdd(props.id);
-	          },
+	          onClick: props.onAdd,
 	          disabled: props.readonly || !props.selectedCriteriaId
 	        })
 	      )
@@ -96900,7 +97004,7 @@
 	
 	var _app = __webpack_require__(490);
 	
-	var _team = __webpack_require__(511);
+	var _team = __webpack_require__(508);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -97340,9 +97444,9 @@
 	
 	var _app = __webpack_require__(490);
 	
-	var _myrating = __webpack_require__(517);
+	var _myrating = __webpack_require__(515);
 	
-	var _member = __webpack_require__(509);
+	var _member = __webpack_require__(506);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -97747,13 +97851,13 @@
 	
 	var _EvaluationPage2 = _interopRequireDefault(_EvaluationPage);
 	
-	var _member = __webpack_require__(509);
+	var _member = __webpack_require__(506);
 	
 	var _calculateProgress = __webpack_require__(1109);
 	
 	var _calculateProgress2 = _interopRequireDefault(_calculateProgress);
 	
-	var _getCriteriaValues = __webpack_require__(515);
+	var _getCriteriaValues = __webpack_require__(513);
 	
 	var _getCriteriaValues2 = _interopRequireDefault(_getCriteriaValues);
 	
@@ -98338,13 +98442,251 @@
 /* 1136 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(526);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRedux = __webpack_require__(536);
+	
+	var _reactRouter = __webpack_require__(916);
+	
+	var _EditProjectPage = __webpack_require__(1137);
+	
+	var _EditProjectPage2 = _interopRequireDefault(_EditProjectPage);
+	
+	var _app = __webpack_require__(490);
+	
+	var _project = __webpack_require__(524);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // React imports
+	
+	
+	// Component imports
+	
+	
+	// Action imports
+	
+	
+	var EditProjectComponent = function (_Component) {
+	  _inherits(EditProjectComponent, _Component);
+	
+	  function EditProjectComponent() {
+	    _classCallCheck(this, EditProjectComponent);
+	
+	    return _possibleConstructorReturn(this, (EditProjectComponent.__proto__ || Object.getPrototypeOf(EditProjectComponent)).apply(this, arguments));
+	  }
+	
+	  _createClass(EditProjectComponent, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.props.initializeTitle();
+	      this.props.fetchProject();
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(_EditProjectPage2.default, this.props);
+	    }
+	  }]);
+	
+	  return EditProjectComponent;
+	}(_react.Component);
+	
+	EditProjectComponent.propTypes = {
+	  initializeTitle: _react2.default.PropTypes.func,
+	  fetchProject: _react2.default.PropTypes.func
+	
+	};
+	
+	var mapStateToProps = function mapStateToProps(globalState, props) {
+	  var state = globalState.project;
+	
+	  return _extends({}, props, state);
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch, props) {
+	  return {
+	    initializeTitle: function initializeTitle() {
+	      return dispatch((0, _app.setTitle)('Edit Project'));
+	    },
+	    fetchProject: function fetchProject() {
+	      return dispatch((0, _project.fetchProject)());
+	    },
+	    handleSave: function handleSave() {
+	      return dispatch((0, _project.save)(props));
+	    },
+	    handleCancel: function handleCancel() {
+	      return dispatch((0, _project.cancel)(props));
+	    },
+	    handleTitleChanged: function handleTitleChanged(newTitleValue) {
+	      return dispatch((0, _project.setProjectTitle)(newTitleValue));
+	    },
+	    handleCoachChanged: function handleCoachChanged(newCoachValue) {
+	      return dispatch((0, _project.setCoachName)(newCoachValue));
+	    }
+	  };
+	};
+	
+	var ProjectContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(EditProjectComponent);
+	
+	exports.default = (0, _reactRouter.withRouter)(ProjectContainer);
+
+/***/ },
+/* 1137 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(526);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _materialUi = __webpack_require__(556);
+	
+	var _Header2Line = __webpack_require__(1115);
+	
+	var _Header2Line2 = _interopRequireDefault(_Header2Line);
+	
+	var _TextField = __webpack_require__(602);
+	
+	var _TextField2 = _interopRequireDefault(_TextField);
+	
+	var _Dropdown = __webpack_require__(1114);
+	
+	var _Dropdown2 = _interopRequireDefault(_Dropdown);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var EditProjectPage = function EditProjectPage(props) {
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'container' },
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'row' },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'col-xs-12' },
+	        _react2.default.createElement(_Header2Line2.default, {
+	          title: 'Project: ' + props.title
+	        })
+	      )
+	    ),
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'row' },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'col-xs-4' },
+	        _react2.default.createElement(_TextField2.default, {
+	          hintText: 'Title',
+	          defaultValue: props.title,
+	          fullWidth: true,
+	          inputStyle: { color: '#333333' },
+	          onChange: function onChange(e) {
+	            return props.handleTitleChanged(e.target.value);
+	          }
+	        })
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'col-xs-4' },
+	        _react2.default.createElement(_TextField2.default, {
+	          hintText: 'Name Coach',
+	          defaultValue: props.coachName,
+	          fullWidth: true,
+	          inputStyle: { color: '#333333' },
+	          onChange: function onChange(e) {
+	            return props.handleCoachChanged(e.target.value);
+	          }
+	        })
+	      )
+	    ),
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'row' },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'col-xs-4', style: { marginTop: -8 } },
+	        _react2.default.createElement(_Dropdown2.default, {
+	          menuItems: props.selectStates,
+	          selectedValue: props.selectedStateId
+	        })
+	      )
+	    ),
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'row push-top-medium' },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'col-xs-4 align-right' },
+	        _react2.default.createElement(_materialUi.RaisedButton, {
+	          label: 'Cancel',
+	          onClick: props.handleCancel
+	        })
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'col-xs-4' },
+	        _react2.default.createElement(_materialUi.RaisedButton, {
+	          label: 'Save',
+	          primary: true,
+	          onClick: props.handleSave,
+	          disabled: props.readonly
+	        })
+	      )
+	    )
+	  );
+	};
+	
+	EditProjectPage.propTypes = {
+	  title: _react2.default.PropTypes.string,
+	  handleTitleChanged: _react2.default.PropTypes.func,
+	  handleCoachChanged: _react2.default.PropTypes.func,
+	  coachName: _react2.default.PropTypes.string,
+	  selectStates: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.shape({
+	    id: _react2.default.PropTypes.string,
+	    label: _react2.default.PropTypes.string
+	  })),
+	  selectedStateId: _react2.default.PropTypes.string,
+	  handleCancel: _react2.default.PropTypes.func,
+	  handleSave: _react2.default.PropTypes.func,
+	  readonly: _react2.default.PropTypes.bool
+	};
+	
+	exports.default = EditProjectPage;
+
+/***/ },
+/* 1138 */
+/***/ function(module, exports, __webpack_require__) {
+
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(1137);
+	var content = __webpack_require__(1139);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(1143)(content, {});
+	var update = __webpack_require__(1145)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -98361,15 +98703,15 @@
 	}
 
 /***/ },
-/* 1137 */
+/* 1139 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(1138)();
+	exports = module.exports = __webpack_require__(1140)();
 	// imports
-	exports.i(__webpack_require__(1139), "");
-	exports.i(__webpack_require__(1140), "");
 	exports.i(__webpack_require__(1141), "");
 	exports.i(__webpack_require__(1142), "");
+	exports.i(__webpack_require__(1143), "");
+	exports.i(__webpack_require__(1144), "");
 	exports.push([module.id, "@import url(https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css);", ""]);
 	exports.push([module.id, "@import url(https://fonts.googleapis.com/icon?family=Material+Icons);", ""]);
 	
@@ -98380,7 +98722,7 @@
 
 
 /***/ },
-/* 1138 */
+/* 1140 */
 /***/ function(module, exports) {
 
 	/*
@@ -98436,10 +98778,10 @@
 
 
 /***/ },
-/* 1139 */
+/* 1141 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(1138)();
+	exports = module.exports = __webpack_require__(1140)();
 	// imports
 	
 	
@@ -98450,10 +98792,10 @@
 
 
 /***/ },
-/* 1140 */
+/* 1142 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(1138)();
+	exports = module.exports = __webpack_require__(1140)();
 	// imports
 	
 	
@@ -98464,10 +98806,10 @@
 
 
 /***/ },
-/* 1141 */
+/* 1143 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(1138)();
+	exports = module.exports = __webpack_require__(1140)();
 	// imports
 	
 	
@@ -98478,10 +98820,10 @@
 
 
 /***/ },
-/* 1142 */
+/* 1144 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(1138)();
+	exports = module.exports = __webpack_require__(1140)();
 	// imports
 	
 	
@@ -98492,7 +98834,7 @@
 
 
 /***/ },
-/* 1143 */
+/* 1145 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*

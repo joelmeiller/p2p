@@ -8,15 +8,17 @@ const data = {
   categories: [{
     id: '234234234',
     title: 'Konflikt Kompetenzen',
+    categoryId: '24444',
     criterias: [{
       id: '123123123',
       label: 'Weicht konflikten aus',
+      criteriaId: 22,
     }, {
       id: '123123124',
       label: 'Trägt Konflikte unparteiisch und kooperativ aus',
     }],
     selectCriterias: [{
-      id: '123123123',
+      critieriaId: '123123123',
       label: 'Weicht konflikten aus',
     }, {
       id: '123123124',

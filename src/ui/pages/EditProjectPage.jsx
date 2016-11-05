@@ -1,5 +1,3 @@
-import classNames from 'classnames';
-
 import React from 'react';
 
 import { RaisedButton } from 'material-ui';

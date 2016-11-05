@@ -13,11 +13,11 @@ const CriteriaPage = props => (
           {...category}
           readonly={props.readonly}
           onDelete={props.handleDelete}
-          onAdd={props.handleAdd}
-          onChange={value => props.handleChange(value, category.id)}
-          onValueChanged={props.handleValueChanged}
+          onAdd={() => props.handleAdd(category)}
+          onChange={value => props.handleChange(value, category)}
+          onValueChanged={(value, criteria) => props.handleValueChanged(value, criteria, category)}
           onEdit={props.handleEdit}
-          selectedCriteriaId={(category.id === props.selectedCategoryId) ?
+          selectedCriteriaId={(category.categoryId === props.selectedCategoryId) ?
             props.selectedCriteriaId : undefined
           }
         />

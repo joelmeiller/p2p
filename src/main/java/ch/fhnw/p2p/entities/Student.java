@@ -1,5 +1,6 @@
 package ch.fhnw.p2p.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -7,10 +8,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import ch.fhnw.p2p.entities.mixins.VersionedObject;
 import ch.fhnw.p2p.utils.Slug;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
 @Entity
@@ -22,12 +28,11 @@ public class Student extends VersionedObject {
 		PARTTIME,
 	};	
 
-	private String firstName;
-	private String lastName;
-	private String email;
 	
-	@Enumerated(EnumType.STRING)
-	private Type type;
+	@NotEmpty private String firstName;
+	@NotEmpty private String lastName;
+	@NotEmpty @Email @Column(unique=true) private String email;	
+	@Enumerated(EnumType.STRING) private Type type;
 	
 	private String slug;
 

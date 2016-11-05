@@ -1,26 +1,26 @@
 package ch.fhnw.p2p.entities;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import ch.fhnw.p2p.entities.mixins.VersionedObject;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * Entity Member
@@ -31,6 +31,7 @@ import lombok.Data;
  **/
 
 @Data
+@EqualsAndHashCode(of="id")
 @Entity
 public class Member extends VersionedObject{
 
@@ -42,37 +43,38 @@ public class Member extends VersionedObject{
 	}
 
 	// Attributes
-	private @Id @GeneratedValue(strategy=GenerationType.IDENTITY) Long id;
+	@NotNull @DecimalMax("5.0") @DecimalMin("0.0")
+	private BigDecimal rating;
 	
-	@ManyToOne
+	@NotNull @DecimalMax("5.0") @DecimalMin("0.0")
+	private BigDecimal deviation;
+
+	
+	@ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "projectId")
+	@JsonIgnore
 	private Project project;
 	
+	// Relations
 	@ManyToOne
     @JoinColumn(name = "studentId")
 	private Student student;
 	
-	@OneToMany(mappedBy="member", cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="member")
 	private List<MemberRole> roles;
 
 	@Enumerated(EnumType.STRING)
 	private Status status;
 
-	// Attributs that are set only if member type = MEMBER
-	private float rating;
-
-	// Attributs that are set only if member type = RATING
-	private String comment;
-
-	// Relations
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "member")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "sourceMember")
 	private List<MemberRating> memberRatings;
 
 
 	// Constructor
 	public Member() {
 		this.status = Status.NEW;
-		this.rating = 0;
+		this.rating = new BigDecimal(0);
+		this.deviation = new BigDecimal(0);
 		this.roles = new ArrayList<MemberRole>();
 		this.memberRatings = new ArrayList<MemberRating>();
 	}

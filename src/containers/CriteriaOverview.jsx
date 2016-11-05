@@ -41,9 +41,10 @@ const mapStateToProps = (globalState, props) => {
 
   const updatedCategories = categories ? categories.map(category => ({
     ...category,
+    criterias: category.criterias.filter(criteria => !criteria.removed),
     selectCriterias: category.selectCriterias.filter(selectedCriteria =>
       !category.criterias.find(criteria =>
-        criteria.id === selectedCriteria.id)),
+        criteria.criteriaId === selectedCriteria.criteriaId)),
   })) : [];
 
   return {
@@ -59,10 +60,10 @@ const mapDispatchToProps = (dispatch, props) => ({
   initializeTitle: () => dispatch(setTitle('My Ratings')),
   fetchCriteria: () => dispatch(fetchCriteria()),
   handleDelete: criteria => dispatch(removeCriteria(criteria)),
-  handleAdd: categoryId => dispatch(addCriteria(categoryId)),
-  handleChange: (criteriaId, categeoryId) => dispatch(setCriteria(criteriaId, categeoryId)),
-  handleValueChanged: (value, criteriaId, categeoryId) => dispatch(setCriteriaValue(value, criteriaId, categeoryId)),
-  handleEdit: (criteriaId, categeoryId) => dispatch(editCriteria(criteriaId, categeoryId)),
+  handleAdd: category => dispatch(addCriteria(category)),
+  handleChange: (criteriaId, category) => dispatch(setCriteria(criteriaId, category)),
+  handleValueChanged: (value, criteria, category) => dispatch(setCriteriaValue(value, criteria, category)),
+  handleEdit: (criteria, category) => dispatch(editCriteria(criteria, category)),
   handleSave: () => dispatch(saveCriterias(props)),
   handleCancel: () => dispatch(cancel(props)),
 });

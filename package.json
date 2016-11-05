@@ -61,6 +61,7 @@
     "webpack-hot-middleware": "^2.12.2"
   },
   "scripts": {
+    "webpack": "webpack --config webpack.config.js",
     "lint": "eslint .",
     "start": "react-scripts start",
     "build": "react-scripts build",

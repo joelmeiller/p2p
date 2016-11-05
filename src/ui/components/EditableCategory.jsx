@@ -12,10 +12,14 @@ const EditableCategory = (props) => {
     (props.selectCriterias && props.selectCriterias.length > 0 ?
       props.selectCriterias[0].id : undefined);
 
-  console.log(props.selectCriterias);
+  const selectCriterias = props.selectCriterias.map(criteria => ({
+    id: criteria.criteriaId,
+    label: criteria.label,
+  }));
+
   const dropdown = (
     <Dropdown
-      items={props.selectCriterias}
+      items={selectCriterias}
       onChange={props.onChange}
       selectedValue={selectedCriteriaId}
     />
@@ -31,20 +35,20 @@ const EditableCategory = (props) => {
         </div>
       </div>
       {props.criterias ? props.criterias.map(criteria =>
-        <div className="row" key={criteria.id}>
+        <div className="row" key={criteria.criteriaId}>
           <div className="col-xs-12">
             <ListItem
-              id={criteria.id}
+              id={criteria.criteriaId}
               text={criteria.label}
               editable={criteria.self}
               edit={<RaisedButton
                 label="Save"
                 primary
-                onClick={() => props.onEdit(criteria.id, props.id)}
+                onClick={() => props.onEdit(criteria)}
                 disabled={props.readonly}
               />}
               readonly={props.readonly}
-              onChanged={value => props.onValueChanged(value, criteria.id, props.id)}
+              onChanged={value => props.onValueChanged(value, criteria)}
               onDelete={() => props.onDelete(criteria)}
             />
           </div>
@@ -59,7 +63,7 @@ const EditableCategory = (props) => {
             <RaisedButton
               label="Add"
               primary
-              onClick={() => props.onAdd(props.id)}
+              onClick={props.onAdd}
               disabled={props.readonly || !props.selectedCriteriaId}
             />
           </div>
