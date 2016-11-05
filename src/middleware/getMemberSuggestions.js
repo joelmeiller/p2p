@@ -2,40 +2,29 @@
 // Searches in name & email
 // Node imports
 import 'isomorphic-fetch';
-import mock from 'fetch-mock';
 
 
-export const apiEntrypoint = 'http://localhost:3000/p2p/api/students/suggestions';
+const apiEntrypoint = 'http://localhost:8080/api/students/suggestions';
 
 
-// TODO: Replace with api backend call
-const data = [{
-  id: '44444324',
-  name: 'Tester 1',
-  email: 'michelle.steiner@students.fhnw.ch',
-}, {
-  id: '44444325',
-  name: 'Hueber Max 34',
-  email: 'michelle.steiner@students.fhnw.ch',
-}, {
-  id: '44444326',
-  name: 'Bester Student',
-  email: 'michelle.steiner@students.fhnw.ch',
-}, {
-  id: '44444327',
-  name: 'Etwas komisches',
-  email: 'michelle.steiner@students.fhnw.ch',
-}];
+export default (pattern, callback) => {
+  if (pattern && pattern > '') {
+    const url = `${apiEntrypoint}?pattern=${pattern}`;
 
-export const getMembersSuggestions = (value, callback) => {
-  // Patch the fetch() global to always return the same value for GET
-  // requests to all URLs.
-  mock.get(apiEntrypoint, data);
-
-  fetch(apiEntrypoint)
+    fetch(url)
     .then(response => response.json())
-    .then(suggestions => callback(suggestions));
+    .then((data) => {
+      // Map data
+      const suggestions = data.map(student => ({
+        ...student,
+        id: student.id.toString(),
+        name: `${student.firstName} ${student.lastName}`,
+      })).slice(0, 7);
 
-  // Unpatch.
-  mock.restore();
+      // Return data
+      callback(suggestions);
+    });
+  } else {
+    callback([]);
+  }
 };

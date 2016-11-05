@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import ch.fhnw.p2p.controller.utils.ProjectNotFoundException;
 import ch.fhnw.p2p.entities.Member;
 import ch.fhnw.p2p.entities.Project;
 import ch.fhnw.p2p.entities.ProjectCategory;
@@ -38,7 +39,7 @@ import ch.fhnw.p2p.repositories.ProjectRepository;
 
 @RestController
 @RequestMapping("/api/project")
-public class ProjectController {
+public class ProjectCategoryController {
 	// ------------------------
 	// PRIVATE FIELDS
 	// ------------------------
@@ -55,9 +56,6 @@ public class ProjectController {
 	
 	@Autowired
 	private ProjectCategoryRepository projectCategoryRepo;
-	
-	@Autowired
-	private CategoryRepository categoryRepo;
 	
 	@Autowired
 	private CriteriaRepository criteriaRepo;
@@ -85,7 +83,6 @@ public class ProjectController {
 			return new ResponseEntity<List<ProjectCategory>>(HttpStatus.NO_CONTENT);
 		} else {
 			logger.info("Successfully read " + member.getProject().getTitle());
-			logger.info("Found categories (count=" + member.getProject().getProjectCategories().size() + ")");
 			return new ResponseEntity<List<ProjectCategory>>(member.getProject().getProjectCategories(), HttpStatus.OK);
 		}
 	}
@@ -104,7 +101,7 @@ public class ProjectController {
 			logger.info("Save Categories for student: " + member.getStudent().getEmail() + " for project " + member.getProject().getTitle());
 			Project project = member.getProject();
 			
-			if (project == null) throw new ProjectNotFoundException(member.getId());
+			if (project == null) throw new ProjectNotFoundException(member);
 			
 			List<ProjectCategory> projectCategories = new ArrayList<ProjectCategory>();
 			// Set categories and criterias
@@ -123,10 +120,8 @@ public class ProjectController {
 					if (projCrit.isRemoved()) {
 						ProjectCriteria criteria = projectCriteriaRepo.findOne(projCrit.getId());
 						projectCategory.getProjectCriterias().remove(criteria);
-						// projectCriteriaRepo.delete(criteria);
 					}
 				}
-				System.out.println("Criterias:" + projectCategory.getProjectCriterias().size());
 				projectCategories.add(projectCategory);
 			}
 			project.setProjectCategories(projectCategories);
@@ -135,18 +130,7 @@ public class ProjectController {
 			logger.info("Successfully added categories to project " + project.getTitle() + " [" + project.getId() + "]");
 			return new ResponseEntity<List<ProjectCategory>>(project.getProjectCategories(), HttpStatus.OK);
 		} catch (Exception e) {
-			throw e;
-			// return new ResponseEntity<List<ProjectCategory>>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<List<ProjectCategory>>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-	}
-}
-
-@ResponseStatus(HttpStatus.NOT_FOUND)
-class ProjectNotFoundException extends RuntimeException {
-
-	private static final long serialVersionUID = 1L;
-
-	public ProjectNotFoundException(Long projectId) {
-		super("could not find project '" + projectId + "'.");
 	}
 }

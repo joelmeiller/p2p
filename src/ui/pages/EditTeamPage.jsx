@@ -8,7 +8,7 @@ import EditableMember, { roleType } from '../components/EditableMember.jsx';
 import Header2Line from '../elements/Header/Header2Line.jsx';
 import AutoSuggest from '../elements/AutoSuggest.jsx';
 
-import { getMembersSuggestions } from '../../middleware/getMemberSuggestions.js';
+import getMembersSuggestions from '../../middleware/getMemberSuggestions.js';
 
 const EditTeamPage = props => (
   <div className="container push-top-small">

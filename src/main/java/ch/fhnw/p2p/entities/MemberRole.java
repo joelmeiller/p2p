@@ -22,12 +22,12 @@ public class MemberRole extends VersionedObject {
 	
 
 	// Relations
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "memberId")
 	@JsonIgnore
 	private Member member;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "roleId")
 	private Role role;
 

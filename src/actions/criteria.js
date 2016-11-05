@@ -63,7 +63,7 @@ export const removeCriteria = criteria => (dispatch, getState) => {
       ...category,
       criterias: (category.criterias ? category.criterias.map(crit => ({
         ...crit,
-        removed: crit.id === criteria.id
+        removed: crit.removed || crit.id === criteria.id
       })) : []),
     }));
 
