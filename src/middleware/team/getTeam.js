@@ -21,6 +21,8 @@ export default callback =>
         active: memberRole.active,
         roleId: memberRole.role.id.toString(),
       })),
+      isQM: member.isQM,
+      removed: member.removed,
     }));
     callback(members);
   });

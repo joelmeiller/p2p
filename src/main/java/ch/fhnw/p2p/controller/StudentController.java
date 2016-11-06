@@ -49,10 +49,7 @@ public class StudentController {
 	@RequestMapping(value = "/suggestions", params = "pattern", method = RequestMethod.GET)
 	public ResponseEntity<List<Student>> getStudentSuggestions(@RequestParam String pattern) {
 		Member member = memberRepo.findByStudentEmail("max.muster@students.fhnw.ch");
-		logger.info("Is QM:" + member.isQM());
-		if (member == null || !member.isQM()) return new ResponseEntity<List<Student>>(HttpStatus.FORBIDDEN);
-		
-		logger.info("Student login: " + member.getStudent().getEmail() + " for project " + member.getProject().getTitle());
+		if (member == null || !member.getIsQM()) return new ResponseEntity<List<Student>>(HttpStatus.FORBIDDEN);
 		
 		if (member.getProject() == null) {
 			logger.info("No project found");

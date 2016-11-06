@@ -5,6 +5,10 @@
   margin-top: 10px;
 }
 
+.push-top-tiny {
+  margin-top: 15px;
+}
+
 .push-top-small {
   margin-top: 20px;
 }
@@ -26,6 +30,10 @@
 }
 .push-bottom-large {
   margin-bottom: 50px;
+}
+
+.push-left-small {
+  margin-left: 20px;
 }
 
 .align-right {
@@ -59,6 +67,10 @@
 
 .italic {
   font-style: italic;
+}
+
+.disabled {
+  color: var(--colorDisabled);
 }
 
 .flex {

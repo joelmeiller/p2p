@@ -6,10 +6,12 @@ import FlatButton from 'material-ui/FlatButton';
 
 import LabeledStarRatingWithGrade from '../components/LabeledStarRatingWithGrade.jsx';
 
+import sortMembers from '../utils/sortMembers.js';
+
 
 const TeamRatingPage = props => (
   <div className="container push-top-small">
-    {(() => (props.members ? props.members.map(member =>
+    {(() => (props.members ? props.members.sort(sortMembers).map(member =>
       <button
         key={member.id}
         className="row"

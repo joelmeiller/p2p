@@ -7,8 +7,12 @@ import React from 'react';
 import ProgressBar from '../elements/ProgressBar.jsx';
 
 const MemberProgress = props => (
-  <div className="container">
-    <div className="row">
+  <div className="row">
+    <div
+      className={classNames('member', {
+        disabled: props.removed,
+      })}
+    >
       <div className="col-xs-2">
         <p
           className={classNames({
@@ -37,6 +41,7 @@ MemberProgress.propTypes = {
   activeRole: React.PropTypes.string,
   progress: React.PropTypes.number,
   statusWarning: React.PropTypes.bool,
+  removed: React.PropTypes.bool,
 };
 
 export default MemberProgress;

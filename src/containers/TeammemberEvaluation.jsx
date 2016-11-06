@@ -60,8 +60,6 @@ const mapStateToProps = (globalState, props) => {
   selectedMember.categories = getCriteriaValues(selectedMember, values);
   selectedMember.progress = calculateProgress(selectedMember);
 
-  console.log(values.ratings, selectedMember.categories);
-
   return {
     ...other,
     ...props,

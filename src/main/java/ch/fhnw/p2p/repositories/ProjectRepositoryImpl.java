@@ -61,7 +61,7 @@ public class ProjectRepositoryImpl {
 				else if (projectMember.isRemoved()) {
 					logger.info("Remove student " + studentRepo.findOne(projectMember.getStudent().getId()) + "(id=" + projectMember.getId() + ") from project '" + project.getTitle() + "' (id=" + project.getId() + ")");
 					Member removeMember = memberRepo.findOne(projectMember.getId());
-					members.remove(removeMember);
+					removeMember.setRemoved(true);
 				}
 				
 				// Update roles of member

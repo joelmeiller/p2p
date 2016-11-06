@@ -2,9 +2,12 @@ import React from 'react';
 
 import MemberProgress from '../components/MemberProgress.jsx';
 
+import sortMembers from '../utils/sortMembers.js';
+
+
 const ProgressPage = props => (
   <div className="container push-top-small">
-    {props.members ? props.members.map(member =>
+    {props.members ? props.members.filter(m => !m.removed).sort(sortMembers).map(member =>
       <div key={member.email} className="row">
         <button
           className="col-xs-12"

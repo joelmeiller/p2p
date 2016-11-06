@@ -64,7 +64,7 @@
 	
 	var _routes2 = _interopRequireDefault(_routes);
 	
-	__webpack_require__(1143);
+	__webpack_require__(1144);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -32998,10 +32998,12 @@
 	          return {
 	            id: memberRole.id.toString(),
 	            title: memberRole.role.title,
+	            shortcut: memberRole.role.shortcut,
 	            active: memberRole.active,
 	            roleId: memberRole.role.id.toString()
 	          };
-	        })
+	        }),
+	        removed: member.removed
 	      };
 	    });
 	    callback(members);
@@ -74454,15 +74456,15 @@
 	
 	var _Dashboard2 = _interopRequireDefault(_Dashboard);
 	
-	var _CriteriaOverview = __webpack_require__(1115);
+	var _CriteriaOverview = __webpack_require__(1116);
 	
 	var _CriteriaOverview2 = _interopRequireDefault(_CriteriaOverview);
 	
-	var _TeamOverview = __webpack_require__(1122);
+	var _TeamOverview = __webpack_require__(1123);
 	
 	var _TeamOverview2 = _interopRequireDefault(_TeamOverview);
 	
-	var _MyRatingOverview = __webpack_require__(1126);
+	var _MyRatingOverview = __webpack_require__(1127);
 	
 	var _MyRatingOverview2 = _interopRequireDefault(_MyRatingOverview);
 	
@@ -74470,11 +74472,11 @@
 	
 	var _TeamRatingOverview2 = _interopRequireDefault(_TeamRatingOverview);
 	
-	var _TeammemberEvaluation = __webpack_require__(1132);
+	var _TeammemberEvaluation = __webpack_require__(1133);
 	
 	var _TeammemberEvaluation2 = _interopRequireDefault(_TeammemberEvaluation);
 	
-	var _ProjectContainer = __webpack_require__(1141);
+	var _ProjectContainer = __webpack_require__(1142);
 	
 	var _ProjectContainer2 = _interopRequireDefault(_ProjectContainer);
 	
@@ -95761,7 +95763,7 @@
 	
 	var _ProgressPage2 = _interopRequireDefault(_ProgressPage);
 	
-	var _TeamRatingPage = __webpack_require__(1109);
+	var _TeamRatingPage = __webpack_require__(1110);
 	
 	var _TeamRatingPage2 = _interopRequireDefault(_TeamRatingPage);
 	
@@ -95769,11 +95771,11 @@
 	
 	var _member = __webpack_require__(509);
 	
-	var _calculateProgress = __webpack_require__(1113);
+	var _calculateProgress = __webpack_require__(1114);
 	
 	var _calculateProgress2 = _interopRequireDefault(_calculateProgress);
 	
-	var _activeRole = __webpack_require__(1114);
+	var _activeRole = __webpack_require__(1115);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -95850,7 +95852,7 @@
 	  var updatedMembers = members.map(function (member) {
 	    return _extends({}, member, {
 	      progress: (0, _calculateProgress2.default)(member),
-	      activeRole: (0, _activeRole.getActiveRoleType)(member.roles)
+	      activeRole: (0, _activeRole.getActiveRoleShortcut)(member.roles)
 	    });
 	  });
 	
@@ -95896,13 +95898,19 @@
 	
 	var _MemberProgress2 = _interopRequireDefault(_MemberProgress);
 	
+	var _sortMembers = __webpack_require__(1109);
+	
+	var _sortMembers2 = _interopRequireDefault(_sortMembers);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var ProgressPage = function ProgressPage(props) {
 	  return _react2.default.createElement(
 	    'div',
 	    { className: 'container push-top-small' },
-	    props.members ? props.members.map(function (member) {
+	    props.members ? props.members.filter(function (m) {
+	      return !m.removed;
+	    }).sort(_sortMembers2.default).map(function (member) {
 	      return _react2.default.createElement(
 	        'div',
 	        { key: member.email, className: 'row' },
@@ -95958,10 +95966,14 @@
 	var MemberProgress = function MemberProgress(props) {
 	  return _react2.default.createElement(
 	    'div',
-	    { className: 'container' },
+	    { className: 'row' },
 	    _react2.default.createElement(
 	      'div',
-	      { className: 'row' },
+	      {
+	        className: (0, _classnames2.default)('member', {
+	          disabled: props.removed
+	        })
+	      },
 	      _react2.default.createElement(
 	        'div',
 	        { className: 'col-xs-2' },
@@ -96003,7 +96015,8 @@
 	  name: _react2.default.PropTypes.string,
 	  activeRole: _react2.default.PropTypes.string,
 	  progress: _react2.default.PropTypes.number,
-	  statusWarning: _react2.default.PropTypes.bool
+	  statusWarning: _react2.default.PropTypes.bool,
+	  removed: _react2.default.PropTypes.bool
 	};
 	
 	exports.default = MemberProgress;
@@ -96060,6 +96073,23 @@
 
 /***/ },
 /* 1109 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	exports.default = function (x, y) {
+	  if (x.removed && !y.removed) return 1;
+	  if (!x.removed && y.removed) return -1;
+	  if (x.email > y.email) return 1;
+	  return -1;
+	};
+
+/***/ },
+/* 1110 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -96082,9 +96112,13 @@
 	
 	var _FlatButton2 = _interopRequireDefault(_FlatButton);
 	
-	var _LabeledStarRatingWithGrade = __webpack_require__(1110);
+	var _LabeledStarRatingWithGrade = __webpack_require__(1111);
 	
 	var _LabeledStarRatingWithGrade2 = _interopRequireDefault(_LabeledStarRatingWithGrade);
+	
+	var _sortMembers = __webpack_require__(1109);
+	
+	var _sortMembers2 = _interopRequireDefault(_sortMembers);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -96093,7 +96127,7 @@
 	    'div',
 	    { className: 'container push-top-small' },
 	    function () {
-	      return props.members ? props.members.map(function (member) {
+	      return props.members ? props.members.sort(_sortMembers2.default).map(function (member) {
 	        return _react2.default.createElement(
 	          'button',
 	          {
@@ -96155,7 +96189,7 @@
 	exports.default = TeamRatingPage;
 
 /***/ },
-/* 1110 */
+/* 1111 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -96172,7 +96206,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _LabeledStarRating = __webpack_require__(1111);
+	var _LabeledStarRating = __webpack_require__(1112);
 	
 	var _LabeledStarRating2 = _interopRequireDefault(_LabeledStarRating);
 	
@@ -96253,7 +96287,7 @@
 	exports.default = LabeledStarRatingWithGrade;
 
 /***/ },
-/* 1111 */
+/* 1112 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -96270,7 +96304,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactStarRatingComponent = __webpack_require__(1112);
+	var _reactStarRatingComponent = __webpack_require__(1113);
 	
 	var _reactStarRatingComponent2 = _interopRequireDefault(_reactStarRatingComponent);
 	
@@ -96330,7 +96364,7 @@
 	exports.default = LabeledStarRating;
 
 /***/ },
-/* 1112 */
+/* 1113 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -96530,7 +96564,7 @@
 
 
 /***/ },
-/* 1113 */
+/* 1114 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -96561,7 +96595,7 @@
 	};
 
 /***/ },
-/* 1114 */
+/* 1115 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -96575,15 +96609,15 @@
 	  }) : undefined;
 	};
 	
-	var getActiveRoleType = exports.getActiveRoleType = function getActiveRoleType(roles) {
-	  return getActiveRole(roles) ? getActiveRole(roles).id : '-';
+	var getActiveRoleShortcut = exports.getActiveRoleShortcut = function getActiveRoleShortcut(roles) {
+	  return getActiveRole(roles) ? getActiveRole(roles).shortcut : '-';
 	};
 	var getActiveRoleTitle = exports.getActiveRoleTitle = function getActiveRoleTitle(roles) {
 	  return getActiveRole(roles) ? getActiveRole(roles).title : 'Unknown';
 	};
 
 /***/ },
-/* 1115 */
+/* 1116 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -96604,7 +96638,7 @@
 	
 	var _reactRedux = __webpack_require__(540);
 	
-	var _EditCriteriaPage = __webpack_require__(1116);
+	var _EditCriteriaPage = __webpack_require__(1117);
 	
 	var _EditCriteriaPage2 = _interopRequireDefault(_EditCriteriaPage);
 	
@@ -96726,7 +96760,7 @@
 	exports.default = (0, _reactRouter.withRouter)(CriteriaOverview);
 
 /***/ },
-/* 1116 */
+/* 1117 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -96743,7 +96777,7 @@
 	
 	var _materialUi = __webpack_require__(560);
 	
-	var _EditableCategory = __webpack_require__(1117);
+	var _EditableCategory = __webpack_require__(1118);
 	
 	var _EditableCategory2 = _interopRequireDefault(_EditableCategory);
 	
@@ -96820,7 +96854,7 @@
 	exports.default = CriteriaPage;
 
 /***/ },
-/* 1117 */
+/* 1118 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -96835,15 +96869,15 @@
 	
 	var _materialUi = __webpack_require__(560);
 	
-	var _Header2Line = __webpack_require__(1118);
+	var _Header2Line = __webpack_require__(1119);
 	
 	var _Header2Line2 = _interopRequireDefault(_Header2Line);
 	
-	var _ListItem = __webpack_require__(1119);
+	var _ListItem = __webpack_require__(1120);
 	
 	var _ListItem2 = _interopRequireDefault(_ListItem);
 	
-	var _AddCriteria = __webpack_require__(1120);
+	var _AddCriteria = __webpack_require__(1121);
 	
 	var _AddCriteria2 = _interopRequireDefault(_AddCriteria);
 	
@@ -96913,7 +96947,7 @@
 	exports.default = EditableCategory;
 
 /***/ },
-/* 1118 */
+/* 1119 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -96956,7 +96990,7 @@
 	exports.default = Header2Line;
 
 /***/ },
-/* 1119 */
+/* 1120 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -97039,7 +97073,7 @@
 	exports.default = ListItem;
 
 /***/ },
-/* 1120 */
+/* 1121 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -97060,7 +97094,7 @@
 	
 	var _TextField2 = _interopRequireDefault(_TextField);
 	
-	var _Dropdown = __webpack_require__(1121);
+	var _Dropdown = __webpack_require__(1122);
 	
 	var _Dropdown2 = _interopRequireDefault(_Dropdown);
 	
@@ -97155,7 +97189,7 @@
 	exports.default = AddCriteria;
 
 /***/ },
-/* 1121 */
+/* 1122 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -97230,7 +97264,7 @@
 	exports.default = Dropdown;
 
 /***/ },
-/* 1122 */
+/* 1123 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -97251,7 +97285,7 @@
 	
 	var _reactRedux = __webpack_require__(540);
 	
-	var _EditTeamPage = __webpack_require__(1123);
+	var _EditTeamPage = __webpack_require__(1124);
 	
 	var _EditTeamPage2 = _interopRequireDefault(_EditTeamPage);
 	
@@ -97335,8 +97369,8 @@
 	    fetchRoles: function fetchRoles() {
 	      return dispatch((0, _roles.fetchRoles)());
 	    },
-	    handleDelete: function handleDelete(memberId) {
-	      return dispatch((0, _team.removeMember)(memberId));
+	    handleDelete: function handleDelete(member) {
+	      return dispatch((0, _team.removeMember)(member));
 	    },
 	    handleAdd: function handleAdd(student) {
 	      return dispatch((0, _team.addMember)(student));
@@ -97358,7 +97392,7 @@
 	exports.default = (0, _reactRouter.withRouter)(TeamOverview);
 
 /***/ },
-/* 1123 */
+/* 1124 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -97379,11 +97413,11 @@
 	
 	var _materialUi = __webpack_require__(560);
 	
-	var _EditableMember = __webpack_require__(1124);
+	var _EditableMember = __webpack_require__(1125);
 	
 	var _EditableMember2 = _interopRequireDefault(_EditableMember);
 	
-	var _Header2Line = __webpack_require__(1118);
+	var _Header2Line = __webpack_require__(1119);
 	
 	var _Header2Line2 = _interopRequireDefault(_Header2Line);
 	
@@ -97391,7 +97425,11 @@
 	
 	var _AutoSuggest2 = _interopRequireDefault(_AutoSuggest);
 	
-	var _getMemberSuggestions = __webpack_require__(1125);
+	var _sortMembers = __webpack_require__(1109);
+	
+	var _sortMembers2 = _interopRequireDefault(_sortMembers);
+	
+	var _getMemberSuggestions = __webpack_require__(1126);
 	
 	var _getMemberSuggestions2 = _interopRequireDefault(_getMemberSuggestions);
 	
@@ -97415,7 +97453,7 @@
 	    _react2.default.createElement(
 	      'div',
 	      { className: 'push-top-small' },
-	      props.members.map(function (member) {
+	      props.members.sort(_sortMembers2.default).map(function (member) {
 	        return _react2.default.createElement(
 	          'div',
 	          {
@@ -97428,7 +97466,7 @@
 	          _react2.default.createElement(_EditableMember2.default, _extends({}, member, {
 	            readonly: props.readonly,
 	            onDelete: function onDelete() {
-	              return props.handleDelete(member.studentId);
+	              return props.handleDelete(member);
 	            },
 	            onRoleChanged: function onRoleChanged(value) {
 	              return props.handleRoleChanged({ roleId: value }, member);
@@ -97492,7 +97530,7 @@
 	exports.default = EditTeamPage;
 
 /***/ },
-/* 1124 */
+/* 1125 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -97501,6 +97539,10 @@
 	  value: true
 	});
 	exports.roleType = undefined;
+	
+	var _classnames = __webpack_require__(996);
+	
+	var _classnames2 = _interopRequireDefault(_classnames);
 	
 	var _react = __webpack_require__(530);
 	
@@ -97512,11 +97554,11 @@
 	
 	var _materialUi = __webpack_require__(560);
 	
-	var _Dropdown = __webpack_require__(1121);
+	var _Dropdown = __webpack_require__(1122);
 	
 	var _Dropdown2 = _interopRequireDefault(_Dropdown);
 	
-	var _activeRole = __webpack_require__(1114);
+	var _activeRole = __webpack_require__(1115);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -97533,6 +97575,8 @@
 	    return { label: role.title, id: role.roleId };
 	  }));
 	
+	  var disabled = props.readonly || props.isQM || props.removed;
+	
 	  var dropdown = props.isQM ? _react2.default.createElement(
 	    'div',
 	    { className: 'col-xs-3' },
@@ -97548,13 +97592,17 @@
 	      items: selectRoles,
 	      onChange: props.onRoleChanged,
 	      selectedValue: activeRole ? activeRole.roleId : 'XX',
-	      readonly: props.readonly || props.isQM
+	      readonly: disabled
 	    })
 	  );
 	
 	  return _react2.default.createElement(
 	    'div',
-	    null,
+	    {
+	      className: (0, _classnames2.default)('member', {
+	        disabled: props.removed
+	      })
+	    },
 	    _react2.default.createElement(
 	      'div',
 	      { className: 'col-xs-3' },
@@ -97576,15 +97624,19 @@
 	    dropdown,
 	    _react2.default.createElement(
 	      'div',
-	      { className: 'col-xs-1 pull-top-small' },
-	      _react2.default.createElement(_materialUi.FlatButton, {
+	      { className: 'col-xs-1 center pull-top-small' },
+	      props.removed ? _react2.default.createElement(
+	        'p',
+	        { className: 'small italic bold push-top-tiny push-left-small' },
+	        'Removed'
+	      ) : _react2.default.createElement(_materialUi.FlatButton, {
 	        onClick: props.onDelete,
 	        icon: _react2.default.createElement(
 	          _materialUi.FontIcon,
 	          { className: 'material-icons' },
 	          'delete'
 	        ),
-	        disabled: props.readonly
+	        disabled: disabled
 	      })
 	    )
 	  );
@@ -97603,6 +97655,7 @@
 	  isQM: _react2.default.PropTypes.bool,
 	  onRoleChanged: _react2.default.PropTypes.func,
 	  readonly: _react2.default.PropTypes.bool,
+	  removed: _react2.default.PropTypes.bool,
 	  selectedRole: _react2.default.PropTypes.objectOf(_react2.default.PropTypes.shape(roleType)),
 	  selectRoles: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.shape(roleType)),
 	  onDelete: _react2.default.PropTypes.func
@@ -97611,7 +97664,7 @@
 	exports.default = EditableMember;
 
 /***/ },
-/* 1125 */
+/* 1126 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -97653,7 +97706,7 @@
 	};
 
 /***/ },
-/* 1126 */
+/* 1127 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -97674,7 +97727,7 @@
 	
 	var _reactRedux = __webpack_require__(540);
 	
-	var _MemberRatingPage = __webpack_require__(1127);
+	var _MemberRatingPage = __webpack_require__(1128);
 	
 	var _MemberRatingPage2 = _interopRequireDefault(_MemberRatingPage);
 	
@@ -97764,7 +97817,7 @@
 	exports.default = (0, _reactRouter.withRouter)(MyRatingOverview);
 
 /***/ },
-/* 1127 */
+/* 1128 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -97779,13 +97832,17 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _FinalRating = __webpack_require__(1128);
+	var _FinalRating = __webpack_require__(1129);
 	
 	var _FinalRating2 = _interopRequireDefault(_FinalRating);
 	
-	var _MemberCard = __webpack_require__(1131);
+	var _MemberCard = __webpack_require__(1132);
 	
 	var _MemberCard2 = _interopRequireDefault(_MemberCard);
+	
+	var _sortMembers = __webpack_require__(1109);
+	
+	var _sortMembers2 = _interopRequireDefault(_sortMembers);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -97811,7 +97868,9 @@
 	      _react2.default.createElement(
 	        'div',
 	        { className: 'col-xs-10' },
-	        props.members.map(function (member) {
+	        props.members.filter(function (m) {
+	          return !m.removed;
+	        }).sort(_sortMembers2.default).map(function (member) {
 	          return _react2.default.createElement(
 	            'div',
 	            {
@@ -97838,7 +97897,7 @@
 	exports.default = MemberRatingPage;
 
 /***/ },
-/* 1128 */
+/* 1129 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -97851,11 +97910,11 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _StarsRating = __webpack_require__(1129);
+	var _StarsRating = __webpack_require__(1130);
 	
 	var _StarsRating2 = _interopRequireDefault(_StarsRating);
 	
-	var _Header = __webpack_require__(1130);
+	var _Header = __webpack_require__(1131);
 	
 	var _Header2 = _interopRequireDefault(_Header);
 	
@@ -97885,7 +97944,7 @@
 	exports.default = FinalRating;
 
 /***/ },
-/* 1129 */
+/* 1130 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -97898,7 +97957,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactStarRatingComponent = __webpack_require__(1112);
+	var _reactStarRatingComponent = __webpack_require__(1113);
 	
 	var _reactStarRatingComponent2 = _interopRequireDefault(_reactStarRatingComponent);
 	
@@ -97925,7 +97984,7 @@
 	exports.default = StarsRating;
 
 /***/ },
-/* 1130 */
+/* 1131 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -97954,7 +98013,7 @@
 	exports.default = Header2;
 
 /***/ },
-/* 1131 */
+/* 1132 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -97975,7 +98034,7 @@
 	
 	var _materialUi = __webpack_require__(560);
 	
-	var _StarsRating = __webpack_require__(1129);
+	var _StarsRating = __webpack_require__(1130);
 	
 	var _StarsRating2 = _interopRequireDefault(_StarsRating);
 	
@@ -98047,7 +98106,7 @@
 	exports.default = MemberCard;
 
 /***/ },
-/* 1132 */
+/* 1133 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -98079,17 +98138,17 @@
 	
 	var _reactRedux = __webpack_require__(540);
 	
-	var _TabHeader = __webpack_require__(1133);
+	var _TabHeader = __webpack_require__(1134);
 	
 	var _TabHeader2 = _interopRequireDefault(_TabHeader);
 	
-	var _EvaluationPage = __webpack_require__(1134);
+	var _EvaluationPage = __webpack_require__(1135);
 	
 	var _EvaluationPage2 = _interopRequireDefault(_EvaluationPage);
 	
 	var _member = __webpack_require__(509);
 	
-	var _calculateProgress = __webpack_require__(1113);
+	var _calculateProgress = __webpack_require__(1114);
 	
 	var _calculateProgress2 = _interopRequireDefault(_calculateProgress);
 	
@@ -98146,8 +98205,6 @@
 	  selectedMember.categories = (0, _getCriteriaValues2.default)(selectedMember, values);
 	  selectedMember.progress = (0, _calculateProgress2.default)(selectedMember);
 	
-	  console.log(values.ratings, selectedMember.categories);
-	
 	  return _extends({}, other, props, {
 	    members: members,
 	    selectedIndex: selectedIndex,
@@ -98178,7 +98235,7 @@
 	exports.default = (0, _reactRouter.withRouter)(TeammemberEvaluation);
 
 /***/ },
-/* 1133 */
+/* 1134 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -98232,7 +98289,7 @@
 	exports.default = TabHeader;
 
 /***/ },
-/* 1134 */
+/* 1135 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -98249,23 +98306,23 @@
 	
 	var _IconButton2 = _interopRequireDefault(_IconButton);
 	
-	var _close = __webpack_require__(1135);
+	var _close = __webpack_require__(1136);
 	
 	var _close2 = _interopRequireDefault(_close);
 	
-	var _FinalRating = __webpack_require__(1128);
+	var _FinalRating = __webpack_require__(1129);
 	
 	var _FinalRating2 = _interopRequireDefault(_FinalRating);
 	
-	var _H2Progress = __webpack_require__(1136);
+	var _H2Progress = __webpack_require__(1137);
 	
 	var _H2Progress2 = _interopRequireDefault(_H2Progress);
 	
-	var _BlockSubcriteria = __webpack_require__(1138);
+	var _BlockSubcriteria = __webpack_require__(1139);
 	
 	var _BlockSubcriteria2 = _interopRequireDefault(_BlockSubcriteria);
 	
-	var _H3Input = __webpack_require__(1139);
+	var _H3Input = __webpack_require__(1140);
 	
 	var _H3Input2 = _interopRequireDefault(_H3Input);
 	
@@ -98347,7 +98404,7 @@
 	exports.default = EvaluationPage;
 
 /***/ },
-/* 1135 */
+/* 1136 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -98384,7 +98441,7 @@
 	exports.default = NavigationClose;
 
 /***/ },
-/* 1136 */
+/* 1137 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -98401,7 +98458,7 @@
 	
 	var _ProgressBar2 = _interopRequireDefault(_ProgressBar);
 	
-	var _Header2withRole = __webpack_require__(1137);
+	var _Header2withRole = __webpack_require__(1138);
 	
 	var _Header2withRole2 = _interopRequireDefault(_Header2withRole);
 	
@@ -98452,7 +98509,7 @@
 	exports.default = H2Progress;
 
 /***/ },
-/* 1137 */
+/* 1138 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -98491,7 +98548,7 @@
 	exports.default = Header2withRole;
 
 /***/ },
-/* 1138 */
+/* 1139 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -98506,11 +98563,11 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _LabeledStarRating = __webpack_require__(1111);
+	var _LabeledStarRating = __webpack_require__(1112);
 	
 	var _LabeledStarRating2 = _interopRequireDefault(_LabeledStarRating);
 	
-	var _Header2Line = __webpack_require__(1118);
+	var _Header2Line = __webpack_require__(1119);
 	
 	var _Header2Line2 = _interopRequireDefault(_Header2Line);
 	
@@ -98564,7 +98621,7 @@
 	exports.default = BlockSubcriteria;
 
 /***/ },
-/* 1139 */
+/* 1140 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -98581,7 +98638,7 @@
 	
 	var _TextField2 = _interopRequireDefault(_TextField);
 	
-	var _Header = __webpack_require__(1140);
+	var _Header = __webpack_require__(1141);
 	
 	var _Header2 = _interopRequireDefault(_Header);
 	
@@ -98638,7 +98695,7 @@
 	exports.default = H3Input;
 
 /***/ },
-/* 1140 */
+/* 1141 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -98675,7 +98732,7 @@
 	exports.default = Header3;
 
 /***/ },
-/* 1141 */
+/* 1142 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -98696,7 +98753,7 @@
 	
 	var _reactRouter = __webpack_require__(920);
 	
-	var _EditProjectPage = __webpack_require__(1142);
+	var _EditProjectPage = __webpack_require__(1143);
 	
 	var _EditProjectPage2 = _interopRequireDefault(_EditProjectPage);
 	
@@ -98780,7 +98837,7 @@
 	exports.default = (0, _reactRouter.withRouter)(ProjectContainer);
 
 /***/ },
-/* 1142 */
+/* 1143 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -98799,11 +98856,11 @@
 	
 	var _materialUi = __webpack_require__(560);
 	
-	var _Header2Line = __webpack_require__(1118);
+	var _Header2Line = __webpack_require__(1119);
 	
 	var _Header2Line2 = _interopRequireDefault(_Header2Line);
 	
-	var _Dropdown = __webpack_require__(1121);
+	var _Dropdown = __webpack_require__(1122);
 	
 	var _Dropdown2 = _interopRequireDefault(_Dropdown);
 	
@@ -98909,16 +98966,16 @@
 	exports.default = EditProjectPage;
 
 /***/ },
-/* 1143 */
+/* 1144 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(1144);
+	var content = __webpack_require__(1145);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(1150)(content, {});
+	var update = __webpack_require__(1151)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -98935,15 +98992,15 @@
 	}
 
 /***/ },
-/* 1144 */
+/* 1145 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(1145)();
+	exports = module.exports = __webpack_require__(1146)();
 	// imports
-	exports.i(__webpack_require__(1146), "");
 	exports.i(__webpack_require__(1147), "");
 	exports.i(__webpack_require__(1148), "");
 	exports.i(__webpack_require__(1149), "");
+	exports.i(__webpack_require__(1150), "");
 	exports.push([module.id, "@import url(https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css);", ""]);
 	exports.push([module.id, "@import url(https://fonts.googleapis.com/icon?family=Material+Icons);", ""]);
 	
@@ -98954,7 +99011,7 @@
 
 
 /***/ },
-/* 1145 */
+/* 1146 */
 /***/ function(module, exports) {
 
 	/*
@@ -99010,10 +99067,10 @@
 
 
 /***/ },
-/* 1146 */
+/* 1147 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(1145)();
+	exports = module.exports = __webpack_require__(1146)();
 	// imports
 	
 	
@@ -99024,29 +99081,15 @@
 
 
 /***/ },
-/* 1147 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(1145)();
-	// imports
-	
-	
-	// module
-	exports.push([module.id, ":root {\n  --colorPrimary: #333333;\n  --colorPrimaryInverse: #ffffff;\n  --colorSecondary: #00bcd4;\n  --colorWarning: #cc0000;\n  --colorWarningBack: #660000;\n  --colorDisabled: rgba(0, 0, 0, 0.298039);\n}\n\n/* element styling */\nbody {\n  font-family: \"RobotoDraft\",\"Roboto\",sans-serif;\n  padding: 0px;\n}\n\n/* used in: FinalRating */\n.flex-align-middle {\n  display: flex;\n  align-items: center;\n}\n\np.bold {\n  font-weight: bold;\n}\n\np.italic {\n  font-style: italic;\n}\np.warning {\n  color: var(--colorWarning);\n}\np .prefix {\n  padding-right: 7px;\n}\n\nh1 {\n  font-size: 4em;\n  font-weight: 200;\n  padding: 0px 0px;\n  color: var(--colorSecondary);\n}\n\nh2 {\n  font-size: 2em;\n  font-weight: 200;\n  padding: 0px 0px;\n  color: #00bcd4;\n}\n\nh3 {\n  font-size: 1.5em;\n  font-weight: 200;\n  padding: 0px 0px;\n  color: #00bcd4;\n}\n\nhr {\n  width:100%;\n  height:1px;\n}\n\na {\n  font-family: \"RobotoDraft\",\"Roboto\",sans-serif;\n  color: #00bcd4;\n}\n\nbutton {\n  border: none;\n  background-color: inherit;\n  margin-top: 10px;\n}\n", ""]);
-	
-	// exports
-
-
-/***/ },
 /* 1148 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(1145)();
+	exports = module.exports = __webpack_require__(1146)();
 	// imports
 	
 	
 	// module
-	exports.push([module.id, ".header2 h2 {\n  font-size: 2em;\n  font-weight: 200;\n  padding: 0px 0px;\n  color: var(--colorSecondary);\n}\n\n.header2 hr {\n  background: var(--colorSecondary);\n  height: 1px;\n  width: 100%;\n}\n\n.menu {\n  width: 150px;\n}\n\n.dropdown-margin-top {\n  margin-top: -8px;\n  color:#aabbcc;\n}\n\n.progress-margin-top{\n  margin-top: 9px;\n}\n\n.a-margin-top{\n  margin-top: 10px;\n}\n\n/*component labelProgressbarHeader*/\n\n.header2-margin-top {\n  margin-top: -28px;\n}\n\n.label {\n  background-color: #eeeeee;\n  border: 2px solid #666666;\n  width: 600px;\n}\n\n.margin-topAndleft {\n  margin-left: -65px;\n  margin-top: 3px;\n}\n\n/*component H3Input*/\n.h3-padding {\n  padding: 0px;\n}\n\n/*component H3Input*/\n.h3-line-width{\n  width: 800px !important;\n}\n\n/*component Form*/\n.icon-margin-top {\n  margin-top: 4px;\n}\n\n.container {\n  width: 100%;\n}\n\n.dv-star-rating {\n  font-size:2.5rem;\n  color:#555;\n}\n\n.dv-star-rating-star {\n  margin-bottom:0px;\n  margin-right:10px;\n}\n\n.paper {\n  display: inline-block;\n  float: left;\n  margin: 16px 32px 16px 0;\n}\n\n.rightIcon {\n  text-align: center;\n  line-height: 24px;\n}\n\n.nav-icon path {\n  color: #ffffff;\n}\n\n.title-left {\n  float: left;\n  max-width: 60%;\n  margin-right: 30px;\n}\n\n.card.rating {\n  background-color: var(--colorSecondary);\n  margin: 0;\n  padding-left: 10px;\n  padding-top: 10px;\n}\n\n.card.header {\n  background-color: var(--colorSecondary);\n  padding-top: 0,\n}\n\n.star {\n  min-width: 180px;\n}\n.star.small {\n  margin-top: -8px;\n}\n.star.small .dv-star-rating {\n  font-size: 20px !important;\n}\n\n.status {\n  color: var(--colorSecondary);\n}\n\n.option-disabled {\n  color: var(--colorDisabled);\n}\n\n.suggestion-text {\n  text-align: left;\n  width: 90%;\n}\n", ""]);
+	exports.push([module.id, ":root {\n  --colorPrimary: #333333;\n  --colorPrimaryInverse: #ffffff;\n  --colorSecondary: #00bcd4;\n  --colorWarning: #cc0000;\n  --colorWarningBack: #660000;\n  --colorDisabled: rgba(0, 0, 0, 0.298039);\n}\n\n/* element styling */\nbody {\n  font-family: \"RobotoDraft\",\"Roboto\",sans-serif;\n  padding: 0px;\n}\n\n/* used in: FinalRating */\n.flex-align-middle {\n  display: flex;\n  align-items: center;\n}\n\np.bold {\n  font-weight: bold;\n}\n\np.italic {\n  font-style: italic;\n}\np.warning {\n  color: var(--colorWarning);\n}\np .prefix {\n  padding-right: 7px;\n}\np.small {\n  font-size: 0.8em;\n}\n\nh1 {\n  font-size: 4em;\n  font-weight: 200;\n  padding: 0px 0px;\n  color: var(--colorSecondary);\n}\n\nh2 {\n  font-size: 2em;\n  font-weight: 200;\n  padding: 0px 0px;\n  color: #00bcd4;\n}\n\nh3 {\n  font-size: 1.5em;\n  font-weight: 200;\n  padding: 0px 0px;\n  color: #00bcd4;\n}\n\nhr {\n  width:100%;\n  height:1px;\n}\n\na {\n  font-family: \"RobotoDraft\",\"Roboto\",sans-serif;\n  color: #00bcd4;\n}\n\nbutton {\n  border: none;\n  background-color: inherit;\n  margin-top: 10px;\n}\n", ""]);
 	
 	// exports
 
@@ -99055,18 +99098,32 @@
 /* 1149 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(1145)();
+	exports = module.exports = __webpack_require__(1146)();
 	// imports
 	
 	
 	// module
-	exports.push([module.id, ".push-top-nano {\n  margin-top: 5px;\n}\n.push-top-mini {\n  margin-top: 10px;\n}\n\n.push-top-small {\n  margin-top: 20px;\n}\n\n.push-top-medium {\n  margin-top: 30px;\n}\n\n.push-top-large {\n  margin-top: 50px;\n}\n\n\n.push-bottom-small {\n  margin-bottom: 20px;\n}\n.push-bottom-medium {\n  margin-bottom: 30px;\n}\n.push-bottom-large {\n  margin-bottom: 50px;\n}\n\n.align-right {\n  text-align: right;\n}\n\n.push-center {\n  display: -webkit-flex; /* Safari */\n  -webkit-align-items: center; /* Safari 7.0+ */\n  display: flex;\n  align-items: center;\n}\n\n.pull-top-mini {\n  margin-top: -5px;\n}\n.pull-top-small {\n  margin-top: -15px;\n}\n.pull-top-medium {\n  margin-top: -25px;\n}\n\n.center {\n  text-align: center;\n}\n\n.bold {\n  font-weight: bold;\n}\n\n.italic {\n  font-style: italic;\n}\n\n.flex {\n  display: flex;\n}\n\n.uppercase {\n  text-transform: uppercase;\n}\n\n.warning {\n  color: var(--colorWarning) !important;\n}\n.warning-background {\n  background-color: var(--colorWarningBack) !important;\n}\n\n", ""]);
+	exports.push([module.id, ".header2 h2 {\n  font-size: 2em;\n  font-weight: 200;\n  padding: 0px 0px;\n  color: var(--colorSecondary);\n}\n\n.header2 hr {\n  background: var(--colorSecondary);\n  height: 1px;\n  width: 100%;\n}\n\n.menu {\n  width: 150px;\n}\n\n.dropdown-margin-top {\n  margin-top: -8px;\n  color:#aabbcc;\n}\n\n.progress-margin-top{\n  margin-top: 9px;\n}\n\n.a-margin-top{\n  margin-top: 10px;\n}\n\n/*component labelProgressbarHeader*/\n\n.header2-margin-top {\n  margin-top: -28px;\n}\n\n.label {\n  background-color: #eeeeee;\n  border: 2px solid #666666;\n  width: 600px;\n}\n\n.margin-topAndleft {\n  margin-left: -65px;\n  margin-top: 3px;\n}\n\n/*component H3Input*/\n.h3-padding {\n  padding: 0px;\n}\n\n/*component H3Input*/\n.h3-line-width{\n  width: 800px !important;\n}\n\n/*component Form*/\n.icon-margin-top {\n  margin-top: 4px;\n}\n\n.container {\n  width: 100%;\n}\n\n.dv-star-rating {\n  font-size:2.5rem;\n  color:#555;\n}\n\n.dv-star-rating-star {\n  margin-bottom:0px;\n  margin-right:10px;\n}\n\n.paper {\n  display: inline-block;\n  float: left;\n  margin: 16px 32px 16px 0;\n}\n\n.rightIcon {\n  text-align: center;\n  line-height: 24px;\n}\n\n.nav-icon path {\n  color: #ffffff;\n}\n\n.title-left {\n  float: left;\n  max-width: 60%;\n  margin-right: 30px;\n}\n\n.card.rating {\n  background-color: var(--colorSecondary);\n  margin: 0;\n  padding-left: 10px;\n  padding-top: 10px;\n}\n\n.card.header {\n  background-color: var(--colorSecondary);\n  padding-top: 0,\n}\n\n.star {\n  min-width: 180px;\n}\n.star.small {\n  margin-top: -8px;\n}\n.star.small .dv-star-rating {\n  font-size: 20px !important;\n}\n\n.status {\n  color: var(--colorSecondary);\n}\n\n.option-disabled {\n  color: var(--colorDisabled);\n}\n\n.suggestion-text {\n  text-align: left;\n  width: 90%;\n}\n\n.member {\n  height: 46px;\n}\n", ""]);
 	
 	// exports
 
 
 /***/ },
 /* 1150 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(1146)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, ".push-top-nano {\n  margin-top: 5px;\n}\n.push-top-mini {\n  margin-top: 10px;\n}\n\n.push-top-tiny {\n  margin-top: 15px;\n}\n\n.push-top-small {\n  margin-top: 20px;\n}\n\n.push-top-medium {\n  margin-top: 30px;\n}\n\n.push-top-large {\n  margin-top: 50px;\n}\n\n\n.push-bottom-small {\n  margin-bottom: 20px;\n}\n.push-bottom-medium {\n  margin-bottom: 30px;\n}\n.push-bottom-large {\n  margin-bottom: 50px;\n}\n\n.push-left-small {\n  margin-left: 20px;\n}\n\n.align-right {\n  text-align: right;\n}\n\n.push-center {\n  display: -webkit-flex; /* Safari */\n  -webkit-align-items: center; /* Safari 7.0+ */\n  display: flex;\n  align-items: center;\n}\n\n.pull-top-mini {\n  margin-top: -5px;\n}\n.pull-top-small {\n  margin-top: -15px;\n}\n.pull-top-medium {\n  margin-top: -25px;\n}\n\n.center {\n  text-align: center;\n}\n\n.bold {\n  font-weight: bold;\n}\n\n.italic {\n  font-style: italic;\n}\n\n.disabled {\n  color: var(--colorDisabled);\n}\n\n.flex {\n  display: flex;\n}\n\n.uppercase {\n  text-transform: uppercase;\n}\n\n.warning {\n  color: var(--colorWarning) !important;\n}\n.warning-background {\n  background-color: var(--colorWarningBack) !important;\n}\n\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 1151 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*

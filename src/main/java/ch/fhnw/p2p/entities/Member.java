@@ -75,10 +75,11 @@ public class Member extends VersionedObject{
 	// The transient fields are required for the JSON parsing but shall be ignored by hibernate
 	@Transient
 	private boolean added;
-	@Transient
 	private boolean removed;
 	@Transient
 	private boolean updated;
+	@Transient
+	private boolean isQM;
 
 	// Constructor
 	public Member() {
@@ -120,7 +121,7 @@ public class Member extends VersionedObject{
 	 * checks whether one of roles of the member is the the quality manager (QM) role with special rights
 	 * @return boolean indicating if the member is referenced as QM
 	 */
-	public boolean isQM() {
+	public boolean getIsQM() {
 		for (MemberRole role: this.roles) {
 			if (role.getRole().getType() == Role.Type.QM) return true;
 		}
