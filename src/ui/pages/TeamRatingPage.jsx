@@ -17,15 +17,13 @@ const TeamRatingPage = props => (
         className="row"
         onClick={() => props.handleSelectMember(member, props)}
       >
-        <div className="col-xs-12">
-          <LabeledStarRatingWithGrade
-            {...member}
-            label={`${member.name}, ${member.role}`}
-            value={member.rating}
-            readonly
-            smallStars
-          />
-        </div>
+        <LabeledStarRatingWithGrade
+          {...member}
+          label={`${member.name}, ${member.role}`}
+          value={member.rating}
+          readonly
+          smallStars
+        />
       </button>
     ) : undefined))()}
     <div className="row">
