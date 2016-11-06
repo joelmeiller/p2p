@@ -15,14 +15,14 @@ const EditTeamPage = props => (
     <div className="row">
       <div className="col-xs-12">
         <Header2Line
-          title="Teammembers"
+          title={props.title}
         />
       </div>
     </div>
     <div className="push-top-small">
       {(props.members.map(member =>
         <div
-          key={member.id}
+          key={member.studentId}
           className={classNames('row', {
             'push-bottom-small': !member.isQM,
             'push-bottom-large': member.isQM,
@@ -31,8 +31,8 @@ const EditTeamPage = props => (
           <EditableMember
             {...member}
             readonly={props.readonly}
-            onDelete={() => props.handleDelete(member.id)}
-            onRoleChanged={value => props.handleRoleChanged({ roleId: value }, member.id)}
+            onDelete={() => props.handleDelete(member.studentId)}
+            onRoleChanged={value => props.handleRoleChanged({ roleId: value }, member)}
             selectRoles={props.roles}
           />
         </div>)
@@ -69,15 +69,15 @@ const EditTeamPage = props => (
 EditTeamPage.propTypes = {
   readonly: React.PropTypes.bool,
   canAdd: React.PropTypes.bool,
-  members: React.PropTypes.arrayOf(React.PropTypes.shape(EditableMember.propTypes)).isRequired,
+  members: React.PropTypes.arrayOf(React.PropTypes.shape(EditableMember.propTypes)),
   newMemberRoleId: React.PropTypes.string,
   roles: React.PropTypes.arrayOf(React.PropTypes.shape(roleType)),
   handleDelete: React.PropTypes.func,
   handleAdd: React.PropTypes.func,
-  handleValueChanged: React.PropTypes.func,
   handleSave: React.PropTypes.func,
   handleCancel: React.PropTypes.func,
   selectedRole: React.PropTypes.string,
+  title: React.PropTypes.string,
 };
 
 export default EditTeamPage;

@@ -35,6 +35,8 @@ public class ProjectCriteria extends VersionedObject {
 	private boolean added;
 	@Transient
 	private boolean removed;
+	@Transient
+	private boolean updated;
 
 	// Constructor
 	public ProjectCriteria() {};

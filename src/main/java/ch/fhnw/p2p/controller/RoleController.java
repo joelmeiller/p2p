@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,7 +25,8 @@ import ch.fhnw.p2p.repositories.RoleRepository;
  * @author Joel Meiller
  */
 @Controller
-@RequestMapping("/roles")
+@CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping("/api/roles")
 public class RoleController {
 	// ------------------------
 	// PRIVATE FIELDS
@@ -43,7 +45,8 @@ public class RoleController {
 	 * 
 	 * @return A list of roles
 	 */
-	@RequestMapping(method = RequestMethod.GET)
+	@CrossOrigin(origins = "http://localhost:3000")
+	@RequestMapping(value="/active", method = RequestMethod.GET)
 	public ResponseEntity<List<Role>> getAllRoles() {
 		List<Role> roles = repository.findAll();
 		if ((roles == null) || (roles.isEmpty())) {

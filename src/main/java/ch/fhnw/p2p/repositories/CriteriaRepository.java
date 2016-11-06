@@ -9,4 +9,5 @@ import ch.fhnw.p2p.entities.Criteria;
 @Transactional
 public interface CriteriaRepository extends Repository<Criteria, Long>{
 	Criteria findOne(Long id);
+	Criteria save(Criteria criteria);
 }

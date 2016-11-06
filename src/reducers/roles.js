@@ -1,16 +1,9 @@
 import {
-  ADD_MEMBER,
-  RECEIVE_TEAM,
-  REMOVE_MEMBER,
-  REQUEST_TEAM,
-  UPDATE_TEAM,
-  SAVE_TEAM,
-} from '../actions/team.js';
+  RECEIVE_ROLE,
+  REQUEST_ROLE,
+} from '../actions/roles.js';
 
 const initialState = {
-  members: [],
-  newMemberValues: {},
-  canAdd: false,
   roles: [],
   isFetching: false,
   fetched: false,
@@ -18,26 +11,17 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   const { type, ...params } = action;
-
   switch (type) {
-    case REQUEST_TEAM:
+    case REQUEST_ROLE:
       return {
         ...state,
         isFetching: true,
       };
-    case RECEIVE_TEAM:
+    case RECEIVE_ROLE:
       return {
         ...state,
         ...params,
         isFetching: false,
-      };
-    case REMOVE_MEMBER:
-    case SAVE_TEAM:
-    case ADD_MEMBER:
-    case UPDATE_TEAM:
-      return {
-        ...state,
-        ...params,
       };
     default:
       return state;

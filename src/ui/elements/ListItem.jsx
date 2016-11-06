@@ -12,7 +12,8 @@ const ListItem = props => (
       <TextField
         name={props.id}
         defaultValue={props.text}
-        onChange={e => props.onChanged(e.target.value)}
+        onChange={(e) => { if (props.onChanged) props.onChanged(e.target.value); }}
+        onBlur={(e) => { if (props.onBlur) props.onBlur(e.target.value); }}
         fullWidth
         disabled={props.readonly || !props.editable}
         inputStyle={{ color: '#333333' }}
@@ -40,6 +41,7 @@ ListItem.propTypes = {
   readonly: React.PropTypes.bool,
   onDelete: React.PropTypes.func,
   onChanged: React.PropTypes.func,
+  onBlur: React.PropTypes.func,
   edit: React.PropTypes.element,
 };
 

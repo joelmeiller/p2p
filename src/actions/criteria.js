@@ -1,8 +1,10 @@
 // Node imports
 import 'isomorphic-fetch';
+import uuid from 'uuid';
 
 // Middleware
-import { default as apiSaveCriterias, apiEntrypoint } from '../middleware/criteria/saveCriteria.js';
+import { default as apiGetCriterias } from '../middleware/criteria/getCriteria.js';
+import { default as apiSaveCriterias } from '../middleware/criteria/saveCriteria.js';
 
 export const ADD_CRITERIA = '/criteria/ADD_CRITERIA';
 export const EDIT_CRITERIA = '/criteria/EDIT_CRITERIA';
@@ -10,6 +12,7 @@ export const SAVE_CRITERIAS = '/criteria/SAVE_CRITERIAS';
 export const REMOVE_CRITERIA = '/criteria/REMOVE_CRITERIA';
 export const SET_CRITERIA = '/criteria/SET_CRITERIA';
 export const SET_CRITERIA_VALUE = '/criteria/SET_CRITERIA_VALUE';
+export const SET_NEW_CRITERIA_VALUE = '/criteria/SET_NEW_CRITERIA_VALUE';
 export const REQUEST_CRITERIA = '/criteria/REQUEST_CRITERIA';
 export const RECEIVE_CRITERIA = '/criteria/RECEIVE_CRITERIA';
 
@@ -20,20 +23,7 @@ const requestData = () => ({
 
 const receiveData = data => ({
   type: RECEIVE_CRITERIA,
-  categories: data.map(projectCategory => ({
-    id: projectCategory.id.toString(),
-    title: projectCategory.category.title,
-    categoryId: projectCategory.category.id.toString(),
-    criterias: projectCategory.projectCriterias.map(projectCriteria => ({
-      id: projectCriteria.id.toString(),
-      label: projectCriteria.criteria.label,
-      criteriaId: projectCriteria.criteria.id.toString(),
-    })),
-    selectCriterias: projectCategory.category.criterias.map(criteria => ({
-      criteriaId: criteria.id.toString(),
-      label: criteria.label,
-    })),
-  })),
+  categories: data,
 });
 
 const shouldFetchData = (state) => {
@@ -47,17 +37,13 @@ const shouldFetchData = (state) => {
 export const fetchCriteria = () => (dispatch, getState) => {
   if (shouldFetchData(getState())) {
     dispatch(requestData());
-
-    fetch(apiEntrypoint)
-    .then(response => response.json())
-    .then(data => {
-      dispatch(receiveData(data));
-    });
+    apiGetCriterias(data => dispatch(receiveData(data)));
   }
 };
 
 export const removeCriteria = criteria => (dispatch, getState) => {
   const state = getState().criteria;
+
   const categories = (state.categories || [])
     .map(category => ({
       ...category,
@@ -82,7 +68,33 @@ export const setCriteria = (criteriaId, category) => ({
 export const addCriteria = addCategory => (dispatch, getState) => {
   const state = getState().criteria;
 
-  if (state.selectedCategoryId === addCategory.categoryId && state.selectedCriteriaId) {
+  // New self defined crtieria
+  if (addCategory.isSelfDefined && state.newCategoryId === addCategory.categoryId) {
+    const category = state.categories.find(c =>
+      c.categoryId === addCategory.categoryId && c.categoryId === state.newCategoryId);
+
+    if (category) {
+      category.criterias.push({
+        criteriaId: uuid.v4(), // Required for further changes before saving
+        label: state.newValue,
+        added: true,
+      });
+
+      const categories = state.categories.map(cat =>
+        (cat.categoryId === category.categoryId ?
+        category : cat)
+      );
+
+      dispatch({
+        type: ADD_CRITERIA,
+        categories,
+        newCategoryId: undefined,
+        newValue: '',
+      });
+    }
+
+  // Predefined criterias from dropdown
+  } else if (state.selectedCategoryId === addCategory.categoryId && state.selectedCriteriaId) {
     const category = state.categories.find(c =>
       c.categoryId === addCategory.categoryId && c.categoryId === state.selectedCategoryId);
 
@@ -111,11 +123,32 @@ export const addCriteria = addCategory => (dispatch, getState) => {
   }
 };
 
-export const setCriteriaValue = (value, criteria, category) => ({
-  type: SET_CRITERIA_VALUE,
-  changedCriteriaId: criteria.criteriaId,
-  changedCateogryId: category.categoryId,
-  changedValue: value,
+export const setCriteriaValue = (value, criteria, category) => (dispatch, getState) => {
+  const state = getState().criteria;
+
+  // Self defined crtierias
+  if (category.isSelfDefined) {
+    const categories = state.categories.map(cat => (
+      cat.categoryId === category.categoryId ? {
+      ...cat,
+      criterias: cat.criterias.map(crit => ({
+        ...crit,
+        label: crit.criteriaId === criteria.criteriaId ? value : crit.label,
+        updated: !crit.added, // Set as updated only in case it is not a new criteria
+      })),
+    } : cat));
+
+    dispatch({
+      type: SET_CRITERIA_VALUE,
+      categories,
+    });
+  }
+};
+
+export const setNewCriteriaValue = (value, category) => ({
+  type: SET_NEW_CRITERIA_VALUE,
+  newCategoryId: category.categoryId,
+  newValue: value,
 });
 
 export const saveCriterias = props => (dispatch, getState) => {
@@ -126,7 +159,7 @@ export const saveCriterias = props => (dispatch, getState) => {
       if (data.status === 500) {
         alert('Criteria could not be saved');
       } else {
-        dispatch(receiveData(data));
+        apiGetCriterias(data => dispatch(receiveData(data)));
       }
     });
 
@@ -143,12 +176,7 @@ export const saveCriterias = props => (dispatch, getState) => {
 
 export const cancel = props => (dispatch) => {
   dispatch(requestData());
-
-  fetch(apiEntrypoint)
-  .then(response => response.json())
-  .then(data => {
-    dispatch(receiveData(data));
-  });
+  apiGetCriterias(data => dispatch(receiveData(data)));
 
   props.router.push('/');
 };

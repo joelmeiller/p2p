@@ -2,7 +2,6 @@ package ch.fhnw.p2p.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -11,20 +10,21 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
 
 import ch.fhnw.p2p.controller.utils.ProjectNotFoundException;
+import ch.fhnw.p2p.entities.Category;
+import ch.fhnw.p2p.entities.Criteria;
+import ch.fhnw.p2p.entities.Locale;
 import ch.fhnw.p2p.entities.Member;
 import ch.fhnw.p2p.entities.Project;
 import ch.fhnw.p2p.entities.ProjectCategory;
 import ch.fhnw.p2p.entities.ProjectCriteria;
-import ch.fhnw.p2p.repositories.CategoryRepository;
 import ch.fhnw.p2p.repositories.CriteriaRepository;
 import ch.fhnw.p2p.repositories.MemberRepository;
 import ch.fhnw.p2p.repositories.ProjectCategoryRepository;
@@ -37,7 +37,7 @@ import ch.fhnw.p2p.repositories.ProjectRepository;
  * @author Joel Meiller
  */
 
-@RestController
+@Controller
 @RequestMapping("/api/project")
 public class ProjectCategoryController {
 	// ------------------------
@@ -101,7 +101,10 @@ public class ProjectCategoryController {
 			logger.info("Save Categories for student: " + member.getStudent().getEmail() + " for project " + member.getProject().getTitle());
 			Project project = member.getProject();
 			
-			if (project == null) throw new ProjectNotFoundException(member);
+			if (member.getProject() == null) {
+				logger.info("No project found");
+				return new ResponseEntity<List<ProjectCategory>>(HttpStatus.NO_CONTENT);
+			}
 			
 			List<ProjectCategory> projectCategories = new ArrayList<ProjectCategory>();
 			// Set categories and criterias
@@ -111,25 +114,45 @@ public class ProjectCategoryController {
 				for (ProjectCriteria projCrit: projCat.getProjectCriterias()) {
 					// Add new
 					if (projCrit.isAdded()) {
-						ProjectCriteria projectCriteria = new ProjectCriteria(criteriaRepo.findOne(projCrit.getCriteria().getId()));
-						projectCriteria.setCategory(projectCategory);
-						projectCategory.getProjectCriterias().add(projectCriteria);
+						if (projectCategory.getCategory().getType() == Category.Type.SELFDEFINED) {
+							logger.info("Add self-defined criteria");
+							Criteria criteria = new Criteria(projCrit.getCriteria().getLabel(), Locale.Language.EN);
+							criteria.setCategory(projectCategory.getCategory());
+							criteria = criteriaRepo.save(criteria);
+							
+							ProjectCriteria projectCriteria = new ProjectCriteria(criteria);
+							projectCriteria.setCategory(projectCategory);
+							projectCategory.getProjectCriterias().add(projectCriteria);
+						} else {
+							ProjectCriteria projectCriteria = new ProjectCriteria(criteriaRepo.findOne(projCrit.getCriteria().getId()));
+							projectCriteria.setCategory(projectCategory);
+							projectCategory.getProjectCriterias().add(projectCriteria);
+						}
 					}
 					
 					// Remove existing
 					if (projCrit.isRemoved()) {
+						logger.info("Remove criteria (id='" + projCrit.getId() + "'");
 						ProjectCriteria criteria = projectCriteriaRepo.findOne(projCrit.getId());
 						projectCategory.getProjectCriterias().remove(criteria);
+					// Update criteria
+					} else if (projectCategory.getCategory().getType() == Category.Type.SELFDEFINED && projCrit.isUpdated()) {
+						logger.info("Update criteria (id='" + projCrit.getId() + "'");
+						Criteria criteria = criteriaRepo.findOne(projCrit.getCriteria().getId());
+						criteria.setLabel(projCrit.getCriteria().getLabel());
+						criteriaRepo.save(criteria);
 					}
 				}
 				projectCategories.add(projectCategory);
 			}
 			project.setProjectCategories(projectCategories);
+			logger.info("Save project " + project.getTitle());
 			projectRepo.saveAndFlush(project);	
 			
 			logger.info("Successfully added categories to project " + project.getTitle() + " [" + project.getId() + "]");
 			return new ResponseEntity<List<ProjectCategory>>(project.getProjectCategories(), HttpStatus.OK);
 		} catch (Exception e) {
+			logger.error("Server error", e);
 			return new ResponseEntity<List<ProjectCategory>>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}

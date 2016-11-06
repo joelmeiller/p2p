@@ -1,7 +1,7 @@
 // Node imports
 import fetch from 'isomorphic-fetch';
 
-export const apiEntrypoint = 'http://localhost:8080/api/project/categories';
+const apiEntrypoint = 'http://localhost:8080/api/project/categories';
 
 export default (values, callback) => {
   const categories = values.map(category => ({
@@ -14,14 +14,13 @@ export default (values, callback) => {
       id: criteria.id,
       added: criteria.added && !criteria.removed,
       removed: criteria.removed && !criteria.added,
+      updated: criteria.updated,
       criteria: {
-        id: criteria.criteriaId,
+        id: (category.isSelfDefined && criteria.added) ? undefined : criteria.criteriaId,
         label: criteria.label,
       },
     })),
   }));
-
-  console.log(JSON.stringify(categories));
 
   fetch(apiEntrypoint, {
     method: 'POST',

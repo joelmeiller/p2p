@@ -66,7 +66,8 @@ public class MemberDataLoader implements CommandLineRunner {
 			
 		qm = roleRepo.findOne(qm.getId());
 		Member member = memberRepo.findByStudentEmail("max.muster@students.fhnw.ch");
-		member.getRoles().add(new MemberRole(member, qm));
+		MemberRole role = new MemberRole(member, qm);
+		member.getRoles().add(role);
 		memberRepo.save(member);
 	}
 }
