@@ -88,11 +88,9 @@ public class ProjectRepositoryImpl {
 	private Member addRatings (Member updateMember) {
 		logger.info("Add ratings (Member count:" + updateMember.getProject().getMembers().size() + ")");
 		for (Member member: updateMember.getProject().getMembers()) {
-			if (!member.equals(updateMember)) {
-				updateMember.getMemberRatings().add(new MemberRating(updateMember, member, updateMember.getProject().getProjectCriteria()));
-			}
+			updateMember.getMemberRatings().add(new MemberRating(updateMember, member, updateMember.getProject().getProjectCriteria()));
 		}
-		
+		logger.info(updateMember.getMemberRatings().size());
 		return updateMember;
 	}
 }
