@@ -8,7 +8,10 @@ import EditableMember, { roleType } from '../components/EditableMember.jsx';
 import Header2Line from '../elements/Header/Header2Line.jsx';
 import AutoSuggest from '../elements/AutoSuggest.jsx';
 
+import sortMembers from '../utils/sortMembers.js';
+
 import getMembersSuggestions from '../../middleware/getMemberSuggestions.js';
+
 
 const EditTeamPage = props => (
   <div className="container push-top-small">
@@ -20,18 +23,15 @@ const EditTeamPage = props => (
       </div>
     </div>
     <div className="push-top-small">
-      {(props.members.map(member =>
+      {(props.members.sort(sortMembers).map(member =>
         <div
           key={member.studentId}
-          className={classNames('row', {
-            'push-bottom-small': !member.isQM,
-            'push-bottom-large': member.isQM,
-          })}
+          className="push-bottom-small"
         >
           <EditableMember
             {...member}
             readonly={props.readonly}
-            onDelete={() => props.handleDelete(member.studentId)}
+            onDelete={() => props.handleDelete(member)}
             onRoleChanged={value => props.handleRoleChanged({ roleId: value }, member)}
             selectRoles={props.roles}
           />

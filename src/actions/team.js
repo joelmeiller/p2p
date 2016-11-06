@@ -84,6 +84,7 @@ export const addMember = (student) => (dispatch, getState) => {
     members.push({
       studentId: student.id,
       name: student.name,
+      email: student.email,
       slug: student.slug,
       roles: [],
       added: true,

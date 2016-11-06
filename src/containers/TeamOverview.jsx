@@ -57,7 +57,7 @@ const mapDispatchToProps = (dispatch, props) => ({
   initializeTitle: () => dispatch(setTitle('Teammembers')),
   fetchTeam: () => dispatch(fetchTeam()),
   fetchRoles: () => dispatch(fetchRoles()),
-  handleDelete: memberId => dispatch(removeMember(memberId)),
+  handleDelete: member => dispatch(removeMember(member)),
   handleAdd: student => dispatch(addMember(student)),
   handleRoleChanged: (role, memberId) => dispatch(updateRoleOfMember(role, memberId)),
   handleSave: () => dispatch(saveTeam(props)),

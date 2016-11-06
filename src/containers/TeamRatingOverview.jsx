@@ -13,7 +13,7 @@ import { showMember } from '../actions/member.js';
 
 // Utils impors
 import calculateProgress from '../middleware/utils/calculateProgress.js';
-import { getActiveRoleType } from '../middleware/utils/activeRole.js';
+import { getActiveRoleShortcut } from '../middleware/utils/activeRole.js';
 
 
 class TeamRatingOverviewComponent extends Component {
@@ -46,7 +46,7 @@ const mapStateToProps = (globalState, props) => {
   const updatedMembers = members.map(member => ({
     ...member,
     progress: calculateProgress(member),
-    activeRole: getActiveRoleType(member.roles),
+    activeRole: getActiveRoleShortcut(member.roles),
   }));
 
   return {

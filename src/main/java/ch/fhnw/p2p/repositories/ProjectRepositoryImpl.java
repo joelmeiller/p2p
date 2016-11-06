@@ -10,6 +10,7 @@ import ch.fhnw.p2p.entities.Member;
 import ch.fhnw.p2p.entities.MemberRating;
 import ch.fhnw.p2p.entities.MemberRole;
 import ch.fhnw.p2p.entities.Project;
+import ch.fhnw.p2p.entities.ProjectCriteria;
 import ch.fhnw.p2p.entities.Role;
 import ch.fhnw.p2p.entities.Student;
 
@@ -52,7 +53,7 @@ public class ProjectRepositoryImpl {
 						Role role = roleRepo.findOne(projectMember.getRoles().get(0).getRole().getId());
 						members.add(addRatings(new Member(project, student, role)));
 					} else {
-						members.add(new Member(project, student));					
+						members.add(addRatings(new Member(project, student)));					
 					}
 				}	
 	
@@ -60,7 +61,7 @@ public class ProjectRepositoryImpl {
 				else if (projectMember.isRemoved()) {
 					logger.info("Remove student " + studentRepo.findOne(projectMember.getStudent().getId()) + "(id=" + projectMember.getId() + ") from project '" + project.getTitle() + "' (id=" + project.getId() + ")");
 					Member removeMember = memberRepo.findOne(projectMember.getId());
-					members.remove(removeMember);
+					removeMember.setRemoved(true);
 				}
 				
 				// Update roles of member
@@ -87,10 +88,16 @@ public class ProjectRepositoryImpl {
 	 */
 	private Member addRatings (Member updateMember) {
 		logger.info("Add ratings (Member count:" + updateMember.getProject().getMembers().size() + ")");
+		List<ProjectCriteria> criterias = updateMember.getProject().getProjectCriteria();
+		
 		for (Member member: updateMember.getProject().getMembers()) {
-			updateMember.getMemberRatings().add(new MemberRating(updateMember, member, updateMember.getProject().getProjectCriteria()));
+			// Add ratings of existing members to new member
+			updateMember.getMemberRatings().add(new MemberRating(updateMember, member, criterias));
+			
+			// Update existing members with new member
+			member.getMemberRatings().add(new MemberRating(member, updateMember, criterias));
 		}
-		logger.info(updateMember.getMemberRatings().size());
+		
 		return updateMember;
 	}
 }

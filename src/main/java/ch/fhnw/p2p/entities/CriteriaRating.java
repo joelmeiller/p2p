@@ -46,8 +46,9 @@ public class CriteriaRating extends VersionedObject {
 		this.rating = new BigDecimal(0);
 	}
 	
-	public CriteriaRating(ProjectCriteria criteria) {
+	public CriteriaRating(ProjectCriteria criteria, MemberRating memberRating) {
 		this();
 		this.criteria = criteria;
+		this.memberRating = memberRating;
 	}
 }

@@ -12,8 +12,8 @@ const Dashboard = props => (
   <div>
     <Inbox />
     {(props.isJury ?
-      <ProjectOverview /> :
-      <TeamRatingOverview />)
+      <ProjectOverview {...props} /> :
+      <TeamRatingOverview {...props} />)
     }
   </div>
 );
@@ -27,6 +27,7 @@ const mapStateToProps = (globalState, props) => {
 
   return {
     isJury: user && user.isJury,
+    isQM: user && user.isQM,
     ...props,
   };
 };

@@ -61,7 +61,7 @@ public class MemberRating extends VersionedObject {
 		this(source, target);
 		
 		for (ProjectCriteria criteria: criterias) {
-			this.criteriaRatings.add(new CriteriaRating(criteria));
+			this.criteriaRatings.add(new CriteriaRating(criteria, this));
 		}
 	}
 }
