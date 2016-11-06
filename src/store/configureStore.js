@@ -10,7 +10,9 @@ import { default as member } from '../reducers/member.js';
 import { default as myrating } from '../reducers/myrating.js';
 import { default as role } from '../reducers/roles.js';
 import { default as team } from '../reducers/team.js';
-import { default as projects } from '../reducers/projectList.js';
+import { default as projectList } from '../reducers/projectList.js';
+import { default as project } from '../reducers/project.js';
+
 
 import { reducer as autosuggest } from '../ui/elements/AutoSuggest.jsx';
 
@@ -25,7 +27,8 @@ const configureStore = () => {
       routing,
       role,
       team,
-      projects,
+      projectList,
+      project,
       autosuggest,
     }),
     {},
