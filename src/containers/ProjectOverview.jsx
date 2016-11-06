@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import ProjectPage from '../ui/pages/ProjectPage.jsx';
 
 // Action imports
-import { fetchProject, showProject } from '../actions/projects.js';
+import { fetchProject, editProject } from '../actions/projectList.js';
 
 
 class ProjectOverviewComponent extends Component {
@@ -28,7 +28,7 @@ ProjectOverviewComponent.propTypes = {
 };
 
 const mapStateToProps = (globalState, props) => {
-  const { projects, readonly } = globalState.projects;
+  const { projects, readonly } = globalState.projectList;
 
   const updatedProjects = projects.map(project => ({
     ...project,
@@ -44,7 +44,7 @@ const mapStateToProps = (globalState, props) => {
 
 const mapDispatchToProps = (dispatch, props) => ({
   fetchProject: () => dispatch(fetchProject()),
-  handleSelectProject: selectedProjects => dispatch(showProject(selectedProjects, props)),
+  handleSelectProject: selectedProjects => dispatch(editProject(selectedProjects, props)),
 });
 
 const ProjectOverview = connect(

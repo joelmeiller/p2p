@@ -7,6 +7,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ch.fhnw.p2p.entities.Member;
+import ch.fhnw.p2p.entities.MemberRating;
 import ch.fhnw.p2p.entities.MemberRole;
 import ch.fhnw.p2p.entities.Project;
 import ch.fhnw.p2p.entities.Role;
@@ -49,7 +50,7 @@ public class ProjectRepositoryImpl {
 					logger.info("Add student: " + student.toString() + " to project '" + project.getTitle() + "' (id=" + project.getId() + ")");
 					if (projectMember.getRoles() != null && projectMember.getRoles().size() > 0) {
 						Role role = roleRepo.findOne(projectMember.getRoles().get(0).getRole().getId());
-						members.add(new Member(project, student, role));
+						members.add(addRatings(new Member(project, student, role)));
 					} else {
 						members.add(new Member(project, student));					
 					}
@@ -77,5 +78,19 @@ public class ProjectRepositoryImpl {
 			logger.error("Error while updating members", e);
 			throw e;
 		}
+	}
+	
+	/**
+	 * enriches the member with the related project criteria for each team member
+	 * @param member member to add criteria for each team member
+	 * @return Member updated member
+	 */
+	private Member addRatings (Member updateMember) {
+		logger.info("Add ratings (Member count:" + updateMember.getProject().getMembers().size() + ")");
+		for (Member member: updateMember.getProject().getMembers()) {
+			updateMember.getMemberRatings().add(new MemberRating(updateMember, member, updateMember.getProject().getProjectCriteria()));
+		}
+		logger.info(updateMember.getMemberRatings().size());
+		return updateMember;
 	}
 }

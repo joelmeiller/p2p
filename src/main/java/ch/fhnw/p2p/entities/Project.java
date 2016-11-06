@@ -58,4 +58,15 @@ public class Project extends VersionedObject {
 	public String toString() {
 		return this.title + "(" + this.id.toString() + ")";
 	}
+	
+	public List<ProjectCriteria> getProjectCriteria() {
+		List<ProjectCriteria> criterias = new ArrayList<ProjectCriteria>();
+		
+		for (ProjectCategory category: projectCategories) {
+			for (ProjectCriteria criteria: category.getProjectCriterias()) {
+				criterias.add(criteria);
+			}
+		}
+		return criterias;
+	}
 }
