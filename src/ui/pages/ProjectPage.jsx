@@ -1,5 +1,8 @@
 import React from 'react';
 
+
+import { RaisedButton } from 'material-ui';
+
 import {
   Table,
   TableBody,
@@ -82,6 +85,15 @@ const ProjectPage = props => (
         </TableBody>
       </Table>
     </div>
+        <div className="row">
+          <div className="col-xs-4">
+            <RaisedButton
+              label="Add"
+              primary
+              onClick={props.handleAddProject}
+            />
+          </div>
+        </div>
   </div>
 );
 
@@ -95,6 +107,7 @@ ProjectPage.propTypes = {
     })
   ),
   handleSelectProject: React.PropTypes.func,
+  handleAddProject: React.PropTypes.func,
 };
 
 export default ProjectPage;
