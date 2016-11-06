@@ -1,14 +1,12 @@
 // Middleware
 import { default as apiGetProjects } from '../middleware/getProjects.mock.js';
+import { EDIT_PROJECT } from './project.js';
 
 export const ADD_PROJECT = '/projectList/ADD_PROJECT';
-export const SHOW_PROJECT = '/projectList/ADD_PROJECT';
 export const RECEIVE_PROJECTS = '/projectList/RECEIVE_PROJECTS';
 export const REMOVE_PROJECT = '/projectList/REMOVE_PROJECT';
 export const REQUEST_PROJECTS = '/projectList/REQUEST_PROJECTS';
-export const SET_NEW_PROJECT_VALUE = '/projectList/SET_NEW_PROJECT_VALUE';
-export const UPDATE_PROJECT = '/projectList/UPDATE_PROJECT';
-export const SAVE_PROJECTS = '/projectList/SAVE_PROJECTS';
+export const SAVE_PROJECT = '/projectList/SAVE_PROJECT';
 
 const requestData = () => ({
   type: REQUEST_PROJECTS,
@@ -19,11 +17,11 @@ const receiveData = data => ({
   projects: data.projects,
 });
 
-const shouldFetchData = (state) => {
-  if (!state.project || state.relaod) {
+const shouldFetchData = (globalState) => {
+  if (!globalState.projectList || globalState.relaod) {
     return true;
   }
-  return !state.project.isFetching && !state.project.fetched;
+  return !globalState.projectList.isFetching && !globalState.projectList.fetched;
 };
 
 export const fetchProject = () => (dispatch, getState) => {
@@ -37,14 +35,14 @@ export const fetchProject = () => (dispatch, getState) => {
 };
 
 
-export const showProject = (selectedProjectIndexes, props) => (dispatch, getState) => {
+export const editProject = (selectedProjectIndexes, props) => (dispatch, getState) => {
   console.log(selectedProjectIndexes);
-  const state = getState().projects;
+  const state = getState().projectList;
 
   if (selectedProjectIndexes.length === 1 && state.projects) {
     const project = state.projects[selectedProjectIndexes[0]];
     dispatch({
-      type: SHOW_PROJECT,
+      type: EDIT_PROJECT,
       project,
     });
     props.router.push(`/projects/${project.slug}`);
@@ -53,38 +51,22 @@ export const showProject = (selectedProjectIndexes, props) => (dispatch, getStat
   }
 };
 
-export const updateProject = (value, projectId) => (dispatch, getState) => {
-  const state = getState().project;
+export const saveProject = props => (dispatch, getStore) => {
+  const updatedProject = getStore().project;
+  const projectList = getStore().projectList;
 
   dispatch({
-    type: UPDATE_PROJECT,
-    projects: state.projects,
+    type: SAVE_PROJECT,
+    projects: projectList.projects.map(project => (project.id === updatedProject.id ? {
+      ...project,
+      ...updatedProject,
+    } : project)),
   });
+  props.router.push('/');
 };
 
-export const setNewProjectValue = value => (dispatch, getState) => {
-  const state = getState().project;
-  const newProjctValues = state.newProjctValues || {};
-
-  if (value.roleId) {
-    newProjctValues.roleId = value.roleId;
-  }
-  if (value.name) {
-    newProjctValues.name = value.name;
-  }
-  if (value.email) {
-    newProjctValues.email = value.email;
-  }
-
-  dispatch({
-    type: SET_NEW_PROJECT_VALUE,
-    newProjctValues,
-    canAdd: !(!newProjctValues.roleId || !newProjctValues.name || !newProjctValues.email),
-  });
-};
-
-export const removeProjct = projectId => (dispatch, getState) => {
-  const state = getState().project;
+export const removeProject = projectId => (dispatch, getState) => {
+  const state = getState().projectList;
 
   const projects = (state.projects || []).filter(project =>
     project.id !== projectId);
@@ -93,24 +75,6 @@ export const removeProjct = projectId => (dispatch, getState) => {
     type: REMOVE_PROJECT,
     projects,
   });
-};
-
-
-export const saveProject = props => (dispatch, getState) => {
-  const state = getState().project;
-
-  if (state.projects) {
-    // apiSaveProject(state.projects, (err) => {
-    //   if (err) dispatch(apiError(fetchProject));
-    // });
-
-    dispatch({
-      type: SAVE_PROJECTS,
-      projects: state.projects,
-    });
-  }
-
-  props.router.push('/');
 };
 
 export const cancel = props => (dispatch) => {

@@ -1,5 +1,5 @@
 // Actions
-import { SET_COACH_NAME, SET_PROJECT_TITLE, SAVE, CANCEL, REQUEST_USER, RECEIVE_USER } from '../actions/project.js';
+import { SET_COACH_NAME, SET_PROJECT_TITLE, SAVE, CANCEL, EDIT_PROJECT } from '../actions/project.js';
 
 
 const initialState = {
@@ -25,16 +25,10 @@ const reducer = (state = initialState, action) => {
         ...params,
         name: value,
       };
-    case REQUEST_USER:
+    case EDIT_PROJECT:
       return {
         ...state,
-        isFetching: true,
-      };
-    case RECEIVE_USER:
-      return {
-        ...state,
-        ...params,
-        isFetching: false,
+        ...params.project,
       };
     default:
       return state;

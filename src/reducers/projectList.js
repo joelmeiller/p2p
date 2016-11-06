@@ -1,17 +1,13 @@
 import {
   ADD_PROJECT,
-  ERROR_RESET_PROJECTSPROJECT,
   RECEIVE_PROJECTS,
   REMOVE_PROJECT,
   REQUEST_PROJECTS,
-  SET_NEW_PROJECT_VALUE,
-  UPDATE_PROJECTS,
-  SAVE_PROJECTS,
+  SAVE_PROJECT,
 } from '../actions/projectList.js';
 
 const initialState = {
   projects: [],
-  newProjectValues: {},
   canAdd: false,
   isFetching: false,
   fetched: false,
@@ -31,20 +27,14 @@ const reducer = (state = initialState, action) => {
         ...state,
         ...params,
         isFetching: false,
+        fetched: true,
       };
     case REMOVE_PROJECT:
-    case SAVE_PROJECTS:
-    case SET_NEW_PROJECT_VALUE:
-    case UPDATE_PROJECTS:
     case ADD_PROJECT:
+    case SAVE_PROJECT:
       return {
         ...state,
         ...params,
-      };
-    case ERROR_RESET_PROJECTSPROJECT:
-      return {
-        ...state,
-        projects: state.projects.map(p => (p.id === action.project.id ? action.project : p)),
       };
     default:
       return state;
