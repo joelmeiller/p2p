@@ -10,7 +10,7 @@ import { default as member } from '../reducers/member.js';
 import { default as myrating } from '../reducers/myrating.js';
 import { default as role } from '../reducers/roles.js';
 import { default as team } from '../reducers/team.js';
-import { default as projects } from '../reducers/projects.js';
+import { default as projects } from '../reducers/projectList.js';
 
 import { reducer as autosuggest } from '../ui/elements/AutoSuggest.jsx';
 

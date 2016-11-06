@@ -1,14 +1,14 @@
 // Middleware
 import { default as apiGetProjects } from '../middleware/getProjects.mock.js';
 
-export const ADD_PROJECT = '/projects/ADD_PROJECT';
-export const SHOW_PROJECT = '/projects/ADD_PROJECT';
-export const RECEIVE_PROJECTS = '/projects/RECEIVE_PROJECTS';
-export const REMOVE_PROJECT = '/projects/REMOVE_PROJECT';
-export const REQUEST_PROJECTS = '/projects/REQUEST_PROJECTS';
-export const SET_NEW_PROJECT_VALUE = '/projects/SET_NEW_PROJECT_VALUE';
-export const UPDATE_PROJECT = '/projects/UPDATE_PROJECT';
-export const SAVE_PROJECTS = '/projects/SAVE_PROJECTS';
+export const ADD_PROJECT = '/projectList/ADD_PROJECT';
+export const SHOW_PROJECT = '/projectList/ADD_PROJECT';
+export const RECEIVE_PROJECTS = '/projectList/RECEIVE_PROJECTS';
+export const REMOVE_PROJECT = '/projectList/REMOVE_PROJECT';
+export const REQUEST_PROJECTS = '/projectList/REQUEST_PROJECTS';
+export const SET_NEW_PROJECT_VALUE = '/projectList/SET_NEW_PROJECT_VALUE';
+export const UPDATE_PROJECT = '/projectList/UPDATE_PROJECT';
+export const SAVE_PROJECTS = '/projectList/SAVE_PROJECTS';
 
 const requestData = () => ({
   type: REQUEST_PROJECTS,

@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import ProjectPage from '../ui/pages/ProjectPage.jsx';
 
 // Action imports
-import { fetchProject, showProject } from '../actions/projects.js';
+import { fetchProject, showProject } from '../actions/projectList.js';
 
 
 class ProjectOverviewComponent extends Component {

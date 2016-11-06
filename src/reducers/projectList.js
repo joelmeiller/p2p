@@ -7,7 +7,7 @@ import {
   SET_NEW_PROJECT_VALUE,
   UPDATE_PROJECTS,
   SAVE_PROJECTS,
-} from '../actions/projects.js';
+} from '../actions/projectList.js';
 
 const initialState = {
   projects: [],
