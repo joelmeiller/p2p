@@ -27,9 +27,9 @@ storiesOf('pages/EditProjectPage', module)
         {
           label: 'Close',
           value: 'C',
-        }
+        },
       ]}
-      />
+    />
   </div>
 ))
 ;
