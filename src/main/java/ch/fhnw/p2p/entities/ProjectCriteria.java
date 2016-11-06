@@ -1,10 +1,13 @@
 package ch.fhnw.p2p.entities;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -30,6 +33,9 @@ public class ProjectCriteria extends VersionedObject {
 	@ManyToOne
 	@JoinColumn(name = "criteriaId")
 	private Criteria criteria;
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "criteria")
+	private List<CriteriaRating> ratings;
 
 	@Transient
 	private boolean added;

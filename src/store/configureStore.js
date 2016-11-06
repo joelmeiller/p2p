@@ -11,7 +11,6 @@ import { default as myrating } from '../reducers/myrating.js';
 import { default as role } from '../reducers/roles.js';
 import { default as team } from '../reducers/team.js';
 import { default as projects } from '../reducers/projects.js';
-import { default as project } from '../reducers/project.js';
 
 import { reducer as autosuggest } from '../ui/elements/AutoSuggest.jsx';
 
@@ -27,7 +26,6 @@ const configureStore = () => {
       role,
       team,
       projects,
-      project,
       autosuggest,
     }),
     {},

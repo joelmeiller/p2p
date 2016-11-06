@@ -39,14 +39,14 @@ public class CriteriaRating extends VersionedObject {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "criteriaId")
 	@JsonIgnore
-	private Criteria criteria;
+	private ProjectCriteria criteria;
 
 	// Constructor
 	public CriteriaRating() {
 		this.rating = new BigDecimal(0);
 	}
 	
-	public CriteriaRating(Criteria criteria) {
+	public CriteriaRating(ProjectCriteria criteria) {
 		this();
 		this.criteria = criteria;
 	}
