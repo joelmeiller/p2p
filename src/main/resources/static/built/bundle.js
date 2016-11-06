@@ -30627,7 +30627,7 @@
 	    firstName: 'Johann',
 	    lastName: 'Misteli',
 	    role: 'QM',
-	    isQM: true,
+	    isQM: false,
 	    isJury: false,
 	    isFinal: false },
 	  project: {
@@ -32419,8 +32419,6 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	// import { default as getTeamRating } from '../middleware/getTeamRating.mock.js';
-	
 	// Actions
 	var REQUEST_INBOX = exports.REQUEST_INBOX = '/inbox/REQUEST_INBOX';
 	var RECEIVE_INBOX = exports.RECEIVE_INBOX = '/inbox/RECEIVE_INBOX';
@@ -32618,7 +32616,9 @@
 	});
 	exports.initialize = exports.updateRating = exports.updateComment = exports.saveMemberAndClose = exports.showMember = exports.selectMember = exports.resetPreviousMember = exports.ERROR_RESET_UPDATE = exports.UPDATE_RATING = exports.UPDATE_COMMENT = exports.SELECT_MEMBER = exports.INITIALIZE = undefined;
 	
-	var _updateTeamMemberMock = __webpack_require__(510);
+	var _saveRating = __webpack_require__(510);
+	
+	var _saveRating2 = _interopRequireDefault(_saveRating);
 	
 	var _app = __webpack_require__(490);
 	
@@ -32671,7 +32671,7 @@
 	
 	      dispatch((0, _team.updateMember)(member));
 	
-	      (0, _updateTeamMemberMock.updateTeamMember)(member, function (err, res) {
+	      (0, _saveRating2.default)(member, function (err, res) {
 	        if (err) {
 	          dispatch(resetPreviousMember(props.member));
 	          dispatch((0, _team.resetMembers)(props.member));
@@ -32745,31 +32745,49 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.updateTeamMember = exports.response = undefined;
 	
-	var _fetchMock = __webpack_require__(492);
+	var _isomorphicFetch = __webpack_require__(496);
 	
-	var _fetchMock2 = _interopRequireDefault(_fetchMock);
+	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	// import { updateTeamMember as origin } from './updateTeamMember.js';
+	var apiEntrypoint = 'http://localhost:8080/api/project/members/rating'; // Node imports
 	
-	var response = exports.response = {
-	  status: 'OK',
-	  message: 'Joel Meiller updated'
-	}; // Node imports
-	var updateTeamMember = exports.updateTeamMember = function updateTeamMember(member, callback) {
-	  // Patch the fetch() global to always return the same value for GET
-	  // requests to all URLs.
-	  _fetchMock2.default.get('http://localhost:3000/p2p/api/team/member/test', response);
+	exports.default = function (values, callback) {
+	  var members = values.map(function (member) {
+	    return {
+	      id: member.id,
+	      student: {
+	        id: member.studentId
+	      },
+	      roles: member.roles.map(function (memberRole) {
+	        return {
+	          id: memberRole.id,
+	          active: memberRole.active,
+	          role: {
+	            id: memberRole.roleId,
+	            title: memberRole.title
+	          }
+	        };
+	      }),
+	      added: member.added && !member.removed,
+	      removed: member.removed && !member.added,
+	      updated: member.updated };
+	  });
 	
-	  // origin(member, callback);
-	
-	  callback(null, response);
-	
-	  // Unpatch.
-	  _fetchMock2.default.restore();
+	  (0, _isomorphicFetch2.default)(apiEntrypoint, {
+	    method: 'POST',
+	    headers: {
+	      Accept: 'application/json',
+	      'Content-Type': 'application/json'
+	    },
+	    body: JSON.stringify(members)
+	  }).then(function (response) {
+	    return response.json();
+	  }).then(function (data) {
+	    return callback(data);
+	  });
 	};
 
 /***/ },
@@ -33003,6 +33021,7 @@
 	            roleId: memberRole.role.id.toString()
 	          };
 	        }),
+	        isQM: member.isQM,
 	        removed: member.removed
 	      };
 	    });
@@ -80753,7 +80772,7 @@
 	    'div',
 	    null,
 	    _react2.default.createElement(_Inbox2.default, null),
-	    props.isJury ? _react2.default.createElement(_ProjectOverview2.default, null) : _react2.default.createElement(_TeamRatingOverview2.default, null)
+	    props.isJury ? _react2.default.createElement(_ProjectOverview2.default, props) : _react2.default.createElement(_TeamRatingOverview2.default, props)
 	  );
 	};
 	
@@ -80766,7 +80785,8 @@
 	
 	
 	  return _extends({
-	    isJury: user && user.isJury
+	    isJury: user && user.isJury,
+	    isQM: user && user.isQM
 	  }, props);
 	};
 	
@@ -95907,7 +95927,7 @@
 	var ProgressPage = function ProgressPage(props) {
 	  return _react2.default.createElement(
 	    'div',
-	    { className: 'container push-top-small' },
+	    { className: 'push-top-small' },
 	    props.members ? props.members.filter(function (m) {
 	      return !m.removed;
 	    }).sort(_sortMembers2.default).map(function (member) {
@@ -95915,7 +95935,7 @@
 	        'div',
 	        { key: member.email, className: 'row' },
 	        _react2.default.createElement(
-	          'button',
+	          'div',
 	          {
 	            className: 'col-xs-12',
 	            onClick: function onClick() {
@@ -96125,28 +96145,23 @@
 	var TeamRatingPage = function TeamRatingPage(props) {
 	  return _react2.default.createElement(
 	    'div',
-	    { className: 'container push-top-small' },
+	    { className: 'push-top-small' },
 	    function () {
 	      return props.members ? props.members.sort(_sortMembers2.default).map(function (member) {
 	        return _react2.default.createElement(
-	          'button',
+	          'div',
 	          {
 	            key: member.id,
-	            className: 'row',
 	            onClick: function onClick() {
 	              return props.handleSelectMember(member, props);
 	            }
 	          },
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'col-xs-12' },
-	            _react2.default.createElement(_LabeledStarRatingWithGrade2.default, _extends({}, member, {
-	              label: member.name + ', ' + member.role,
-	              value: member.rating,
-	              readonly: true,
-	              smallStars: true
-	            }))
-	          )
+	          _react2.default.createElement(_LabeledStarRatingWithGrade2.default, _extends({}, member, {
+	            label: member.name + ', ' + member.activeRole,
+	            value: member.rating,
+	            readonly: true,
+	            smallStars: true
+	          }))
 	        );
 	      }) : undefined;
 	    }(),
@@ -96155,7 +96170,7 @@
 	      { className: 'row' },
 	      _react2.default.createElement(
 	        'div',
-	        { className: 'col-xs-12 push-top-mini' },
+	        { className: 'col-xs-12 push-top-small' },
 	        _react2.default.createElement(_FlatButton2.default, {
 	          label: 'Submit All Ratings',
 	          primary: true,
@@ -96216,60 +96231,56 @@
 	var LabeledStarRatingWithGrade = function LabeledStarRatingWithGrade(props) {
 	  return _react2.default.createElement(
 	    'div',
-	    { className: 'container' },
+	    { className: 'row' },
 	    _react2.default.createElement(
 	      'div',
-	      { className: 'row' },
+	      { className: 'col-xs-6' },
+	      _react2.default.createElement(_LabeledStarRating2.default, props)
+	    ),
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'col-xs-2' },
 	      _react2.default.createElement(
-	        'div',
-	        { className: 'col-xs-6' },
-	        _react2.default.createElement(_LabeledStarRating2.default, props)
-	      ),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'col-xs-2' },
+	        'p',
+	        {
+	          className: (0, _classnames2.default)({
+	            warning: props.deviationWarning
+	          })
+	        },
 	        _react2.default.createElement(
-	          'p',
-	          {
-	            className: (0, _classnames2.default)({
-	              warning: props.deviationWarning
-	            })
-	          },
-	          _react2.default.createElement(
-	            'span',
-	            { className: 'prefix' },
-	            'Deviation:'
-	          ),
-	          props.deviation > 0 ? '+' : '',
-	          props.deviation
-	        )
-	      ),
+	          'span',
+	          { className: 'prefix' },
+	          'Deviation:'
+	        ),
+	        props.deviation > 0 ? '+' : '',
+	        props.deviation
+	      )
+	    ),
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'col-xs-2' },
 	      _react2.default.createElement(
-	        'div',
-	        { className: 'col-xs-2' },
+	        'p',
+	        null,
 	        _react2.default.createElement(
-	          'p',
-	          null,
-	          _react2.default.createElement(
-	            'span',
-	            { className: 'prefix' },
-	            'Grade:'
-	          ),
-	          props.grade
-	        )
-	      ),
+	          'span',
+	          { className: 'prefix' },
+	          'Grade:'
+	        ),
+	        props.grade
+	      )
+	    ),
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'col-xs-2' },
 	      _react2.default.createElement(
-	        'div',
-	        { className: 'col-xs-2' },
-	        _react2.default.createElement(
-	          'p',
-	          {
-	            className: (0, _classnames2.default)('uppercase', 'bold', 'status', {
-	              warning: props.statusWarning
-	            })
-	          },
-	          props.status
-	        )
+	        'p',
+	        {
+	          className: (0, _classnames2.default)('uppercase', 'bold', 'status', {
+	            warning: props.statusWarning
+	          })
+	        },
+	        props.status
 	      )
 	    )
 	  );
@@ -96314,38 +96325,34 @@
 	var LabeledStarRating = function LabeledStarRating(props) {
 	  return _react2.default.createElement(
 	    'div',
-	    { className: 'container' },
+	    { className: 'row' },
 	    _react2.default.createElement(
 	      'div',
-	      { className: 'row' },
+	      { className: 'col-xs-6' },
 	      _react2.default.createElement(
-	        'div',
-	        { className: 'col-xs-6' },
-	        _react2.default.createElement(
-	          'p',
-	          {
-	            className: (0, _classnames2.default)({
-	              warning: props.isEmpty
-	            })
-	          },
-	          props.label
-	        )
-	      ),
-	      _react2.default.createElement(
-	        'div',
+	        'p',
 	        {
-	          className: (0, _classnames2.default)('col-xs-6', 'star', {
-	            small: props.smallStars
+	          className: (0, _classnames2.default)({
+	            warning: props.isEmpty
 	          })
 	        },
-	        _react2.default.createElement(_reactStarRatingComponent2.default, {
-	          starCount: 5,
-	          value: props.value,
-	          name: props.id,
-	          onStarClick: props.onRatingChanged,
-	          editing: !props.readonly
-	        })
+	        props.label
 	      )
+	    ),
+	    _react2.default.createElement(
+	      'div',
+	      {
+	        className: (0, _classnames2.default)('col-xs-6', 'star', {
+	          small: props.smallStars
+	        })
+	      },
+	      _react2.default.createElement(_reactStarRatingComponent2.default, {
+	        starCount: 5,
+	        value: props.value,
+	        name: props.id,
+	        onStarClick: props.onRatingChanged,
+	        editing: !props.readonly
+	      })
 	    )
 	  );
 	}; // Node imports
@@ -97403,10 +97410,6 @@
 	
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
-	var _classnames = __webpack_require__(996);
-	
-	var _classnames2 = _interopRequireDefault(_classnames);
-	
 	var _react = __webpack_require__(530);
 	
 	var _react2 = _interopRequireDefault(_react);
@@ -97458,10 +97461,7 @@
 	          'div',
 	          {
 	            key: member.studentId,
-	            className: (0, _classnames2.default)('row', {
-	              'push-bottom-small': !member.isQM,
-	              'push-bottom-large': member.isQM
-	            })
+	            className: 'push-bottom-small'
 	          },
 	          _react2.default.createElement(_EditableMember2.default, _extends({}, member, {
 	            readonly: props.readonly,

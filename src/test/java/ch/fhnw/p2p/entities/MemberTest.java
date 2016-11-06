@@ -4,7 +4,9 @@ import static org.junit.Assert.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -23,7 +25,7 @@ public class MemberTest {
 	private Project project; 
 	private Student student;
 	private Role role;
-    private List<MemberRating> ratings;
+    private Set<MemberRating> ratings;
 
    
     
@@ -36,8 +38,7 @@ public class MemberTest {
     	student = new Student("Max", "Muster", "max.muster@fhnw.ch");
     	role = new Role("Teammember", "TM", Locale.Language.DE);
  
-    	ratings = new ArrayList<MemberRating>();
-    	ratings.add(new MemberRating());
+    	ratings = new HashSet<MemberRating>();
     	ratings.add(new MemberRating());
     }
     
@@ -97,6 +98,6 @@ public class MemberTest {
         assertEquals(role, member.getRoles().get(0).getRole());
         assertEquals(new BigDecimal(3), member.getRating());
         assertEquals(new BigDecimal(0.3), member.getDeviation());
-        assertEquals(2, member.getMemberRatings().size());
+        assertEquals(1, member.getMemberRatings().size());
      }
 }

@@ -2,7 +2,9 @@ package ch.fhnw.p2p.entities;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -68,9 +70,9 @@ public class Member extends VersionedObject{
 	@Enumerated(EnumType.STRING)
 	private Status status;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "sourceMember")
+	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "sourceMember")
 	@JsonIgnore
-	private List<MemberRating> memberRatings;
+	private Set<MemberRating> memberRatings;
 
 	// The transient fields are required for the JSON parsing but shall be ignored by hibernate
 	@Transient
@@ -87,7 +89,7 @@ public class Member extends VersionedObject{
 		this.rating = new BigDecimal(0);
 		this.deviation = new BigDecimal(0);
 		this.roles = new ArrayList<MemberRole>();
-		this.memberRatings = new ArrayList<MemberRating>();
+		this.memberRatings = new HashSet<MemberRating>();
 	}
 
 	public Member(Project project, Student student) {
@@ -101,7 +103,7 @@ public class Member extends VersionedObject{
 		this.roles.add(new MemberRole(this, role));
 	}
 
-	public Member(Project project, Student student, Role role, List<MemberRating> memberRatings) {
+	public Member(Project project, Student student, Role role, Set<MemberRating> memberRatings) {
 		this(project, student, role);
 		this.memberRatings = memberRatings;
 	}

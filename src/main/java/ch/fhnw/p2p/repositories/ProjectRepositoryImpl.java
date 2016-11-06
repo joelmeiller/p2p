@@ -1,6 +1,7 @@
 package ch.fhnw.p2p.repositories;
 
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -36,11 +37,8 @@ public class ProjectRepositoryImpl {
 	 * @param Members the updated list of members to add or remove from project
 	 * @return Project the updated project
 	 */
-	public Project updateProject(Project project, List<Member> updatedMembers) {
-		List<Member> members = project.getMembers();
-		
-		logger.info(members);
-		logger.info(updatedMembers.size());
+	public Project updateProject(Project project, Set<Member> updatedMembers) {
+		Set<Member> members = project.getMembers();
 		
 		try {
 			// Set members
@@ -86,8 +84,8 @@ public class ProjectRepositoryImpl {
 	 * @param member member to add criteria for each team member
 	 * @return Member updated member
 	 */
-	private Member addRatings (Member updateMember) {
-		logger.info("Add ratings (Member count:" + updateMember.getProject().getMembers().size() + ")");
+	public Member addRatings (Member updateMember) {
+		logger.info("Add ratings for member " + updateMember.toString() + "(id=" + updateMember.getId() + ")");
 		List<ProjectCriteria> criterias = updateMember.getProject().getProjectCriteria();
 		
 		for (Member member: updateMember.getProject().getMembers()) {

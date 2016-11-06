@@ -1,5 +1,5 @@
 // Middleware
-import { updateTeamMember as apiUpdateTeamMember } from '../middleware/updateTeamMember.mock.js';
+import { default as apiSaveRating } from '../middleware/ratings/saveRating.js';
 
 // Actions
 import { setTitle } from './app.js';
@@ -39,7 +39,7 @@ const saveMember = (props, index, close) => (dispatch) => {
 
     dispatch(updateMember(member));
 
-    apiUpdateTeamMember(member, (err, res) => {
+    apiSaveRating(member, (err, res) => {
       if (err) {
         dispatch(resetPreviousMember(props.member));
         dispatch(resetMembers(props.member));

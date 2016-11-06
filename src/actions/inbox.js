@@ -1,6 +1,6 @@
 // Middleware
 import { default as apiGetInbox } from '../middleware/getInbox.mock.js';
-// import { default as getTeamRating } from '../middleware/getTeamRating.mock.js';
+
 
 // Actions
 export const REQUEST_INBOX = '/inbox/REQUEST_INBOX';

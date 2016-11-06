@@ -19,10 +19,14 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import ch.fhnw.p2p.entities.mixins.VersionedObject;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(of="id")
 @Entity
 public class MemberRating extends VersionedObject {
 
@@ -63,5 +67,9 @@ public class MemberRating extends VersionedObject {
 		for (ProjectCriteria criteria: criterias) {
 			this.criteriaRatings.add(new CriteriaRating(criteria, this));
 		}
+	}
+	
+	public String toString() {
+		return this.getClass() + " (id=" + this.getId() + ")" + " - rating=" + this.getRating() + ", comment=" + this.getComment();
 	}
 }

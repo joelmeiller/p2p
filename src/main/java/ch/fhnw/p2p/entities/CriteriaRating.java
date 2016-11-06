@@ -20,8 +20,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import ch.fhnw.p2p.entities.mixins.VersionedObject;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(of="id")
 @Entity
 public class CriteriaRating extends VersionedObject {
 	
@@ -50,5 +52,9 @@ public class CriteriaRating extends VersionedObject {
 		this();
 		this.criteria = criteria;
 		this.memberRating = memberRating;
+	}
+	
+	public String toString() {
+		return this.getClass() + " (id=" + this.getId() + ")" + " - rating=" + this.getRating();
 	}
 }

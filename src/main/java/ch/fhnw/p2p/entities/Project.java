@@ -1,7 +1,9 @@
 package ch.fhnw.p2p.entities;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -34,19 +36,19 @@ public class Project extends VersionedObject {
 	private String title;
 	private String slug;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
-	private List<ProjectCategory> projectCategories;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "project")
+	private Set<ProjectCategory> projectCategories;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
-	private List<Member> members;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "project")
+	private Set<Member> members;
 	
 	@Enumerated(EnumType.STRING)
 	private Status status;
 
 	public Project() {
 		this.status = Status.OPEN;
-		this.projectCategories = new ArrayList<ProjectCategory>();
-		this.members = new ArrayList<Member>();
+		this.projectCategories = new HashSet<ProjectCategory>();
+		this.members = new HashSet<Member>();
 	}
 	
 	public Project(String title) {
