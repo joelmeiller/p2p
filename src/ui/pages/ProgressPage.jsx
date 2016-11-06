@@ -5,7 +5,7 @@ import MemberProgress from '../components/MemberProgress.jsx';
 const ProgressPage = props => (
   <div className="container push-top-small">
     {props.members ? props.members.map(member =>
-      <div key={member.id} className="row">
+      <div key={member.email} className="row">
         <button
           className="col-xs-12"
           onClick={() => props.handleSelectMember(member, props)}

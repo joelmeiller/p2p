@@ -69,6 +69,7 @@ public class Member extends VersionedObject{
 	private Status status;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "sourceMember")
+	@JsonIgnore
 	private List<MemberRating> memberRatings;
 
 	// The transient fields are required for the JSON parsing but shall be ignored by hibernate
