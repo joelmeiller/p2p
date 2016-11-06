@@ -86,6 +86,11 @@ local.properties
 .idea/dynamic.xml
 .idea/uiDesigner.xml
 
+# Other stuff
+.idea/copyright/profiles_settings.xml
+.idea/compiler.xml
+.idea/misc.xml
+
 # Gradle:
 .idea/gradle.xml
 .idea/libraries

@@ -1,5 +1,5 @@
 // Actions
-import { SET_COACH_NAME, SET_PROJECT_TITLE, SAVE, CANCEL, EDIT_PROJECT } from '../actions/project.js';
+import { SET_COACH_NAME, SET_PROJECT_TITLE, SAVE, CANCEL, EDIT_PROJECT, ADD_PROJECT } from '../actions/project.js';
 
 
 const initialState = {
@@ -29,6 +29,10 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         ...params.project,
+      };
+    case ADD_PROJECT:
+      return {
+        ...state,
       };
     default:
       return state;
