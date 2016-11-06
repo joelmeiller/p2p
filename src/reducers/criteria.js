@@ -6,10 +6,13 @@ import {
   SAVE_CRITERIA,
   SET_CRITERIA,
   SET_CRITERIA_VALUE,
+  SET_NEW_CRITERIA_VALUE,
 } from '../actions/criteria.js';
 
 const initialState = {
-  members: [],
+  categories: [],
+  newCategoryId: undefined,
+  newValue: '',
   isFetching: false,
   fetched: false,
 };
@@ -33,6 +36,7 @@ const reducer = (state = initialState, action) => {
     case SAVE_CRITERIA:
     case SET_CRITERIA:
     case SET_CRITERIA_VALUE:
+    case SET_NEW_CRITERIA_VALUE:
       return {
         ...state,
         ...params,

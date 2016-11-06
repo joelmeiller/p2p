@@ -60,6 +60,14 @@ public class CategoryDataLoader implements CommandLineRunner {
 		
 		this.repository.save(category2);
 		
+		// Self category
+		Category ownCategory = new Category("Own Criterias", Locale.Language.EN);
+		ownCategory.setType(Category.Type.SELFDEFINED);
+		Criteria ownCriteria = new Criteria("My self-defined criteria", Locale.Language.EN);
+		ownCriteria.setCategory(ownCategory);
+		ownCategory.getCriterias().add(ownCriteria);
+		this.repository.save(ownCategory);
+		
 		// Add student, project and member
 		studentRepo.save(new Student("Max", "Muster", "max.muster@students.fhnw.ch", Student.Type.BB));
 		Project project = new Project("Test Project");
@@ -75,6 +83,14 @@ public class CategoryDataLoader implements CommandLineRunner {
 		projectCategory = new ProjectCategory(category2);
 		projectCategory.setProject(project);
 		project.getProjectCategories().add(projectCategory);
+		
+		projectCategory = new ProjectCategory(ownCategory);
+		projectCategory.setProject(project);
+		projectCriteria = new ProjectCriteria(ownCriteria);
+		projectCriteria.setCategory(projectCategory);
+		projectCategory.getProjectCriterias().add(projectCriteria);
+		project.getProjectCategories().add(projectCategory);
+		
 		
 		Student student = studentRepo.findByEmail("max.muster@students.fhnw.ch").get();
 		Member member = new Member(project, student);

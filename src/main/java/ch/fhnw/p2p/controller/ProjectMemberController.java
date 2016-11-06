@@ -1,8 +1,6 @@
 package ch.fhnw.p2p.controller;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -16,22 +14,12 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import ch.fhnw.p2p.controller.utils.ProjectNotFoundException;
 import ch.fhnw.p2p.entities.Member;
 import ch.fhnw.p2p.entities.Project;
-import ch.fhnw.p2p.entities.Role;
-import ch.fhnw.p2p.entities.Member;
-import ch.fhnw.p2p.entities.Member;
-import ch.fhnw.p2p.repositories.CategoryRepository;
-import ch.fhnw.p2p.repositories.CriteriaRepository;
 import ch.fhnw.p2p.repositories.MemberRepository;
-import ch.fhnw.p2p.repositories.MemberRepository;
-import ch.fhnw.p2p.repositories.MemberRepository;
-import ch.fhnw.p2p.repositories.ProjectRepository;
-import ch.fhnw.p2p.repositories.RoleRepository;
+import ch.fhnw.p2p.repositories.ProjectRepositoryImpl;
 
 /**
  * REST api controller for the categories collection
@@ -48,14 +36,11 @@ public class ProjectMemberController {
 	private Log logger = LogFactory.getLog(this.getClass());
 	
 	@Autowired
-	private ProjectRepository projectRepo;
-	
-	@Autowired
 	private MemberRepository memberRepo;
-	
-	@Autowired
-	private RoleRepository roleRepo;
 
+	@Autowired
+	private ProjectRepositoryImpl projectRepoImpl;
+	
 	// ------------------------
 	// PUBLIC METHODS
 	// ------------------------
@@ -94,28 +79,8 @@ public class ProjectMemberController {
 			Member member = memberRepo.findByStudentEmail("max.muster@students.fhnw.ch");
 			if (member == null || member.getProject() == null) return new ResponseEntity<List<Member>>(HttpStatus.FORBIDDEN);
 			
-			logger.info("Save Categories for student: " + member.getStudent().getEmail() + " for project " + member.getProject().getTitle());
-			Project project = member.getProject();
-			
-			if (project == null) throw new ProjectNotFoundException(member);
-			
-			List<Member> members = project.getMembers();
-			// Set members
-			for (Member projectMember: updatedMembers) {
-				// Add new
-				if (projectMember.isAdded()) {
-					Role role = roleRepo.findOne(projectMember.getRoleId());
-					members.add(new Member(member.getProject(), member.getStudent(), role));
-				}
-
-				// Remove existing
-				else if (projectMember.isRemoved()) {
-					Member removeMember = memberRepo.findOne(projectMember.getId());
-					members.remove(removeMember);
-				}
-			}
-			project.setMembers(members);
-			projectRepo.saveAndFlush(project);	
+			logger.info("Update members of project '" + member.getProject().getTitle() + "'");
+			Project project = projectRepoImpl.updateProject(member.getProject(), updatedMembers);
 			
 			logger.info("Successfully updated members of project " + project.getTitle() + " [" + project.getId() + "]");
 			return new ResponseEntity<List<Member>>(project.getMembers(), HttpStatus.OK);

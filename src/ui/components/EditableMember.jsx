@@ -12,13 +12,13 @@ const EditableMember = (props) => {
 
   const selectRoles = (activeRole ?
     (props.selectRoles || []).map(role =>
-      ({ label: role.title, id: role.id })
+      ({ label: role.title, id: role.roleId })
     ) : [{
       id: 'XX',
       label: 'Select Role',
       disabled: true,
     }].concat((props.selectRoles || []).map(role =>
-      ({ label: role.title, id: role.id })
+      ({ label: role.title, id: role.roleId })
     ))
   );
 
@@ -34,7 +34,7 @@ const EditableMember = (props) => {
       <Dropdown
         items={selectRoles}
         onChange={props.onRoleChanged}
-        selectedValue={activeRole ? activeRole.id : 'XX'}
+        selectedValue={activeRole ? activeRole.roleId : 'XX'}
         readonly={props.readonly || props.isQM}
       />
     </div>
@@ -69,7 +69,7 @@ const EditableMember = (props) => {
 };
 
 export const roleType = {
-  id: React.PropTypes.string.isRequired,
+  roleId: React.PropTypes.string.isRequired,
   title: React.PropTypes.string.isRequired,
   active: React.PropTypes.bool,
 };
