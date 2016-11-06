@@ -21,8 +21,6 @@ export default (values, callback) => {
     })),
   }));
 
-  console.log(JSON.stringify(categories));
-
   fetch(apiEntrypoint, {
     method: 'POST',
     headers: {
