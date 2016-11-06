@@ -15,7 +15,7 @@ const EditTeamPage = props => (
     <div className="row">
       <div className="col-xs-12">
         <Header2Line
-          title="Teammembers"
+          title={props.title}
         />
       </div>
     </div>
@@ -77,6 +77,7 @@ EditTeamPage.propTypes = {
   handleSave: React.PropTypes.func,
   handleCancel: React.PropTypes.func,
   selectedRole: React.PropTypes.string,
+  title: React.PropTypes.string,
 };
 
 export default EditTeamPage;

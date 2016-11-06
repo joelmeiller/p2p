@@ -55,4 +55,8 @@ public class Student extends VersionedObject {
 		this(firstName, lastName, email);
 		this.type = type;
 	}
+	
+	public String toString() {
+		return firstName + " " + lastName;
+	}
 }

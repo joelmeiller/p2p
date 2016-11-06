@@ -76,6 +76,8 @@ public class Member extends VersionedObject{
 	private boolean added;
 	@Transient
 	private boolean removed;
+	@Transient
+	private boolean updated;
 
 	// Constructor
 	public Member() {
@@ -122,5 +124,9 @@ public class Member extends VersionedObject{
 			if (role.getRole().getType() == Role.Type.QM) return true;
 		}
 		return false;
+	}
+	
+	public String toString() {
+		return student.getFirstName() + " " + student.getLastName() + " in project '" + project.getTitle() + "'";
 	}
 }

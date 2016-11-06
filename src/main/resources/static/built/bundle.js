@@ -32878,7 +32878,9 @@
 	        dispatch({
 	          type: UPDATE_TEAM,
 	          members: state.members.map(function (member) {
-	            return member.studentId === updateMember.studentId ? updatedMember : member;
+	            return member.studentId === updateMember.studentId ? _extends({}, updatedMember, {
+	              updated: true
+	            }) : member;
 	          })
 	        });
 	      })();
@@ -32897,6 +32899,7 @@
 	        studentId: student.id,
 	        name: student.name,
 	        slug: student.slug,
+	        roles: [],
 	        added: true
 	      });
 	
@@ -33039,11 +33042,9 @@
 	        };
 	      }),
 	      added: member.added && !member.removed,
-	      removed: member.removed && !member.added
-	    };
+	      removed: member.removed && !member.added,
+	      updated: member.updated };
 	  });
-	
-	  console.log(members);
 	
 	  (0, _isomorphicFetch2.default)(apiEntrypoint, {
 	    method: 'POST',
@@ -97396,12 +97397,14 @@
 	  var roles = globalState.role.roles;
 	
 	
-	  return _extends({}, props, {
-	    title: 'Teammembers',
+	  var newProps = _extends({}, props, {
+	    title: 'Teammembers (' + members.length + ')',
+	    canAdd: canAdd,
 	    members: members,
-	    roles: roles,
-	    canAdd: canAdd
+	    roles: roles
 	  });
+	
+	  return newProps;
 	};
 	
 	var mapDispatchToProps = function mapDispatchToProps(dispatch, props) {
@@ -97488,7 +97491,7 @@
 	        'div',
 	        { className: 'col-xs-12' },
 	        _react2.default.createElement(_Header2Line2.default, {
-	          title: 'Teammembers'
+	          title: props.title
 	        })
 	      )
 	    ),
@@ -97565,7 +97568,8 @@
 	  handleAdd: _react2.default.PropTypes.func,
 	  handleSave: _react2.default.PropTypes.func,
 	  handleCancel: _react2.default.PropTypes.func,
-	  selectedRole: _react2.default.PropTypes.string
+	  selectedRole: _react2.default.PropTypes.string,
+	  title: _react2.default.PropTypes.string
 	};
 	
 	exports.default = EditTeamPage;

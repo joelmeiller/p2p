@@ -101,7 +101,10 @@ public class ProjectCategoryController {
 			logger.info("Save Categories for student: " + member.getStudent().getEmail() + " for project " + member.getProject().getTitle());
 			Project project = member.getProject();
 			
-			if (project == null) throw new ProjectNotFoundException(member);
+			if (member.getProject() == null) {
+				logger.info("No project found");
+				return new ResponseEntity<List<ProjectCategory>>(HttpStatus.NO_CONTENT);
+			}
 			
 			List<ProjectCategory> projectCategories = new ArrayList<ProjectCategory>();
 			// Set categories and criterias

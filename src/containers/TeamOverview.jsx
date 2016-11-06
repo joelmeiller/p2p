@@ -42,13 +42,15 @@ const mapStateToProps = (globalState, props) => {
   const { members, canAdd } = globalState.team;
   const { roles } = globalState.role;
 
-  return {
+  const newProps = {
     ...props,
-    title: 'Teammembers',
+    title: `Teammembers (${members.length})`,
+    canAdd,
     members,
     roles,
-    canAdd,
   };
+
+  return newProps;
 };
 
 const mapDispatchToProps = (dispatch, props) => ({

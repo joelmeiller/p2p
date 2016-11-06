@@ -67,7 +67,10 @@ export const updateRoleOfMember = (value, updateMember) => (dispatch, getState) 
     dispatch({
       type: UPDATE_TEAM,
       members: state.members.map(member =>
-        (member.studentId === updateMember.studentId ? updatedMember : member)),
+        (member.studentId === updateMember.studentId ? {
+          ...updatedMember,
+          updated: true,
+        } : member)),
     });
   }
 };
@@ -82,6 +85,7 @@ export const addMember = (student) => (dispatch, getState) => {
       studentId: student.id,
       name: student.name,
       slug: student.slug,
+      roles: [],
       added: true,
     });
 

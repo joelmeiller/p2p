@@ -19,9 +19,8 @@ export default (values, callback) => {
     })),
     added: member.added && !member.removed,
     removed: member.removed && !member.added,
+    updated: member.updated, // only roles can be updated
   }));
-
-  console.log(members);
 
   fetch(apiEntrypoint, {
     method: 'POST',
