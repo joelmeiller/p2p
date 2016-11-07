@@ -1,7 +1,10 @@
 // Node imports
 import fetch from 'isomorphic-fetch';
 
-const apiEntrypoint = 'http://localhost:8080/api/project/categories';
+import getApiEntrypoint from '../utils/getApiEntrypoint.js';
+
+const apiEntrypoint = getApiEntrypoint('project/categories');
+
 
 export default (values, callback) => {
   const categories = values.map(category => ({

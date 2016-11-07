@@ -5,7 +5,6 @@ import getApiEntrypoint from '../utils/getApiEntrypoint.js';
 
 const apiEntrypoint = getApiEntrypoint('project/categories');
 
-console.log(apiEntrypoint);
 
 export default callback =>
   fetch(apiEntrypoint)

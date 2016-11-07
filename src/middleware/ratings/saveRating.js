@@ -4,6 +4,7 @@ import getApiEntrypoint from '../utils/getApiEntrypoint.js';
 
 const apiEntrypoint = getApiEntrypoint('project/members/rating');
 
+
 export default (values, callback) => {
   const members = values.map(member => ({
     id: member.id,
