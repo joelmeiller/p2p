@@ -88,10 +88,13 @@ public class ProjectRepositoryImpl {
 		logger.info("Add ratings for member " + updateMember.toString() + "(id=" + updateMember.getId() + ")");
 		List<ProjectCriteria> criterias = updateMember.getProject().getProjectCriteria();
 		
+		// Add self rating
+		updateMember.getMemberRatings().add(new MemberRating(updateMember, updateMember, criterias));
+		
 		for (Member member: updateMember.getProject().getMembers()) {
 			// Add ratings of existing members to new member
 			updateMember.getMemberRatings().add(new MemberRating(updateMember, member, criterias));
-			
+		
 			// Update existing members with new member
 			member.getMemberRatings().add(new MemberRating(member, updateMember, criterias));
 		}

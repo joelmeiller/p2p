@@ -22,6 +22,7 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import ch.fhnw.p2p.entities.Role.Type;
+import ch.fhnw.p2p.entities.mapping.MemberRatingMapping;
 import ch.fhnw.p2p.entities.mixins.VersionedObject;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -35,7 +36,7 @@ import lombok.EqualsAndHashCode;
  **/
 
 @Data
-@EqualsAndHashCode(of="id")
+@EqualsAndHashCode(callSuper=false, exclude={"project", "roles", "memberRatings"})
 @Entity
 public class Member extends VersionedObject{
 
@@ -73,7 +74,9 @@ public class Member extends VersionedObject{
 	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "sourceMember")
 	@JsonIgnore
 	private Set<MemberRating> memberRatings;
-
+	@Transient
+	private Set<MemberRatingMapping> ratings;
+	
 	// The transient fields are required for the JSON parsing but shall be ignored by hibernate
 	@Transient
 	private boolean added;
@@ -128,6 +131,16 @@ public class Member extends VersionedObject{
 			if (role.getRole().getType() == Role.Type.QM) return true;
 		}
 		return false;
+	}
+	
+	public Set<MemberRatingMapping> getRatings() {
+		Set<MemberRatingMapping> memberRatingsMapped = new HashSet<MemberRatingMapping>();
+		
+		for (MemberRating rating: this.memberRatings) {
+			memberRatingsMapped.add(new MemberRatingMapping(rating));
+		}
+		System.out.println("Get mapping");	
+		return memberRatingsMapped;
 	}
 	
 	public String toString() {
