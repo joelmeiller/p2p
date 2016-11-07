@@ -6,8 +6,8 @@ import { apiEntrypoint, getUserAndProjectSettings as origin } from './getUserAnd
 
 const data = {
   user: {
-    fullName: 'Johann Misteli',
-    firstName: 'Johann',
+    fullName: 'Johannes Misteli',
+    firstName: 'Johannes',
     lastName: 'Misteli',
     role: 'QM',
     isQM: true,
