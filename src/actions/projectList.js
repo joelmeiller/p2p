@@ -1,8 +1,7 @@
 // Middleware
 import { default as apiGetProjects } from '../middleware/getProjects.mock.js';
-import { EDIT_PROJECT } from './project.js';
+import { EDIT_PROJECT, ADD_PROJECT } from './project.js';
 
-export const ADD_PROJECT = '/projectList/ADD_PROJECT';
 export const RECEIVE_PROJECTS = '/projectList/RECEIVE_PROJECTS';
 export const REMOVE_PROJECT = '/projectList/REMOVE_PROJECT';
 export const REQUEST_PROJECTS = '/projectList/REQUEST_PROJECTS';
@@ -55,13 +54,22 @@ export const saveProject = props => (dispatch, getStore) => {
   const updatedProject = getStore().project;
   const projectList = getStore().projectList;
 
-  dispatch({
-    type: SAVE_PROJECT,
-    projects: projectList.projects.map(project => (project.id === updatedProject.id ? {
-      ...project,
-      ...updatedProject,
-    } : project)),
-  });
+  if (updatedProject.id) {
+    dispatch({
+      type: SAVE_PROJECT,
+      projects: projectList.projects.map(project => (project.id === updatedProject.id ? {
+        ...project,
+        ...updatedProject,
+      } : project)),
+    });
+  } else {
+    const projects = projectList.projects.map(project => project);
+    projects.push({ ...updatedProject });
+    dispatch({
+      type: SAVE_PROJECT,
+      projects,
+    });
+  }
   props.router.push('/');
 };
 
@@ -75,6 +83,13 @@ export const removeProject = projectId => (dispatch, getState) => {
     type: REMOVE_PROJECT,
     projects,
   });
+};
+
+export const addProject = props => (dispatch) => {
+  dispatch({
+    type: ADD_PROJECT,
+  });
+  props.router.push('/projects/add');
 };
 
 export const cancel = props => (dispatch) => {
