@@ -48,7 +48,7 @@ public class ProjectRepositoryImpl {
 					Student student = studentRepo.findOne(projectMember.getStudent().getId());
 					logger.info("Add student: " + student.toString() + " to project '" + project.getTitle() + "' (id=" + project.getId() + ")");
 					if (projectMember.getRoles() != null && projectMember.getRoles().size() > 0) {
-						Role role = roleRepo.findOne(projectMember.getRoles().get(0).getRole().getId());
+						Role role = roleRepo.findOne(projectMember.getRoles().stream().findFirst().get().getRole().getId());
 						members.add(addRatings(new Member(project, student, role)));
 					} else {
 						members.add(addRatings(new Member(project, student)));					
@@ -66,7 +66,7 @@ public class ProjectRepositoryImpl {
 				else if (projectMember.isUpdated()) {
 					logger.info("Update roles of member " + studentRepo.findOne(projectMember.getStudent().getId()) + "(id=" + projectMember.getId() + ") from project '" + project.getTitle() + "' (id=" + project.getId() + ")");
 					Member updateMember = memberRepo.findOne(projectMember.getId());
-					List<MemberRole> roles = updateMember.getRoles();
+					Set<MemberRole> roles = updateMember.getRoles();
 					roles.add(new MemberRole(updateMember, roleRepo.findOne(projectMember.getActiveRole().getId())));
 					updateMember.setRoles(roles);
 				}

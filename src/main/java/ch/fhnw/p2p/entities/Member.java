@@ -66,7 +66,7 @@ public class Member extends VersionedObject{
 	private Student student;
 	
 	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="member")
-	private List<MemberRole> roles;
+	private Set<MemberRole> roles;
 
 	@Enumerated(EnumType.STRING)
 	private Status status;
@@ -91,7 +91,7 @@ public class Member extends VersionedObject{
 		this.status = Status.NEW;
 		this.rating = new BigDecimal(0);
 		this.deviation = new BigDecimal(0);
-		this.roles = new ArrayList<MemberRole>();
+		this.roles = new HashSet<MemberRole>();
 		this.memberRatings = new HashSet<MemberRating>();
 	}
 
@@ -139,7 +139,6 @@ public class Member extends VersionedObject{
 		for (MemberRating rating: this.memberRatings) {
 			memberRatingsMapped.add(new MemberRatingMapping(rating));
 		}
-		System.out.println("Get mapping");	
 		return memberRatingsMapped;
 	}
 	
