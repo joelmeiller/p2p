@@ -2,14 +2,15 @@ package ch.fhnw.p2p.entities.mapping;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import ch.fhnw.p2p.entities.CriteriaRating;
 import ch.fhnw.p2p.entities.MemberRating;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper=false, exclude={"criteriaRatings"})
 public class MemberRatingMapping {
 	
 	private Long id;

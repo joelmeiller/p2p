@@ -1,6 +1,8 @@
 package ch.fhnw.p2p.controller;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -60,31 +62,31 @@ public class MemberRatingController {
 	 */
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "/rating/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Set<MemberRating>> getMemberRating(@PathVariable Long id) {
+	public ResponseEntity<List<MemberRating>> getMemberRating(@PathVariable Long id) {
 		// TODO: This is the access control section which should be in a separate class
 		Member member = memberRepo.findByStudentEmail("heidi.vonderheide@students.fhnw.ch");
-		if (member == null || member.getProject() == null) return new ResponseEntity<Set<MemberRating>>(HttpStatus.FORBIDDEN);
+		if (member == null || member.getProject() == null) return new ResponseEntity<List<MemberRating>>(HttpStatus.FORBIDDEN);
 		
 		logger.info("Request from " + member.getStudent().getEmail() + " for project " + member.getProject().getTitle());
 		
 		if (member.getProject() == null) {
 			logger.info("No project found");
-			return new ResponseEntity<Set<MemberRating>>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<List<MemberRating>>(HttpStatus.NO_CONTENT);
 		} else {
 			Member ratedMember = memberRepo.findOne(id);
 			if (ratedMember == null) {
 				logger.info("Member not found");
-				return new ResponseEntity<Set<MemberRating>>(HttpStatus.NO_CONTENT);
+				return new ResponseEntity<List<MemberRating>>(HttpStatus.NO_CONTENT);
 			} else {
 				logger.info("Successfully read " + member.getMemberRatings());
-				return new ResponseEntity<Set<MemberRating>>(member.getMemberRatings(), HttpStatus.OK);
+				return new ResponseEntity<List<MemberRating>>(member.getMemberRatings(), HttpStatus.OK);
 			}
 		}
 	}
 	
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "/rating/{id}", method = RequestMethod.POST)
-	public ResponseEntity<HttpStatus> add(@PathVariable Long id, @Valid @RequestBody Set<MemberRating> updatedMemberRatings, BindingResult result) {
+	public ResponseEntity<HttpStatus> add(@PathVariable Long id, @Valid @RequestBody List<MemberRating> updatedMemberRatings, BindingResult result) {
 		if (result.hasErrors()) {
 			logger.error(result);
 			return new ResponseEntity<HttpStatus>(HttpStatus.PRECONDITION_FAILED);
@@ -102,7 +104,7 @@ public class MemberRatingController {
 		try {
 			logger.info("Update team member ratings of member " + member.toString() + "(id=" + member.getId() + ")");
 			
-			Set<MemberRating> memberRatings = new HashSet<MemberRating>();
+			List<MemberRating> memberRatings = new ArrayList<MemberRating>();
 			
 			for (MemberRating updatedMemberRating: updatedMemberRatings) {
 				logger.info("Update rating (id='" + updatedMemberRating.getId() + "'");

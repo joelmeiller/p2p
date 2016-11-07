@@ -21,7 +21,6 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import ch.fhnw.p2p.entities.Role.Type;
 import ch.fhnw.p2p.entities.mapping.MemberRatingMapping;
 import ch.fhnw.p2p.entities.mixins.VersionedObject;
 import lombok.Data;
@@ -73,7 +72,7 @@ public class Member extends VersionedObject{
 
 	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "sourceMember")
 	@JsonIgnore
-	private Set<MemberRating> memberRatings;
+	private List<MemberRating> memberRatings;
 	@Transient
 	private Set<MemberRatingMapping> ratings;
 	
@@ -92,7 +91,8 @@ public class Member extends VersionedObject{
 		this.rating = new BigDecimal(0);
 		this.deviation = new BigDecimal(0);
 		this.roles = new HashSet<MemberRole>();
-		this.memberRatings = new HashSet<MemberRating>();
+		this.memberRatings = new ArrayList<MemberRating>();
+		this.ratings = new HashSet<MemberRatingMapping>();
 	}
 
 	public Member(Project project, Student student) {
@@ -106,7 +106,7 @@ public class Member extends VersionedObject{
 		this.roles.add(new MemberRole(this, role));
 	}
 
-	public Member(Project project, Student student, Role role, Set<MemberRating> memberRatings) {
+	public Member(Project project, Student student, Role role, List<MemberRating> memberRatings) {
 		this(project, student, role);
 		this.memberRatings = memberRatings;
 	}
@@ -134,15 +134,16 @@ public class Member extends VersionedObject{
 	}
 	
 	public Set<MemberRatingMapping> getRatings() {
-		Set<MemberRatingMapping> memberRatingsMapped = new HashSet<MemberRatingMapping>();
+		ratings = new HashSet<MemberRatingMapping>();
 		
-		for (MemberRating rating: this.memberRatings) {
-			memberRatingsMapped.add(new MemberRatingMapping(rating));
+		for (MemberRating memberRating: this.memberRatings) {
+			ratings.add(new MemberRatingMapping(memberRating));
 		}
-		return memberRatingsMapped;
+		
+		return ratings;
 	}
 	
 	public String toString() {
-		return student.getFirstName() + " " + student.getLastName() + " in project '" + project.getTitle() + "'";
+		return this.getClass() + " (id=" + this.getId() + ")";
 	}
 }
