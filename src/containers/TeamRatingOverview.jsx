@@ -57,8 +57,8 @@ const mapStateToProps = (globalState, props) => {
   };
 };
 
-const mapDispatchToProps = dispatch => ({
-  fetchTeam: () => dispatch(fetchTeam()),
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  fetchTeam: () => dispatch(fetchTeam(ownProps)),
   handleSelectMember: (member, props) => dispatch(showMember(member, props)),
 });
 

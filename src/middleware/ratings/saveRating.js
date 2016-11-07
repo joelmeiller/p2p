@@ -2,7 +2,7 @@
 import fetch from 'isomorphic-fetch';
 import getApiEntrypoint from '../utils/getApiEntrypoint.js';
 
-const apiEntrypoint = getApiEntrypoint('project/members/rating');
+const apiEntrypoint = getApiEntrypoint('project/member/rating');
 
 
 export default (values, callback) => {

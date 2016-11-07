@@ -35,7 +35,7 @@ import ch.fhnw.p2p.repositories.MemberRepository;
  */
 
 @RestController
-@RequestMapping("/api/project/members")
+@RequestMapping("/api/project/member")
 public class MemberRatingController {
 	// ------------------------
 	// PRIVATE FIELDS
@@ -61,31 +61,18 @@ public class MemberRatingController {
 	 * @return A list of criterias
 	 */
 	@CrossOrigin(origins = "http://localhost:3000")
-	@RequestMapping(value = "/rating/{id}", method = RequestMethod.GET)
-	public ResponseEntity<List<MemberRating>> getMemberRating(@PathVariable Long id) {
+	@RequestMapping(value = "/ratings", method = RequestMethod.GET)
+	public ResponseEntity<Member> getMemberRating() {
 		// TODO: This is the access control section which should be in a separate class
 		Member member = memberRepo.findByStudentEmail("heidi.vonderheide@students.fhnw.ch");
-		if (member == null || member.getProject() == null) return new ResponseEntity<List<MemberRating>>(HttpStatus.FORBIDDEN);
+		if (member == null || member.getProject() == null) return new ResponseEntity<Member>(HttpStatus.FORBIDDEN);
 		
 		logger.info("Request from " + member.getStudent().getEmail() + " for project " + member.getProject().getTitle());
-		
-		if (member.getProject() == null) {
-			logger.info("No project found");
-			return new ResponseEntity<List<MemberRating>>(HttpStatus.NO_CONTENT);
-		} else {
-			Member ratedMember = memberRepo.findOne(id);
-			if (ratedMember == null) {
-				logger.info("Member not found");
-				return new ResponseEntity<List<MemberRating>>(HttpStatus.NO_CONTENT);
-			} else {
-				logger.info("Successfully read " + member.getMemberRatings());
-				return new ResponseEntity<List<MemberRating>>(member.getMemberRatings(), HttpStatus.OK);
-			}
-		}
+		return new ResponseEntity<Member>(member, HttpStatus.OK);
 	}
 	
 	@CrossOrigin(origins = "http://localhost:3000")
-	@RequestMapping(value = "/rating/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/ratings/{id}", method = RequestMethod.POST)
 	public ResponseEntity<HttpStatus> add(@PathVariable Long id, @Valid @RequestBody List<MemberRating> updatedMemberRatings, BindingResult result) {
 		if (result.hasErrors()) {
 			logger.error(result);

@@ -47,7 +47,7 @@ public class MemberController {
 	// ------------------------
 	
 	/**
-	 * /findAll --> Returns all team members of the project.
+	 * /findAll --> Returns all team members of the project (QM only).
 	 * 
 	 * @return A list of members
 	 */
