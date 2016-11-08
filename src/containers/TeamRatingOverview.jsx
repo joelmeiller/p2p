@@ -51,6 +51,7 @@ const mapStateToProps = (globalState, props) => {
 
   return {
     title: 'Rating for',
+    onClosePath: '/',
     readonly,
     members: updatedMembers,
     ...props,
