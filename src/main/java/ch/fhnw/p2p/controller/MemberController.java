@@ -1,6 +1,7 @@
 package ch.fhnw.p2p.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -29,7 +30,7 @@ import ch.fhnw.p2p.repositories.ProjectRepositoryImpl;
 
 @RestController
 @RequestMapping("/api/project")
-public class ProjectMemberController {
+public class MemberController {
 	// ------------------------
 	// PRIVATE FIELDS
 	// ------------------------
@@ -46,46 +47,47 @@ public class ProjectMemberController {
 	// ------------------------
 	
 	/**
-	 * /findAll --> Returns all project related categories and criterias.
+	 * /findAll --> Returns all team members of the project (QM only).
 	 * 
-	 * @return A list of criterias
+	 * @return A list of members
 	 */
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "/members", method = RequestMethod.GET)
-	public ResponseEntity<List<Member>> getProjectMembers() {
+	public ResponseEntity<Set<Member>> getProjectMembers() {
 		// TODO: This is the access control section which should be in a separate class
 		Member member = memberRepo.findByStudentEmail("max.muster@students.fhnw.ch");
-		if (member == null || member.getProject() == null) return new ResponseEntity<List<Member>>(HttpStatus.FORBIDDEN);
+		if (member == null || member.getProject() == null) return new ResponseEntity<Set<Member>>(HttpStatus.FORBIDDEN);
 		
-		logger.info("Student login: " + member.getStudent().getEmail() + " for project " + member.getProject().getTitle());
+		logger.info("Request from " + member.getStudent().getEmail() + " for project " + member.getProject().getTitle());
 		
 		if (member.getProject() == null) {
 			logger.info("No project found");
-			return new ResponseEntity<List<Member>>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<Set<Member>>(HttpStatus.NO_CONTENT);
 		} else {
 			logger.info("Successfully read " + member.getProject().getTitle());
-			return new ResponseEntity<List<Member>>(member.getProject().getMembers(), HttpStatus.OK);
+			return new ResponseEntity<Set<Member>>(member.getProject().getMembers(), HttpStatus.OK);
 		}
 	}
 	
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "/members", method = RequestMethod.POST)
-	public ResponseEntity<List<Member>> add(@Valid @RequestBody List<Member> updatedMembers, BindingResult result) {
+	public ResponseEntity<Set<Member>> add(@Valid @RequestBody Set<Member> updatedMembers, BindingResult result) {
 		if (result.hasErrors()) {
 			logger.error(result);
-			return new ResponseEntity<List<Member>>(HttpStatus.PRECONDITION_FAILED);
+			return new ResponseEntity<Set<Member>>(HttpStatus.PRECONDITION_FAILED);
 		}
+		
+		Member member = memberRepo.findByStudentEmail("max.muster@students.fhnw.ch");
+		if (member == null || member.getProject() == null) return new ResponseEntity<Set<Member>>(HttpStatus.FORBIDDEN);
+		
 		try {
-			Member member = memberRepo.findByStudentEmail("max.muster@students.fhnw.ch");
-			if (member == null || member.getProject() == null) return new ResponseEntity<List<Member>>(HttpStatus.FORBIDDEN);
-			
 			logger.info("Update members of project '" + member.getProject().getTitle() + "'");
 			Project project = projectRepoImpl.updateProject(member.getProject(), updatedMembers);
 			
 			logger.info("Successfully updated members of project " + project.getTitle() + " [" + project.getId() + "]");
-			return new ResponseEntity<List<Member>>(project.getMembers(), HttpStatus.OK);
+			return new ResponseEntity<Set<Member>>(project.getMembers(), HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<List<Member>>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<Set<Member>>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }

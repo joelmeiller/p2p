@@ -19,7 +19,7 @@ import lombok.EqualsAndHashCode;
   *
   **/
 @Data
-@EqualsAndHashCode(callSuper=false, of="id")
+@EqualsAndHashCode(callSuper=false, exclude={"criterias"})
 @Entity
 public class Category extends VersionedObject {
 	

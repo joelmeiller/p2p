@@ -1,6 +1,7 @@
 package ch.fhnw.p2p.repositories;
 
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -36,11 +37,8 @@ public class ProjectRepositoryImpl {
 	 * @param Members the updated list of members to add or remove from project
 	 * @return Project the updated project
 	 */
-	public Project updateProject(Project project, List<Member> updatedMembers) {
-		List<Member> members = project.getMembers();
-		
-		logger.info(members);
-		logger.info(updatedMembers.size());
+	public Project updateProject(Project project, Set<Member> updatedMembers) {
+		Set<Member> members = project.getMembers();
 		
 		try {
 			// Set members
@@ -50,7 +48,7 @@ public class ProjectRepositoryImpl {
 					Student student = studentRepo.findOne(projectMember.getStudent().getId());
 					logger.info("Add student: " + student.toString() + " to project '" + project.getTitle() + "' (id=" + project.getId() + ")");
 					if (projectMember.getRoles() != null && projectMember.getRoles().size() > 0) {
-						Role role = roleRepo.findOne(projectMember.getRoles().get(0).getRole().getId());
+						Role role = roleRepo.findOne(projectMember.getRoles().stream().findFirst().get().getRole().getId());
 						members.add(addRatings(new Member(project, student, role)));
 					} else {
 						members.add(addRatings(new Member(project, student)));					
@@ -68,7 +66,7 @@ public class ProjectRepositoryImpl {
 				else if (projectMember.isUpdated()) {
 					logger.info("Update roles of member " + studentRepo.findOne(projectMember.getStudent().getId()) + "(id=" + projectMember.getId() + ") from project '" + project.getTitle() + "' (id=" + project.getId() + ")");
 					Member updateMember = memberRepo.findOne(projectMember.getId());
-					List<MemberRole> roles = updateMember.getRoles();
+					Set<MemberRole> roles = updateMember.getRoles();
 					roles.add(new MemberRole(updateMember, roleRepo.findOne(projectMember.getActiveRole().getId())));
 					updateMember.setRoles(roles);
 				}
@@ -86,14 +84,17 @@ public class ProjectRepositoryImpl {
 	 * @param member member to add criteria for each team member
 	 * @return Member updated member
 	 */
-	private Member addRatings (Member updateMember) {
-		logger.info("Add ratings (Member count:" + updateMember.getProject().getMembers().size() + ")");
+	public Member addRatings (Member updateMember) {
+		logger.info("Add ratings for member " + updateMember.toString() + "(id=" + updateMember.getId() + ")");
 		List<ProjectCriteria> criterias = updateMember.getProject().getProjectCriteria();
+		
+		// Add self rating
+		updateMember.getMemberRatings().add(new MemberRating(updateMember, updateMember, criterias));
 		
 		for (Member member: updateMember.getProject().getMembers()) {
 			// Add ratings of existing members to new member
 			updateMember.getMemberRatings().add(new MemberRating(updateMember, member, criterias));
-			
+		
 			// Update existing members with new member
 			member.getMemberRatings().add(new MemberRating(member, updateMember, criterias));
 		}

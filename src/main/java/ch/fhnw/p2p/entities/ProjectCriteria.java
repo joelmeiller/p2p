@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @Data
-@EqualsAndHashCode(of="id")
+@EqualsAndHashCode(callSuper=false, exclude={"category", "ratings"})
 @Entity
 public class ProjectCriteria extends VersionedObject {
 	

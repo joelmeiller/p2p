@@ -1,7 +1,10 @@
 // Node imports
 import fetch from 'isomorphic-fetch';
 
-const apiEntrypoint = 'http://localhost:8080/api/project/members';
+import getApiEntrypoint from '../utils/getApiEntrypoint.js';
+
+const apiEntrypoint = getApiEntrypoint('project/members');
+
 
 export default (values, callback) => {
   const members = values.map(member => ({

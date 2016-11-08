@@ -15,7 +15,7 @@ describe('middleware/utils/calculateProgress', () => {
       name: 'Test Person',
       categories: [{
         title: 'Test 1',
-        criterias: [{
+        criteriaRatings: [{
           label: '',
         }, {
           label: '',
@@ -24,7 +24,7 @@ describe('middleware/utils/calculateProgress', () => {
         }],
       }, {
         title: 'Test 2',
-        criterias: [{
+        criteriaRatings: [{
           label: '',
         }, {
           label: '',
@@ -33,7 +33,7 @@ describe('middleware/utils/calculateProgress', () => {
         }],
       }, {
         title: 'Test 3',
-        criterias: [],
+        criteriaRatings: [],
       }],
       comment: '',
     }), 0);
@@ -44,7 +44,7 @@ describe('middleware/utils/calculateProgress', () => {
       name: 'Test Person',
       categories: [{
         title: 'Test 1',
-        criterias: [{
+        criteriaRatings: [{
           label: '',
           rating: 1,
         }, {
@@ -56,7 +56,7 @@ describe('middleware/utils/calculateProgress', () => {
         }],
       }, {
         title: 'Test 2',
-        criterias: [{
+        criteriaRatings: [{
           label: '',
           rating: 1,
         }, {
@@ -68,7 +68,7 @@ describe('middleware/utils/calculateProgress', () => {
         }],
       }, {
         title: 'Test 3',
-        criterias: [{
+        criteriaRatings: [{
           label: '',
           rating: 1,
         }, {
@@ -88,7 +88,7 @@ describe('middleware/utils/calculateProgress', () => {
       name: 'Test Person',
       categories: [{
         title: 'Test 1',
-        criterias: [{
+        criteriaRatings: [{
           label: '',
           rating: 1,
         }, {
@@ -99,7 +99,7 @@ describe('middleware/utils/calculateProgress', () => {
         }],
       }, {
         title: 'Test 2',
-        criterias: [{
+        criteriaRatings: [{
           label: '',
           rating: 1,
         }, {
@@ -109,7 +109,7 @@ describe('middleware/utils/calculateProgress', () => {
         }],
       }, {
         title: 'Test 3',
-        criterias: [{
+        criteriaRatings: [{
           label: '',
           rating: 1,
         }, {
@@ -128,7 +128,7 @@ describe('middleware/utils/calculateProgress', () => {
       name: 'Test Person',
       categories: [{
         title: 'Test 1',
-        criterias: [{
+        criteriaRatings: [{
           label: '',
         }, {
           label: '',
@@ -137,7 +137,7 @@ describe('middleware/utils/calculateProgress', () => {
         }],
       }, {
         title: 'Test 2',
-        criterias: [{
+        criteriaRatings: [{
           label: '',
         }, {
           label: '',
@@ -146,7 +146,7 @@ describe('middleware/utils/calculateProgress', () => {
         }],
       }, {
         title: 'Test 3',
-        criterias: [{
+        criteriaRatings: [{
           label: '',
         }, {
           label: '',

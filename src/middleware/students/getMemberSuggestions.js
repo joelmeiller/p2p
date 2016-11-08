@@ -3,8 +3,9 @@
 // Node imports
 import 'isomorphic-fetch';
 
+import getApiEntrypoint from '../utils/getApiEntrypoint.js';
 
-const apiEntrypoint = 'http://localhost:8080/api/students/suggestions';
+const apiEntrypoint = getApiEntrypoint('students/suggestions');
 
 
 export default (pattern, callback) => {

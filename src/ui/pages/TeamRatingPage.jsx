@@ -10,24 +10,23 @@ import sortMembers from '../utils/sortMembers.js';
 
 
 const TeamRatingPage = props => (
-  <div className="container push-top-small">
+  <div className="push-top-small">
     {(() => (props.members ? props.members.sort(sortMembers).map(member =>
-      <button
+      <div
         key={member.id}
-        className="row"
         onClick={() => props.handleSelectMember(member, props)}
       >
         <LabeledStarRatingWithGrade
           {...member}
-          label={`${member.name}, ${member.role}`}
+          label={`${member.name}, ${member.activeRole}`}
           value={member.rating}
           readonly
           smallStars
         />
-      </button>
+      </div>
     ) : undefined))()}
     <div className="row">
-      <div className="col-xs-12 push-top-mini">
+      <div className="col-xs-12 push-top-small">
         <FlatButton
           label="Submit All Ratings"
           primary

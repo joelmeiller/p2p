@@ -8,5 +8,5 @@ import ch.fhnw.p2p.entities.Role;
 
 @Transactional
 public interface RoleRepository extends JpaRepository<Role, Long> {
-	
+	Role findByShortcut(String shortcut);
 }

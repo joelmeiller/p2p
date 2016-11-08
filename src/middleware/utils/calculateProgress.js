@@ -5,9 +5,9 @@ export default (member) => {
 
   if (member.categories) {
     member.categories.forEach((cat) => {
-      if (cat.criterias) {
-        totalCriteria += cat.criterias ? cat.criterias.length : 0;
-        cat.criterias.forEach((crit) => {
+      if (cat.criteriaRatings) {
+        totalCriteria += cat.criteriaRatings ? cat.criteriaRatings.length : 0;
+        cat.criteriaRatings.forEach((crit) => {
           setCriteria += crit.rating ? 1 : 0;
         });
       }

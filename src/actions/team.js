@@ -1,5 +1,6 @@
 // Middleware
 import { default as apiGetTeam } from '../middleware/team/getTeam.js';
+import { default as apiGetRatings } from '../middleware/ratings/getRatings.js';
 import { default as apiSaveTeam } from '../middleware/team/saveTeam.js';
 
 // Actions
@@ -9,17 +10,16 @@ import { selectMember } from './member.js';
 
 export const ADD_MEMBER = '/team/ADD_MEMBER';
 export const RECEIVE_TEAM = '/team/RECEIVE_TEAM';
+export const RECEIVE_RATINGS = '/team/RECEIVE_RATINGS';
 export const REMOVE_MEMBER = '/team/REMOVE_MEMBER';
 export const REQUEST_TEAM = '/team/REQUEST_TEAM';
+export const REQUEST_RATINGS = '/team/REQUEST_RATINGS';
 export const UPDATE_TEAM = '/team/UPDATE_TEAM';
 export const SAVE_TEAM = '/team/SAVE_TEAM';
 
-const requestData = () => ({
-  type: REQUEST_TEAM,
-});
 
-const receiveData = data => ({
-  type: RECEIVE_TEAM,
+const receiveData = (type, data) => ({
+  type,
   members: data,
 });
 
@@ -30,10 +30,16 @@ const shouldFetchData = (state) => {
   return !state.team.isFetching && !state.team.fetched;
 };
 
-export const fetchTeam = () => (dispatch, getState) => {
+export const fetchTeam = (props) => (dispatch, getState) => {
   if (shouldFetchData(getState())) {
-    dispatch(requestData());
-    apiGetTeam(data => dispatch(receiveData(data)));
+
+    if (props.isQM) {
+      dispatch({ type: REQUEST_TEAM });
+      apiGetTeam(data => dispatch(receiveData(RECEIVE_TEAM, data)));
+    } else {
+      dispatch({ type: REQUEST_RATINGS });
+      apiGetRatings(data => dispatch(receiveData(RECEIVE_RATINGS, data)));
+    }
   }
 };
 
@@ -112,6 +118,18 @@ export const removeMember = removedMember => (dispatch, getState) => {
   });
 };
 
+export const updateMember = updatedMember => (dispatch, getState) => {
+  const state = getState();
+  const members = state.team.members.map(member =>
+      (member.id === updatedMember.id ? updatedMember : member));
+
+  dispatch({
+    type: UPDATE_TEAM,
+    members,
+  });
+};
+
+
 export const saveTeam = props => (dispatch, getState) => {
   const state = getState().team;
 
@@ -134,8 +152,13 @@ export const saveTeam = props => (dispatch, getState) => {
 };
 
 export const cancel = props => (dispatch) => {
-  dispatch(requestData());
-  apiGetTeam(data => dispatch(receiveData(data)));
+  if (props.isQM) {
+    dispatch({ type: REQUEST_TEAM });
+    apiGetTeam(data => dispatch(receiveData(RECEIVE_TEAM, data)));
+  } else {
+    dispatch({ type: REQUEST_RATINGS });
+    apiGetRatings(data => dispatch(receiveData(RECEIVE_RATINGS, data)));
+  }
 
   props.router.push('/');
 };

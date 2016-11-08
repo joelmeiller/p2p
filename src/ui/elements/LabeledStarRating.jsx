@@ -7,28 +7,26 @@ import React from 'react';
 import StarRatingComponent from 'react-star-rating-component';
 
 const LabeledStarRating = props => (
-  <div className="container">
-    <div className="row">
-      <div className="col-xs-6">
-        <p
-          className={classNames({
-            warning: props.isEmpty,
-          })}
-        >{props.label}</p>
-      </div>
-      <div
-        className={classNames('col-xs-6', 'star', {
-          small: props.smallStars,
+  <div className="row">
+    <div className="col-xs-6">
+      <p
+        className={classNames({
+          warning: props.isEmpty,
         })}
-      >
-        <StarRatingComponent
-          starCount={5}
-          value={props.value}
-          name={props.id}
-          onStarClick={props.onRatingChanged}
-          editing={!props.readonly}
-        />
-      </div>
+      >{props.label}</p>
+    </div>
+    <div
+      className={classNames('col-xs-6', 'star', {
+        small: props.smallStars,
+      })}
+    >
+      <StarRatingComponent
+        starCount={5}
+        value={props.value}
+        name={props.id}
+        onStarClick={props.onRatingChanged}
+        editing={!props.readonly}
+      />
     </div>
   </div>
 );
