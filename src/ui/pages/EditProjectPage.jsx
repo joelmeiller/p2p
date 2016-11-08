@@ -16,7 +16,7 @@ const EditProjectPage = props => (
         </div>
       </div>
       <div className="row">
-        <div className="col-xs-2">
+        <div className="col-xs-2" style={{ marginTop: 14 }}>
           <p>Title</p>
         </div>
         <div className="col-xs-6">
@@ -30,7 +30,7 @@ const EditProjectPage = props => (
         </div>
       </div>
       <div className="row">
-        <div className="col-xs-2">
+        <div className="col-xs-2" style={{ marginTop: 14 }}>
           <p>Coach</p>
         </div>
         <div className="col-xs-6">
@@ -44,7 +44,7 @@ const EditProjectPage = props => (
         </div>
       </div>
       <div className="row">
-        <div className="col-xs-2">
+        <div className="col-xs-2" style={{ marginTop: 14 }}>
           <p>Stufe</p>
         </div>
         <div className="col-xs-4" style={{ marginTop: -8 }}>
@@ -55,7 +55,7 @@ const EditProjectPage = props => (
         </div>
       </div>
       <div className="row">
-        <div className="col-xs-2">
+        <div className="col-xs-2" style={{ marginTop: 14 }}>
           <p>Start</p>
         </div>
         <div className="col-xs-4" style={{ marginTop: -8 }}>
@@ -66,7 +66,7 @@ const EditProjectPage = props => (
         </div>
       </div>
       <div className="row">
-        <div className="col-xs-2">
+        <div className="col-xs-2" style={{ marginTop: 14 }}>
           <p>Art</p>
         </div>
         <div className="col-xs-4" style={{ marginTop: -8 }}>
@@ -77,7 +77,7 @@ const EditProjectPage = props => (
         </div>
       </div>
       <div className="row">
-        <div className="col-xs-2">
+        <div className="col-xs-2" style={{ marginTop: 14 }}>
           <p>Status</p>
         </div>
         <div className="col-xs-4" style={{ marginTop: -8 }}>
