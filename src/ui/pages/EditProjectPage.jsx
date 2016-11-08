@@ -67,7 +67,7 @@ const EditProjectPage = props => (
       </div>
       <div className="row">
         <div className="col-xs-2">
-          <p>BB/VZ/TZ</p>
+          <p>Art</p>
         </div>
         <div className="col-xs-4" style={{ marginTop: -8 }}>
           <Dropdown
