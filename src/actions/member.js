@@ -40,8 +40,7 @@ const saveMember = (props, index, close) => (dispatch) => {
     dispatch(updateMember(member));
 
     apiSaveRating(member, (res) => {
-      console.log(res);
-      if (res.status === 500) {
+      if (res.status !== 200) {
         dispatch(resetPreviousMember(props.member));
         dispatch(updateMember(props.member));
       }

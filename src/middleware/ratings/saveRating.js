@@ -11,15 +11,6 @@ export default (rating, callback) => {
     criteriaRatings = criteriaRatings.concat(cat.criteriaRatings.map(crit => ({
       id: crit.id,
       rating: crit.rating,
-      // criteria: {
-      //   id: crit.criteriaId,
-      //   label: crit.label,
-      // },
-      // category: {
-      //   id: cat.id,
-      //   title: cat.title,
-      //   type: cat.type,
-      // },
     })))
   ));
 
@@ -29,9 +20,6 @@ export default (rating, callback) => {
     criteriaRatings,
   };
 
-
-  console.log(JSON.stringify(memberRating));
-
   fetch(apiEntrypoint, {
     method: 'POST',
     headers: {
@@ -40,6 +28,5 @@ export default (rating, callback) => {
     },
     body: JSON.stringify(memberRating),
   })
-  .then(response => response.json())
-  .then(data => callback(data));
+  .then(response => callback(response));
 };
