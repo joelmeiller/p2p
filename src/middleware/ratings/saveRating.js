@@ -2,27 +2,35 @@
 import fetch from 'isomorphic-fetch';
 import getApiEntrypoint from '../utils/getApiEntrypoint.js';
 
-const apiEntrypoint = getApiEntrypoint('project/member/rating');
+const apiEntrypoint = getApiEntrypoint('project/member/ratings');
 
 
-export default (values, callback) => {
-  const members = values.map(member => ({
-    id: member.id,
-    student: {
-      id: member.studentId,
-    },
-    roles: member.roles.map(memberRole => ({
-      id: memberRole.id,
-      active: memberRole.active,
-      role: {
-        id: memberRole.roleId,
-        title: memberRole.title,
-      },
-    })),
-    added: member.added && !member.removed,
-    removed: member.removed && !member.added,
-    updated: member.updated, // only roles can be updated
-  }));
+export default (rating, callback) => {
+  let criteriaRatings = [];
+  rating.categories.forEach(cat => (
+    criteriaRatings = criteriaRatings.concat(cat.criteriaRatings.map(crit => ({
+      id: crit.id,
+      rating: crit.rating,
+      // criteria: {
+      //   id: crit.criteriaId,
+      //   label: crit.label,
+      // },
+      // category: {
+      //   id: cat.id,
+      //   title: cat.title,
+      //   type: cat.type,
+      // },
+    })))
+  ));
+
+  const memberRating = {
+    id: rating.ratingId,
+    comment: rating.comment,
+    criteriaRatings,
+  };
+
+
+  console.log(JSON.stringify(memberRating));
 
   fetch(apiEntrypoint, {
     method: 'POST',
@@ -30,7 +38,7 @@ export default (values, callback) => {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(members),
+    body: JSON.stringify(memberRating),
   })
   .then(response => response.json())
   .then(data => callback(data));

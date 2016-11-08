@@ -11,6 +11,8 @@ public class CategoryMapping {
 	private String title;
 	private Type type;
 	
+	public CategoryMapping() {};
+	
 	public CategoryMapping(Category category) {
 		this.id = category.getId();
 		this.title = category.getTitle();

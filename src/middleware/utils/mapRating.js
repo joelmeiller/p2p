@@ -3,9 +3,16 @@ import mapMember from './mapMember.js';
 const sortCategory = (x, y) => (x.category.id === y.category.id ? 0 :
   (x.category.id > y.category.id ? 1 : -1));
 
+const mapCriteriaRating = (criteriaRating) => ({
+  id: criteriaRating.id.toString(),
+  criteriaId: criteriaRating.criteria.id.toString(),
+  label: criteriaRating.criteria.label,
+  rating: criteriaRating.rating,
+});
+
 export default (rating) => {
   const ratings = {
-    ratingId: rating.id,
+    ratingId: rating.id.toString(),
     rating: rating.rating,
     comment: rating.comment,
     ...mapMember(rating.member),
@@ -17,22 +24,12 @@ export default (rating) => {
     const sortedCriteriaRatings = rating.criteriaRatings.sort(sortCategory);
     sortedCriteriaRatings.forEach(criteriaRating => {
       if (prevCategory.id === criteriaRating.category.id) {
-        prevCategory.criteriaRatings.push({
-          id: criteriaRating.id,
-          criteriaId: criteriaRating.criteria.id,
-          label: criteriaRating.criteria.label,
-          rating: criteriaRating.rating,
-        });
+        prevCategory.criteriaRatings.push(mapCriteriaRating(criteriaRating));
       } else {
         if (prevCategory.id) ratings.categories.push(prevCategory);
         prevCategory = {
           ...criteriaRating.category,
-          criteriaRatings: [{
-            id: criteriaRating.id,
-            criteriaId: criteriaRating.criteria.id,
-            label: criteriaRating.criteria.label,
-            rating: criteriaRating.rating,
-          }],
+          criteriaRatings: [mapCriteriaRating(criteriaRating)],
         }
       }
     });

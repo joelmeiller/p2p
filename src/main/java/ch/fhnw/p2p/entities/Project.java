@@ -24,7 +24,7 @@ import lombok.EqualsAndHashCode;
   *
   **/
 @Data
-@EqualsAndHashCode(exclude={"projectCategories", "members"})
+@EqualsAndHashCode(callSuper=false, exclude={"projectCategories", "members"})
 @Entity
 public class Project extends VersionedObject {
 	

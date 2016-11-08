@@ -118,6 +118,18 @@ export const removeMember = removedMember => (dispatch, getState) => {
   });
 };
 
+export const updateMember = updatedMember => (dispatch, getState) => {
+  const state = getState();
+  const members = state.team.members.map(member =>
+      (member.id === updatedMember.id ? updatedMember : member));
+
+  dispatch({
+    type: UPDATE_TEAM,
+    members,
+  });
+};
+
+
 export const saveTeam = props => (dispatch, getState) => {
   const state = getState().team;
 

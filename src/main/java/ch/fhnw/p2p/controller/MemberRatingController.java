@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 import ch.fhnw.p2p.entities.CriteriaRating;
 import ch.fhnw.p2p.entities.Member;
 import ch.fhnw.p2p.entities.MemberRating;
+import ch.fhnw.p2p.entities.mapping.CriteriaRatingMapping;
+import ch.fhnw.p2p.entities.mapping.MemberRatingMapping;
 import ch.fhnw.p2p.repositories.CriteriaRatingRepository;
 import ch.fhnw.p2p.repositories.MemberRatingRepository;
 import ch.fhnw.p2p.repositories.MemberRepository;
@@ -72,8 +74,10 @@ public class MemberRatingController {
 	}
 	
 	@CrossOrigin(origins = "http://localhost:3000")
-	@RequestMapping(value = "/ratings/{id}", method = RequestMethod.POST)
-	public ResponseEntity<HttpStatus> add(@PathVariable Long id, @Valid @RequestBody List<MemberRating> updatedMemberRatings, BindingResult result) {
+	@RequestMapping(value = "/ratings", method = RequestMethod.POST)
+	public ResponseEntity<HttpStatus> add(@RequestBody MemberRatingMapping updatedMemberRating, BindingResult result) {
+		logger.info(updatedMemberRating);
+		logger.info(result);
 		if (result.hasErrors()) {
 			logger.error(result);
 			return new ResponseEntity<HttpStatus>(HttpStatus.PRECONDITION_FAILED);
@@ -82,34 +86,28 @@ public class MemberRatingController {
 		Member member = memberRepo.findByStudentEmail("heidi.vonderheide@students.fhnw.ch");
 		if (member == null || member.getProject() == null) return new ResponseEntity<HttpStatus>(HttpStatus.FORBIDDEN);
 
-		Member ratedMember = memberRepo.findOne(id);
-		if (ratedMember == null) {
-			logger.info("Member not found");
-			return new ResponseEntity<HttpStatus>(HttpStatus.NO_CONTENT);
-		} 
+		logger.info("MemberRating " + updatedMemberRating.getId() + " / " + updatedMemberRating.getComment());
+		MemberRating memberRating = memberRatingRepo.findByIdAndSourceMemberId(updatedMemberRating.getId(), member.getId());
+		
+		if (memberRating == null) return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
+		
 		
 		try {
-			logger.info("Update team member ratings of member " + member.toString() + "(id=" + member.getId() + ")");
+			logger.info("Update team member ratings of " + member.toString());
 			
-			List<MemberRating> memberRatings = new ArrayList<MemberRating>();
-			
-			for (MemberRating updatedMemberRating: updatedMemberRatings) {
-				logger.info("Update rating (id='" + updatedMemberRating.getId() + "'");
-				MemberRating memberRating = memberRatingRepo.findOne(updatedMemberRating.getId());
+			if (updatedMemberRating.getComment() != null) {
+				memberRating.setComment(updatedMemberRating.getComment());
+			}
 				
-				for (CriteriaRating criteriaRating: memberRating.getCriteriaRatings()) {
-					Optional<CriteriaRating> updatedRating = updatedMemberRating.getCriteriaRatings()
-							.stream().filter(r -> r.getId() == criteriaRating.getId()).findFirst();
-					
-					criteriaRating.setRating(updatedRating.get().getRating());
-				}
-				memberRatings.add(memberRating);
+			for (CriteriaRating criteriaRating : memberRating.getCriteriaRatings()) {
+				Optional<CriteriaRatingMapping> updatedRating = updatedMemberRating.getCriteriaRatings().stream()
+						.filter(r -> r.getId() == criteriaRating.getId()).findFirst();
+
+				criteriaRating.setRating(updatedRating.get().getRating());
 			}
 		
-			ratedMember.setMemberRatings(memberRatings);
-			logger.info("Save member ratings for " + ratedMember.toString());
-			memberRepo.saveAndFlush(ratedMember);	
-			logger.info("Successfully updated member ratings for " + ratedMember.toString() + "(id=" + ratedMember.getId() + ")");
+			logger.info("Save member rating " + memberRating.toString());
+			memberRatingRepo.save(memberRating);	
 			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<HttpStatus>(HttpStatus.INTERNAL_SERVER_ERROR);

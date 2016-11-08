@@ -14,6 +14,8 @@ public class CriteriaRatingMapping {
 	private Criteria criteria;
 	private CategoryMapping category;
 	
+	public CriteriaRatingMapping() {};
+	
 	public CriteriaRatingMapping(CriteriaRating criteriaRating) {
 		this.id = criteriaRating.getId();
 		this.rating = criteriaRating.getRating();

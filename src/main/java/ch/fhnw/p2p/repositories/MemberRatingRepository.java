@@ -10,5 +10,5 @@ import ch.fhnw.p2p.entities.MemberRating;
 public interface MemberRatingRepository extends Repository<MemberRating, Long>{
 	MemberRating save(MemberRating entity);
 	
-	MemberRating findOne(Long id);
+	MemberRating findByIdAndSourceMemberId(Long id, Long sourceMemberId);
 }
