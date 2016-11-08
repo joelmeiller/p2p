@@ -32701,8 +32701,7 @@
 	      dispatch((0, _team.updateMember)(member));
 	
 	      (0, _saveRating2.default)(member, function (res) {
-	        console.log(res);
-	        if (res.status === 500) {
+	        if (res.status !== 200) {
 	          dispatch(resetPreviousMember(props.member));
 	          dispatch((0, _team.updateMember)(props.member));
 	        }
@@ -32795,16 +32794,7 @@
 	    return criteriaRatings = criteriaRatings.concat(cat.criteriaRatings.map(function (crit) {
 	      return {
 	        id: crit.id,
-	        rating: crit.rating,
-	        criteria: {
-	          id: crit.criteriaId,
-	          label: crit.label
-	        },
-	        category: {
-	          id: cat.id,
-	          title: cat.title,
-	          type: cat.type
-	        }
+	        rating: crit.rating
 	      };
 	    }));
 	  });
@@ -32815,8 +32805,6 @@
 	    criteriaRatings: criteriaRatings
 	  };
 	
-	  console.log(JSON.stringify(memberRating));
-	
 	  (0, _isomorphicFetch2.default)(apiEntrypoint, {
 	    method: 'POST',
 	    headers: {
@@ -32825,9 +32813,7 @@
 	    },
 	    body: JSON.stringify(memberRating)
 	  }).then(function (response) {
-	    return response.json();
-	  }).then(function (data) {
-	    return callback(data);
+	    return callback(response);
 	  });
 	};
 

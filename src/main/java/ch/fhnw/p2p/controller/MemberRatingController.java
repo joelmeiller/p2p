@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.logging.Log;
@@ -64,7 +65,10 @@ public class MemberRatingController {
 	 */
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "/ratings", method = RequestMethod.GET)
-	public ResponseEntity<Member> getMemberRating() {
+	public ResponseEntity<Member> getMemberRating(HttpServletRequest request) {
+		logger.info(request.getAttribute("Shib-Identity-Provider"));
+		logger.info(request.getHeader("Shib-Identity-Provider"));
+		
 		// TODO: This is the access control section which should be in a separate class
 		Member member = memberRepo.findByStudentEmail("heidi.vonderheide@students.fhnw.ch");
 		if (member == null || member.getProject() == null) return new ResponseEntity<Member>(HttpStatus.FORBIDDEN);
