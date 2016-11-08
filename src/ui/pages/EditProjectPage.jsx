@@ -16,7 +16,10 @@ const EditProjectPage = props => (
         </div>
       </div>
       <div className="row">
-        <div className="col-xs-4">
+        <div className="col-xs-2">
+          <p>Title</p>
+        </div>
+        <div className="col-xs-6">
           <TextField
             hintText="Title"
             defaultValue={props.title}
@@ -25,7 +28,12 @@ const EditProjectPage = props => (
             onChange={e => props.handleTitleChanged(e.target.value)}
           />
         </div>
-        <div className="col-xs-4">
+      </div>
+      <div className="row">
+        <div className="col-xs-2">
+          <p>Coach</p>
+        </div>
+        <div className="col-xs-6">
           <TextField
             hintText="Name Coach"
             defaultValue={props.coachName}
@@ -36,6 +44,42 @@ const EditProjectPage = props => (
         </div>
       </div>
       <div className="row">
+        <div className="col-xs-2">
+          <p>Stufe</p>
+        </div>
+        <div className="col-xs-4" style={{ marginTop: -8 }}>
+          <Dropdown
+            menuItems={props.selectStates}
+            selectedValue={props.selectedStateId}
+          />
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-xs-2">
+          <p>Start</p>
+        </div>
+        <div className="col-xs-4" style={{ marginTop: -8 }}>
+          <Dropdown
+            menuItems={props.selectStates}
+            selectedValue={props.selectedStateId}
+          />
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-xs-2">
+          <p>BB/VZ/TZ</p>
+        </div>
+        <div className="col-xs-4" style={{ marginTop: -8 }}>
+          <Dropdown
+            menuItems={props.selectStates}
+            selectedValue={props.selectedStateId}
+          />
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-xs-2">
+          <p>Status</p>
+        </div>
         <div className="col-xs-4" style={{ marginTop: -8 }}>
           <Dropdown
             menuItems={props.selectStates}

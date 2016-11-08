@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
-import CheckboxMichelle from './checkbox.jsx';
+import CheckboxMichelle from './Checkbox.jsx';
 
 
 storiesOf('elements/Checkbox', module)
