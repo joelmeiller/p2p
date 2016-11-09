@@ -1,5 +1,6 @@
 package ch.fhnw.p2p.controller;
 
+import java.util.Enumeration;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -56,6 +57,12 @@ public class MemberController {
 	public ResponseEntity<Set<Member>> getProjectMembers(HttpServletRequest request) {
 		logger.info(request.getAttribute("Shib-Identity-Provider"));
 		logger.info(request.getHeader("Shib-Identity-Provider"));
+		Enumeration headerNames = request.getHeaderNames();
+		while(headerNames.hasMoreElements()) {
+		  String headerName = (String)headerNames.nextElement();
+		  System.out.println("" + headerName);
+		  System.out.println("" + request.getHeader(headerName));
+		}
 		
 		// TODO: This is the access control section which should be in a separate class
 		Member member = memberRepo.findByStudentEmail("max.muster@students.fhnw.ch");

@@ -1,5 +1,6 @@
 package ch.fhnw.p2p.controller;
 
+import java.util.Enumeration;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -56,8 +57,15 @@ public class MemberRatingController {
   @CrossOrigin
   @RequestMapping(value = "/ratings", method = RequestMethod.GET)
   public ResponseEntity<Member> getMemberRating(HttpServletRequest request) {
-    logger.info(request.getAttribute("Shib-Identity-Provider"));
-    logger.info(request.getHeader("Shib-Identity-Provider"));
+		logger.info(request.getAttribute("Shib-Identity-Provider"));
+		logger.info(request.getHeader("Shib-Identity-Provider"));
+		Enumeration headerNames = request.getHeaderNames();
+		
+		while (headerNames.hasMoreElements()) {
+			String headerName = (String) headerNames.nextElement();
+			System.out.println("" + headerName);
+			System.out.println("" + request.getHeader(headerName));
+		}
 
     // TODO: This is the access control section which should be in a separate class
     Member member = memberRepo.findByStudentEmail("heidi.vonderheide@students.fhnw.ch");
