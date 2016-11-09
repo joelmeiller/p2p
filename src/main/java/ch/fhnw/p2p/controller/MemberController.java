@@ -1,8 +1,8 @@
 package ch.fhnw.p2p.controller;
 
-import java.util.List;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.logging.Log;
@@ -51,9 +51,12 @@ public class MemberController {
 	 * 
 	 * @return A list of members
 	 */
-	@CrossOrigin(origins = "http://localhost:3000")
+	@CrossOrigin(origins = "http://localhost:3000, http://server1073.cs.technik.fhnw.ch:8080")
 	@RequestMapping(value = "/members", method = RequestMethod.GET)
-	public ResponseEntity<Set<Member>> getProjectMembers() {
+	public ResponseEntity<Set<Member>> getProjectMembers(HttpServletRequest request) {
+		logger.info(request.getAttribute("Shib-Identity-Provider"));
+		logger.info(request.getHeader("Shib-Identity-Provider"));
+		
 		// TODO: This is the access control section which should be in a separate class
 		Member member = memberRepo.findByStudentEmail("max.muster@students.fhnw.ch");
 		if (member == null || member.getProject() == null) return new ResponseEntity<Set<Member>>(HttpStatus.FORBIDDEN);

@@ -1,6 +1,5 @@
 package ch.fhnw.p2p.controller;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import ch.fhnw.p2p.controller.utils.ProjectNotFoundException;
 import ch.fhnw.p2p.entities.Category;
 import ch.fhnw.p2p.entities.Criteria;
 import ch.fhnw.p2p.entities.Locale;
