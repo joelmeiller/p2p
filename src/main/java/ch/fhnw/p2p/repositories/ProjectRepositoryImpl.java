@@ -13,7 +13,7 @@ import ch.fhnw.p2p.entities.MemberRole;
 import ch.fhnw.p2p.entities.Project;
 import ch.fhnw.p2p.entities.ProjectCriteria;
 import ch.fhnw.p2p.entities.Role;
-import ch.fhnw.p2p.entities.Student;
+import ch.fhnw.p2p.entities.User;
 
 public class ProjectRepositoryImpl {
 	
@@ -29,7 +29,7 @@ public class ProjectRepositoryImpl {
 	ProjectRepository projectRepo;
 	
 	@Autowired
-	StudentRepository studentRepo;
+	UserRepository studentRepo;
 	
 	/**
 	 * add or remove team members
@@ -45,7 +45,7 @@ public class ProjectRepositoryImpl {
 			for (Member projectMember: updatedMembers) {
 				// Add new
 				if (projectMember.isAdded()) {
-					Student student = studentRepo.findOne(projectMember.getStudent().getId());
+					User student = studentRepo.findOne(projectMember.getStudent().getId());
 					logger.info("Add student: " + student.toString() + " to project '" + project.getTitle() + "' (id=" + project.getId() + ")");
 					if (projectMember.getRoles() != null && projectMember.getRoles().size() > 0) {
 						Role role = roleRepo.findOne(projectMember.getRoles().stream().findFirst().get().getRole().getId());

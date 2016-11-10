@@ -14,12 +14,12 @@ import ch.fhnw.p2p.entities.Project;
 import ch.fhnw.p2p.entities.ProjectCategory;
 import ch.fhnw.p2p.entities.ProjectCriteria;
 import ch.fhnw.p2p.entities.Role;
-import ch.fhnw.p2p.entities.Student;
+import ch.fhnw.p2p.entities.User;
 import ch.fhnw.p2p.repositories.CategoryRepository;
 import ch.fhnw.p2p.repositories.MemberRepository;
 import ch.fhnw.p2p.repositories.ProjectRepository;
 import ch.fhnw.p2p.repositories.RoleRepository;
-import ch.fhnw.p2p.repositories.StudentRepository;
+import ch.fhnw.p2p.repositories.UserRepository;
 
 @Component
 @Order(2)
@@ -32,7 +32,7 @@ public class MemberDataLoader implements CommandLineRunner {
 	MemberRepository memberRepo;
 	
 	@Autowired
-	StudentRepository studentRepo;
+	UserRepository studentRepo;
 	
 	@Autowired
 	CategoryRepository categoryRepo;
@@ -46,16 +46,16 @@ public class MemberDataLoader implements CommandLineRunner {
 		System.out.println("Autorunner QM Member Setup");
 		
 		// Add student, project and member
-		if (!studentRepo.findByEmail("max.muster@students.fhnw.ch").isPresent()) studentRepo.save(new Student("Max", "Muster", "max.muster@students.fhnw.ch", Student.Type.BB));
-		studentRepo.save(new Student("Test", "Person-1", "test.person1@students.fhnw.ch", Student.Type.FULLTIME));
-		studentRepo.save(new Student("Test", "Person-2", "test.person2@students.fhnw.ch", Student.Type.FULLTIME));
-		studentRepo.save(new Student("Test", "Person-3", "test.person3@students.fhnw.ch", Student.Type.BB));
-		studentRepo.save(new Student("Test", "Person-4", "test.person4@students.fhnw.ch", Student.Type.FULLTIME));
-		studentRepo.save(new Student("Test", "Person-5", "test.person5@students.fhnw.ch", Student.Type.PARTTIME));
-		studentRepo.save(new Student("Test", "Person-6", "test.person6@students.fhnw.ch", Student.Type.BB));
-		studentRepo.save(new Student("Test", "Person-7", "test.person7@students.fhnw.ch", Student.Type.FULLTIME));
-		studentRepo.save(new Student("Test", "Person-8", "test.person8@students.fhnw.ch", Student.Type.PARTTIME));
-		studentRepo.save(new Student("Test", "Person-9", "test.person9@students.fhnw.ch", Student.Type.BB));
+		if (!studentRepo.findByEmail("max.muster@students.fhnw.ch").isPresent()) studentRepo.save(new User("Max", "Muster", "max.muster@students.fhnw.ch", User.Type.STUDENT, User.StudentType.BB));
+		studentRepo.save(new User("Test", "Person-1", "test.person1@students.fhnw.ch", User.Type.STUDENT, User.StudentType.FULLTIME));
+		studentRepo.save(new User("Test", "Person-2", "test.person2@students.fhnw.ch", User.Type.STUDENT, User.StudentType.FULLTIME));
+		studentRepo.save(new User("Test", "Person-3", "test.person3@students.fhnw.ch", User.Type.STUDENT, User.StudentType.BB));
+		studentRepo.save(new User("Test", "Person-4", "test.person4@students.fhnw.ch", User.Type.STUDENT, User.StudentType.FULLTIME));
+		studentRepo.save(new User("Test", "Person-5", "test.person5@students.fhnw.ch", User.Type.STUDENT, User.StudentType.PARTTIME));
+		studentRepo.save(new User("Test", "Person-6", "test.person6@students.fhnw.ch", User.Type.STUDENT, User.StudentType.BB));
+		studentRepo.save(new User("Test", "Person-7", "test.person7@students.fhnw.ch", User.Type.STUDENT, User.StudentType.FULLTIME));
+		studentRepo.save(new User("Test", "Person-8", "test.person8@students.fhnw.ch", User.Type.STUDENT, User.StudentType.PARTTIME));
+		studentRepo.save(new User("Test", "Person-9", "test.person9@students.fhnw.ch", User.Type.STUDENT, User.StudentType.BB));
 		
 		// Add Roles
 		Role qm = roleRepo.save(new Role("Quality Manager", "QM", true, Locale.Language.EN));

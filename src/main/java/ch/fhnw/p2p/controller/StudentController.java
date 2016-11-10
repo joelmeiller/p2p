@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ch.fhnw.p2p.entities.Member;
-import ch.fhnw.p2p.entities.Student;
+import ch.fhnw.p2p.entities.User;
 import ch.fhnw.p2p.repositories.MemberRepository;
-import ch.fhnw.p2p.repositories.StudentRepository;
+import ch.fhnw.p2p.repositories.UserRepository;
 
 /**
  * A class to test interactions with the MySQL database using the
@@ -33,7 +33,7 @@ public class StudentController {
 	private Log logger = LogFactory.getLog(this.getClass());
 	
 	@Autowired
-	StudentRepository studentRepo;
+	UserRepository studentRepo;
 
 	@Autowired
 	MemberRepository memberRepo;
@@ -47,16 +47,16 @@ public class StudentController {
 	 */
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "/suggestions", params = "pattern", method = RequestMethod.GET)
-	public ResponseEntity<List<Student>> getStudentSuggestions(@RequestParam String pattern) {
+	public ResponseEntity<List<User>> getStudentSuggestions(@RequestParam String pattern) {
 		Member member = memberRepo.findByStudentEmail("max.muster@students.fhnw.ch");
-		if (member == null || !member.getIsQM()) return new ResponseEntity<List<Student>>(HttpStatus.FORBIDDEN);
+		if (member == null || !member.isQM()) return new ResponseEntity<List<User>>(HttpStatus.FORBIDDEN);
 		
 		if (member.getProject() == null) {
 			logger.info("No project found");
-			return new ResponseEntity<List<Student>>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);
 		} else {
 			logger.info("Get students by pattern: '" + pattern + "'");
-			return new ResponseEntity<List<Student>>(studentRepo.findSuggestions(pattern.toLowerCase()), HttpStatus.OK);
+			return new ResponseEntity<List<User>>(studentRepo.findSuggestions(pattern.toLowerCase()), HttpStatus.OK);
 		}
 	}
 }

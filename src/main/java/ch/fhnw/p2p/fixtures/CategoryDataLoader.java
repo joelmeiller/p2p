@@ -12,11 +12,11 @@ import ch.fhnw.p2p.entities.Member;
 import ch.fhnw.p2p.entities.Project;
 import ch.fhnw.p2p.entities.ProjectCategory;
 import ch.fhnw.p2p.entities.ProjectCriteria;
-import ch.fhnw.p2p.entities.Student;
+import ch.fhnw.p2p.entities.User;
 import ch.fhnw.p2p.repositories.CategoryRepository;
 import ch.fhnw.p2p.repositories.MemberRepository;
 import ch.fhnw.p2p.repositories.ProjectRepository;
-import ch.fhnw.p2p.repositories.StudentRepository;
+import ch.fhnw.p2p.repositories.UserRepository;
 
 @Component
 @Order(1)
@@ -29,7 +29,7 @@ public class CategoryDataLoader implements CommandLineRunner {
 	MemberRepository memberRepo;
 	
 	@Autowired
-	StudentRepository studentRepo;
+	UserRepository studentRepo;
 	
 	@Autowired
 	CategoryRepository repository;
@@ -69,7 +69,7 @@ public class CategoryDataLoader implements CommandLineRunner {
 		this.repository.save(ownCategory);
 		
 		// Add student, project and member
-		studentRepo.save(new Student("Max", "Muster", "max.muster@students.fhnw.ch", Student.Type.BB));
+		studentRepo.save(new User("Max", "Muster", "max.muster@students.fhnw.ch", User.Type.STUDENT, User.StudentType.BB));
 		Project project = new Project("Test Project");
 		
 		// Add project categories & criterias
@@ -92,7 +92,7 @@ public class CategoryDataLoader implements CommandLineRunner {
 		project.getProjectCategories().add(projectCategory);
 		
 		
-		Student student = studentRepo.findByEmail("max.muster@students.fhnw.ch").get();
+		User student = studentRepo.findByEmail("max.muster@students.fhnw.ch").get();
 		Member member = new Member(project, student);
 		project.getMembers().add(member);
 		projectRepo.save(project);

@@ -17,39 +17,39 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import ch.fhnw.p2p.entities.Member;
 import ch.fhnw.p2p.entities.Project;
-import ch.fhnw.p2p.entities.Student;
+import ch.fhnw.p2p.entities.User;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
 public class StudentRepositoryTest {
 	
-	private Student studentFirstName, studentLastName, studentEmail, studentNotFound;
+	private User studentFirstName, studentLastName, studentEmail, studentNotFound;
     
-	private List<Student> students;
+	private List<User> students;
 	
     @Autowired
-    private StudentRepository studentRepo;
+    private UserRepository studentRepo;
     
 
     @Before
     public void prepareEntities() {
     	// Basic search test data
-    	studentFirstName = studentRepo.save(new Student("Frist", "Test", "firstname.test@fhnw.ch"));
-    	studentLastName = studentRepo.save(new Student("Test", "Last", "test.lastname@fhnw.ch"));
-    	studentEmail = studentRepo.save(new Student("Test", "Test", "email@fhnw.ch"));
-    	studentNotFound = studentRepo.save(new Student("Not", "Found", "not.found@fhnw.ch"));
+    	studentFirstName = studentRepo.save(new User("Frist", "Test", "firstname.test@fhnw.ch"));
+    	studentLastName = studentRepo.save(new User("Test", "Last", "test.lastname@fhnw.ch"));
+    	studentEmail = studentRepo.save(new User("Test", "Test", "email@fhnw.ch"));
+    	studentNotFound = studentRepo.save(new User("Not", "Found", "not.found@fhnw.ch"));
     	
     	// Add more for limit test
-    	studentRepo.save(new Student("Limit", "Test", "test.test1@fhnw.ch"));
-    	studentRepo.save(new Student("Limit", "Test", "test.test2@fhnw.ch"));
-    	studentRepo.save(new Student("Limit", "Test", "test.test3@fhnw.ch"));
-    	studentRepo.save(new Student("Limit", "Test", "test.test4@fhnw.ch"));
-    	studentRepo.save(new Student("Limit", "Test", "test.test5@fhnw.ch"));
-    	studentRepo.save(new Student("Limit", "Test", "test.test6@fhnw.ch"));
-    	studentRepo.save(new Student("Limit", "Test", "test.test7@fhnw.ch"));
-    	studentRepo.save(new Student("Limit", "Test", "test.test8@fhnw.ch"));
-    	studentRepo.save(new Student("Limit", "Test", "test.test9@fhnw.ch"));
-    	studentRepo.save(new Student("Limit", "Test", "test.test10@fhnw.ch"));
+    	studentRepo.save(new User("Limit", "Test", "test.test1@fhnw.ch"));
+    	studentRepo.save(new User("Limit", "Test", "test.test2@fhnw.ch"));
+    	studentRepo.save(new User("Limit", "Test", "test.test3@fhnw.ch"));
+    	studentRepo.save(new User("Limit", "Test", "test.test4@fhnw.ch"));
+    	studentRepo.save(new User("Limit", "Test", "test.test5@fhnw.ch"));
+    	studentRepo.save(new User("Limit", "Test", "test.test6@fhnw.ch"));
+    	studentRepo.save(new User("Limit", "Test", "test.test7@fhnw.ch"));
+    	studentRepo.save(new User("Limit", "Test", "test.test8@fhnw.ch"));
+    	studentRepo.save(new User("Limit", "Test", "test.test9@fhnw.ch"));
+    	studentRepo.save(new User("Limit", "Test", "test.test10@fhnw.ch"));
     	
     	assertEquals(14, studentRepo.findAll().size());
     }

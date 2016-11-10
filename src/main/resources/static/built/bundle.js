@@ -96102,6 +96102,7 @@
 	
 	  return _extends({
 	    title: 'Rating for',
+	    onClosePath: '/',
 	    readonly: readonly,
 	    members: updatedMembers
 	  }, props);

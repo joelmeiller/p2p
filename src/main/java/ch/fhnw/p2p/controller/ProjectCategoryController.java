@@ -1,6 +1,5 @@
 package ch.fhnw.p2p.controller;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import ch.fhnw.p2p.controller.utils.ProjectNotFoundException;
 import ch.fhnw.p2p.entities.Category;
 import ch.fhnw.p2p.entities.Criteria;
 import ch.fhnw.p2p.entities.Locale;
@@ -27,6 +25,7 @@ import ch.fhnw.p2p.entities.Member;
 import ch.fhnw.p2p.entities.Project;
 import ch.fhnw.p2p.entities.ProjectCategory;
 import ch.fhnw.p2p.entities.ProjectCriteria;
+import ch.fhnw.p2p.entities.User;
 import ch.fhnw.p2p.repositories.CriteriaRepository;
 import ch.fhnw.p2p.repositories.MemberRepository;
 import ch.fhnw.p2p.repositories.ProjectCategoryRepository;
@@ -46,6 +45,8 @@ public class ProjectCategoryController {
 	// PRIVATE FIELDS
 	// ------------------------
 	private Log logger = LogFactory.getLog(this.getClass());
+	
+	private User user;
 	
 	@Autowired
 	private ProjectRepository projectRepo;

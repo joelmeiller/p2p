@@ -62,7 +62,7 @@ public class Member extends VersionedObject{
 	// Relations
 	@ManyToOne
     @JoinColumn(name = "studentId")
-	private Student student;
+	private User student;
 	
 	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="member")
 	private Set<MemberRole> roles;
@@ -95,18 +95,18 @@ public class Member extends VersionedObject{
 		this.ratings = new HashSet<MemberRatingMapping>();
 	}
 
-	public Member(Project project, Student student) {
+	public Member(Project project, User student) {
 		this();
 		this.project = project;
 		this.student = student;
 	}
 	
-	public Member(Project project, Student student, Role role) {
+	public Member(Project project, User student, Role role) {
 		this(project, student);
 		this.roles.add(new MemberRole(this, role));
 	}
 
-	public Member(Project project, Student student, Role role, List<MemberRating> memberRatings) {
+	public Member(Project project, User student, Role role, List<MemberRating> memberRatings) {
 		this(project, student, role);
 		this.memberRatings = memberRatings;
 	}
@@ -122,16 +122,6 @@ public class Member extends VersionedObject{
 		return null;
 	}
 	
-	/**
-	 * checks whether one of roles of the member is the the quality manager (QM) role with special rights
-	 * @return boolean indicating if the member is referenced as QM
-	 */
-	public boolean getIsQM() {
-		for (MemberRole role: this.roles) {
-			if (role.getRole().getType() == Role.Type.QM) return true;
-		}
-		return false;
-	}
 	
 	public Set<MemberRatingMapping> getRatings() {
 		ratings = new HashSet<MemberRatingMapping>();
