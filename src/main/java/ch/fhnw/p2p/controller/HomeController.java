@@ -25,11 +25,11 @@ public class HomeController {
 
 	@RequestMapping(value = "/")
 	public String index(HttpServletRequest request) {
-		logger.info(request.getAttribute("Shib-Identity-Provider"));
-		logger.info(request.getHeader("Shib-Identity-Provider"));
+		logger.info(request.getAttribute("cookie"));
+		logger.info(request.getHeader("cookie"));
+		logger.info(request.getHeader("user-agent"));
+		logger.info(request.getHeader("upgrade-insecure-requests"));
 		Enumeration headerNames = request.getHeaderNames();
-		
-		loginRepo.save(new Login(request.getHeader("mail")));
 		
 		while (headerNames.hasMoreElements()) {
 			String headerName = (String) headerNames.nextElement();
