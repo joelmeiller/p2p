@@ -32,25 +32,25 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         ...params,
-        title: value,
+        stufe: value,
       };
     case SET_PROJECT_START:
       return {
         ...state,
         ...params,
-        title: value,
+        start: value,
       };
     case SET_PROJECT_ART:
       return {
         ...state,
         ...params,
-        title: value,
+        art: value,
       };
     case SET_PROJECT_STATUS:
       return {
         ...state,
         ...params,
-        title: value,
+        status: value,
       };
     case EDIT_PROJECT:
       return {
