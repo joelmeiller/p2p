@@ -29,6 +29,7 @@ public class HomeController {
 		logger.info(request.getHeader("cookie"));
 		logger.info(request.getHeader("user-agent"));
 		logger.info(request.getHeader("mail"));
+		
 		Enumeration headerNames = request.getHeaderNames();
 		
 		while (headerNames.hasMoreElements()) {
