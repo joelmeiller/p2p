@@ -33,7 +33,7 @@ public class HomeController {
 		
 		while (headerNames.hasMoreElements()) {
 			String headerName = (String) headerNames.nextElement();
-			logger.info("" + headerName);
+			logger.info("" + headerName + " = " + request.getHeader(headerName));
 		}
 		return "index";
 	}
