@@ -14,6 +14,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper=false, exclude={"member"})
 @Entity
 public class MemberRole extends VersionedObject {
 	

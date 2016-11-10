@@ -1,7 +1,9 @@
 package ch.fhnw.p2p.controller;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -71,42 +73,38 @@ public class ProjectCategoryController {
 	 */
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "/categories", method = RequestMethod.GET)
-	public ResponseEntity<List<ProjectCategory>> getProjectCriterias() {
+	public ResponseEntity<Set<ProjectCategory>> getProjectCriterias() {
 		// TODO: This is the access control section which should be in a separate class
 		Member member = memberRepo.findByStudentEmail("max.muster@students.fhnw.ch");
-		if (member == null || member.getProject() == null) return new ResponseEntity<List<ProjectCategory>>(HttpStatus.FORBIDDEN);
+		if (member == null || member.getProject() == null) return new ResponseEntity<Set<ProjectCategory>>(HttpStatus.FORBIDDEN);
 		
-		logger.info("Student login: " + member.getStudent().getEmail() + " for project " + member.getProject().getTitle());
+		logger.info("Request from " + member.getStudent().getEmail() + " for project " + member.getProject().getTitle());
 		
 		if (member.getProject() == null) {
 			logger.info("No project found");
-			return new ResponseEntity<List<ProjectCategory>>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<Set<ProjectCategory>>(HttpStatus.NO_CONTENT);
 		} else {
 			logger.info("Successfully read " + member.getProject().getTitle());
-			return new ResponseEntity<List<ProjectCategory>>(member.getProject().getProjectCategories(), HttpStatus.OK);
+			return new ResponseEntity<Set<ProjectCategory>>(member.getProject().getProjectCategories(), HttpStatus.OK);
 		}
 	}
 	
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "/categories", method = RequestMethod.POST)
-	public ResponseEntity<List<ProjectCategory>> add(@Valid @RequestBody List<ProjectCategory> updatedCategories, BindingResult result) {
+	public ResponseEntity<Set<ProjectCategory>> add(@Valid @RequestBody List<ProjectCategory> updatedCategories, BindingResult result) {
 		if (result.hasErrors()) {
 			logger.error(result);
-			return new ResponseEntity<List<ProjectCategory>>(HttpStatus.PRECONDITION_FAILED);
+			return new ResponseEntity<Set<ProjectCategory>>(HttpStatus.PRECONDITION_FAILED);
 		}
+
+		Member member = memberRepo.findByStudentEmail("max.muster@students.fhnw.ch");
+		if (member == null || member.getProject() == null) return new ResponseEntity<Set<ProjectCategory>>(HttpStatus.FORBIDDEN);
+		
 		try {
-			Member member = memberRepo.findByStudentEmail("max.muster@students.fhnw.ch");
-			if (member == null || member.getProject() == null) return new ResponseEntity<List<ProjectCategory>>(HttpStatus.FORBIDDEN);
-			
 			logger.info("Save Categories for student: " + member.getStudent().getEmail() + " for project " + member.getProject().getTitle());
 			Project project = member.getProject();
-			
-			if (member.getProject() == null) {
-				logger.info("No project found");
-				return new ResponseEntity<List<ProjectCategory>>(HttpStatus.NO_CONTENT);
-			}
-			
-			List<ProjectCategory> projectCategories = new ArrayList<ProjectCategory>();
+						
+			Set<ProjectCategory> projectCategories = new HashSet<ProjectCategory>();
 			// Set categories and criterias
 			for (ProjectCategory projCat: updatedCategories) {
 				ProjectCategory projectCategory = projectCategoryRepo.findOne(projCat.getId());
@@ -150,10 +148,10 @@ public class ProjectCategoryController {
 			projectRepo.saveAndFlush(project);	
 			
 			logger.info("Successfully added categories to project " + project.getTitle() + " [" + project.getId() + "]");
-			return new ResponseEntity<List<ProjectCategory>>(project.getProjectCategories(), HttpStatus.OK);
+			return new ResponseEntity<Set<ProjectCategory>>(project.getProjectCategories(), HttpStatus.OK);
 		} catch (Exception e) {
 			logger.error("Server error", e);
-			return new ResponseEntity<List<ProjectCategory>>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<Set<ProjectCategory>>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }

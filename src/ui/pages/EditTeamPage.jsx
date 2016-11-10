@@ -1,5 +1,3 @@
-import classNames from 'classnames';
-
 import React from 'react';
 
 import { RaisedButton } from 'material-ui';
@@ -10,7 +8,7 @@ import AutoSuggest from '../elements/AutoSuggest.jsx';
 
 import sortMembers from '../utils/sortMembers.js';
 
-import getMembersSuggestions from '../../middleware/getMemberSuggestions.js';
+import getMembersSuggestions from '../../middleware/students/getMemberSuggestions.js';
 
 
 const EditTeamPage = props => (

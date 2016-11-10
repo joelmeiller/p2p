@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -75,7 +76,7 @@ public class ProjectRepositoryTest {
     	Student addStudent = new Student();
     	addStudent.setId(student2.getId());
     	
-    	List<Member> updatedMembers = project.getMembers();
+    	Set<Member> updatedMembers = project.getMembers();
     	Member addedMember = new Member();
     	addedMember.setAdded(true);
     	addedMember.setStudent(addStudent);
