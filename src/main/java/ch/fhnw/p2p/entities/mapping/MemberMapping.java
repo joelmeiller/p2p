@@ -6,8 +6,10 @@ import ch.fhnw.p2p.entities.Member;
 import ch.fhnw.p2p.entities.MemberRole;
 import ch.fhnw.p2p.entities.User;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper=false, exclude={"roles"})
 public class MemberMapping {
 	
 	private Long id;

@@ -8,7 +8,6 @@ import javax.persistence.Transient;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.hibernate.validator.internal.util.IgnoreJava6Requirement;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -76,7 +75,7 @@ public class User extends VersionedObject {
 	
 	
 	public String toString() {
-	return firstName + " " + lastName + " (" + id + ")" + ", " + type + ")";
+	return firstName + " " + lastName + " (" + id + ")" + ", " + type;
 	}
 	
 	/**
@@ -86,8 +85,9 @@ public class User extends VersionedObject {
 	public boolean isQM() {
 		if (member == null) return false;
 		
+		System.out.println("isQM???");
 		for (MemberRole role: member.getRoles()) {
-			if (role.getRole().getType() == Role.Type.QM) return true;
+			if (role.getRole() != null && role.getRole().getType() == Role.Type.QM) return true;
 		}
 		return false;
 	}

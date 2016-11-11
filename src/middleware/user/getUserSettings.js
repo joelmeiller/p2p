@@ -15,7 +15,7 @@ export default callback =>
       firstName: data.user.firstName,
       lastName: data.user.lastName,
       fullName: `${data.user.firstName} ${data.user.lastName}`,
-      role: data.role.shortcut,
+      role: data.role ? data.role.shortcut : '-',
       isQM: data.user.qm,
       isCoach: data.user.coach,
       isFinal: !['NEW', 'OPEN'].includes(data.project.status),

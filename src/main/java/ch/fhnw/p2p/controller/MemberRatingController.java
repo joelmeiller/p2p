@@ -64,7 +64,7 @@ public class MemberRatingController {
 		logger.info("GET Request for member/ratings");
 		User user = accessControl.login(request, AccessControl.Allowed.MEMBER);
 
-		logger.info("Succesfully read ratings for " + user.toString());
+		logger.info("Succesfully read member/ratings of student " + user.toString());
 		return new ResponseEntity<Member>(user.getMember(), HttpStatus.OK);
 	}
 	

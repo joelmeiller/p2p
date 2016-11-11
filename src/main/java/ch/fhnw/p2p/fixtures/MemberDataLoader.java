@@ -35,9 +35,6 @@ public class MemberDataLoader implements CommandLineRunner {
 	UserRepository studentRepo;
 	
 	@Autowired
-	CategoryRepository categoryRepo;
-	
-	@Autowired
 	RoleRepository roleRepo;
 	
 
@@ -69,5 +66,26 @@ public class MemberDataLoader implements CommandLineRunner {
 		MemberRole role = new MemberRole(member, qm);
 		member.getRoles().add(role);
 		memberRepo.save(member);
+		
+		// Load other test data
+		// Add students
+		studentRepo.save(new User("Michelle", "Andrey", "michelle.andrey@students.fhnw.ch", User.Type.STUDENT, User.StudentType.BB));
+		studentRepo.save(new User("Joel", "Meiller", "joel.meiller@students.fhnw.ch", User.Type.STUDENT, User.StudentType.BB));
+		studentRepo.save(new User("Bettina", "Burri", "bettina.burri@students.fhnw.ch", User.Type.STUDENT, User.StudentType.BB));
+		studentRepo.save(new User("Rebekka", "Stoffel", "rebekka.stoffel@students.fhnw.ch", User.Type.STUDENT, User.StudentType.BB));
+		studentRepo.save(new User("Elena", "Mastrandrea", "elena.mastrandrea@students.fhnw.ch", User.Type.STUDENT, User.StudentType.BB));
+
+		Project project = projectRepo.findByTitle("Test Project 1").get();
+
+		User student = studentRepo.findByEmail("joel.meiller@students.fhnw.ch").get();
+		member = new Member(project, student, qm);
+		project.getMembers().add(member);
+		projectRepo.save(project);
+
+		project = projectRepo.findByTitle("Test Project 2").get();
+		student = studentRepo.findByEmail("michelle.andrey@students.fhnw.ch").get();
+		member = new Member(project, student, qm);
+		project.getMembers().add(member);
+		projectRepo.save(project);
 	}
 }

@@ -1,10 +1,14 @@
 package ch.fhnw.p2p.entities.mapping;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import ch.fhnw.p2p.entities.Role;
 import ch.fhnw.p2p.entities.User;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper=false, exclude={"role", "project"})
 public class UserSettings {
 	
 	private User user;

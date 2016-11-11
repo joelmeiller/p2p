@@ -59,7 +59,7 @@ public class MemberController {
 		logger.info("GET request for project/members");
 		User user = accessControl.login(request, AccessControl.Allowed.QM);	
 				
-		logger.info("Successfully read " + user.getMember().getProject().getTitle());
+		logger.info("Successfully read project/members for project " + user.getMember().getProject().toString());
 		return new ResponseEntity<Set<Member>>(user.getMember().getProject().getMembers(), HttpStatus.OK);
 	}
 	
@@ -78,7 +78,7 @@ public class MemberController {
 			logger.info("Update members of project '" + user.getMember().getProject().getTitle() + "'");
 			Project project = projectRepoImpl.updateProject(user.getMember().getProject(), updatedMembers);
 			
-			logger.info("Successfully updated members of project " + project.getTitle() + " [" + project.getId() + "]");
+			logger.info("Successfully updated members of project " + project.toString());
 			return new ResponseEntity<Set<Member>>(project.getMembers(), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<Set<Member>>(HttpStatus.INTERNAL_SERVER_ERROR);

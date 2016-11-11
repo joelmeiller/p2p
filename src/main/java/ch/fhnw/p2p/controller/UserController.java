@@ -45,10 +45,10 @@ public class UserController {
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value="/settings", method = RequestMethod.GET)
 	public ResponseEntity<UserSettings> getUserSettings(HttpServletRequest request) {
-		logger.info("Request for user/settings");
+		logger.info("GET Request for user/settings");
 		User user = accessControl.login(request, AccessControl.Allowed.ALL);	
 				
-		logger.info("Successfully read " + user.toString());
+		logger.info("Successfully read user/settings for " + user.toString());
 		return new ResponseEntity<UserSettings>(new UserSettings(user), HttpStatus.OK);
 	}
 }

@@ -76,7 +76,7 @@ public class ProjectCategoryController {
 		logger.info("GET Request for project/categories");
 		User user = accessControl.login(request, AccessControl.Allowed.QM);
 		
-		logger.info("Successfully read " + user.toString());
+		logger.info("Successfully read project/categories for project " + user.getMember().getProject().toString());
 		return new ResponseEntity<Set<ProjectCategory>>(user.getMember().getProject().getProjectCategories(), HttpStatus.OK);
 	}
 	

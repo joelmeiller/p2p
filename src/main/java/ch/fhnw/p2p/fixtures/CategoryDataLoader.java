@@ -12,10 +12,12 @@ import ch.fhnw.p2p.entities.Member;
 import ch.fhnw.p2p.entities.Project;
 import ch.fhnw.p2p.entities.ProjectCategory;
 import ch.fhnw.p2p.entities.ProjectCriteria;
+import ch.fhnw.p2p.entities.Role;
 import ch.fhnw.p2p.entities.User;
 import ch.fhnw.p2p.repositories.CategoryRepository;
 import ch.fhnw.p2p.repositories.MemberRepository;
 import ch.fhnw.p2p.repositories.ProjectRepository;
+import ch.fhnw.p2p.repositories.RoleRepository;
 import ch.fhnw.p2p.repositories.UserRepository;
 
 @Component
@@ -33,6 +35,9 @@ public class CategoryDataLoader implements CommandLineRunner {
 	
 	@Autowired
 	CategoryRepository repository;
+	
+	@Autowired
+	RoleRepository roleRepo;
 	
 
 	@Override
@@ -95,6 +100,38 @@ public class CategoryDataLoader implements CommandLineRunner {
 		User student = studentRepo.findByEmail("max.muster@students.fhnw.ch").get();
 		Member member = new Member(project, student);
 		project.getMembers().add(member);
+		projectRepo.save(project);
+		
+		// Add test projects
+		project = new Project("Test Project 1");
+		
+		projectCategory = new ProjectCategory(category1);
+		projectCategory.setProject(project);
+		project.getProjectCategories().add(projectCategory);
+	
+		projectCategory = new ProjectCategory(category2);
+		projectCategory.setProject(project);
+		project.getProjectCategories().add(projectCategory);
+		
+		projectCategory = new ProjectCategory(ownCategory);
+		projectCategory.setProject(project);
+		project.getProjectCategories().add(projectCategory);
+
+		projectRepo.save(project);
+
+		project = new Project("Test Project 2");
+		projectCategory = new ProjectCategory(category1);
+		projectCategory.setProject(project);
+		project.getProjectCategories().add(projectCategory);
+	
+		projectCategory = new ProjectCategory(category2);
+		projectCategory.setProject(project);
+		project.getProjectCategories().add(projectCategory);
+		
+		projectCategory = new ProjectCategory(ownCategory);
+		projectCategory.setProject(project);
+		project.getProjectCategories().add(projectCategory);
+		
 		projectRepo.save(project);
 	}
 }

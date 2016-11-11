@@ -54,8 +54,8 @@ public class Role extends VersionedObject {
 		this.type = (isQM ? Type.QM : Type.OTHER);
 	}
 	
-	public String toString(Locale.Language lang) {
-		return this.getTitle(lang) + "(" + this.getShortcut(lang) + ")" + (this.type == Type.QM ? ", marked as Quality Manager" : "");
+	public String toString() {
+		return this.title + "(" + this.shortcut + ")" + (this.type == Type.QM ? ", marked as Quality Manager" : "");
 	}
 	
 	public String getTitle(Locale.Language lang) {
