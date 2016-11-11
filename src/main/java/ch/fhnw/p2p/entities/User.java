@@ -84,12 +84,7 @@ public class User extends VersionedObject {
 	 */
 	public boolean isQM() {
 		if (member == null) return false;
-		
-		System.out.println("isQM???");
-		for (MemberRole role: member.getRoles()) {
-			if (role.getRole() != null && role.getRole().getType() == Role.Type.QM) return true;
-		}
-		return false;
+		return member.isQM();
 	}
 	
 	/**

@@ -13,7 +13,8 @@ export default callback =>
   .then((data) => {
     const members = data.map(member => ({
       ...mapMember(member),
-      ratings: member.ratings(rating => ({
+      isQM: member.qm,
+      ratings: member.ratings.map(rating => ({
         ...rating,
         member: mapMember(rating.member),
       })),

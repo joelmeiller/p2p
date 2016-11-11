@@ -133,6 +133,17 @@ public class Member extends VersionedObject{
 		return ratings;
 	}
 	
+	/**
+	 * checks whether one of roles of the member is the the quality manager (QM) role with special rights
+	 * @return boolean indicating if the member is referenced as QM for the current project
+	 */
+	public boolean isQM() {
+		for (MemberRole role: roles) {
+			if (role.getRole() != null && role.getRole().getType() == Role.Type.QM) return true;
+		}
+		return false;
+	}
+	
 	public String toString() {
 		return this.getClass() + " (id=" + this.getId() + ")";
 	}

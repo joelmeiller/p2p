@@ -64,7 +64,7 @@
 	
 	var _routes2 = _interopRequireDefault(_routes);
 	
-	__webpack_require__(1147);
+	__webpack_require__(1148);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -32854,6 +32854,7 @@
 	  return function (dispatch, getState) {
 	    if (shouldFetchData(getState())) {
 	
+	      console.log(getState().app.user.isQM);
 	      if (getState().app.user.isQM) {
 	        dispatch({ type: REQUEST_TEAM });
 	        (0, _getTeam2.default)(function (data) {
@@ -33049,7 +33050,8 @@
 	  }).then(function (data) {
 	    var members = data.map(function (member) {
 	      return _extends({}, (0, _mapMember2.default)(member), {
-	        ratings: member.ratings(function (rating) {
+	        isQM: member.qm,
+	        ratings: member.ratings.map(function (rating) {
 	          return _extends({}, rating, {
 	            member: (0, _mapMember2.default)(rating.member)
 	          });
@@ -74659,11 +74661,11 @@
 	
 	var _CriteriaOverview2 = _interopRequireDefault(_CriteriaOverview);
 	
-	var _TeamOverview = __webpack_require__(1126);
+	var _TeamOverview = __webpack_require__(1127);
 	
 	var _TeamOverview2 = _interopRequireDefault(_TeamOverview);
 	
-	var _MyRatingOverview = __webpack_require__(1130);
+	var _MyRatingOverview = __webpack_require__(1131);
 	
 	var _MyRatingOverview2 = _interopRequireDefault(_MyRatingOverview);
 	
@@ -74671,11 +74673,11 @@
 	
 	var _TeamRatingOverview2 = _interopRequireDefault(_TeamRatingOverview);
 	
-	var _TeammemberEvaluation = __webpack_require__(1136);
+	var _TeammemberEvaluation = __webpack_require__(1137);
 	
 	var _TeammemberEvaluation2 = _interopRequireDefault(_TeammemberEvaluation);
 	
-	var _ProjectContainer = __webpack_require__(1145);
+	var _ProjectContainer = __webpack_require__(1146);
 	
 	var _ProjectContainer2 = _interopRequireDefault(_ProjectContainer);
 	
@@ -96355,25 +96357,27 @@
 	  return _react2.default.createElement(
 	    'div',
 	    { className: 'push-top-small' },
-	    function () {
-	      return props.members ? props.members.sort(_sortMembers2.default).map(function (member) {
-	        return _react2.default.createElement(
-	          'div',
-	          {
-	            key: member.id,
-	            onClick: function onClick() {
-	              return props.handleSelectMember(member, props);
-	            }
-	          },
-	          _react2.default.createElement(_LabeledStarRatingWithGrade2.default, _extends({}, member, {
-	            label: member.name + ', ' + member.activeRole,
-	            value: member.rating,
-	            readonly: true,
-	            smallStars: true
-	          }))
-	        );
-	      }) : undefined;
-	    }(),
+	    props.members && props.members.length > 0 ? props.members.sort(_sortMembers2.default).map(function (member) {
+	      return _react2.default.createElement(
+	        'div',
+	        {
+	          key: member.id,
+	          onClick: function onClick() {
+	            return props.handleSelectMember(member, props);
+	          }
+	        },
+	        _react2.default.createElement(_LabeledStarRatingWithGrade2.default, _extends({}, member, {
+	          label: member.name + ', ' + member.activeRole,
+	          value: member.rating,
+	          readonly: true,
+	          smallStars: true
+	        }))
+	      );
+	    }) : _react2.default.createElement(
+	      'p',
+	      null,
+	      'Noch keine Teammitglieder oder Kriterien definiert.'
+	    ),
 	    _react2.default.createElement(
 	      'div',
 	      { className: 'row' },
@@ -96997,13 +97001,17 @@
 	
 	var _EditableCategory2 = _interopRequireDefault(_EditableCategory);
 	
+	var _sortCategories = __webpack_require__(1126);
+	
+	var _sortCategories2 = _interopRequireDefault(_sortCategories);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var CriteriaPage = function CriteriaPage(props) {
 	  return _react2.default.createElement(
 	    'div',
 	    { className: 'container push-top-small' },
-	    props.categories ? props.categories.map(function (category) {
+	    props.categories ? props.categories.sort(_sortCategories2.default).map(function (category) {
 	      return _react2.default.createElement(
 	        'div',
 	        { key: category.id, className: 'row' },
@@ -97356,7 +97364,7 @@
 	        'div',
 	        { className: 'col-xs-2' },
 	        _react2.default.createElement(_RaisedButton2.default, {
-	          disabled: props.readonly,
+	          disabled: props.readonly || props.newValue === '',
 	          label: 'Add',
 	          onClick: props.onAdd,
 	          primary: true
@@ -97481,6 +97489,22 @@
 
 /***/ },
 /* 1126 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	exports.default = function (x, y) {
+	  if (x.isSelfDefined && !y.isSelfDefined) return 1;
+	  if (!x.isSelfDefined && y.isSelfDefined) return -1;
+	  return 0;
+	};
+
+/***/ },
+/* 1127 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -97501,7 +97525,7 @@
 	
 	var _reactRedux = __webpack_require__(543);
 	
-	var _EditTeamPage = __webpack_require__(1127);
+	var _EditTeamPage = __webpack_require__(1128);
 	
 	var _EditTeamPage2 = _interopRequireDefault(_EditTeamPage);
 	
@@ -97608,7 +97632,7 @@
 	exports.default = (0, _reactRouter.withRouter)(TeamOverview);
 
 /***/ },
-/* 1127 */
+/* 1128 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -97625,7 +97649,7 @@
 	
 	var _materialUi = __webpack_require__(563);
 	
-	var _EditableMember = __webpack_require__(1128);
+	var _EditableMember = __webpack_require__(1129);
 	
 	var _EditableMember2 = _interopRequireDefault(_EditableMember);
 	
@@ -97641,7 +97665,7 @@
 	
 	var _sortMembers2 = _interopRequireDefault(_sortMembers);
 	
-	var _getMemberSuggestions = __webpack_require__(1129);
+	var _getMemberSuggestions = __webpack_require__(1130);
 	
 	var _getMemberSuggestions2 = _interopRequireDefault(_getMemberSuggestions);
 	
@@ -97739,7 +97763,7 @@
 	exports.default = EditTeamPage;
 
 /***/ },
-/* 1128 */
+/* 1129 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -97873,7 +97897,7 @@
 	exports.default = EditableMember;
 
 /***/ },
-/* 1129 */
+/* 1130 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -97921,7 +97945,7 @@
 	};
 
 /***/ },
-/* 1130 */
+/* 1131 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -97942,7 +97966,7 @@
 	
 	var _reactRedux = __webpack_require__(543);
 	
-	var _MemberRatingPage = __webpack_require__(1131);
+	var _MemberRatingPage = __webpack_require__(1132);
 	
 	var _MemberRatingPage2 = _interopRequireDefault(_MemberRatingPage);
 	
@@ -98032,7 +98056,7 @@
 	exports.default = (0, _reactRouter.withRouter)(MyRatingOverview);
 
 /***/ },
-/* 1131 */
+/* 1132 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -98047,11 +98071,11 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _FinalRating = __webpack_require__(1132);
+	var _FinalRating = __webpack_require__(1133);
 	
 	var _FinalRating2 = _interopRequireDefault(_FinalRating);
 	
-	var _MemberCard = __webpack_require__(1135);
+	var _MemberCard = __webpack_require__(1136);
 	
 	var _MemberCard2 = _interopRequireDefault(_MemberCard);
 	
@@ -98112,7 +98136,7 @@
 	exports.default = MemberRatingPage;
 
 /***/ },
-/* 1132 */
+/* 1133 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -98125,11 +98149,11 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _StarsRating = __webpack_require__(1133);
+	var _StarsRating = __webpack_require__(1134);
 	
 	var _StarsRating2 = _interopRequireDefault(_StarsRating);
 	
-	var _Header = __webpack_require__(1134);
+	var _Header = __webpack_require__(1135);
 	
 	var _Header2 = _interopRequireDefault(_Header);
 	
@@ -98159,7 +98183,7 @@
 	exports.default = FinalRating;
 
 /***/ },
-/* 1133 */
+/* 1134 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -98199,7 +98223,7 @@
 	exports.default = StarsRating;
 
 /***/ },
-/* 1134 */
+/* 1135 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -98228,7 +98252,7 @@
 	exports.default = Header2;
 
 /***/ },
-/* 1135 */
+/* 1136 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -98249,7 +98273,7 @@
 	
 	var _materialUi = __webpack_require__(563);
 	
-	var _StarsRating = __webpack_require__(1133);
+	var _StarsRating = __webpack_require__(1134);
 	
 	var _StarsRating2 = _interopRequireDefault(_StarsRating);
 	
@@ -98321,7 +98345,7 @@
 	exports.default = MemberCard;
 
 /***/ },
-/* 1136 */
+/* 1137 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -98353,11 +98377,11 @@
 	
 	var _reactRedux = __webpack_require__(543);
 	
-	var _TabHeader = __webpack_require__(1137);
+	var _TabHeader = __webpack_require__(1138);
 	
 	var _TabHeader2 = _interopRequireDefault(_TabHeader);
 	
-	var _EvaluationPage = __webpack_require__(1138);
+	var _EvaluationPage = __webpack_require__(1139);
 	
 	var _EvaluationPage2 = _interopRequireDefault(_EvaluationPage);
 	
@@ -98450,7 +98474,7 @@
 	exports.default = (0, _reactRouter.withRouter)(TeammemberEvaluation);
 
 /***/ },
-/* 1137 */
+/* 1138 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -98504,7 +98528,7 @@
 	exports.default = TabHeader;
 
 /***/ },
-/* 1138 */
+/* 1139 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -98521,23 +98545,23 @@
 	
 	var _IconButton2 = _interopRequireDefault(_IconButton);
 	
-	var _close = __webpack_require__(1139);
+	var _close = __webpack_require__(1140);
 	
 	var _close2 = _interopRequireDefault(_close);
 	
-	var _FinalRating = __webpack_require__(1132);
+	var _FinalRating = __webpack_require__(1133);
 	
 	var _FinalRating2 = _interopRequireDefault(_FinalRating);
 	
-	var _H2Progress = __webpack_require__(1140);
+	var _H2Progress = __webpack_require__(1141);
 	
 	var _H2Progress2 = _interopRequireDefault(_H2Progress);
 	
-	var _BlockSubcriteria = __webpack_require__(1142);
+	var _BlockSubcriteria = __webpack_require__(1143);
 	
 	var _BlockSubcriteria2 = _interopRequireDefault(_BlockSubcriteria);
 	
-	var _H3Input = __webpack_require__(1143);
+	var _H3Input = __webpack_require__(1144);
 	
 	var _H3Input2 = _interopRequireDefault(_H3Input);
 	
@@ -98618,7 +98642,7 @@
 	exports.default = EvaluationPage;
 
 /***/ },
-/* 1139 */
+/* 1140 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -98655,7 +98679,7 @@
 	exports.default = NavigationClose;
 
 /***/ },
-/* 1140 */
+/* 1141 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -98672,7 +98696,7 @@
 	
 	var _ProgressBar2 = _interopRequireDefault(_ProgressBar);
 	
-	var _Header2withRole = __webpack_require__(1141);
+	var _Header2withRole = __webpack_require__(1142);
 	
 	var _Header2withRole2 = _interopRequireDefault(_Header2withRole);
 	
@@ -98723,7 +98747,7 @@
 	exports.default = H2Progress;
 
 /***/ },
-/* 1141 */
+/* 1142 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -98762,7 +98786,7 @@
 	exports.default = Header2withRole;
 
 /***/ },
-/* 1142 */
+/* 1143 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -98835,7 +98859,7 @@
 	exports.default = BlockSubcriteria;
 
 /***/ },
-/* 1143 */
+/* 1144 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -98852,7 +98876,7 @@
 	
 	var _TextField2 = _interopRequireDefault(_TextField);
 	
-	var _Header = __webpack_require__(1144);
+	var _Header = __webpack_require__(1145);
 	
 	var _Header2 = _interopRequireDefault(_Header);
 	
@@ -98909,7 +98933,7 @@
 	exports.default = H3Input;
 
 /***/ },
-/* 1144 */
+/* 1145 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -98946,7 +98970,7 @@
 	exports.default = Header3;
 
 /***/ },
-/* 1145 */
+/* 1146 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -98967,7 +98991,7 @@
 	
 	var _reactRouter = __webpack_require__(923);
 	
-	var _EditProjectPage = __webpack_require__(1146);
+	var _EditProjectPage = __webpack_require__(1147);
 	
 	var _EditProjectPage2 = _interopRequireDefault(_EditProjectPage);
 	
@@ -99051,7 +99075,7 @@
 	exports.default = (0, _reactRouter.withRouter)(ProjectContainer);
 
 /***/ },
-/* 1146 */
+/* 1147 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -99180,16 +99204,16 @@
 	exports.default = EditProjectPage;
 
 /***/ },
-/* 1147 */
+/* 1148 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(1148);
+	var content = __webpack_require__(1149);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(1154)(content, {});
+	var update = __webpack_require__(1155)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -99206,15 +99230,15 @@
 	}
 
 /***/ },
-/* 1148 */
+/* 1149 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(1149)();
+	exports = module.exports = __webpack_require__(1150)();
 	// imports
-	exports.i(__webpack_require__(1150), "");
 	exports.i(__webpack_require__(1151), "");
 	exports.i(__webpack_require__(1152), "");
 	exports.i(__webpack_require__(1153), "");
+	exports.i(__webpack_require__(1154), "");
 	exports.push([module.id, "@import url(https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css);", ""]);
 	exports.push([module.id, "@import url(https://fonts.googleapis.com/icon?family=Material+Icons);", ""]);
 	
@@ -99225,7 +99249,7 @@
 
 
 /***/ },
-/* 1149 */
+/* 1150 */
 /***/ function(module, exports) {
 
 	/*
@@ -99281,10 +99305,10 @@
 
 
 /***/ },
-/* 1150 */
+/* 1151 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(1149)();
+	exports = module.exports = __webpack_require__(1150)();
 	// imports
 	
 	
@@ -99295,10 +99319,10 @@
 
 
 /***/ },
-/* 1151 */
+/* 1152 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(1149)();
+	exports = module.exports = __webpack_require__(1150)();
 	// imports
 	
 	
@@ -99309,10 +99333,10 @@
 
 
 /***/ },
-/* 1152 */
+/* 1153 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(1149)();
+	exports = module.exports = __webpack_require__(1150)();
 	// imports
 	
 	
@@ -99323,10 +99347,10 @@
 
 
 /***/ },
-/* 1153 */
+/* 1154 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(1149)();
+	exports = module.exports = __webpack_require__(1150)();
 	// imports
 	
 	
@@ -99337,7 +99361,7 @@
 
 
 /***/ },
-/* 1154 */
+/* 1155 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
