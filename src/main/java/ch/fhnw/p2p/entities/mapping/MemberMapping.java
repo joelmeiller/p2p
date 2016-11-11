@@ -1,6 +1,5 @@
 package ch.fhnw.p2p.entities.mapping;
 
-import java.util.List;
 import java.util.Set;
 
 import ch.fhnw.p2p.entities.Member;

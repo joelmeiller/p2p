@@ -38,13 +38,22 @@ public class ProjectDataLoader implements CommandLineRunner {
 		// Add students
 		studentRepo.save(new User("Michelle", "Andrey", "michelle.andrey@students.fhnw.ch", User.Type.STUDENT, User.StudentType.BB));
 		studentRepo.save(new User("Joel", "Meiller", "joel.meiller@students.fhnw.ch", User.Type.STUDENT, User.StudentType.BB));
+		studentRepo.save(new User("Bettina", "Burri", "bettina.burri@students.fhnw.ch", User.Type.STUDENT, User.StudentType.BB));
+		studentRepo.save(new User("Rebekka", "Stoffel", "rebekka.stoffel@students.fhnw.ch", User.Type.STUDENT, User.StudentType.BB));
+		studentRepo.save(new User("Elena", "Mastrandrea", "elena.mastrandrea@students.fhnw.ch", User.Type.STUDENT, User.StudentType.BB));
 		
-		Project project = new Project("My Project");
-		
-		
+		Project project = new Project("Test Project 1");
+				
 		User student = studentRepo.findByEmail("joel.meiller@students.fhnw.ch").get();
 		Role qm = roleRepo.findByShortcut("QM");
 		Member member = new Member(project, student, qm);
+		project.getMembers().add(member);
+		projectRepo.save(project);
+		
+		project = new Project("Test Project 2");
+		
+		student = studentRepo.findByEmail("michelle.andrey@students.fhnw.ch").get();
+		member = new Member(project, student, qm);
 		project.getMembers().add(member);
 		projectRepo.save(project);
 	}

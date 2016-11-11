@@ -1,4 +1,4 @@
-import getUserAndProjectSettings from '../middleware/getUserAndProjectSettings.mock.js';
+import getUserSettings from '../middleware/user/getUserSettings.js';
 
 
 export const SET_TITLE = 'app/SET_TITLE';
@@ -32,7 +32,7 @@ export const fetchUserAndProjectSettings = () => (dispatch, getState) => {
   if (shouldFetchData(getState())) {
     dispatch(requestData());
 
-    getUserAndProjectSettings((data) => {
+    getUserSettings((data) => {
       dispatch(receiveData(data));
     });
   }
