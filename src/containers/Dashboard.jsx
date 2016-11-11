@@ -26,8 +26,9 @@ const mapStateToProps = (globalState, props) => {
   const { user } = globalState.app;
 
   return {
-    isJury: user && user.isJury,
-    isQM: user && user.isQM,
+    isJury: user.isJury,
+    isQM: user.isQM,
+    user,
     ...props,
   };
 };

@@ -17,8 +17,10 @@ import { getActiveRoleShortcut } from '../middleware/utils/activeRole.js';
 
 
 class TeamRatingOverviewComponent extends Component {
-  componentDidMount() {
-    this.props.fetchTeam(this.props.isQM);
+  componentDidReceiveProps(nextProps) {
+    if (this.props.user || this.props.user.id !== nextProps.user.id) {
+      this.props.fetchTeam(this.props.isQM);
+    }
   }
 
   render() {
@@ -48,6 +50,8 @@ const mapStateToProps = (globalState, props) => {
     progress: calculateProgress(member),
     activeRole: getActiveRoleShortcut(member.roles),
   }));
+
+  console.log("TeamRatingPage update", updatedMembers);
 
   return {
     title: 'Rating for',

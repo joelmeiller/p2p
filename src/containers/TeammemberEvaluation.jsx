@@ -15,6 +15,7 @@ import {
   updateComment,
   updateRating,
   saveMemberAndClose,
+  cancelRating,
 } from '../actions/member.js';
 
 // utils
@@ -35,6 +36,7 @@ const EvaluationContainer = props => (
       onCommentChanged={props.handleCommentChanged}
       onRatingChanged={props.handleRatingChanged}
       onClose={props.handleClose}
+      onCancel={props.handleCancel}
       {...props}
     />
   </div>
@@ -45,6 +47,7 @@ EvaluationContainer.propTypes = {
   handleCommentChanged: React.PropTypes.func,
   handleRatingChanged: React.PropTypes.func,
   handleClose: React.PropTypes.func,
+  handleCancel: React.PropTypes.func,
   // categories: React.PropTypes.array.isRequired,
   members: React.PropTypes.array.isRequired,
   selectedIndex: React.PropTypes.number,
@@ -75,6 +78,7 @@ const mapDispatchToProps = dispatch => ({
   handleCommentChanged: value => dispatch(updateComment(value)),
   handleRatingChanged: (nextValue, prevValue, id) => dispatch(updateRating(nextValue, id)),
   handleClose: props => dispatch(saveMemberAndClose(props)),
+  handleCancel: props => dispatch(cancelRating),
 });
 
 const TeammemberEvaluation = connect(

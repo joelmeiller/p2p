@@ -32618,7 +32618,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.initialize = exports.updateRating = exports.updateComment = exports.saveMemberAndClose = exports.showMember = exports.selectMember = exports.resetPreviousMember = exports.ERROR_RESET_UPDATE = exports.UPDATE_RATING = exports.UPDATE_COMMENT = exports.SELECT_MEMBER = exports.INITIALIZE = undefined;
+	exports.cancelRating = exports.initialize = exports.updateRating = exports.updateComment = exports.saveMemberAndClose = exports.showMember = exports.selectMember = exports.resetPreviousMember = exports.ERROR_RESET_UPDATE = exports.CANCEL_RATING = exports.UPDATE_RATING = exports.UPDATE_COMMENT = exports.SELECT_MEMBER = exports.INITIALIZE = undefined;
 	
 	var _saveRating = __webpack_require__(510);
 	
@@ -32644,6 +32644,7 @@
 	var SELECT_MEMBER = exports.SELECT_MEMBER = '/member/SELECT_MEMBER';
 	var UPDATE_COMMENT = exports.UPDATE_COMMENT = '/member/UPDATE_COMMENT';
 	var UPDATE_RATING = exports.UPDATE_RATING = '/member/UPDATE_RATING';
+	var CANCEL_RATING = exports.CANCEL_RATING = '/member/CANCEL_RATING';
 	var ERROR_RESET_UPDATE = exports.ERROR_RESET_UPDATE = '/member/ERROR_RESET_UPDATE';
 	
 	var resetPreviousMember = exports.resetPreviousMember = function resetPreviousMember(value) {
@@ -32737,6 +32738,15 @@
 	  return {
 	    type: INITIALIZE,
 	    initialIndex: index
+	  };
+	};
+	
+	var cancelRating = exports.cancelRating = function cancelRating(props) {
+	  return function (dispatch) {
+	    dispatch({
+	      type: CANCEL_RATING
+	    });
+	    props.router.push(props.onClosePath);
 	  };
 	};
 
@@ -32854,7 +32864,6 @@
 	  return function (dispatch, getState) {
 	    if (shouldFetchData(getState())) {
 	
-	      console.log(getState().app.user.isQM);
 	      if (getState().app.user.isQM) {
 	        dispatch({ type: REQUEST_TEAM });
 	        (0, _getTeam2.default)(function (data) {
@@ -80976,8 +80985,9 @@
 	
 	
 	  return _extends({
-	    isJury: user && user.isJury,
-	    isQM: user && user.isQM
+	    isJury: user.isJury,
+	    isQM: user.isQM,
+	    user: user
 	  }, props);
 	};
 	
@@ -96035,9 +96045,11 @@
 	  }
 	
 	  _createClass(TeamRatingOverviewComponent, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      this.props.fetchTeam(this.props.isQM);
+	    key: 'componentDidReceiveProps',
+	    value: function componentDidReceiveProps(nextProps) {
+	      if (this.props.user || this.props.user.id !== nextProps.user.id) {
+	        this.props.fetchTeam(this.props.isQM);
+	      }
 	    }
 	  }, {
 	    key: 'render',
@@ -96085,6 +96097,8 @@
 	      activeRole: (0, _activeRole.getActiveRoleShortcut)(member.roles)
 	    });
 	  });
+	
+	  console.log("TeamRatingPage update", updatedMembers);
 	
 	  return _extends({
 	    title: 'Rating for',
@@ -97647,7 +97661,9 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _materialUi = __webpack_require__(563);
+	var _RaisedButton = __webpack_require__(871);
+	
+	var _RaisedButton2 = _interopRequireDefault(_RaisedButton);
 	
 	var _EditableMember = __webpack_require__(1129);
 	
@@ -97727,7 +97743,7 @@
 	      _react2.default.createElement(
 	        'div',
 	        { className: 'col-xs-4 align-right' },
-	        _react2.default.createElement(_materialUi.RaisedButton, {
+	        _react2.default.createElement(_RaisedButton2.default, {
 	          label: 'Cancel',
 	          onClick: props.handleCancel
 	        })
@@ -97735,7 +97751,7 @@
 	      _react2.default.createElement(
 	        'div',
 	        { className: 'col-xs-4' },
-	        _react2.default.createElement(_materialUi.RaisedButton, {
+	        _react2.default.createElement(_RaisedButton2.default, {
 	          label: 'Save',
 	          primary: true,
 	          onClick: props.handleSave,
@@ -98414,7 +98430,8 @@
 	      readonly: props.readonly,
 	      onCommentChanged: props.handleCommentChanged,
 	      onRatingChanged: props.handleRatingChanged,
-	      onClose: props.handleClose
+	      onClose: props.handleClose,
+	      onCancel: props.handleCancel
 	    }, props))
 	  );
 	};
@@ -98424,6 +98441,7 @@
 	  handleCommentChanged: _react2.default.PropTypes.func,
 	  handleRatingChanged: _react2.default.PropTypes.func,
 	  handleClose: _react2.default.PropTypes.func,
+	  handleCancel: _react2.default.PropTypes.func,
 	  // categories: React.PropTypes.array.isRequired,
 	  members: _react2.default.PropTypes.array.isRequired,
 	  selectedIndex: _react2.default.PropTypes.number,
@@ -98465,6 +98483,9 @@
 	    },
 	    handleClose: function handleClose(props) {
 	      return dispatch((0, _member.saveMemberAndClose)(props));
+	    },
+	    handleCancel: function handleCancel(props) {
+	      return dispatch(_member.cancelRating);
 	    }
 	  };
 	};
@@ -98540,6 +98561,10 @@
 	var _react = __webpack_require__(533);
 	
 	var _react2 = _interopRequireDefault(_react);
+	
+	var _RaisedButton = __webpack_require__(871);
+	
+	var _RaisedButton2 = _interopRequireDefault(_RaisedButton);
 	
 	var _IconButton = __webpack_require__(567);
 	
@@ -98623,6 +98648,27 @@
 	          readonly: props.readonly
 	        })
 	      )
+	    ),
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'row push-top-medium' },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'col-xs-6 align-right' },
+	        _react2.default.createElement(_RaisedButton2.default, {
+	          label: 'Cancel',
+	          onClick: props.handleCancel
+	        })
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'col-xs-6 push-left-small' },
+	        _react2.default.createElement(
+	          'p',
+	          { className: 'italic small note' },
+	          'Die Bewertungen werden automatisch gespeichert.'
+	        )
+	      )
 	    )
 	  );
 	};
@@ -98636,7 +98682,8 @@
 	  categories: _react2.default.PropTypes.array.isRequired,
 	  onCommentChanged: _react2.default.PropTypes.func,
 	  readonly: _react2.default.PropTypes.bool,
-	  rating: _react2.default.PropTypes.number
+	  rating: _react2.default.PropTypes.number,
+	  handleCancel: _react2.default.PropTypes.func
 	};
 	
 	exports.default = EvaluationPage;
@@ -99327,7 +99374,7 @@
 	
 	
 	// module
-	exports.push([module.id, ":root {\n  --colorPrimary: #333333;\n  --colorPrimaryInverse: #ffffff;\n  --colorSecondary: #00bcd4;\n  --colorWarning: #cc0000;\n  --colorWarningBack: #660000;\n  --colorDisabled: rgba(0, 0, 0, 0.298039);\n}\n\n/* element styling */\nbody {\n  font-family: \"RobotoDraft\",\"Roboto\",sans-serif;\n  padding: 0px;\n}\n\n/* used in: FinalRating */\n.flex-align-middle {\n  display: flex;\n  align-items: center;\n}\n\np.bold {\n  font-weight: bold;\n}\n\np.italic {\n  font-style: italic;\n}\np.warning {\n  color: var(--colorWarning);\n}\np .prefix {\n  padding-right: 7px;\n}\np.small {\n  font-size: 0.8em;\n}\n\nh1 {\n  font-size: 4em;\n  font-weight: 200;\n  padding: 0px 0px;\n  color: var(--colorSecondary);\n}\n\nh2 {\n  font-size: 2em;\n  font-weight: 200;\n  padding: 0px 0px;\n  color: #00bcd4;\n}\n\nh3 {\n  font-size: 1.5em;\n  font-weight: 200;\n  padding: 0px 0px;\n  color: #00bcd4;\n}\n\nhr {\n  width:100%;\n  height:1px;\n}\n\na {\n  font-family: \"RobotoDraft\",\"Roboto\",sans-serif;\n  color: #00bcd4;\n}\n\nbutton {\n  border: none;\n  background-color: inherit;\n  margin-top: 10px;\n}\n", ""]);
+	exports.push([module.id, ":root {\n  --colorPrimary: #333333;\n  --colorPrimaryInverse: #ffffff;\n  --colorSecondary: #00bcd4;\n  --colorWarning: #cc0000;\n  --colorWarningBack: #660000;\n  --colorDisabled: rgba(0, 0, 0, 0.298039);\n}\n\n/* element styling */\nbody {\n  font-family: \"RobotoDraft\",\"Roboto\",sans-serif;\n  padding: 0px;\n}\n\n/* used in: FinalRating */\n.flex-align-middle {\n  display: flex;\n  align-items: center;\n}\n\np.bold {\n  font-weight: bold;\n}\n\np.italic {\n  font-style: italic;\n}\np.warning {\n  color: var(--colorWarning);\n}\np.note {\n  color: var(--colorDisabled);\n}\np .prefix {\n  padding-right: 7px;\n}\np.small {\n  font-size: 0.8em;\n}\n\nh1 {\n  font-size: 4em;\n  font-weight: 200;\n  padding: 0px 0px;\n  color: var(--colorSecondary);\n}\n\nh2 {\n  font-size: 2em;\n  font-weight: 200;\n  padding: 0px 0px;\n  color: #00bcd4;\n}\n\nh3 {\n  font-size: 1.5em;\n  font-weight: 200;\n  padding: 0px 0px;\n  color: #00bcd4;\n}\n\nhr {\n  width:100%;\n  height:1px;\n}\n\na {\n  font-family: \"RobotoDraft\",\"Roboto\",sans-serif;\n  color: #00bcd4;\n}\n\nbutton {\n  border: none;\n  background-color: inherit;\n  margin-top: 10px;\n}\n", ""]);
 	
 	// exports
 

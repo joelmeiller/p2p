@@ -12,6 +12,7 @@ export const INITIALIZE = '/member/INITIALIZE';
 export const SELECT_MEMBER = '/member/SELECT_MEMBER';
 export const UPDATE_COMMENT = '/member/UPDATE_COMMENT';
 export const UPDATE_RATING = '/member/UPDATE_RATING';
+export const CANCEL_RATING = '/member/CANCEL_RATING';
 export const ERROR_RESET_UPDATE = '/member/ERROR_RESET_UPDATE';
 
 
@@ -90,3 +91,10 @@ export const initialize = index => ({
   type: INITIALIZE,
   initialIndex: index,
 });
+
+export const cancelRating = (props) => (dispatch) => {
+  dispatch({
+    type: CANCEL_RATING,
+  });
+  props.router.push(props.onClosePath);
+};
