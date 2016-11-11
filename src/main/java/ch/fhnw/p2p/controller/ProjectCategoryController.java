@@ -25,6 +25,7 @@ import ch.fhnw.p2p.entities.Member;
 import ch.fhnw.p2p.entities.Project;
 import ch.fhnw.p2p.entities.ProjectCategory;
 import ch.fhnw.p2p.entities.ProjectCriteria;
+import ch.fhnw.p2p.entities.User;
 import ch.fhnw.p2p.repositories.CriteriaRepository;
 import ch.fhnw.p2p.repositories.MemberRepository;
 import ch.fhnw.p2p.repositories.ProjectCategoryRepository;
@@ -44,6 +45,8 @@ public class ProjectCategoryController {
 	// PRIVATE FIELDS
 	// ------------------------
 	private Log logger = LogFactory.getLog(this.getClass());
+	
+	private User user;
 	
 	@Autowired
 	private ProjectRepository projectRepo;

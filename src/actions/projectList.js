@@ -44,7 +44,7 @@ export const editProject = (selectedProjectIndexes, props) => (dispatch, getStat
       type: EDIT_PROJECT,
       project,
     });
-    props.router.push(`/projects/${project.slug}`);
+    props.router.push(`/ip-p2p/projects/${project.slug}`);
   } else {
     console.log(`No or more then one project found. Selected projects (index): ${selectedProjectIndexes[0]})`);
   }
@@ -70,7 +70,7 @@ export const saveProject = props => (dispatch, getStore) => {
       projects,
     });
   }
-  props.router.push('/');
+  props.router.push('/ip-p2p');
 };
 
 export const removeProject = projectId => (dispatch, getState) => {
@@ -89,7 +89,7 @@ export const addProject = props => (dispatch) => {
   dispatch({
     type: ADD_PROJECT,
   });
-  props.router.push('/projects/add');
+  props.router.push('/ip-p2p/projects/add');
 };
 
 export const cancel = props => (dispatch) => {
@@ -99,5 +99,5 @@ export const cancel = props => (dispatch) => {
     dispatch(receiveData(data));
   });
 
-  props.router.push('/');
+  props.router.push('/ip-p2p');
 };

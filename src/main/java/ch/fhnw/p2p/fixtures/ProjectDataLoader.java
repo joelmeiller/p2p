@@ -5,20 +5,14 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import ch.fhnw.p2p.entities.Category;
-import ch.fhnw.p2p.entities.Criteria;
-import ch.fhnw.p2p.entities.Locale;
 import ch.fhnw.p2p.entities.Member;
 import ch.fhnw.p2p.entities.Project;
-import ch.fhnw.p2p.entities.ProjectCategory;
-import ch.fhnw.p2p.entities.ProjectCriteria;
 import ch.fhnw.p2p.entities.Role;
-import ch.fhnw.p2p.entities.Student;
-import ch.fhnw.p2p.repositories.CategoryRepository;
+import ch.fhnw.p2p.entities.User;
 import ch.fhnw.p2p.repositories.MemberRepository;
 import ch.fhnw.p2p.repositories.ProjectRepository;
 import ch.fhnw.p2p.repositories.RoleRepository;
-import ch.fhnw.p2p.repositories.StudentRepository;
+import ch.fhnw.p2p.repositories.UserRepository;
 
 @Component
 @Order(4)
@@ -31,7 +25,7 @@ public class ProjectDataLoader implements CommandLineRunner {
 	MemberRepository memberRepo;
 	
 	@Autowired
-	StudentRepository studentRepo;	
+	UserRepository studentRepo;	
 	
 	@Autowired
 	RoleRepository roleRepo;	
@@ -42,13 +36,13 @@ public class ProjectDataLoader implements CommandLineRunner {
 		
 		
 		// Add students
-		studentRepo.save(new Student("Michelle", "Andrey", "michelle.andrey@students.fhnw.ch", Student.Type.BB));
-		studentRepo.save(new Student("Joel", "Meiller", "joel.meiller@students.fhnw.ch", Student.Type.BB));
+		studentRepo.save(new User("Michelle", "Andrey", "michelle.andrey@students.fhnw.ch", User.Type.STUDENT, User.StudentType.BB));
+		studentRepo.save(new User("Joel", "Meiller", "joel.meiller@students.fhnw.ch", User.Type.STUDENT, User.StudentType.BB));
 		
 		Project project = new Project("My Project");
 		
 		
-		Student student = studentRepo.findByEmail("joel.meiller@students.fhnw.ch").get();
+		User student = studentRepo.findByEmail("joel.meiller@students.fhnw.ch").get();
 		Role qm = roleRepo.findByShortcut("QM");
 		Member member = new Member(project, student, qm);
 		project.getMembers().add(member);

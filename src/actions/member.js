@@ -51,7 +51,7 @@ const saveMember = (props, index, close) => (dispatch) => {
     props.router.push(props.onClosePath);
   } else {
     dispatch(showSelectedMember(index, props));
-    props.router.push(`/team/rating/${props.members[index].slug}`);
+    props.router.push(`/ip-p2p/team/rating/${props.members[index].slug}`);
   }
 };
 
@@ -65,7 +65,7 @@ export const showMember = (member, props) => (dispatch) => {
   if (index > -1) {
     dispatch(setTitle(`${props.title} ${props.members[index].name}`));
     dispatch(showSelectedMember(index, props));
-    props.router.push(`/team/rating/${props.members[index].slug}`);
+    props.router.push(`/ip-p2p/team/rating/${props.members[index].slug}`);
   } else {
     console.log('Member not found');
   }

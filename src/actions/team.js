@@ -148,7 +148,7 @@ export const saveTeam = props => (dispatch, getState) => {
     });
   }
 
-  props.router.push('/');
+  props.router.push('/ip-p2p');
 };
 
 export const cancel = props => (dispatch) => {
@@ -160,7 +160,7 @@ export const cancel = props => (dispatch) => {
     apiGetRatings(data => dispatch(receiveData(RECEIVE_RATINGS, data)));
   }
 
-  props.router.push('/');
+  props.router.push('/ip-p2p');
 };
 
 

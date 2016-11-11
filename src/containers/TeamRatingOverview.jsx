@@ -51,7 +51,7 @@ const mapStateToProps = (globalState, props) => {
 
   return {
     title: 'Rating for',
-    onClosePath: '/',
+    onClosePath: '/ip-p2p',
     readonly,
     members: updatedMembers,
     ...props,

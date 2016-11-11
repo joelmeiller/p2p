@@ -17,14 +17,14 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import ch.fhnw.p2p.entities.Member;
 import ch.fhnw.p2p.entities.Project;
-import ch.fhnw.p2p.entities.Student;
+import ch.fhnw.p2p.entities.User;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
 public class ProjectRepositoryTest {
 	
 	private Project project; 
-	private Student student, student2;
+	private User student, student2;
 	private Member member;
    
     
@@ -32,7 +32,7 @@ public class ProjectRepositoryTest {
     private ProjectRepository projectRepo;
     
     @Autowired
-    private StudentRepository studentRepo;
+    private UserRepository studentRepo;
     
     private ProjectRepositoryImpl projectRepoImpl;
     
@@ -42,17 +42,17 @@ public class ProjectRepositoryTest {
     	projectRepoImpl = new ProjectRepositoryImpl();
     	
     	project = new Project("Not found");
-    	student = studentRepo.save(new Student("Not", "Fount", "not.found@fhnw.ch"));
+    	student = studentRepo.save(new User("Not", "Fount", "not.found@fhnw.ch"));
     	member = new Member(project, student);
     	project.getMembers().add(member);
     	project = projectRepo.save(project);
     	
     	project = new Project("Test");
-    	student = studentRepo.save(new Student("Max", "Muster", "max.muster@fhnw.ch"));
+    	student = studentRepo.save(new User("Max", "Muster", "max.muster@fhnw.ch"));
     	member = new Member(project, student);
     	project.getMembers().add(member);
     	project = projectRepo.saveAndFlush(project);    	
-    	studentRepo.saveAndFlush(new Student("Add", "Me", "add.me@test.ch"));
+    	studentRepo.save(new User("Add", "Me", "add.me@test.ch"));
     	
     	assertEquals(2, projectRepo.findAll().size());
     	assertEquals(1, project.getMembers().size());
@@ -73,7 +73,7 @@ public class ProjectRepositoryTest {
     public void testAddMember() {
     	student2 = studentRepo.findByEmail("add.me@test.ch").get();
     	assertNotNull(student2.getId());
-    	Student addStudent = new Student();
+    	User addStudent = new User();
     	addStudent.setId(student2.getId());
     	
     	Set<Member> updatedMembers = project.getMembers();

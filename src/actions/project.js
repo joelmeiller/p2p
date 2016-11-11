@@ -8,7 +8,7 @@ export const cancel = props => (dispatch) => {
   dispatch({
     type: CANCEL,
   });
-  props.router.push('/');
+  props.router.push('/ip-p2p');
 };
 
 export const setProjectTitle = newValue => (dispatch) => {

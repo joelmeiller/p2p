@@ -23,7 +23,7 @@ import ch.fhnw.p2p.repositories.MemberRepository;
 public class MemberTest {
 	
 	private Project project; 
-	private Student student;
+	private User student;
 	private Role role;
     private List<MemberRating> ratings;
 
@@ -35,7 +35,7 @@ public class MemberTest {
     @Before
     public void prepareEntities() {
     	project = new Project("Test");
-    	student = new Student("Max", "Muster", "max.muster@fhnw.ch");
+    	student = new User("Max", "Muster", "max.muster@fhnw.ch");
     	role = new Role("Teammember", "TM", Locale.Language.DE);
  
     	ratings = new ArrayList<MemberRating>();
