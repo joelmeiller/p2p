@@ -43,10 +43,11 @@ public class MemberRatingController {
 	private Log logger = LogFactory.getLog(this.getClass());
 	
 	@Autowired
+	private AccessControl accessControl;
+	
+	@Autowired
 	private MemberRatingRepository memberRatingRepo;
 		
-	@Autowired
-	private AccessControl accessControl;
 	
 	// ------------------------
 	// PUBLIC METHODS
@@ -60,7 +61,7 @@ public class MemberRatingController {
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "/ratings", method = RequestMethod.GET)
 	public ResponseEntity<Member> getMemberRating(HttpServletRequest request) {
-		logger.info("Request for member/ratings");
+		logger.info("GET Request for member/ratings");
 		User user = accessControl.login(request, AccessControl.Allowed.MEMBER);
 
 		logger.info("Succesfully read ratings for " + user.toString());
@@ -70,7 +71,7 @@ public class MemberRatingController {
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "/ratings", method = RequestMethod.POST)
 	public ResponseEntity<HttpStatus> add(HttpServletRequest request, @Valid @RequestBody MemberRatingMapping updatedMemberRating, BindingResult result) {
-		logger.info("Request to set member/ratings");
+		logger.info("POST request to set member/ratings");
 		User user = accessControl.login(request, AccessControl.Allowed.MEMBER);	
 		
 		if (result.hasErrors()) {

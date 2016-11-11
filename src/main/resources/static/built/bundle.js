@@ -32854,7 +32854,7 @@
 	  return function (dispatch, getState) {
 	    if (shouldFetchData(getState())) {
 	
-	      if (props.isQM) {
+	      if (getState().app.user.isQM) {
 	        dispatch({ type: REQUEST_TEAM });
 	        (0, _getTeam2.default)(function (data) {
 	          return dispatch(receiveData(RECEIVE_TEAM, data));
@@ -97580,7 +97580,7 @@
 	      return dispatch((0, _app.setTitle)('Teammembers'));
 	    },
 	    fetchTeam: function fetchTeam() {
-	      return dispatch((0, _team.fetchTeam)());
+	      return dispatch((0, _team.fetchTeam)(props));
 	    },
 	    fetchRoles: function fetchRoles() {
 	      return dispatch((0, _roles.fetchRoles)());

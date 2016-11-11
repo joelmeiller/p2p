@@ -1,6 +1,5 @@
 package ch.fhnw.p2p.controller;
 
-import java.util.Enumeration;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,7 +8,6 @@ import javax.validation.Valid;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -40,10 +38,11 @@ public class MemberController {
 	private Log logger = LogFactory.getLog(this.getClass());
 	
 	@Autowired
-	private ProjectRepositoryImpl projectRepoImpl;
+	private AccessControl accessControl;
 	
 	@Autowired
-	private AccessControl accessControl;
+	private ProjectRepositoryImpl projectRepoImpl;
+	
 	
 	// ------------------------
 	// PUBLIC METHODS
@@ -57,7 +56,7 @@ public class MemberController {
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "/members", method = RequestMethod.GET)
 	public ResponseEntity<Set<Member>> getProjectMembers(HttpServletRequest request) {
-		logger.info("Request for project/members");
+		logger.info("GET request for project/members");
 		User user = accessControl.login(request, AccessControl.Allowed.QM);	
 				
 		logger.info("Successfully read " + user.getMember().getProject().getTitle());
@@ -67,7 +66,8 @@ public class MemberController {
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "/members", method = RequestMethod.POST)
 	public ResponseEntity<Set<Member>> add(HttpServletRequest request, @Valid @RequestBody Set<Member> updatedMembers, BindingResult result) {
-		 User user = accessControl.login(request, AccessControl.Allowed.QM);			
+		logger.info("POST request for project/members");
+		User user = accessControl.login(request, AccessControl.Allowed.QM);			
 		
 		if (result.hasErrors()) {
 			logger.error(result);

@@ -1,18 +1,21 @@
 package ch.fhnw.p2p.authorization;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Component;
 
 import ch.fhnw.p2p.controller.utils.NotAllowedException;
+import ch.fhnw.p2p.entities.Login;
 import ch.fhnw.p2p.entities.Member;
 import ch.fhnw.p2p.entities.User;
+import ch.fhnw.p2p.repositories.LoginRepository;
 import ch.fhnw.p2p.repositories.MemberRepository;
 import ch.fhnw.p2p.repositories.UserRepository;
 
@@ -20,10 +23,11 @@ import ch.fhnw.p2p.repositories.UserRepository;
 public class AccessControl {
 	
 	public static enum Allowed {
-		QM,
-		COACH,
 		ALL,
+		COACH,
 		MEMBER,
+		QM,
+		QM_OR_COACH,
 	};
 	
 	private Log logger = LogFactory.getLog(this.getClass());
@@ -36,6 +40,9 @@ public class AccessControl {
 	@Autowired
 	UserRepository userRepo;
 	
+	@Autowired
+	LoginRepository loginRepo;
+	
 	AccessControl() {}
 
 	/**
@@ -46,7 +53,16 @@ public class AccessControl {
 	private User checkUser(HttpServletRequest request) throws NotAllowedException {
 		String requestMail = request.getHeader("mail");
 		logger.info("Request access for " + requestMail);
-		String mail = requestMail != null && !requestMail.equals("") ? requestMail : "max.muster@students.fhnw.ch";
+		String mail = "max.muster@students.fhnw.ch";
+				
+		if (requestMail != null && !requestMail.equals("")) {
+			mail = requestMail;
+		} else {
+			List<Login> list = loginRepo.findAll();
+			Login login = list.size() == 1 ? list.get(0) : null;
+			logger.info("Login email " + (login == null ? "undefined" : login.getEmail()));
+			if (login != null) mail = login.getEmail();
+		}
 		Optional<User> userCheck = userRepo.findByEmail(mail);
 		
 				
@@ -81,6 +97,8 @@ public class AccessControl {
 			return user.isQM();
 		case COACH:
 			return user.isCoach();
+		case QM_OR_COACH:
+			return user.isCoach() || user.isQM();
 		case MEMBER:
 			return !user.isCoach();
 		default:

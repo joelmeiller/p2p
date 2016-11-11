@@ -33,7 +33,7 @@ const shouldFetchData = (state) => {
 export const fetchTeam = (props) => (dispatch, getState) => {
   if (shouldFetchData(getState())) {
 
-    if (props.isQM) {
+    if (getState().app.user.isQM) {
       dispatch({ type: REQUEST_TEAM });
       apiGetTeam(data => dispatch(receiveData(RECEIVE_TEAM, data)));
     } else {

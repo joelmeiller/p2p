@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.logging.Log;
@@ -18,16 +19,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import ch.fhnw.p2p.authorization.AccessControl;
 import ch.fhnw.p2p.entities.Category;
 import ch.fhnw.p2p.entities.Criteria;
 import ch.fhnw.p2p.entities.Locale;
-import ch.fhnw.p2p.entities.Member;
 import ch.fhnw.p2p.entities.Project;
 import ch.fhnw.p2p.entities.ProjectCategory;
 import ch.fhnw.p2p.entities.ProjectCriteria;
 import ch.fhnw.p2p.entities.User;
 import ch.fhnw.p2p.repositories.CriteriaRepository;
-import ch.fhnw.p2p.repositories.MemberRepository;
 import ch.fhnw.p2p.repositories.ProjectCategoryRepository;
 import ch.fhnw.p2p.repositories.ProjectCriteriaRepository;
 import ch.fhnw.p2p.repositories.ProjectRepository;
@@ -46,13 +46,11 @@ public class ProjectCategoryController {
 	// ------------------------
 	private Log logger = LogFactory.getLog(this.getClass());
 	
-	private User user;
+	@Autowired
+	private AccessControl accessControl;
 	
 	@Autowired
 	private ProjectRepository projectRepo;
-	
-	@Autowired
-	private MemberRepository memberRepo;
 	
 	@Autowired
 	private ProjectCriteriaRepository projectCriteriaRepo;
@@ -74,36 +72,28 @@ public class ProjectCategoryController {
 	 */
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "/categories", method = RequestMethod.GET)
-	public ResponseEntity<Set<ProjectCategory>> getProjectCriterias() {
-		// TODO: This is the access control section which should be in a separate class
-		Member member = memberRepo.findByStudentEmail("max.muster@students.fhnw.ch");
-		if (member == null || member.getProject() == null) return new ResponseEntity<Set<ProjectCategory>>(HttpStatus.FORBIDDEN);
+	public ResponseEntity<Set<ProjectCategory>> getProjectCriterias(HttpServletRequest request) {
+		logger.info("GET Request for project/categories");
+		User user = accessControl.login(request, AccessControl.Allowed.QM);
 		
-		logger.info("Request from " + member.getStudent().getEmail() + " for project " + member.getProject().getTitle());
-		
-		if (member.getProject() == null) {
-			logger.info("No project found");
-			return new ResponseEntity<Set<ProjectCategory>>(HttpStatus.NO_CONTENT);
-		} else {
-			logger.info("Successfully read " + member.getProject().getTitle());
-			return new ResponseEntity<Set<ProjectCategory>>(member.getProject().getProjectCategories(), HttpStatus.OK);
-		}
+		logger.info("Successfully read " + user.toString());
+		return new ResponseEntity<Set<ProjectCategory>>(user.getMember().getProject().getProjectCategories(), HttpStatus.OK);
 	}
 	
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "/categories", method = RequestMethod.POST)
-	public ResponseEntity<Set<ProjectCategory>> add(@Valid @RequestBody List<ProjectCategory> updatedCategories, BindingResult result) {
+	public ResponseEntity<Set<ProjectCategory>> add(HttpServletRequest request, @Valid @RequestBody List<ProjectCategory> updatedCategories, BindingResult result) {
+		logger.info("POST Request for project/categories");
+		User user = accessControl.login(request, AccessControl.Allowed.QM);
+		
 		if (result.hasErrors()) {
 			logger.error(result);
 			return new ResponseEntity<Set<ProjectCategory>>(HttpStatus.PRECONDITION_FAILED);
 		}
 
-		Member member = memberRepo.findByStudentEmail("max.muster@students.fhnw.ch");
-		if (member == null || member.getProject() == null) return new ResponseEntity<Set<ProjectCategory>>(HttpStatus.FORBIDDEN);
-		
 		try {
-			logger.info("Save Categories for student: " + member.getStudent().getEmail() + " for project " + member.getProject().getTitle());
-			Project project = member.getProject();
+			logger.info("Save Categories for student: " + user.toString());
+			Project project = user.getMember().getProject();
 						
 			Set<ProjectCategory> projectCategories = new HashSet<ProjectCategory>();
 			// Set categories and criterias
@@ -145,7 +135,6 @@ public class ProjectCategoryController {
 				projectCategories.add(projectCategory);
 			}
 			project.setProjectCategories(projectCategories);
-			logger.info("Save project " + project.getTitle());
 			projectRepo.saveAndFlush(project);	
 			
 			logger.info("Successfully added categories to project " + project.getTitle() + " [" + project.getId() + "]");
