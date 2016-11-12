@@ -6,7 +6,7 @@ import { routerReducer as routing } from 'react-router-redux';
 import { default as app } from '../reducers/app.js';
 import { default as criteria } from '../reducers/criteria.js';
 import { default as inbox } from '../reducers/inbox.js';
-import { default as member } from '../reducers/member.js';
+import { default as rating } from '../reducers/ratings.js';
 import { default as myrating } from '../reducers/myrating.js';
 import { default as role } from '../reducers/roles.js';
 import { default as team } from '../reducers/team.js';
@@ -22,7 +22,7 @@ const configureStore = () => {
       app,
       criteria,
       inbox,
-      member,
+      rating,
       myrating,
       routing,
       role,

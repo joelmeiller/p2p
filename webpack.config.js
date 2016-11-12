@@ -1,14 +1,20 @@
 /* eslint-disable */
-var path = require('path');
+const path = require('path');
+const webpack = require('webpack');
+const PurifyCSSPlugin = require("purifycss-webpack-plugin");
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
-    entry: './src/index.js',
-    devtool: 'sourcemaps',
+    entry: [
+      './src/ui/styles/import.css',
+      './src/index.js',
+    ],
     cache: true,
     debug: true,
+    devtool: 'cheap-module-source-map',
     output: {
-        path: __dirname,
-        filename: './src/main/resources/static/built/bundle.js'
+        path: path.join(__dirname, 'src/main/resources/static/built'),
+        filename: 'bundle.js'
     },
     module: {
         loaders: [
@@ -24,9 +30,31 @@ module.exports = {
             },
             {
                 test:   /\.css$/,
-                exclude: /node_modules/,
-                loader: "style-loader!css-loader!postcss-loader"
+                loader: ExtractTextPlugin.extract(
+                  'style-loader',
+                  'css-loader?sourceMap&-minimize&-autoprefixer!postcss-loader'
+                ),
+                include: path.resolve(__dirname, 'src/ui/styles'),
             }
         ]
-    }
+    },
+    plugins: [
+        new webpack.DefinePlugin({
+          'process.env': {
+            'NODE_ENV': JSON.stringify('production')
+          }
+        }),
+        new ExtractTextPlugin("bundle.css"),
+        new PurifyCSSPlugin({
+          basePath: __dirname,
+          paths: [
+            'src/**/*.jsx'
+          ]
+        }),
+        new webpack.optimize.UglifyJsPlugin({
+          compress: {
+            warnings: false
+          }
+        }),
+    ]
 };

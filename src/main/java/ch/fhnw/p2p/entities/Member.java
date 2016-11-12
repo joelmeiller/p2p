@@ -43,7 +43,8 @@ public class Member extends VersionedObject{
 	public static enum Status {
 		NEW, // Set when member is added to project by QM
 		OPEN, // Set when student confirmes project participation
-		READONLY, // Set when student sends the final evaluation
+		FINAL, // Set when student sends the final evaluation
+		ACCEPTED // Final State that proves the student accepts the rating and the mark deviation
 	}
 
 	// Attributes

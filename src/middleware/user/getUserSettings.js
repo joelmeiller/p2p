@@ -11,7 +11,7 @@ export default callback =>
   .then(response => response.json())
   .then(data => callback({
     user: {
-      id: data.user.id,
+      id: data.user.id.toString(),
       firstName: data.user.firstName,
       lastName: data.user.lastName,
       fullName: `${data.user.firstName} ${data.user.lastName}`,

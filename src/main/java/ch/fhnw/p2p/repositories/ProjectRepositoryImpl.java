@@ -51,7 +51,9 @@ public class ProjectRepositoryImpl {
 						Role role = roleRepo.findOne(projectMember.getRoles().stream().findFirst().get().getRole().getId());
 						members.add(addRatings(new Member(project, student, role)));
 					} else {
-						members.add(addRatings(new Member(project, student)));					
+						members.add(addRatings(new Member(project, student)));
+						student.setStatus(User.Status.ALLOCATED);
+						studentRepo.save(student);
 					}
 				}	
 	
@@ -60,6 +62,9 @@ public class ProjectRepositoryImpl {
 					logger.info("Remove student " + studentRepo.findOne(projectMember.getStudent().getId()) + "(id=" + projectMember.getId() + ") from project '" + project.getTitle() + "' (id=" + project.getId() + ")");
 					Member removeMember = memberRepo.findOne(projectMember.getId());
 					removeMember.setRemoved(true);
+					User student = studentRepo.findOne(projectMember.getStudent().getId());
+					student.setStatus(User.Status.FREE);
+					studentRepo.save(student);
 				}
 				
 				// Update roles of member

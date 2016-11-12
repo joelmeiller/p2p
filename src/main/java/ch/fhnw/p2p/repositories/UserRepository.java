@@ -26,6 +26,6 @@ public interface UserRepository extends Repository<User, Long> {
 	 */
 	Optional<User> findByEmail(String email);
 	
-	@Query("SELECT stud FROM User stud WHERE LOWER(stud.firstName) LIKE ?1% OR LOWER(stud.lastName) LIKE ?1% OR LOWER(stud.email) LIKE ?1% ORDER BY stud.email ASC")
+	@Query("SELECT stud FROM User stud WHERE stud.status = 'FREE' AND (LOWER(stud.firstName) LIKE ?1% OR LOWER(stud.lastName) LIKE ?1% OR LOWER(stud.email) LIKE ?1%) ORDER BY stud.email ASC")
 	List<User> findSuggestions(String suggestion);
 }

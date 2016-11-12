@@ -1,9 +1,10 @@
 import {
-  SELECT_MEMBER,
+  INITIALIZE,
+  SELECT_RATING,
   UPDATE_COMMENT,
   UPDATE_RATING,
   ERROR_RESET_UPDATE,
-} from '../actions/member.js';
+} from '../actions/ratings.js';
 
 
 const initialValues = {
@@ -13,16 +14,22 @@ const initialValues = {
 const initialState = {
   selectedIndex: 0,
   values: initialValues,
+  ratings: [],
 };
 
 const reducer = (state = initialState, action) => {
   const newState = { ...state };
-  newState.resetMember = undefined;
+  newState.resetRating = undefined;
 
   const values = { ...state.values };
 
   switch (action.type) {
-    case SELECT_MEMBER:
+    case INITIALIZE:
+      return {
+        ...newState,
+        ratings: action.ratings,
+      }
+    case SELECT_RATING:
       values.ratings = [];
       return {
         ...newState,
@@ -38,7 +45,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...newState,
         values,
-        memberUpdated: true,
+        ratingUpdated: true,
       };
     case UPDATE_RATING:
       if (values.ratings.find(r => r.id === action.id)) {
@@ -52,12 +59,12 @@ const reducer = (state = initialState, action) => {
       return {
         ...newState,
         values,
-        memberUpdated: true,
+        ratingUpdated: true,
       };
     case ERROR_RESET_UPDATE:
       return {
         ...newState,
-        resetMember: action.member,
+        resetRating: action.rating,
       };
     default:
       return newState;

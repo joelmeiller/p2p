@@ -11,12 +11,12 @@ import EvaluationPage from '../ui/pages/EvaluationPage.jsx';
 
 // Action imports
 import {
-  selectMember,
+  selectRating,
   updateComment,
   updateRating,
-  saveMemberAndClose,
+  saveRatingAndClose,
   cancelRating,
-} from '../actions/member.js';
+} from '../actions/ratings.js';
 
 // utils
 import calculateProgress from '../middleware/utils/calculateProgress.js';
@@ -26,12 +26,12 @@ import getCriteriaValues from '../actions/utils/getCriteriaValues.js';
 const EvaluationContainer = props => (
   <div>
     <TabHeader
-      members={props.members}
+      members={props.ratings}
       selectedIndex={props.selectedIndex}
-      onChange={index => props.handleSelectMember(index, props)}
+      onChange={index => props.handleSelectRating(index, props)}
     />
     <EvaluationPage
-      {...props.selectedMember}
+      {...props.selectedRating}
       readonly={props.readonly}
       onCommentChanged={props.handleCommentChanged}
       onRatingChanged={props.handleRatingChanged}
@@ -43,42 +43,41 @@ const EvaluationContainer = props => (
 );
 
 EvaluationContainer.propTypes = {
-  handleSelectMember: React.PropTypes.func,
+  handleSelectRating: React.PropTypes.func,
   handleCommentChanged: React.PropTypes.func,
   handleRatingChanged: React.PropTypes.func,
   handleClose: React.PropTypes.func,
   handleCancel: React.PropTypes.func,
   // categories: React.PropTypes.array.isRequired,
-  members: React.PropTypes.array.isRequired,
+  ratings: React.PropTypes.array.isRequired,
   selectedIndex: React.PropTypes.number,
-  selectedMember: React.PropTypes.object,
+  selectedRating: React.PropTypes.object,
   readonly: React.PropTypes.bool,
 };
 
 const mapStateToProps = (globalState, props) => {
-  const { members } = globalState.team;
-  const { values, selectedIndex, ...other } = globalState.member;
-  const selectedMember = members[selectedIndex];
+  const { ratings, values, selectedIndex, ...other } = globalState.rating;
+  const selectedRating = ratings[selectedIndex];
 
-  selectedMember.categories = getCriteriaValues(selectedMember, values);
-  selectedMember.progress = calculateProgress(selectedMember);
+  selectedRating.categories = getCriteriaValues(selectedRating, values);
+  selectedRating.progress = calculateProgress(selectedRating);
 
   return {
     ...other,
     ...props,
-    members,
+    ratings,
     selectedIndex,
-    selectedMember,
+    selectedRating,
     values,
   };
 };
 
-const mapDispatchToProps = dispatch => ({
-  handleSelectMember: (index, props) => dispatch(selectMember(index, props)),
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  handleSelectRating: (index, props) => dispatch(selectRating(index, props)),
   handleCommentChanged: value => dispatch(updateComment(value)),
   handleRatingChanged: (nextValue, prevValue, id) => dispatch(updateRating(nextValue, id)),
-  handleClose: props => dispatch(saveMemberAndClose(props)),
-  handleCancel: props => dispatch(cancelRating),
+  handleClose: () => dispatch(saveRatingAndClose(ownProps)),
+  handleCancel: () => dispatch(cancelRating(ownProps)),
 });
 
 const TeammemberEvaluation = connect(

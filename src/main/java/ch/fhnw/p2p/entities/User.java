@@ -30,7 +30,12 @@ public class User extends VersionedObject {
 		BB,
 		FULLTIME,
 		PARTTIME,
-	};	
+	};
+	
+	public static enum Status {
+		FREE, // can be added to a new project
+		ALLOCATED, // is already allocated to a project
+	}
 
 	
 	@NotEmpty private String firstName;
@@ -38,6 +43,7 @@ public class User extends VersionedObject {
 	@NotEmpty @Email @Column(unique=true) private String email;	
 	@Enumerated(EnumType.STRING) private Type type;
 	@Enumerated(EnumType.STRING) private StudentType studentType;
+	@Enumerated(EnumType.STRING) private Status status;
 	
 	private String slug;
 	
@@ -48,6 +54,7 @@ public class User extends VersionedObject {
 	public User() {
 		this.type = Type.STUDENT;
 		this.studentType = StudentType.FULLTIME;
+		this.status = Status.FREE;
 	}
 
 	public User(long id) {

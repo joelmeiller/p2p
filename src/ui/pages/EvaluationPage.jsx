@@ -54,15 +54,18 @@ const EvaluationPage = props => (
         />
       </div>
     </div>
+
     <div className="row push-top-medium">
       <div className="col-xs-6 align-right">
         <RaisedButton
-          label="Cancel"
+          label={props.readonly ? 'Back' : 'Cancel'}
           onClick={props.handleCancel}
         />
       </div>
-      <div className="col-xs-6 push-left-small">
-        <p className="italic small note">Die Bewertungen werden automatisch gespeichert.</p>
+      <div className="col-xs-6">
+        <p className="italic small note push-left-small push-top-small">
+          {props.readonly ? 'Die Bewertungen werden automatisch gespeichert.' : ''}
+        </p>
       </div>
     </div>
   </div>

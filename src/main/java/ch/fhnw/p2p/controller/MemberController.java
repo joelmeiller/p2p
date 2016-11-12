@@ -1,5 +1,6 @@
 package ch.fhnw.p2p.controller;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -57,10 +58,16 @@ public class MemberController {
 	@RequestMapping(value = "/members", method = RequestMethod.GET)
 	public ResponseEntity<Set<Member>> getProjectMembers(HttpServletRequest request) {
 		logger.info("GET request for project/members");
-		User user = accessControl.login(request, AccessControl.Allowed.QM);	
+		User user = accessControl.login(request, AccessControl.Allowed.ALL);	
 				
-		logger.info("Successfully read project/members for project " + user.getMember().getProject().toString());
-		return new ResponseEntity<Set<Member>>(user.getMember().getProject().getMembers(), HttpStatus.OK);
+		logger.info("Successfully read project/members for " + user.toString() + " of project " + user.getMember().getProject().toString());
+		if (user.isQM() || user.isCoach()) {
+			return new ResponseEntity<Set<Member>>(user.getMember().getProject().getMembers(), HttpStatus.OK);
+		} else {
+			Set<Member> singleMember = new HashSet<Member>();
+			singleMember.add(user.getMember());
+			return new ResponseEntity<Set<Member>>(singleMember, HttpStatus.OK);
+		}
 	}
 	
 	@CrossOrigin(origins = "http://localhost:3000")
