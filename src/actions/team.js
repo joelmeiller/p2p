@@ -30,10 +30,10 @@ const shouldFetchData = (state) => {
   return !state.team.isFetching && !state.team.fetched;
 };
 
-export const fetchTeam = (props) => (dispatch, getState) => {
+export const fetchTeam = (isQM) => (dispatch, getState) => {
   if (shouldFetchData(getState())) {
 
-    if (getState().app.user.isQM) {
+    if (isQM) {
       dispatch({ type: REQUEST_TEAM });
       apiGetTeam(data => dispatch(receiveData(RECEIVE_TEAM, data)));
     } else {

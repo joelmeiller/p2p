@@ -5,7 +5,6 @@ import Accessibility from 'material-ui/svg-icons/action/accessibility';
 import AccountBox from 'material-ui/svg-icons/action/account-box';
 import Assessment from 'material-ui/svg-icons/action/assessment';
 import Dashboard from 'material-ui/svg-icons/action/dashboard';
-import ExitToApp from 'material-ui/svg-icons/action/exit-to-app';
 import Grade from 'material-ui/svg-icons/action/grade';
 import List from 'material-ui/svg-icons/action/list';
 import Settings from 'material-ui/svg-icons/action/settings';
@@ -30,11 +29,6 @@ const userMenuTM = props => ([
     name: 'My Account',
     icon: <AccountBox className="menu-icon" />,
     path: '/ip-p2p/settings',
-  }, {
-    divider: true,
-  }, {
-    name: 'Logout',
-    icon: <ExitToApp className="menu-icon" />,
   }]);
 
 const userMenuQM = props => ([
@@ -74,11 +68,6 @@ const userMenuQM = props => ([
     name: 'My Account',
     icon: <AccountBox className="menu-icon" />,
     path: '/ip-p2p/settings',
-  }, {
-    divider: true,
-  }, {
-    name: 'Logout',
-    icon: <ExitToApp className="menu-icon" />,
   }]);
 
 const userMenuJury = [
@@ -106,11 +95,6 @@ const userMenuJury = [
     name: 'My Account',
     icon: <AccountBox className="menu-icon" />,
     path: '/ip-p2p/settings',
-  }, {
-    divider: true,
-  }, {
-    name: 'Logout',
-    icon: <ExitToApp className="menu-icon" />,
   }];
 
 

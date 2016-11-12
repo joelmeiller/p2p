@@ -17,9 +17,19 @@ import { getActiveRoleShortcut } from '../middleware/utils/activeRole.js';
 
 
 class TeamRatingOverviewComponent extends Component {
-  componentDidReceiveProps(nextProps) {
-    if (this.props.user || this.props.user.id !== nextProps.user.id) {
-      this.props.fetchTeam(this.props.isQM);
+  componentDidMount() {
+    this.props.fetchTeam(false);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.user && this.props.user.isQM !== nextProps.user.isQM
+      && nextProps.location.pathname === '/ip-p2p' ) {
+      this.props.fetchTeam(true);
+    }
+    console.log(this.props.location, nextProps.location);
+    if (this.props.location.pathname !== nextProps.location.pathname
+      && nextProps.location.pathname !== '/ip-p2p' ) {
+      this.props.fetchTeam(false);
     }
   }
 
@@ -51,8 +61,6 @@ const mapStateToProps = (globalState, props) => {
     activeRole: getActiveRoleShortcut(member.roles),
   }));
 
-  console.log("TeamRatingPage update", updatedMembers);
-
   return {
     title: 'Rating for',
     onClosePath: '/ip-p2p',
@@ -63,7 +71,7 @@ const mapStateToProps = (globalState, props) => {
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  fetchTeam: () => dispatch(fetchTeam(ownProps)),
+  fetchTeam: (isQM) => dispatch(fetchTeam(isQM)),
   handleSelectMember: (member, props) => dispatch(showMember(member, props)),
 });
 
