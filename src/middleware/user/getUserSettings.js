@@ -19,6 +19,7 @@ export default callback =>
       isQM: data.user.qm,
       isCoach: data.user.coach,
       isFinal: !['NEW', 'OPEN'].includes(data.project.status),
+      isApproved: data.user.status === 'ACCEPTED',
     },
     project: {
       ...data.project,

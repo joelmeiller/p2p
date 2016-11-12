@@ -14,8 +14,9 @@ export default (members) => {
           let critCount = 0;
 
           members.forEach(m => {
-            const mCrit = m
-            .ratings(rat => rat.studentId === member.studentId).categories
+            console.log(m.ratings);
+            const mCrit = m.ratings
+            .find(rat => rat.studentId === member.studentId).categories
             .find(cat => cat.id === category.id).criteriaRatings
             .find(crit => crit.criteriaId === criteria.criteriaId);
 

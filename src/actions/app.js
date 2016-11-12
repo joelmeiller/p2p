@@ -1,3 +1,8 @@
+// Actions
+import { addAction, UPDATE_STATUS } from '../actions/inbox.js';
+
+// Middleware
+import { OPEN } from '../middleware/students/setMemberStatus.js';
 import getUserSettings from '../middleware/user/getUserSettings.js';
 
 
@@ -14,11 +19,27 @@ const requestData = () => ({
   type: REQUEST_USER,
 });
 
-const receiveData = data => ({
-  type: RECEIVE_USER,
-  project: data.project,
-  user: data.user,
-});
+const receiveData = data => (dispatch) => {
+  dispatch({
+    type: RECEIVE_USER,
+    project: data.project,
+    user: data.user,
+  });
+
+  if (!data.user.isCoach && !data.user.isAccepted) {
+    dispatch(addAction({
+      id: '100',
+      message: `Willkommen ${data.user.username} im Project ${data.project.title}. Bitte bestätige, dass deine Zuteilung korrekt ist oder melde dich beim Quality Manager dieses Projektes.`,
+      type: 'confirm',
+      date: new Date(),
+      buttonText: 'Ich bestätige',
+      params: {
+        type: UPDATE_STATUS,
+        status: OPEN,
+      },
+    }));
+  }
+};
 
 const shouldFetchData = (state) => {
   if (!state.app || state.relaod) {

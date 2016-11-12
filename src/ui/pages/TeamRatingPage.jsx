@@ -11,10 +11,10 @@ import sortMembers from '../utils/sortMembers.js';
 
 const TeamRatingPage = props => (
   <div className="push-top-small">
-    {(props.members && props.members.length > 0 ? props.members.sort(sortMembers).map(member =>
+    {(props.members.length > 0 ? props.members.sort(sortMembers).map(member =>
       <div
         key={member.id}
-        onClick={() => props.handleSelectMember(member, props)}
+        onClick={() => (member.isFinal ? props.handleSelectMember(member) : undefined)}
       >
         <LabeledStarRatingWithGrade
           {...member}

@@ -11,11 +11,9 @@ import { initializeMembers, showRating } from '../actions/ratings.js';
 
 class TeamRatingPageComponent extends React.Component {
   componentWillReceiveProps(nextProps) {
-    console.log(this.props.members, nextProps.members);
     if (this.props.members && nextProps.members
       && this.props.members.length !== nextProps.members.length) {
       this.props.initialize(nextProps.members);
-      console.log("Initalize Member Ratings");
     }
   }
 
