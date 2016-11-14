@@ -31272,6 +31272,7 @@
 	        role: data.role ? data.role.shortcut : '-',
 	        isQM: data.user.qm,
 	        isCoach: data.user.coach,
+	        isJury: data.user.coach,
 	        isFinal: !['NEW', 'OPEN'].includes(data.project.status),
 	        isApproved: data.user.status === 'ACCEPTED'
 	      },
@@ -99312,7 +99313,7 @@
 
 	var _reactRouter = __webpack_require__(931);
 
-	var _EditProjectPage = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../ui/pages/EditProjectPage.jsx\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var _EditProjectPage = __webpack_require__(1156);
 
 	var _EditProjectPage2 = _interopRequireDefault(_EditProjectPage);
 
@@ -99406,6 +99407,271 @@
 	var ProjectContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(EditProjectComponent);
 
 		exports.default = (0, _reactRouter.withRouter)(ProjectContainer);
+
+/***/ },
+/* 1156 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(541);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _TextField = __webpack_require__(617);
+
+	var _TextField2 = _interopRequireDefault(_TextField);
+
+	var _materialUi = __webpack_require__(571);
+
+	var _Header2Line = __webpack_require__(1131);
+
+	var _Header2Line2 = _interopRequireDefault(_Header2Line);
+
+	var _Dropdown = __webpack_require__(1134);
+
+	var _Dropdown2 = _interopRequireDefault(_Dropdown);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var EditProjectPage = function EditProjectPage(props) {
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'container' },
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'row' },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'col-xs-12' },
+	        _react2.default.createElement(_Header2Line2.default, {
+	          title: 'Project: ' + props.title
+	        })
+	      )
+	    ),
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'row' },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'col-xs-4' },
+	        _react2.default.createElement(_TextField2.default, {
+	          hintText: 'Title',
+	          defaultValue: props.title,
+	          fullWidth: true,
+	          inputStyle: { color: '#333333' },
+	          onChange: function onChange(e) {
+	            return props.handleTitleChanged(e.target.value);
+	          }
+	        })
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'row' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-xs-2', style: { marginTop: 14 } },
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'Title'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-xs-6' },
+	          _react2.default.createElement(_TextField2.default, {
+	            hintText: 'Title',
+	            defaultValue: props.title,
+	            fullWidth: true,
+	            inputStyle: { color: '#333333' },
+	            onChange: function onChange(e) {
+	              return props.handleTitleChanged(e.target.value);
+	            }
+	          })
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'row' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-xs-2', style: { marginTop: 14 } },
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'Coach'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-xs-6' },
+	          _react2.default.createElement(_TextField2.default, {
+	            hintText: 'Name Coach',
+	            defaultValue: props.coachName,
+	            fullWidth: true,
+	            inputStyle: { color: '#333333' },
+	            onChange: function onChange(e) {
+	              return props.handleCoachChanged(e.target.value);
+	            }
+	          })
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'row' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-xs-2', style: { marginTop: 14 } },
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'Stufe'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-xs-4', style: { marginTop: -8 } },
+	          _react2.default.createElement(_Dropdown2.default, {
+	            menuItems: props.selectStates,
+	            selectedValue: props.selectedStateId
+	          })
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'row' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-xs-2', style: { marginTop: 14 } },
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'Start'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-xs-4', style: { marginTop: -8 } },
+	          _react2.default.createElement(_Dropdown2.default, {
+	            menuItems: props.selectStates,
+	            selectedValue: props.selectedStateId
+	          })
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'row' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-xs-2', style: { marginTop: 14 } },
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'Art'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-xs-4', style: { marginTop: -8 } },
+	          _react2.default.createElement(_Dropdown2.default, {
+	            menuItems: props.selectStates,
+	            selectedValue: props.selectedStateId
+	          })
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'row' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-xs-2', style: { marginTop: 14 } },
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'Status'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-xs-4', style: { marginTop: -8 } },
+	          _react2.default.createElement(_Dropdown2.default, {
+	            menuItems: props.selectStates,
+	            selectedValue: props.selectedStateId
+	          })
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'col-xs-4' },
+	        _react2.default.createElement(_TextField2.default, {
+	          hintText: 'Name Coach',
+	          defaultValue: props.coachName,
+	          fullWidth: true,
+	          inputStyle: { color: '#333333' },
+	          onChange: function onChange(e) {
+	            return props.handleCoachChanged(e.target.value);
+	          }
+	        })
+	      )
+	    ),
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'row' },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'col-xs-4', style: { marginTop: -8 } },
+	        _react2.default.createElement(_Dropdown2.default, {
+	          menuItems: props.selectStates,
+	          selectedValue: props.selectedStateId
+	        })
+	      )
+	    ),
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'row push-top-medium' },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'col-xs-4 align-right' },
+	        _react2.default.createElement(_materialUi.RaisedButton, {
+	          label: 'Cancel',
+	          onClick: props.handleCancel
+	        })
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'col-xs-4' },
+	        _react2.default.createElement(_materialUi.RaisedButton, {
+	          label: 'Save',
+	          primary: true,
+	          onClick: props.handleSave,
+	          disabled: props.readonly
+	        })
+	      )
+	    )
+	  );
+	};
+
+	EditProjectPage.propTypes = {
+	  title: _react2.default.PropTypes.string,
+	  handleTitleChanged: _react2.default.PropTypes.func,
+	  handleCoachChanged: _react2.default.PropTypes.func,
+	  coachName: _react2.default.PropTypes.string,
+	  selectStates: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.shape({
+	    id: _react2.default.PropTypes.string,
+	    label: _react2.default.PropTypes.string
+	  })),
+	  selectedStateId: _react2.default.PropTypes.string,
+	  handleCancel: _react2.default.PropTypes.func,
+	  handleSave: _react2.default.PropTypes.func,
+	  readonly: _react2.default.PropTypes.bool
+	};
+
+		exports.default = EditProjectPage;
 
 /***/ }
 /******/ ]);
