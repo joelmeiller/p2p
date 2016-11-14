@@ -43,7 +43,8 @@ public class Member extends VersionedObject{
 	public static enum Status {
 		NEW, // Set when member is added to project by QM
 		OPEN, // Set when student confirmes project participation
-		READONLY, // Set when student sends the final evaluation
+		FINAL, // Set when student sends the final evaluation
+		ACCEPTED // Final State that proves the student accepts the rating and the mark deviation
 	}
 
 	// Attributes
@@ -62,7 +63,7 @@ public class Member extends VersionedObject{
 	// Relations
 	@ManyToOne
     @JoinColumn(name = "studentId")
-	private Student student;
+	private User student;
 	
 	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="member")
 	private Set<MemberRole> roles;
@@ -95,18 +96,18 @@ public class Member extends VersionedObject{
 		this.ratings = new HashSet<MemberRatingMapping>();
 	}
 
-	public Member(Project project, Student student) {
+	public Member(Project project, User student) {
 		this();
 		this.project = project;
 		this.student = student;
 	}
 	
-	public Member(Project project, Student student, Role role) {
+	public Member(Project project, User student, Role role) {
 		this(project, student);
 		this.roles.add(new MemberRole(this, role));
 	}
 
-	public Member(Project project, Student student, Role role, List<MemberRating> memberRatings) {
+	public Member(Project project, User student, Role role, List<MemberRating> memberRatings) {
 		this(project, student, role);
 		this.memberRatings = memberRatings;
 	}
@@ -123,24 +124,35 @@ public class Member extends VersionedObject{
 	}
 	
 	/**
-	 * checks whether one of roles of the member is the the quality manager (QM) role with special rights
-	 * @return boolean indicating if the member is referenced as QM
+	 * returns the REST api mapped member ratings
+	 * @param Set of MemberRating Set<MemberRating>
+	 * @return Set of mapped MemberRatingMapping Set<MemberRatingMapping>
 	 */
-	public boolean getIsQM() {
-		for (MemberRole role: this.roles) {
-			if (role.getRole().getType() == Role.Type.QM) return true;
-		}
-		return false;
-	}
-	
 	public Set<MemberRatingMapping> getRatings() {
-		ratings = new HashSet<MemberRatingMapping>();
-		
-		for (MemberRating memberRating: this.memberRatings) {
+		if (ratings.size() == 0 && memberRatings.size() > 0) {
+			for (MemberRating memberRating : memberRatings) {
+				ratings.add(new MemberRatingMapping(memberRating));
+			}
+		}
+		return ratings;
+	}
+
+	public void setRatings(Set<MemberRating> memberRatings) {
+		for (MemberRating memberRating : memberRatings) {
 			ratings.add(new MemberRatingMapping(memberRating));
 		}
-		
-		return ratings;
+	}
+
+	
+	/**
+	 * checks whether one of roles of the member is the the quality manager (QM) role with special rights
+	 * @return boolean indicating if the member is referenced as QM for the current project
+	 */
+	public boolean isQM() {
+		for (MemberRole role: roles) {
+			if (role.getRole() != null && role.getRole().getType() == Role.Type.QM) return true;
+		}
+		return false;
 	}
 	
 	public String toString() {

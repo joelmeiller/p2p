@@ -3,10 +3,11 @@ import mock from 'fetch-mock';
 
 import { apiEntrypoint, getUserAndProjectSettings as origin } from './getUserAndProjectSettings.js';
 
+
 const data = {
   user: {
-    fullName: 'Johann Misteli',
-    firstName: 'Johann',
+    fullName: 'Test Misteli',
+    firstName: 'Test',
     lastName: 'Misteli',
     role: 'QM',
     isQM: false,

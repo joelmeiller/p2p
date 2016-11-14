@@ -14,12 +14,12 @@ import ch.fhnw.p2p.entities.Project;
 import ch.fhnw.p2p.entities.ProjectCategory;
 import ch.fhnw.p2p.entities.ProjectCriteria;
 import ch.fhnw.p2p.entities.Role;
-import ch.fhnw.p2p.entities.Student;
+import ch.fhnw.p2p.entities.User;
 import ch.fhnw.p2p.repositories.CategoryRepository;
 import ch.fhnw.p2p.repositories.MemberRepository;
 import ch.fhnw.p2p.repositories.ProjectRepository;
 import ch.fhnw.p2p.repositories.RoleRepository;
-import ch.fhnw.p2p.repositories.StudentRepository;
+import ch.fhnw.p2p.repositories.UserRepository;
 
 @Component
 @Order(2)
@@ -32,10 +32,7 @@ public class MemberDataLoader implements CommandLineRunner {
 	MemberRepository memberRepo;
 	
 	@Autowired
-	StudentRepository studentRepo;
-	
-	@Autowired
-	CategoryRepository categoryRepo;
+	UserRepository studentRepo;
 	
 	@Autowired
 	RoleRepository roleRepo;
@@ -46,16 +43,16 @@ public class MemberDataLoader implements CommandLineRunner {
 		System.out.println("Autorunner QM Member Setup");
 		
 		// Add student, project and member
-		if (!studentRepo.findByEmail("max.muster@students.fhnw.ch").isPresent()) studentRepo.save(new Student("Max", "Muster", "max.muster@students.fhnw.ch", Student.Type.BB));
-		studentRepo.save(new Student("Test", "Person-1", "test.person1@students.fhnw.ch", Student.Type.FULLTIME));
-		studentRepo.save(new Student("Test", "Person-2", "test.person2@students.fhnw.ch", Student.Type.FULLTIME));
-		studentRepo.save(new Student("Test", "Person-3", "test.person3@students.fhnw.ch", Student.Type.BB));
-		studentRepo.save(new Student("Test", "Person-4", "test.person4@students.fhnw.ch", Student.Type.FULLTIME));
-		studentRepo.save(new Student("Test", "Person-5", "test.person5@students.fhnw.ch", Student.Type.PARTTIME));
-		studentRepo.save(new Student("Test", "Person-6", "test.person6@students.fhnw.ch", Student.Type.BB));
-		studentRepo.save(new Student("Test", "Person-7", "test.person7@students.fhnw.ch", Student.Type.FULLTIME));
-		studentRepo.save(new Student("Test", "Person-8", "test.person8@students.fhnw.ch", Student.Type.PARTTIME));
-		studentRepo.save(new Student("Test", "Person-9", "test.person9@students.fhnw.ch", Student.Type.BB));
+		if (!studentRepo.findByEmail("max.muster@students.fhnw.ch").isPresent()) studentRepo.save(new User("Max", "Muster", "max.muster@students.fhnw.ch", User.Type.STUDENT, User.StudentType.BB));
+		studentRepo.save(new User("Test", "Person-1", "test.person1@students.fhnw.ch", User.Type.STUDENT, User.StudentType.FULLTIME));
+		studentRepo.save(new User("Test", "Person-2", "test.person2@students.fhnw.ch", User.Type.STUDENT, User.StudentType.FULLTIME));
+		studentRepo.save(new User("Test", "Person-3", "test.person3@students.fhnw.ch", User.Type.STUDENT, User.StudentType.BB));
+		studentRepo.save(new User("Test", "Person-4", "test.person4@students.fhnw.ch", User.Type.STUDENT, User.StudentType.FULLTIME));
+		studentRepo.save(new User("Test", "Person-5", "test.person5@students.fhnw.ch", User.Type.STUDENT, User.StudentType.PARTTIME));
+		studentRepo.save(new User("Test", "Person-6", "test.person6@students.fhnw.ch", User.Type.STUDENT, User.StudentType.BB));
+		studentRepo.save(new User("Test", "Person-7", "test.person7@students.fhnw.ch", User.Type.STUDENT, User.StudentType.FULLTIME));
+		studentRepo.save(new User("Test", "Person-8", "test.person8@students.fhnw.ch", User.Type.STUDENT, User.StudentType.PARTTIME));
+		studentRepo.save(new User("Test", "Person-9", "test.person9@students.fhnw.ch", User.Type.STUDENT, User.StudentType.BB));
 		
 		// Add Roles
 		Role qm = roleRepo.save(new Role("Quality Manager", "QM", true, Locale.Language.EN));
@@ -69,5 +66,26 @@ public class MemberDataLoader implements CommandLineRunner {
 		MemberRole role = new MemberRole(member, qm);
 		member.getRoles().add(role);
 		memberRepo.save(member);
+		
+		// Load other test data
+		// Add students
+		studentRepo.save(new User("Michelle", "Andrey", "michelle.andrey@students.fhnw.ch", User.Type.STUDENT, User.StudentType.BB));
+		studentRepo.save(new User("Joel", "Meiller", "joel.meiller@students.fhnw.ch", User.Type.STUDENT, User.StudentType.BB));
+		studentRepo.save(new User("Bettina", "Burri", "bettina.burri@students.fhnw.ch", User.Type.STUDENT, User.StudentType.BB));
+		studentRepo.save(new User("Rebekka", "Stoffel", "rebekka.stoffel@students.fhnw.ch", User.Type.STUDENT, User.StudentType.BB));
+		studentRepo.save(new User("Elena", "Mastrandrea", "elena.mastrandrea@students.fhnw.ch", User.Type.STUDENT, User.StudentType.BB));
+
+		Project project = projectRepo.findByTitle("Test Project 1").get();
+
+		User student = studentRepo.findByEmail("joel.meiller@students.fhnw.ch").get();
+		member = new Member(project, student, qm);
+		project.getMembers().add(member);
+		projectRepo.save(project);
+
+		project = projectRepo.findByTitle("Test Project 2").get();
+		student = studentRepo.findByEmail("michelle.andrey@students.fhnw.ch").get();
+		member = new Member(project, student, qm);
+		project.getMembers().add(member);
+		projectRepo.save(project);
 	}
 }

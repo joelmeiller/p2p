@@ -21,7 +21,7 @@ const ActionItem = props => (
     >{props.message}</CardText>
     <CardActions style={{ float: 'right', paddingTop: '15px' }}>
       <RaisedButton
-        label={props.actionText}
+        label={props.buttonText}
         primary
         onClick={() => props.onPerformAction(props)}
       />
@@ -31,8 +31,8 @@ const ActionItem = props => (
 
 ActionItem.propTypes = {
   type: React.PropTypes.string.isRequired,
-  actionText: React.PropTypes.string,
-  date: React.PropTypes.string,
+  buttonText: React.PropTypes.string,
+  date: React.PropTypes.instanceOf(Date),
   status: React.PropTypes.string,
   message: React.PropTypes.string,
   onPerformAction: React.PropTypes.func,

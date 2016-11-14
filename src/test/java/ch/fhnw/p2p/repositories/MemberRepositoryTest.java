@@ -18,7 +18,7 @@ import ch.fhnw.p2p.entities.Locale;
 import ch.fhnw.p2p.entities.Member;
 import ch.fhnw.p2p.entities.Project;
 import ch.fhnw.p2p.entities.Role;
-import ch.fhnw.p2p.entities.Student;
+import ch.fhnw.p2p.entities.User;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -29,7 +29,7 @@ public class MemberRepositoryTest {
 	private final String email3 = "add.me@test.ch";
 	
 	private Project project1, project2; 
-	private Student student1, student2, student3;
+	private User student1, student2, student3;
 	private Member member1, member2;
 	private Role role;
    
@@ -38,7 +38,7 @@ public class MemberRepositoryTest {
     private ProjectRepository projectRepo;
     
     @Autowired
-    private StudentRepository studentRepo;
+    private UserRepository studentRepo;
     
     @Autowired
     private MemberRepository memberRepo;
@@ -50,18 +50,18 @@ public class MemberRepositoryTest {
     @Before
     public void prepareEntities() {
     	project1 = new Project("Test 1");
-    	student1 = studentRepo.save(new Student("Heidi", "Von Der Heide", email1));
+    	student1 = studentRepo.save(new User("Heidi", "Von Der Heide", email1));
     	member1 = memberRepo.save(new Member(project1, student1));
     	project1.getMembers().add(member1);
     	project1 = projectRepo.save(project1);
     	
     	project2 = new Project("Test");
-    	student2 = studentRepo.save(new Student("Max", "Muster", email2));
+    	student2 = studentRepo.save(new User("Max", "Muster", email2));
     	member2 = memberRepo.save(new Member(project2, student2));
     	project2.getMembers().add(member2);
     	project2 = projectRepo.save(project2);
     	
-    	student3 = studentRepo.save(new Student("Add", "Me", email3));
+    	student3 = studentRepo.save(new User("Add", "Me", email3));
     	
     	role = roleRepo.save(new Role("Requirements Engineer", "RE", Locale.Language.EN));
     	

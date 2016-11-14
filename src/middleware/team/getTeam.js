@@ -3,6 +3,7 @@ import fetch from 'isomorphic-fetch';
 
 import getApiEntrypoint from '../utils/getApiEntrypoint.js';
 import mapMember from '../utils/mapMember.js';
+import mapRating from '../utils/mapRating.js';
 
 const apiEntrypoint = getApiEntrypoint('project/members');
 
@@ -13,10 +14,9 @@ export default callback =>
   .then((data) => {
     const members = data.map(member => ({
       ...mapMember(member),
-      ratings: member.ratings(rating => ({
-        ...rating,
-        member: mapMember(rating.member),
-      })),
+      isFinal: member.status === 'FINAL',
+      isQM: member.qm,
+      ratings: member.ratings.map(rating => mapRating(rating)),
     }));
     callback(members);
   });

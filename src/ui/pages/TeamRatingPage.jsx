@@ -11,10 +11,10 @@ import sortMembers from '../utils/sortMembers.js';
 
 const TeamRatingPage = props => (
   <div className="push-top-small">
-    {(() => (props.members ? props.members.sort(sortMembers).map(member =>
+    {(props.members.length > 0 ? props.members.sort(sortMembers).map(member =>
       <div
         key={member.id}
-        onClick={() => props.handleSelectMember(member, props)}
+        onClick={() => (member.isFinal ? props.handleSelectMember(member) : undefined)}
       >
         <LabeledStarRatingWithGrade
           {...member}
@@ -24,7 +24,7 @@ const TeamRatingPage = props => (
           smallStars
         />
       </div>
-    ) : undefined))()}
+    ) : <p>Noch keine Teammitglieder oder Kriterien definiert.</p>)}
     <div className="row">
       <div className="col-xs-12 push-top-small">
         <FlatButton

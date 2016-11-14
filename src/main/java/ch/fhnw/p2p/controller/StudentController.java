@@ -2,6 +2,8 @@ package ch.fhnw.p2p.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import ch.fhnw.p2p.entities.Member;
-import ch.fhnw.p2p.entities.Student;
-import ch.fhnw.p2p.repositories.MemberRepository;
-import ch.fhnw.p2p.repositories.StudentRepository;
+import ch.fhnw.p2p.authorization.AccessControl;
+import ch.fhnw.p2p.entities.User;
+import ch.fhnw.p2p.repositories.UserRepository;
 
 /**
  * A class to test interactions with the MySQL database using the
@@ -27,17 +28,23 @@ import ch.fhnw.p2p.repositories.StudentRepository;
 @Controller
 @RequestMapping("/api/students")
 public class StudentController {
+	
 	// ------------------------
 	// PRIVATE FIELDS
 	// ------------------------
 	private Log logger = LogFactory.getLog(this.getClass());
 	
 	@Autowired
-	StudentRepository studentRepo;
-
-	@Autowired
-	MemberRepository memberRepo;
+	private AccessControl accessControl;
 	
+	@Autowired
+	UserRepository studentRepo;
+	
+	
+	// ------------------------
+	// PUBLIC METHODS
+	// ------------------------
+
 	/**
 	 * /suggestions --> Get suggestions depending on search pattern
 	 * 
@@ -47,16 +54,11 @@ public class StudentController {
 	 */
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "/suggestions", params = "pattern", method = RequestMethod.GET)
-	public ResponseEntity<List<Student>> getStudentSuggestions(@RequestParam String pattern) {
-		Member member = memberRepo.findByStudentEmail("max.muster@students.fhnw.ch");
-		if (member == null || !member.getIsQM()) return new ResponseEntity<List<Student>>(HttpStatus.FORBIDDEN);
-		
-		if (member.getProject() == null) {
-			logger.info("No project found");
-			return new ResponseEntity<List<Student>>(HttpStatus.NO_CONTENT);
-		} else {
-			logger.info("Get students by pattern: '" + pattern + "'");
-			return new ResponseEntity<List<Student>>(studentRepo.findSuggestions(pattern.toLowerCase()), HttpStatus.OK);
-		}
+	public ResponseEntity<List<User>> getStudentSuggestions(HttpServletRequest request, @RequestParam String pattern) {
+		logger.info("GET Request for students/suggestions");
+		accessControl.login(request, AccessControl.Allowed.QM_OR_COACH);
+
+		logger.info("Get students by pattern: '" + pattern + "'");
+		return new ResponseEntity<List<User>>(studentRepo.findSuggestions(pattern.toLowerCase()), HttpStatus.OK);
 	}
 }

@@ -41,7 +41,7 @@ const AddCriteria = (props) => {
         </div>
         <div className="col-xs-2">
           <RaisedButton
-            disabled={props.readonly}
+            disabled={props.readonly || props.newValue === ''}
             label="Add"
             onClick={props.onAdd}
             primary

@@ -1,6 +1,7 @@
 package ch.fhnw.p2p.entities;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -30,11 +31,14 @@ public class Project extends VersionedObject {
 	
 	public static enum Status {
 		OPEN,
+		FINAL,
+		SEND,
 		CLOSE,
 	}
 
 	private String title;
 	private String slug;
+	private Date deadline;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "project")
 	private Set<ProjectCategory> projectCategories;

@@ -9,7 +9,7 @@ import MemberRatingPage from '../ui/pages/MemberRatingPage.jsx';
 // Action imports
 import { setTitle } from '../actions/app.js';
 import { fetchMyRating } from '../actions/myrating.js';
-import { showMember } from '../actions/member.js';
+import { showRating } from '../actions/ratings.js';
 
 
 class MyRatingOverviewComponent extends Component {
@@ -34,7 +34,7 @@ const mapStateToProps = (globalState, props) => {
 
   return {
     title: 'My Rating from',
-    onClosePath: '/myrating',
+    onClosePath: '/ip-p2p/myrating',
     rating,
     readonly,
     members,
@@ -45,7 +45,7 @@ const mapStateToProps = (globalState, props) => {
 const mapDispatchToProps = dispatch => ({
   initializeTitle: () => dispatch(setTitle('My Ratings')),
   fetchMyRating: () => dispatch(fetchMyRating()),
-  handleSelectMember: (member, props) => dispatch(showMember(member, props)),
+  handleSelectMember: (member, props) => dispatch(showRating(member, props, true)),
 });
 
 const MyRatingOverview = connect(

@@ -55,7 +55,7 @@ const mapStateToProps = (globalState, props) => {
 
 const mapDispatchToProps = (dispatch, props) => ({
   initializeTitle: () => dispatch(setTitle('Teammembers')),
-  fetchTeam: () => dispatch(fetchTeam()),
+  fetchTeam: () => dispatch(fetchTeam(props)),
   fetchRoles: () => dispatch(fetchRoles()),
   handleDelete: member => dispatch(removeMember(member)),
   handleAdd: student => dispatch(addMember(student)),

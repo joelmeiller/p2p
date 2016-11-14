@@ -1,5 +1,6 @@
 import React from 'react';
 
+import RaisedButton from 'material-ui/RaisedButton';
 import IconButton from 'material-ui/IconButton';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 
@@ -53,6 +54,20 @@ const EvaluationPage = props => (
         />
       </div>
     </div>
+
+    <div className="row push-top-medium">
+      <div className="col-xs-6 align-right">
+        <RaisedButton
+          label={props.readonly ? 'Back' : 'Cancel'}
+          onClick={props.handleCancel}
+        />
+      </div>
+      <div className="col-xs-6">
+        <p className="italic small note push-left-small push-top-small">
+          {props.readonly ? 'Die Bewertungen werden automatisch gespeichert.' : ''}
+        </p>
+      </div>
+    </div>
   </div>
 );
 
@@ -66,6 +81,7 @@ EvaluationPage.propTypes = {
   onCommentChanged: React.PropTypes.func,
   readonly: React.PropTypes.bool,
   rating: React.PropTypes.number,
+  handleCancel: React.PropTypes.func,
 };
 
 export default EvaluationPage;

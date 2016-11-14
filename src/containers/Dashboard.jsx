@@ -1,6 +1,7 @@
 // React imports
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
 // Component imports
 import Inbox from './Inbox.jsx';
@@ -26,8 +27,9 @@ const mapStateToProps = (globalState, props) => {
   const { user } = globalState.app;
 
   return {
-    isJury: user && user.isJury,
-    isQM: user && user.isQM,
+    isJury: user.isJury,
+    isQM: user.isQM,
+    user,
     ...props,
   };
 };
@@ -37,4 +39,4 @@ const DashboardComponent = connect(
   mapStateToProps
 )(Dashboard);
 
-export default DashboardComponent;
+export default withRouter(DashboardComponent);

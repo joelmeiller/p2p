@@ -169,7 +169,7 @@ export const saveCriterias = props => (dispatch, getState) => {
     });
   }
 
-  props.router.push('/');
+  props.router.push('/ip-p2p');
 };
 
 
@@ -178,5 +178,5 @@ export const cancel = props => (dispatch) => {
   dispatch(requestData());
   apiGetCriterias(data => dispatch(receiveData(data)));
 
-  props.router.push('/');
+  props.router.push('/ip-p2p');
 };

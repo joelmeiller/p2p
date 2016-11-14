@@ -29,6 +29,9 @@ p.italic {
 p.warning {
   color: var(--colorWarning);
 }
+p.note {
+  color: var(--colorDisabled);
+}
 p .prefix {
   padding-right: 7px;
 }

@@ -4,10 +4,12 @@ import { RaisedButton } from 'material-ui';
 
 import EditableCategory from '../components/EditableCategory.jsx';
 
+import sortCategories from '../utils/sortCategories.js';
+
 
 const CriteriaPage = props => (
   <div className="container push-top-small">
-    {(props.categories ? props.categories.map(category =>
+    {(props.categories ? props.categories.sort(sortCategories).map(category =>
       <div key={category.id} className="row">
         <EditableCategory
           {...category}

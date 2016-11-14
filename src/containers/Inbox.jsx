@@ -10,27 +10,15 @@ import InboxPage from '../ui/pages/InboxPage.jsx';
 import { fetchInbox, performAction } from '../actions/inbox.js';
 
 
-class InboxComponent extends Component {
-  componentDidMount() {
-    this.props.fetchInbox();
-  }
-
-  render() {
-    return (<InboxPage {...this.props} />);
-  }
-}
-
-InboxComponent.propTypes = {
-  fetchInbox: React.PropTypes.func,
-};
-
 const mapStateToProps = (globalState, props) => {
   const { actions } = globalState.inbox;
 
-  return {
-    actionItems: actions,
+  const newProps = {
     ...props,
+    actions,
   };
+
+  return newProps;
 };
 
 const mapDispatchToProps = dispatch => ({
@@ -38,9 +26,9 @@ const mapDispatchToProps = dispatch => ({
   handlePerformAction: action => dispatch(performAction(action)),
 });
 
-const Inbox = connect(
+const InboxContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(InboxComponent);
+)(InboxPage);
 
-export default withRouter(Inbox);
+export default withRouter(InboxContainer);

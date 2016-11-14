@@ -44,7 +44,7 @@ const mapStateToProps = (globalState, props) => {
   };
 };
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch, ownProps) => ({
   fetchUserAndProject: () => dispatch(fetchUserAndProjectSettings()),
 });
 
