@@ -81,4 +81,3 @@ EditTeamPage.propTypes = {
 };
 
 export default EditTeamPage;
-

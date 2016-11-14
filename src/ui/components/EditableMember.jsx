@@ -22,6 +22,11 @@ const EditableMember = (props) => {
     ))
   );
 
+const michelleRoles = [{
+ id:"0", shortcut:"W", label:"Wurst static"
+}];
+
+  //TODO(joel) prop.isQM is false even if user is QM
   const dropdown = (props.isQM ?
     <div className="col-xs-3">
       <TextTruncate

@@ -50,7 +50,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         ...params,
-        status: value,
+        status : value,
       };
     case EDIT_PROJECT:
       return {
