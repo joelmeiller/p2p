@@ -34157,9 +34157,13 @@
 	});
 	var ADD_PROJECT = exports.ADD_PROJECT = '/project/ADD_PROJECT';
 	var CANCEL = exports.CANCEL = 'project/CANCEL';
+	var EDIT_PROJECT = exports.EDIT_PROJECT = 'project/EDIT';
 	var SET_PROJECT_TITLE = exports.SET_PROJECT_TITLE = 'project/SET_PROJECT_TITLE';
 	var SET_COACH_NAME = exports.SET_COACH_NAME = 'project/SET_COACH_NAME';
-	var EDIT_PROJECT = exports.EDIT_PROJECT = 'project/EDIT';
+	var SET_PROJECT_STUFE = exports.SET_PROJECT_STUFE = 'project/SET_PROJECT_STUFE';
+	var SET_PROJECT_START = exports.SET_PROJECT_START = 'project/SET_PROJECT_START';
+	var SET_PROJECT_ART = exports.SET_PROJECT_ART = 'project/SET_PROJECT_ART';
+	var SET_PROJECT_STATUS = exports.SET_PROJECT_STATUS = 'project/SET_PROJECT_STATUS';
 
 	var cancel = exports.cancel = function cancel(props) {
 	  return function (dispatch) {
@@ -34186,6 +34190,42 @@
 	      value: newValue
 	    });
 	  };
+	};
+
+	var setProjectStufe = exports.setProjectStufe = function setProjectStufe(newValue) {
+	  return function (dispatch) {
+	    dispatch({
+	      type: SET_PROJECT_STUFE,
+	      value: newValue
+	    });
+	  };
+	};
+
+	var setProjectStart = exports.setProjectStart = function setProjectStart(newValue) {
+	  return function (dispatch) {
+	    dispatch({
+	      type: SET_PROJECT_START,
+	      value: newValue
+	    });
+	  };
+	};
+
+	var setProjectArt = exports.setProjectArt = function setProjectArt(newValue) {
+	  return function (dispatch) {
+	    dispatch({
+	      type: SET_PROJECT_ART,
+	      value: newValue
+	    });
+	  };
+	};
+
+	var setProjectStatus = exports.setProjectStatus = function setProjectStatus(newValue) {
+	  return function (dispatch) {
+	    dispatch({
+	      type: SET_PROJECT_STATUS,
+	      value: newValue
+	    });
+	  };
 		};
 
 /***/ },
@@ -34208,7 +34248,10 @@
 	var initialState = {
 	  title: undefined,
 	  coach: undefined,
-	  status: 'open',
+	  stufe: undefined,
+	  start: undefined,
+	  art: undefined,
+	  status: undefined,
 	  isFetching: false,
 	  fetched: false
 	};
@@ -34229,6 +34272,22 @@
 	    case _project.SET_COACH_NAME:
 	      return _extends({}, state, params, {
 	        name: value
+	      });
+	    case _project.SET_PROJECT_STUFE:
+	      return _extends({}, state, params, {
+	        stufe: value
+	      });
+	    case _project.SET_PROJECT_START:
+	      return _extends({}, state, params, {
+	        start: value
+	      });
+	    case _project.SET_PROJECT_ART:
+	      return _extends({}, state, params, {
+	        art: value
+	      });
+	    case _project.SET_PROJECT_STATUS:
+	      return _extends({}, state, params, {
+	        status: value
 	      });
 	    case _project.EDIT_PROJECT:
 	      return _extends({}, state, params.project);
@@ -98039,7 +98098,6 @@
 	  }));
 
 	  var disabled = props.readonly || props.isQM || props.removed;
-
 	  var dropdown = props.isQM ? _react2.default.createElement(
 	    'div',
 	    { className: 'col-xs-3' },
@@ -99254,7 +99312,7 @@
 
 	var _reactRouter = __webpack_require__(931);
 
-	var _EditProjectPage = __webpack_require__(1156);
+	var _EditProjectPage = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../ui/pages/EditProjectPage.jsx\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
 
 	var _EditProjectPage2 = _interopRequireDefault(_EditProjectPage);
 
@@ -99329,6 +99387,18 @@
 	    },
 	    handleCoachChanged: function handleCoachChanged(newCoachValue) {
 	      return dispatch((0, _project.setCoachName)(newCoachValue));
+	    },
+	    handleStufeChanged: function handleStufeChanged(newStufeValue) {
+	      return dispatch((0, _project.setStufe)(newStufeValue));
+	    },
+	    handleStartChanged: function handleStartChanged(newStartValue) {
+	      return dispatch((0, _project.setStart)(newStartValue));
+	    },
+	    handleArtChanged: function handleArtChanged(newArtValue) {
+	      return dispatch((0, _project.setArt)(newArtValue));
+	    },
+	    handleStatushanged: function handleStatushanged(newStatusValue) {
+	      return dispatch((0, _project.setStatus)(newStatusValue));
 	    }
 	  };
 	};
@@ -99336,135 +99406,6 @@
 	var ProjectContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(EditProjectComponent);
 
 		exports.default = (0, _reactRouter.withRouter)(ProjectContainer);
-
-/***/ },
-/* 1156 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(541);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _TextField = __webpack_require__(617);
-
-	var _TextField2 = _interopRequireDefault(_TextField);
-
-	var _materialUi = __webpack_require__(571);
-
-	var _Header2Line = __webpack_require__(1131);
-
-	var _Header2Line2 = _interopRequireDefault(_Header2Line);
-
-	var _Dropdown = __webpack_require__(1134);
-
-	var _Dropdown2 = _interopRequireDefault(_Dropdown);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var EditProjectPage = function EditProjectPage(props) {
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'container' },
-	    _react2.default.createElement(
-	      'div',
-	      { className: 'row' },
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'col-xs-12' },
-	        _react2.default.createElement(_Header2Line2.default, {
-	          title: 'Project: ' + props.title
-	        })
-	      )
-	    ),
-	    _react2.default.createElement(
-	      'div',
-	      { className: 'row' },
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'col-xs-4' },
-	        _react2.default.createElement(_TextField2.default, {
-	          hintText: 'Title',
-	          defaultValue: props.title,
-	          fullWidth: true,
-	          inputStyle: { color: '#333333' },
-	          onChange: function onChange(e) {
-	            return props.handleTitleChanged(e.target.value);
-	          }
-	        })
-	      ),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'col-xs-4' },
-	        _react2.default.createElement(_TextField2.default, {
-	          hintText: 'Name Coach',
-	          defaultValue: props.coachName,
-	          fullWidth: true,
-	          inputStyle: { color: '#333333' },
-	          onChange: function onChange(e) {
-	            return props.handleCoachChanged(e.target.value);
-	          }
-	        })
-	      )
-	    ),
-	    _react2.default.createElement(
-	      'div',
-	      { className: 'row' },
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'col-xs-4', style: { marginTop: -8 } },
-	        _react2.default.createElement(_Dropdown2.default, {
-	          menuItems: props.selectStates,
-	          selectedValue: props.selectedStateId
-	        })
-	      )
-	    ),
-	    _react2.default.createElement(
-	      'div',
-	      { className: 'row push-top-medium' },
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'col-xs-4 align-right' },
-	        _react2.default.createElement(_materialUi.RaisedButton, {
-	          label: 'Cancel',
-	          onClick: props.handleCancel
-	        })
-	      ),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'col-xs-4' },
-	        _react2.default.createElement(_materialUi.RaisedButton, {
-	          label: 'Save',
-	          primary: true,
-	          onClick: props.handleSave,
-	          disabled: props.readonly
-	        })
-	      )
-	    )
-	  );
-	};
-
-	EditProjectPage.propTypes = {
-	  title: _react2.default.PropTypes.string,
-	  handleTitleChanged: _react2.default.PropTypes.func,
-	  handleCoachChanged: _react2.default.PropTypes.func,
-	  coachName: _react2.default.PropTypes.string,
-	  selectStates: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.shape({
-	    id: _react2.default.PropTypes.string,
-	    label: _react2.default.PropTypes.string
-	  })),
-	  selectedStateId: _react2.default.PropTypes.string,
-	  handleCancel: _react2.default.PropTypes.func,
-	  handleSave: _react2.default.PropTypes.func,
-	  readonly: _react2.default.PropTypes.bool
-	};
-
-		exports.default = EditProjectPage;
 
 /***/ }
 /******/ ]);
