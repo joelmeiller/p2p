@@ -25,7 +25,6 @@ const EditableMember = (props) => {
   );
 
   const disabled = props.readonly || props.isQM || props.removed;
-
   const dropdown = (props.isQM ?
     <div className="col-xs-3">
       <TextTruncate

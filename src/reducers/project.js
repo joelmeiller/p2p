@@ -1,11 +1,14 @@
 // Actions
-import { SET_COACH_NAME, SET_PROJECT_TITLE, SAVE, CANCEL, EDIT_PROJECT, ADD_PROJECT } from '../actions/project.js';
+import { ADD_PROJECT, CANCEL, SAVE, EDIT_PROJECT, SET_PROJECT_TITLE, SET_COACH_NAME, SET_PROJECT_STUFE, SET_PROJECT_START, SET_PROJECT_ART, SET_PROJECT_STATUS } from '../actions/project.js';
 
 
 const initialState = {
   title: undefined,
   coach: undefined,
-  status: 'open',
+  stufe: undefined,
+  start: undefined,
+  art: undefined,
+  status: undefined,
   isFetching: false,
   fetched: false,
 };
@@ -24,6 +27,30 @@ const reducer = (state = initialState, action) => {
         ...state,
         ...params,
         name: value,
+      };
+    case SET_PROJECT_STUFE:
+      return {
+        ...state,
+        ...params,
+        stufe: value,
+      };
+    case SET_PROJECT_START:
+      return {
+        ...state,
+        ...params,
+        start: value,
+      };
+    case SET_PROJECT_ART:
+      return {
+        ...state,
+        ...params,
+        art: value,
+      };
+    case SET_PROJECT_STATUS:
+      return {
+        ...state,
+        ...params,
+        status : value,
       };
     case EDIT_PROJECT:
       return {
