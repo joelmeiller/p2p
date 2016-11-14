@@ -25,7 +25,6 @@ const EditProjectPage = props => (
           onChange={e => props.handleTitleChanged(e.target.value)}
         />
       </div>
-<<<<<<< HEAD
       <div className="row">
         <div className="col-xs-2" style={{ marginTop: 14 }}>
           <p>Title</p>
@@ -97,7 +96,7 @@ const EditProjectPage = props => (
             selectedValue={props.selectedStateId}
           />
         </div>
-=======
+      </div>
       <div className="col-xs-4">
         <TextField
           hintText="Name Coach"
@@ -122,7 +121,6 @@ const EditProjectPage = props => (
           label="Cancel"
           onClick={props.handleCancel}
         />
->>>>>>> master
       </div>
       <div className="col-xs-4">
         <RaisedButton
