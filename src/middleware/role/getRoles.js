@@ -1,8 +1,10 @@
 // Node imports
 import fetch from 'isomorphic-fetch';
 
+import getApiEntrypoint from '../utils/getApiEntrypoint.js';
 
-const apiEntrypoint = 'http://localhost:8080/api/roles/active';
+const apiEntrypoint = getApiEntrypoint('roles/active');
+
 
 export default callback =>
   fetch(apiEntrypoint)

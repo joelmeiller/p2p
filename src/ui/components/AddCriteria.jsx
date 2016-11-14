@@ -24,7 +24,7 @@ const AddCriteria = (props) => {
     />
   );
 
-  let addCriteria;
+  let addCriteria = <div className="row" />;
 
   if (props.isSelfDefined) {
     addCriteria = (

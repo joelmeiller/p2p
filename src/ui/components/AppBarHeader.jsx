@@ -7,7 +7,7 @@ import NavIcon from 'material-ui/svg-icons/navigation/menu';
 import FlatButton from 'material-ui/FlatButton';
 
 
-import UserMenuByRole from './userMenu/UserMenuByRole.jsx';
+import UserMenuByRole from './menu/UserMenuByRole.jsx';
 
 
 const AppBarHeader = props => (

@@ -2,11 +2,14 @@ import React from 'react';
 
 import MemberProgress from '../components/MemberProgress.jsx';
 
+import sortMembers from '../utils/sortMembers.js';
+
+
 const ProgressPage = props => (
-  <div className="container push-top-small">
-    {props.members ? props.members.map(member =>
-      <div key={member.id} className="row">
-        <button
+  <div className="push-top-small">
+    {props.members ? props.members.filter(m => !m.removed).sort(sortMembers).map(member =>
+      <div key={member.email} className="row">
+        <div
           className="col-xs-12"
           onClick={() => props.handleSelectMember(member, props)}
         >
@@ -14,7 +17,7 @@ const ProgressPage = props => (
             {...member}
             progress={props.isFinal ? 100 : member.progress}
           />
-        </button>
+        </div>
       </div>) : undefined
     }
   </div>

@@ -6,28 +6,27 @@ import FlatButton from 'material-ui/FlatButton';
 
 import LabeledStarRatingWithGrade from '../components/LabeledStarRatingWithGrade.jsx';
 
+import sortMembers from '../utils/sortMembers.js';
+
 
 const TeamRatingPage = props => (
-  <div className="container push-top-small">
-    {(() => (props.members ? props.members.map(member =>
-      <button
+  <div className="push-top-small">
+    {(() => (props.members ? props.members.sort(sortMembers).map(member =>
+      <div
         key={member.id}
-        className="row"
         onClick={() => props.handleSelectMember(member, props)}
       >
-        <div className="col-xs-12">
-          <LabeledStarRatingWithGrade
-            {...member}
-            label={`${member.name}, ${member.role}`}
-            value={member.rating}
-            readonly
-            smallStars
-          />
-        </div>
-      </button>
+        <LabeledStarRatingWithGrade
+          {...member}
+          label={`${member.name}, ${member.activeRole}`}
+          value={member.rating}
+          readonly
+          smallStars
+        />
+      </div>
     ) : undefined))()}
     <div className="row">
-      <div className="col-xs-12 push-top-mini">
+      <div className="col-xs-12 push-top-small">
         <FlatButton
           label="Submit All Ratings"
           primary

@@ -3,6 +3,8 @@ import React from 'react';
 import FinalRating from '../components/FinalRating.jsx';
 import MemberCard from '../components/MemberCard.jsx';
 
+import sortMembers from '../utils/sortMembers.js';
+
 
 const MemberRatingPage = props => (
   <div className="container">
@@ -16,7 +18,7 @@ const MemberRatingPage = props => (
     </div>
     <div className="row push-top-medium">
       <div className="col-xs-10">
-        {props.members.map(member =>
+        {props.members.filter(m => !m.removed).sort(sortMembers).map(member =>
           <div
             className="col-xs-6 push-bottom-medium"
             key={member.id}

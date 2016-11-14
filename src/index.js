@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 // node imports
 import 'babel-polyfill';
 

@@ -1,24 +1,23 @@
 // Node imports
 import fetch from 'isomorphic-fetch';
 
+import getApiEntrypoint from '../utils/getApiEntrypoint.js';
+import mapMember from '../utils/mapMember.js';
 
-const apiEntrypoint = 'http://localhost:8080/api/project/members';
+const apiEntrypoint = getApiEntrypoint('project/members');
+
 
 export default callback =>
   fetch(apiEntrypoint)
   .then(response => response.json())
   .then((data) => {
     const members = data.map(member => ({
-      id: member.id.toString(),
-      name: `${member.student.firstName} ${member.student.lastName}`,
-      slug: member.student.slug,
-      studentId: member.student.id.toString(),
-      roles: member.roles.map(memberRole => ({
-        id: memberRole.id.toString(),
-        title: memberRole.role.title,
-        active: memberRole.active,
-        roleId: memberRole.role.id.toString(),
+      ...mapMember(member),
+      ratings: member.ratings(rating => ({
+        ...rating,
+        member: mapMember(rating.member),
       })),
     }));
     callback(members);
   });
+

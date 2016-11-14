@@ -6,6 +6,7 @@ import javax.persistence.Enumerated;
 
 import ch.fhnw.p2p.entities.mixins.VersionedObject;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 
 /**
@@ -15,6 +16,7 @@ import lombok.Data;
  *
  */
 @Data
+@EqualsAndHashCode(callSuper=false)
 @Entity
 public class Role extends VersionedObject {
 

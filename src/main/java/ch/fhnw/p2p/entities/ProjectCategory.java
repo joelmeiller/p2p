@@ -1,7 +1,9 @@
 package ch.fhnw.p2p.entities;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -18,7 +20,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @Data
-@EqualsAndHashCode(of="id")
+@EqualsAndHashCode(exclude={"projectCriterias", "project"})
 @Entity
 public class ProjectCategory extends VersionedObject {
 	
@@ -34,12 +36,12 @@ public class ProjectCategory extends VersionedObject {
 	@JoinColumn(name = "categoryId")
 	private Category category;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy="category", orphanRemoval=true)
-	private List<ProjectCriteria> projectCriterias;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy="category", orphanRemoval=true)
+	private Set<ProjectCriteria> projectCriterias;
 	
 	// Constructor
 	public ProjectCategory() {
-		this.projectCriterias = new ArrayList<ProjectCriteria>();
+		this.projectCriterias = new HashSet<ProjectCriteria>();
 	};
 	
 	public ProjectCategory(Category category) {

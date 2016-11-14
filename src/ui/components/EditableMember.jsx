@@ -1,3 +1,5 @@
+import classNames from 'classnames';
+
 import React from 'react';
 import TextTruncate from 'react-text-truncate';
 
@@ -22,11 +24,7 @@ const EditableMember = (props) => {
     ))
   );
 
-const michelleRoles = [{
- id:"0", shortcut:"W", label:"Wurst static"
-}];
-
-  //TODO(joel) prop.isQM is false even if user is QM
+  const disabled = props.readonly || props.isQM || props.removed;
   const dropdown = (props.isQM ?
     <div className="col-xs-3">
       <TextTruncate
@@ -40,13 +38,17 @@ const michelleRoles = [{
         items={selectRoles}
         onChange={props.onRoleChanged}
         selectedValue={activeRole ? activeRole.roleId : 'XX'}
-        readonly={props.readonly || props.isQM}
+        readonly={disabled}
       />
     </div>
   );
 
   return (
-    <div>
+    <div
+      className={classNames('member', {
+        disabled: props.removed,
+      })}
+    >
       <div className="col-xs-3">
         <TextTruncate
           line={1}
@@ -62,12 +64,15 @@ const michelleRoles = [{
         />
       </div>
       {dropdown}
-      <div className="col-xs-1 pull-top-small">
-        <FlatButton
-          onClick={props.onDelete}
-          icon={<FontIcon className="material-icons">delete</FontIcon>}
-          disabled={props.readonly}
-        />
+      <div className="col-xs-1 center pull-top-small">
+        {(props.removed ?
+          <p className="small italic bold push-top-tiny push-left-small">Removed</p> :
+          <FlatButton
+            onClick={props.onDelete}
+            icon={<FontIcon className="material-icons">delete</FontIcon>}
+            disabled={disabled}
+          />
+        )}
       </div>
     </div>
   );
@@ -88,6 +93,7 @@ EditableMember.propTypes = {
   isQM: React.PropTypes.bool,
   onRoleChanged: React.PropTypes.func,
   readonly: React.PropTypes.bool,
+  removed: React.PropTypes.bool,
   selectedRole: React.PropTypes.objectOf(
     React.PropTypes.shape(roleType)
   ),

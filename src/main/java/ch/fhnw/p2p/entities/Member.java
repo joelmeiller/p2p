@@ -2,7 +2,9 @@ package ch.fhnw.p2p.entities;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -19,7 +21,7 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import ch.fhnw.p2p.entities.Role.Type;
+import ch.fhnw.p2p.entities.mapping.MemberRatingMapping;
 import ch.fhnw.p2p.entities.mixins.VersionedObject;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -33,7 +35,7 @@ import lombok.EqualsAndHashCode;
  **/
 
 @Data
-@EqualsAndHashCode(of="id")
+@EqualsAndHashCode(callSuper=false, exclude={"project", "roles", "memberRatings"})
 @Entity
 public class Member extends VersionedObject{
 
@@ -63,29 +65,34 @@ public class Member extends VersionedObject{
 	private Student student;
 	
 	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="member")
-	private List<MemberRole> roles;
+	private Set<MemberRole> roles;
 
 	@Enumerated(EnumType.STRING)
 	private Status status;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "sourceMember")
+	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "sourceMember")
+	@JsonIgnore
 	private List<MemberRating> memberRatings;
-
+	@Transient
+	private Set<MemberRatingMapping> ratings;
+	
 	// The transient fields are required for the JSON parsing but shall be ignored by hibernate
 	@Transient
 	private boolean added;
-	@Transient
 	private boolean removed;
 	@Transient
 	private boolean updated;
+	@Transient
+	private boolean isQM;
 
 	// Constructor
 	public Member() {
 		this.status = Status.NEW;
 		this.rating = new BigDecimal(0);
 		this.deviation = new BigDecimal(0);
-		this.roles = new ArrayList<MemberRole>();
+		this.roles = new HashSet<MemberRole>();
 		this.memberRatings = new ArrayList<MemberRating>();
+		this.ratings = new HashSet<MemberRatingMapping>();
 	}
 
 	public Member(Project project, Student student) {
@@ -119,14 +126,24 @@ public class Member extends VersionedObject{
 	 * checks whether one of roles of the member is the the quality manager (QM) role with special rights
 	 * @return boolean indicating if the member is referenced as QM
 	 */
-	public boolean isQM() {
+	public boolean getIsQM() {
 		for (MemberRole role: this.roles) {
 			if (role.getRole().getType() == Role.Type.QM) return true;
 		}
 		return false;
 	}
 	
+	public Set<MemberRatingMapping> getRatings() {
+		ratings = new HashSet<MemberRatingMapping>();
+		
+		for (MemberRating memberRating: this.memberRatings) {
+			ratings.add(new MemberRatingMapping(memberRating));
+		}
+		
+		return ratings;
+	}
+	
 	public String toString() {
-		return student.getFirstName() + " " + student.getLastName() + " in project '" + project.getTitle() + "'";
+		return this.getClass() + " (id=" + this.getId() + ")";
 	}
 }
