@@ -28,7 +28,7 @@ public class MemberRole extends VersionedObject {
 	@JsonIgnore
 	private Member member;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "roleId")
 	private Role role;
 

@@ -123,16 +123,26 @@ public class Member extends VersionedObject{
 		return null;
 	}
 	
-	
+	/**
+	 * returns the REST api mapped member ratings
+	 * @param Set of MemberRating Set<MemberRating>
+	 * @return Set of mapped MemberRatingMapping Set<MemberRatingMapping>
+	 */
 	public Set<MemberRatingMapping> getRatings() {
-		ratings = new HashSet<MemberRatingMapping>();
-		
-		for (MemberRating memberRating: this.memberRatings) {
-			ratings.add(new MemberRatingMapping(memberRating));
+		if (ratings.size() == 0 && memberRatings.size() > 0) {
+			for (MemberRating memberRating : memberRatings) {
+				ratings.add(new MemberRatingMapping(memberRating));
+			}
 		}
-		
 		return ratings;
 	}
+
+	public void setRatings(Set<MemberRating> memberRatings) {
+		for (MemberRating memberRating : memberRatings) {
+			ratings.add(new MemberRatingMapping(memberRating));
+		}
+	}
+
 	
 	/**
 	 * checks whether one of roles of the member is the the quality manager (QM) role with special rights
