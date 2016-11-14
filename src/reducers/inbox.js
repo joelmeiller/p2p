@@ -30,8 +30,9 @@ const reducer = (state = initialState, action) => {
         ...state,
         ...params,
         isFetching: false,
+        actions: state.actions.filter(action_ => action_.id != action.action.id),
       };
-    default:
+      default:
       return state;
   }
 };

@@ -6,7 +6,7 @@ import Checkbox from 'material-ui/Checkbox';
 import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-const CheckboxMichelle = React.createClass({
+const Checkbox = React.createClass({
   childContextTypes: {
     muiTheme: React.PropTypes.object.isRequired,
   },
@@ -25,4 +25,4 @@ const CheckboxMichelle = React.createClass({
   },
 });
 
-export default CheckboxMichelle;
+export default Checkbox;

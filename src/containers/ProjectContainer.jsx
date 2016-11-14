@@ -12,6 +12,10 @@ import {
   cancel,
   setProjectTitle,
   setCoachName,
+  setStufe,
+  setStart,
+  setArt,
+  setStatus,
 } from '../actions/project.js';
 
 import { saveProject } from '../actions/projectList.js';
@@ -45,6 +49,10 @@ const mapDispatchToProps = (dispatch, props) => ({
   handleCancel: () => dispatch(cancel(props)),
   handleTitleChanged: newTitleValue => dispatch(setProjectTitle(newTitleValue)),
   handleCoachChanged: newCoachValue => dispatch(setCoachName(newCoachValue)),
+  handleStufeChanged: newStufeValue => dispatch(setStufe(newStufeValue)),
+  handleStartChanged: newStartValue => dispatch(setStart(newStartValue)),
+  handleArtChanged: newArtValue => dispatch(setArt(newArtValue)),
+  handleStatushanged: newStatusValue => dispatch(setStatus(newStatusValue)),
 });
 
 const ProjectContainer = connect(
