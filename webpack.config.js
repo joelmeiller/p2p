@@ -1,7 +1,7 @@
 /* eslint-disable */
 const path = require('path');
-// const webpack = require('webpack');
-// const PurifyCSSPlugin = require("purifycss-webpack-plugin");
+const webpack = require('webpack');
+const PurifyCSSPlugin = require("purifycss-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
@@ -39,22 +39,22 @@ module.exports = {
         ]
     },
     plugins: [
-        // new webpack.DefinePlugin({
-        //   'process.env': {
-        //     'NODE_ENV': JSON.stringify('production')
-        //   }
-        // }),
+        new webpack.DefinePlugin({
+          'process.env': {
+            'NODE_ENV': JSON.stringify('production')
+          }
+        }),
         new ExtractTextPlugin("bundle.css"),
-        // new PurifyCSSPlugin({
-        //   basePath: __dirname,
-        //   paths: [
-        //     'src/**/*.jsx'
-        //   ]
-        // }),
-        // new webpack.optimize.UglifyJsPlugin({
-        //   compress: {
-        //     warnings: false
-        //   }
-        // }),
+        new PurifyCSSPlugin({
+          basePath: __dirname,
+          paths: [
+            'src/**/*.jsx'
+          ]
+        }),
+        new webpack.optimize.UglifyJsPlugin({
+          compress: {
+            warnings: false
+          }
+        }),
     ]
 };
