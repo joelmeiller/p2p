@@ -7,9 +7,11 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
@@ -28,6 +30,9 @@ public class MemberRating extends VersionedObject {
 	@Column(precision = 4, scale = 1)
 	private BigDecimal rating;
 	private String comment;
+	
+	@Transient
+	private Double progress;
 
 	// Relations
 	@ManyToOne(cascade = CascadeType.ALL)
@@ -35,11 +40,11 @@ public class MemberRating extends VersionedObject {
 	private Member sourceMember;
 
 	// Relations
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "targetMemberId")
 	private Member targetMember;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "memberRating")
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "memberRating")
 	private List<CriteriaRating> criteriaRatings;
 
 	// Constructor

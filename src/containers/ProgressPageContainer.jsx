@@ -7,14 +7,11 @@ import { connect } from 'react-redux';
 import ProgressPage from '../ui/pages/ProgressPage.jsx';
 
 // Action imports
-import { initializeRatings, showRating } from '../actions/ratings.js';
+import { fetchRatings, showRating } from '../actions/ratings.js';
 
 class ProgressPageComponent extends React.Component {
-  componentWillReceiveProps(nextProps) {
-    if (this.props.ratings && nextProps.initialRatings
-      && this.props.ratings.length !== nextProps.initialRatings.length) {
-      this.props.initialize(nextProps.initialRatings);
-    }
+  componentDidMount() {
+    this.props.fetchRatings();
   }
 
   render() {
@@ -44,7 +41,7 @@ const mapStateToProps = (globalState, props) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   handleSelectRating: rating => dispatch(showRating(rating, ownProps, false)),
-  initialize: ratings => dispatch(initializeRatings(ratings)),
+  fetchRatings: () => dispatch(fetchRatings()),
 });
 
 const ProgressPageContainer = connect(

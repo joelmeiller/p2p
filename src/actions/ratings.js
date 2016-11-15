@@ -1,21 +1,40 @@
 // Middleware
+import { default as apiGetRatings } from '../middleware/ratings/getRatings.js';
 import { default as apiSaveRating } from '../middleware/ratings/saveRating.js';
 
 // Actions
 import { setTitle } from './app.js';
-import { updateMemberRating } from './team.js';
 
 // Utils
 import getCriteriaValues from './utils/getCriteriaValues.js';
-import getMemberRatings from './utils/getMemberRatings.js';
 
-
-export const INITIALIZE = '/rating/INITIALIZE';
+export const RECEIVE_RATINGS = '/rating/RECEIVE_RATINGS';
+export const REQUEST_RATINGS = '/rating/REQUEST_RATINGS';
 export const SELECT_RATING = '/rating/SELECT_RATING';
 export const UPDATE_COMMENT = '/rating/UPDATE_COMMENT';
 export const UPDATE_RATING = '/rating/UPDATE_RATING';
 export const CANCEL_RATING = '/rating/CANCEL_RATING';
 export const ERROR_RESET_UPDATE = '/rating/ERROR_RESET_UPDATE';
+
+
+const receiveData = data => ({
+  type: RECEIVE_RATINGS,
+  ratings: data,
+});
+
+const shouldFetchData = (state) => {
+  if (!state.rating || state.relaod) {
+    return true;
+  }
+  return !state.rating.isFetching && !state.rating.fetched;
+};
+
+export const fetchRatings = () => (dispatch, getState) => {
+  if (shouldFetchData(getState())) {
+    dispatch({ type: REQUEST_RATINGS });
+    apiGetRatings(data => dispatch(receiveData(data)));
+  }
+};
 
 
 export const resetPreviousRating = value => ({
@@ -42,16 +61,9 @@ const saveRating = (props, index, close) => (dispatch, getState) => {
     }
     rating.comment = state.values.comment || rating.comment;
 
-    dispatch(updateMemberRating({
-      studentId: props.studentId,
-      ratings: state.ratings.map(rat => (rat.id === rating.id ?
-        rating : rat)),
-    }));
-
     apiSaveRating(rating, (res) => {
       if (res.status !== 200) {
         dispatch(resetPreviousRating(props.rating));
-        dispatch(updateMemberRating(props.rating));
       }
     });
   }
@@ -98,19 +110,11 @@ export const updateRating = (value, id) => ({
   rating: value,
 });
 
-export const initializeRatings = ratings => ({
-  type: INITIALIZE,
-  ratings,
-});
-
-export const initializeMembers = members => ({
-  type: INITIALIZE,
-  ratings: getMemberRatings(members),
-});
-
 export const cancelRating = props => (dispatch) => {
   dispatch({
     type: CANCEL_RATING,
   });
   props.router.push(props.onClosePath);
 };
+
+

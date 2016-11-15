@@ -1,6 +1,5 @@
 // React imports
 import React, { Component } from 'react';
-import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
 // Component imports
@@ -79,4 +78,4 @@ const TeamRatingOverview = connect(
   mapDispatchToProps
 )(TeamRatingOverviewComponent);
 
-export default withRouter(TeamRatingOverview);
+export default TeamRatingOverview;

@@ -29213,15 +29213,15 @@
 
 	var _ratings2 = _interopRequireDefault(_ratings);
 
-	var _myrating = __webpack_require__(523);
+	var _myrating = __webpack_require__(520);
 
 	var _myrating2 = _interopRequireDefault(_myrating);
 
-	var _roles = __webpack_require__(530);
+	var _roles = __webpack_require__(527);
 
 	var _roles2 = _interopRequireDefault(_roles);
 
-	var _team = __webpack_require__(533);
+	var _team = __webpack_require__(530);
 
 	var _team2 = _interopRequireDefault(_team);
 
@@ -31273,10 +31273,11 @@
 	        isQM: data.user.qm,
 	        isCoach: data.user.coach,
 	        isJury: data.user.coach,
-	        isFinal: !['NEW', 'OPEN'].includes(data.project.status),
 	        isApproved: data.user.status === 'ACCEPTED'
 	      },
-	      project: _extends({}, data.project)
+	      project: data.project ? _extends({}, data.project, {
+	        isFinal: !['NEW', 'OPEN'].includes(data.project.status)
+	      }) : {}
 	    });
 	  });
 		};
@@ -31995,16 +31996,24 @@
 	var reducer = function reducer() {
 	  var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
 	  var action = arguments[1];
+	  var type = action.type;
+	  var ratings = action.ratings;
 
 	  var newState = _extends({}, state);
 	  newState.resetRating = undefined;
 
 	  var values = _extends({}, state.values);
 
-	  switch (action.type) {
-	    case _ratings.INITIALIZE:
-	      return _extends({}, newState, {
-	        ratings: action.ratings
+	  switch (type) {
+	    case _ratings.REQUEST_RATINGS:
+	      return _extends({}, state, {
+	        ratings: ratings,
+	        isFetching: true
+	      });
+	    case _ratings.RECEIVE_RATINGS:
+	      return _extends({}, state, {
+	        ratings: ratings,
+	        isFetching: false
 	      });
 	    case _ratings.SELECT_RATING:
 	      values.ratings = [];
@@ -32057,36 +32066,60 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.cancelRating = exports.initializeMembers = exports.initializeRatings = exports.updateRating = exports.updateComment = exports.saveRatingAndClose = exports.showRating = exports.selectRating = exports.resetPreviousRating = exports.ERROR_RESET_UPDATE = exports.CANCEL_RATING = exports.UPDATE_RATING = exports.UPDATE_COMMENT = exports.SELECT_RATING = exports.INITIALIZE = undefined;
+	exports.cancelRating = exports.updateRating = exports.updateComment = exports.saveRatingAndClose = exports.showRating = exports.selectRating = exports.resetPreviousRating = exports.fetchRatings = exports.ERROR_RESET_UPDATE = exports.CANCEL_RATING = exports.UPDATE_RATING = exports.UPDATE_COMMENT = exports.SELECT_RATING = exports.REQUEST_RATINGS = exports.RECEIVE_RATINGS = undefined;
 
-	var _saveRating = __webpack_require__(515);
+	var _getRatings = __webpack_require__(515);
+
+	var _getRatings2 = _interopRequireDefault(_getRatings);
+
+	var _saveRating = __webpack_require__(518);
 
 	var _saveRating2 = _interopRequireDefault(_saveRating);
 
 	var _app = __webpack_require__(499);
 
-	var _team = __webpack_require__(516);
-
-	var _getCriteriaValues = __webpack_require__(521);
+	var _getCriteriaValues = __webpack_require__(519);
 
 	var _getCriteriaValues2 = _interopRequireDefault(_getCriteriaValues);
 
-	var _getMemberRatings = __webpack_require__(522);
-
-	var _getMemberRatings2 = _interopRequireDefault(_getMemberRatings);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	// Utils
-
-
 	// Actions
-	var INITIALIZE = exports.INITIALIZE = '/rating/INITIALIZE'; // Middleware
+	// Middleware
+	var RECEIVE_RATINGS = exports.RECEIVE_RATINGS = '/rating/RECEIVE_RATINGS';
+
+	// Utils
+	var REQUEST_RATINGS = exports.REQUEST_RATINGS = '/rating/REQUEST_RATINGS';
 	var SELECT_RATING = exports.SELECT_RATING = '/rating/SELECT_RATING';
 	var UPDATE_COMMENT = exports.UPDATE_COMMENT = '/rating/UPDATE_COMMENT';
 	var UPDATE_RATING = exports.UPDATE_RATING = '/rating/UPDATE_RATING';
 	var CANCEL_RATING = exports.CANCEL_RATING = '/rating/CANCEL_RATING';
 	var ERROR_RESET_UPDATE = exports.ERROR_RESET_UPDATE = '/rating/ERROR_RESET_UPDATE';
+
+	var receiveData = function receiveData(data) {
+	  return {
+	    type: RECEIVE_RATINGS,
+	    ratings: data
+	  };
+	};
+
+	var shouldFetchData = function shouldFetchData(state) {
+	  if (!state.rating || state.relaod) {
+	    return true;
+	  }
+	  return !state.rating.isFetching && !state.rating.fetched;
+	};
+
+	var fetchRatings = exports.fetchRatings = function fetchRatings() {
+	  return function (dispatch, getState) {
+	    if (shouldFetchData(getState())) {
+	      dispatch({ type: REQUEST_RATINGS });
+	      (0, _getRatings2.default)(function (data) {
+	        return dispatch(receiveData(data));
+	      });
+	    }
+	  };
+	};
 
 	var resetPreviousRating = exports.resetPreviousRating = function resetPreviousRating(value) {
 	  return {
@@ -32110,28 +32143,18 @@
 	    var state = getState().rating;
 
 	    if (state.ratingUpdated && state.values) {
-	      (function () {
-	        var rating = state.ratings[state.selectedIndex];
+	      var rating = state.ratings[state.selectedIndex];
 
-	        if (state.values.rating) {
-	          rating.categories = (0, _getCriteriaValues2.default)(rating, state.values);
+	      if (state.values.rating) {
+	        rating.categories = (0, _getCriteriaValues2.default)(rating, state.values);
+	      }
+	      rating.comment = state.values.comment || rating.comment;
+
+	      (0, _saveRating2.default)(rating, function (res) {
+	        if (res.status !== 200) {
+	          dispatch(resetPreviousRating(props.rating));
 	        }
-	        rating.comment = state.values.comment || rating.comment;
-
-	        dispatch((0, _team.updateMemberRating)({
-	          studentId: props.studentId,
-	          ratings: state.ratings.map(function (rat) {
-	            return rat.id === rating.id ? rating : rat;
-	          })
-	        }));
-
-	        (0, _saveRating2.default)(rating, function (res) {
-	          if (res.status !== 200) {
-	            dispatch(resetPreviousRating(props.rating));
-	            dispatch((0, _team.updateMemberRating)(props.rating));
-	          }
-	        });
-	      })();
+	      });
 	    }
 
 	    if (close) {
@@ -32189,20 +32212,6 @@
 	  };
 	};
 
-	var initializeRatings = exports.initializeRatings = function initializeRatings(ratings) {
-	  return {
-	    type: INITIALIZE,
-	    ratings: ratings
-	  };
-	};
-
-	var initializeMembers = exports.initializeMembers = function initializeMembers(members) {
-	  return {
-	    type: INITIALIZE,
-	    ratings: (0, _getMemberRatings2.default)(members)
-	  };
-	};
-
 	var cancelRating = exports.cancelRating = function cancelRating(props) {
 	  return function (dispatch) {
 	    dispatch({
@@ -32230,39 +32239,23 @@
 
 	var _getApiEntrypoint2 = _interopRequireDefault(_getApiEntrypoint);
 
+	var _mapRating = __webpack_require__(516);
+
+	var _mapRating2 = _interopRequireDefault(_mapRating);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	// Node imports
-	var apiEntrypoint = (0, _getApiEntrypoint2.default)('project/member/rating');
+	var apiEntrypoint = (0, _getApiEntrypoint2.default)('project/member/ratings'); // Node imports
 
-	exports.default = function (rating, callback) {
-	  var criteriaRatings = [];
-	  rating.categories.forEach(function (cat) {
-	    return criteriaRatings = criteriaRatings.concat(cat.criteriaRatings.map(function (crit) {
-	      return {
-	        id: crit.id,
-	        rating: crit.rating
-	      };
+	exports.default = function (callback) {
+	  return (0, _isomorphicFetch2.default)(apiEntrypoint).then(function (response) {
+	    return response.json();
+	  }).then(function (data) {
+	    return callback(data.ratings.map(function (rating) {
+	      return (0, _mapRating2.default)(rating);
 	    }));
 	  });
-
-	  var memberRating = {
-	    id: rating.ratingId,
-	    comment: rating.comment,
-	    criteriaRatings: criteriaRatings
-	  };
-
-	  (0, _isomorphicFetch2.default)(apiEntrypoint, {
-	    method: 'POST',
-	    headers: {
-	      Accept: 'application/json',
-	      'Content-Type': 'application/json'
-	    },
-	    body: JSON.stringify(memberRating)
-	  }).then(function (response) {
-	    return callback(response);
-	  });
-	};
+		};
 
 /***/ },
 /* 516 */
@@ -32273,296 +32266,10 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.cancel = exports.saveTeam = exports.updateMemberRating = exports.removeMember = exports.addMember = exports.updateRoleOfMember = exports.showMemberEvaluation = exports.fetchTeam = exports.SAVE_TEAM = exports.UPDATE_TEAM = exports.REQUEST_TEAM = exports.REMOVE_MEMBER = exports.RECEIVE_TEAM = exports.ADD_MEMBER = undefined;
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; // Middleware
-
-
-	// Actions
-
-
-	var _getTeam = __webpack_require__(517);
-
-	var _getTeam2 = _interopRequireDefault(_getTeam);
-
-	var _saveTeam = __webpack_require__(520);
-
-	var _saveTeam2 = _interopRequireDefault(_saveTeam);
-
-	var _app = __webpack_require__(499);
-
-	var _ratings = __webpack_require__(514);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var ADD_MEMBER = exports.ADD_MEMBER = '/team/ADD_MEMBER';
-	var RECEIVE_TEAM = exports.RECEIVE_TEAM = '/team/RECEIVE_TEAM';
-	var REMOVE_MEMBER = exports.REMOVE_MEMBER = '/team/REMOVE_MEMBER';
-	var REQUEST_TEAM = exports.REQUEST_TEAM = '/team/REQUEST_TEAM';
-	var UPDATE_TEAM = exports.UPDATE_TEAM = '/team/UPDATE_TEAM';
-	var SAVE_TEAM = exports.SAVE_TEAM = '/team/SAVE_TEAM';
-
-	var receiveData = function receiveData(data) {
-	  return {
-	    type: RECEIVE_TEAM,
-	    members: data
-	  };
-	};
-
-	var shouldFetchData = function shouldFetchData(state) {
-	  if (!state.team || state.relaod) {
-	    return true;
-	  }
-	  return !state.team.isFetching && !state.team.fetched;
-	};
-
-	var fetchTeam = exports.fetchTeam = function fetchTeam() {
-	  return function (dispatch, getState) {
-	    if (shouldFetchData(getState())) {
-	      dispatch({ type: REQUEST_TEAM });
-	      (0, _getTeam2.default)(function (data) {
-	        return dispatch(receiveData(data));
-	      });
-	    }
-	  };
-	};
-
-	var showMemberEvaluation = exports.showMemberEvaluation = function showMemberEvaluation(member, props) {
-	  return function (dispatch) {
-	    if (member.categories) {
-	      dispatch((0, _app.setTitle)('Evaluation'));
-	      dispatch((0, _ratings.selectRating)(props.members.indexOf(member), props));
-	    } else {
-	      console.log('No Criterias defined');
-	    }
-	  };
-	};
-
-	var updateRoleOfMember = exports.updateRoleOfMember = function updateRoleOfMember(value, updateMember) {
-	  return function (dispatch, getState) {
-	    var state = getState().team;
-	    var roleState = getState().role;
-
-	    if (updateMember && value.roleId) {
-	      (function () {
-
-	        var updatedMember = state.members.find(function (member) {
-	          return member.studentId === updateMember.studentId;
-	        });
-	        var updatedRoles = updatedMember.roles.map(function (role) {
-	          return _extends({}, role, {
-	            active: false
-	          });
-	        });
-	        updatedRoles.push(_extends({}, roleState.roles.find(function (role) {
-	          return role.roleId === value.roleId;
-	        }), {
-	          active: true
-	        }));
-	        updatedMember.roles = updatedRoles;
-
-	        dispatch({
-	          type: UPDATE_TEAM,
-	          members: state.members.map(function (member) {
-	            return member.studentId === updateMember.studentId ? _extends({}, updatedMember, {
-	              updated: true
-	            }) : member;
-	          })
-	        });
-	      })();
-	    }
-	  };
-	};
-
-	var addMember = exports.addMember = function addMember(student) {
-	  return function (dispatch, getState) {
-	    var state = getState().team;
-
-	    var members = state.members;
-
-	    if (members) {
-	      members.push({
-	        studentId: student.id,
-	        name: student.name,
-	        email: student.email,
-	        slug: student.slug,
-	        roles: [],
-	        added: true
-	      });
-
-	      dispatch({
-	        type: ADD_MEMBER,
-	        members: members
-	      });
-	    }
-	  };
-	};
-
-	var removeMember = exports.removeMember = function removeMember(removedMember) {
-	  return function (dispatch, getState) {
-	    var state = getState().team;
-
-	    var members = (state.members || []).map(function (member) {
-	      return _extends({}, member, {
-	        removed: member.removed || member.studentId === removedMember.studentId
-	      });
-	    });
-
-	    dispatch({
-	      type: REMOVE_MEMBER,
-	      members: members
-	    });
-	  };
-	};
-
-	var updateMemberRating = exports.updateMemberRating = function updateMemberRating(updatedMember) {
-	  return function (dispatch, getState) {
-	    var state = getState().team;
-	    var members = state.members.map(function (member) {
-	      return member.studentId === updatedMember.studentId ? _extends({}, member, {
-	        ratings: updatedMember.ratings
-	      }) : member;
-	    });
-
-	    dispatch({
-	      type: UPDATE_TEAM,
-	      members: members
-	    });
-	  };
-	};
-
-	var saveTeam = exports.saveTeam = function saveTeam(props) {
-	  return function (dispatch, getState) {
-	    var state = getState().team;
-
-	    if (state.members) {
-	      (0, _saveTeam2.default)(state.members, function (data) {
-	        if (data.status === 500) {
-	          alert('Criteria could not be saved');
-	        } else {
-	          (0, _getTeam2.default)(function (data) {
-	            return dispatch(receiveData(data));
-	          });
-	        }
-	      });
-
-	      dispatch({
-	        type: SAVE_TEAM,
-	        members: state.members
-	      });
-	    }
-
-	    props.router.push('/ip-p2p');
-	  };
-	};
-
-	var cancel = exports.cancel = function cancel(props) {
-	  return function (dispatch) {
-	    dispatch({ type: REQUEST_TEAM });
-	    (0, _getTeam2.default)(function (data) {
-	      return dispatch(receiveData(data));
-	    });
-
-	    props.router.push('/ip-p2p');
-	  };
-		};
-
-/***/ },
-/* 517 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; // Node imports
-
-
-	var _isomorphicFetch = __webpack_require__(502);
-
-	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
-
-	var _getApiEntrypoint = __webpack_require__(504);
-
-	var _getApiEntrypoint2 = _interopRequireDefault(_getApiEntrypoint);
-
-	var _mapMember = __webpack_require__(518);
-
-	var _mapMember2 = _interopRequireDefault(_mapMember);
-
-	var _mapRating = __webpack_require__(519);
-
-	var _mapRating2 = _interopRequireDefault(_mapRating);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var apiEntrypoint = (0, _getApiEntrypoint2.default)('project/members');
-
-	exports.default = function (callback) {
-	  return (0, _isomorphicFetch2.default)(apiEntrypoint).then(function (response) {
-	    return response.json();
-	  }).then(function (data) {
-	    var members = data.map(function (member) {
-	      return _extends({}, (0, _mapMember2.default)(member), {
-	        isFinal: member.status === 'FINAL',
-	        isQM: member.qm,
-	        ratings: member.ratings.map(function (rating) {
-	          return (0, _mapRating2.default)(rating);
-	        })
-	      });
-	    });
-	    callback(members);
-	  });
-		};
-
-/***/ },
-/* 518 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	exports.default = function (member) {
-	  return {
-	    id: member.id.toString(),
-	    firstName: member.student.firstName,
-	    lastName: member.student.lastName,
-	    name: member.student.firstName + " " + member.student.lastName,
-	    email: member.student.email,
-	    slug: member.student.slug,
-	    studentId: member.student.id.toString(),
-	    roles: member.roles.map(function (memberRole) {
-	      return {
-	        id: memberRole.id.toString(),
-	        title: memberRole.role.title,
-	        shortcut: memberRole.role.shortcut,
-	        active: memberRole.active,
-	        roleId: memberRole.role.id.toString()
-	      };
-	    }),
-	    isQM: member.isQM,
-	    removed: member.removed
-	  };
-		};
-
-/***/ },
-/* 519 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-	var _mapMember = __webpack_require__(518);
+	var _mapMember = __webpack_require__(517);
 
 	var _mapMember2 = _interopRequireDefault(_mapMember);
 
@@ -32612,7 +32319,40 @@
 	};
 
 /***/ },
-/* 520 */
+/* 517 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	exports.default = function (member) {
+	  return {
+	    id: member.id.toString(),
+	    firstName: member.student.firstName,
+	    lastName: member.student.lastName,
+	    name: member.student.firstName + " " + member.student.lastName,
+	    email: member.student.email,
+	    slug: member.student.slug,
+	    studentId: member.student.id.toString(),
+	    roles: member.roles.map(function (memberRole) {
+	      return {
+	        id: memberRole.id.toString(),
+	        title: memberRole.role.title,
+	        shortcut: memberRole.role.shortcut,
+	        active: memberRole.active,
+	        roleId: memberRole.role.id.toString()
+	      };
+	    }),
+	    isQM: member.isQM,
+	    removed: member.removed
+	  };
+		};
+
+/***/ },
+/* 518 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32632,29 +32372,24 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	// Node imports
-	var apiEntrypoint = (0, _getApiEntrypoint2.default)('project/members');
+	var apiEntrypoint = (0, _getApiEntrypoint2.default)('project/member/ratings');
 
-	exports.default = function (values, callback) {
-	  var members = values.map(function (member) {
-	    return {
-	      id: member.id,
-	      student: {
-	        id: member.studentId
-	      },
-	      roles: member.roles.map(function (memberRole) {
-	        return {
-	          id: memberRole.id,
-	          active: memberRole.active,
-	          role: {
-	            id: memberRole.roleId,
-	            title: memberRole.title
-	          }
-	        };
-	      }),
-	      added: member.added && !member.removed,
-	      removed: member.removed && !member.added,
-	      updated: member.updated };
+	exports.default = function (rating, callback) {
+	  var criteriaRatings = [];
+	  rating.categories.forEach(function (cat) {
+	    return criteriaRatings = criteriaRatings.concat(cat.criteriaRatings.map(function (crit) {
+	      return {
+	        id: crit.id,
+	        rating: crit.rating
+	      };
+	    }));
 	  });
+
+	  var memberRating = {
+	    id: rating.ratingId,
+	    comment: rating.comment,
+	    criteriaRatings: criteriaRatings
+	  };
 
 	  (0, _isomorphicFetch2.default)(apiEntrypoint, {
 	    method: 'POST',
@@ -32662,16 +32397,14 @@
 	      Accept: 'application/json',
 	      'Content-Type': 'application/json'
 	    },
-	    body: JSON.stringify(members)
+	    body: JSON.stringify(memberRating)
 	  }).then(function (response) {
-	    return response.json();
-	  }).then(function (data) {
-	    return callback(data);
+	    return callback(response);
 	  });
 	};
 
 /***/ },
-/* 521 */
+/* 519 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -32696,74 +32429,7 @@
 		};
 
 /***/ },
-/* 522 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	exports.default = function (members) {
-	  var ratings = [];
-
-	  if (members.length > 0) {
-	    members.forEach(function (member) {
-	      var total = 0;
-	      var count = 0;
-	      var categories = [];
-	      member.ratings[0].categories.forEach(function (category) {
-	        var criteriaRatings = [];
-
-	        category.criteriaRatings.forEach(function (criteria) {
-	          var critTotal = 0;
-	          var critCount = 0;
-
-	          members.forEach(function (m) {
-	            console.log(m.ratings);
-	            var mCrit = m.ratings.find(function (rat) {
-	              return rat.studentId === member.studentId;
-	            }).categories.find(function (cat) {
-	              return cat.id === category.id;
-	            }).criteriaRatings.find(function (crit) {
-	              return crit.criteriaId === criteria.criteriaId;
-	            });
-
-	            if (mCrit) {
-	              critTotal += mCrit.rating;
-	              critCount += 1;
-	              total += mCrit.rating;
-	              count += 1;
-	            }
-	          });
-
-	          criteriaRatings.push({
-	            criteriaId: criteria.criteriaId,
-	            label: criteria.label,
-	            rating: critTotal / critCount
-	          });
-	        });
-
-	        categories.push(_extends({}, category, {
-	          criteriaRatings: criteriaRatings
-	        }));
-	      });
-	      console.log(total, count);
-	      ratings.push(_extends({}, member, {
-	        categories: categories,
-	        rating: total / count
-	      }));
-	    });
-	  }
-
-	  return ratings;
-	};
-
-/***/ },
-/* 523 */
+/* 520 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32774,7 +32440,7 @@
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-	var _myrating = __webpack_require__(524);
+	var _myrating = __webpack_require__(521);
 
 	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
@@ -32808,7 +32474,7 @@
 	exports.default = reducer;
 
 /***/ },
-/* 524 */
+/* 521 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32818,7 +32484,7 @@
 	});
 	exports.fetchMyRating = exports.RECEIVE_RATING = exports.REQUEST_RATING = undefined;
 
-	var _getMyRatingMock = __webpack_require__(525);
+	var _getMyRatingMock = __webpack_require__(522);
 
 	var _getMyRatingMock2 = _interopRequireDefault(_getMyRatingMock);
 
@@ -32861,7 +32527,7 @@
 		};
 
 /***/ },
-/* 525 */
+/* 522 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32870,11 +32536,11 @@
 	  value: true
 	});
 
-	var _fetchMock = __webpack_require__(526);
+	var _fetchMock = __webpack_require__(523);
 
 	var _fetchMock2 = _interopRequireDefault(_fetchMock);
 
-	var _getMyRating = __webpack_require__(529);
+	var _getMyRating = __webpack_require__(526);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -33040,13 +32706,13 @@
 	};
 
 /***/ },
-/* 526 */
+/* 523 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var FetchMock = __webpack_require__(527);
-	var statusTextMap = __webpack_require__(528);
+	var FetchMock = __webpack_require__(524);
+	var statusTextMap = __webpack_require__(525);
 
 	module.exports = new FetchMock({
 		theGlobal: window,
@@ -33057,7 +32723,7 @@
 	});
 
 /***/ },
-/* 527 */
+/* 524 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -33573,7 +33239,7 @@
 	module.exports = FetchMock;
 
 /***/ },
-/* 528 */
+/* 525 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -33646,7 +33312,7 @@
 	module.exports = statusTextMap;
 
 /***/ },
-/* 529 */
+/* 526 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33668,7 +33334,7 @@
 		};
 
 /***/ },
-/* 530 */
+/* 527 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33679,7 +33345,7 @@
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-	var _roles = __webpack_require__(531);
+	var _roles = __webpack_require__(528);
 
 	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
@@ -33713,7 +33379,7 @@
 	exports.default = reducer;
 
 /***/ },
-/* 531 */
+/* 528 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33725,7 +33391,7 @@
 
 	__webpack_require__(502);
 
-	var _getRoles = __webpack_require__(532);
+	var _getRoles = __webpack_require__(529);
 
 	var _getRoles2 = _interopRequireDefault(_getRoles);
 
@@ -33769,7 +33435,7 @@
 		};
 
 /***/ },
-/* 532 */
+/* 529 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33807,7 +33473,7 @@
 		};
 
 /***/ },
-/* 533 */
+/* 530 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33818,7 +33484,7 @@
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-	var _team = __webpack_require__(516);
+	var _team = __webpack_require__(531);
 
 	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
@@ -33859,6 +33525,318 @@
 	};
 
 	exports.default = reducer;
+
+/***/ },
+/* 531 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.cancel = exports.saveTeam = exports.updateMemberRating = exports.removeMember = exports.addMember = exports.updateRoleOfMember = exports.showMemberEvaluation = exports.fetchTeam = exports.SAVE_TEAM = exports.UPDATE_TEAM = exports.REQUEST_TEAM = exports.REMOVE_MEMBER = exports.RECEIVE_TEAM = exports.ADD_MEMBER = undefined;
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; // Middleware
+
+
+	// Actions
+
+
+	var _getTeam = __webpack_require__(532);
+
+	var _getTeam2 = _interopRequireDefault(_getTeam);
+
+	var _saveTeam = __webpack_require__(533);
+
+	var _saveTeam2 = _interopRequireDefault(_saveTeam);
+
+	var _app = __webpack_require__(499);
+
+	var _ratings = __webpack_require__(514);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var ADD_MEMBER = exports.ADD_MEMBER = '/team/ADD_MEMBER';
+	var RECEIVE_TEAM = exports.RECEIVE_TEAM = '/team/RECEIVE_TEAM';
+	var REMOVE_MEMBER = exports.REMOVE_MEMBER = '/team/REMOVE_MEMBER';
+	var REQUEST_TEAM = exports.REQUEST_TEAM = '/team/REQUEST_TEAM';
+	var UPDATE_TEAM = exports.UPDATE_TEAM = '/team/UPDATE_TEAM';
+	var SAVE_TEAM = exports.SAVE_TEAM = '/team/SAVE_TEAM';
+
+	var receiveData = function receiveData(data) {
+	  return {
+	    type: RECEIVE_TEAM,
+	    members: data
+	  };
+	};
+
+	var shouldFetchData = function shouldFetchData(state) {
+	  if (!state.team || state.relaod) {
+	    return true;
+	  }
+	  return !state.team.isFetching && !state.team.fetched;
+	};
+
+	var fetchTeam = exports.fetchTeam = function fetchTeam() {
+	  return function (dispatch, getState) {
+	    if (shouldFetchData(getState())) {
+	      dispatch({ type: REQUEST_TEAM });
+	      (0, _getTeam2.default)(function (data) {
+	        return dispatch(receiveData(data));
+	      });
+	    }
+	  };
+	};
+
+	var showMemberEvaluation = exports.showMemberEvaluation = function showMemberEvaluation(member, props) {
+	  return function (dispatch) {
+	    if (member.categories) {
+	      dispatch((0, _app.setTitle)('Evaluation'));
+	      dispatch((0, _ratings.selectRating)(props.members.indexOf(member), props));
+	    } else {
+	      console.log('No Criterias defined');
+	    }
+	  };
+	};
+
+	var updateRoleOfMember = exports.updateRoleOfMember = function updateRoleOfMember(value, updateMember) {
+	  return function (dispatch, getState) {
+	    var state = getState().team;
+	    var roleState = getState().role;
+
+	    if (updateMember && value.roleId) {
+	      (function () {
+
+	        var updatedMember = state.members.find(function (member) {
+	          return member.studentId === updateMember.studentId;
+	        });
+	        var updatedRoles = updatedMember.roles.map(function (role) {
+	          return _extends({}, role, {
+	            active: false
+	          });
+	        });
+	        updatedRoles.push(_extends({}, roleState.roles.find(function (role) {
+	          return role.roleId === value.roleId;
+	        }), {
+	          active: true
+	        }));
+	        updatedMember.roles = updatedRoles;
+
+	        dispatch({
+	          type: UPDATE_TEAM,
+	          members: state.members.map(function (member) {
+	            return member.studentId === updateMember.studentId ? _extends({}, updatedMember, {
+	              updated: true
+	            }) : member;
+	          })
+	        });
+	      })();
+	    }
+	  };
+	};
+
+	var addMember = exports.addMember = function addMember(student) {
+	  return function (dispatch, getState) {
+	    var state = getState().team;
+
+	    var members = state.members;
+
+	    if (members) {
+	      members.push({
+	        studentId: student.id,
+	        name: student.name,
+	        email: student.email,
+	        slug: student.slug,
+	        roles: [],
+	        added: true
+	      });
+
+	      dispatch({
+	        type: ADD_MEMBER,
+	        members: members
+	      });
+	    }
+	  };
+	};
+
+	var removeMember = exports.removeMember = function removeMember(removedMember) {
+	  return function (dispatch, getState) {
+	    var state = getState().team;
+
+	    var members = (state.members || []).map(function (member) {
+	      return _extends({}, member, {
+	        removed: member.removed || member.studentId === removedMember.studentId
+	      });
+	    });
+
+	    dispatch({
+	      type: REMOVE_MEMBER,
+	      members: members
+	    });
+	  };
+	};
+
+	var updateMemberRating = exports.updateMemberRating = function updateMemberRating(updatedMember) {
+	  return function (dispatch, getState) {
+	    var state = getState().team;
+	    var members = state.members.map(function (member) {
+	      return member.studentId === updatedMember.studentId ? _extends({}, member, {
+	        ratings: updatedMember.ratings
+	      }) : member;
+	    });
+
+	    dispatch({
+	      type: UPDATE_TEAM,
+	      members: members
+	    });
+	  };
+	};
+
+	var saveTeam = exports.saveTeam = function saveTeam(props) {
+	  return function (dispatch, getState) {
+	    var state = getState().team;
+
+	    if (state.members) {
+	      (0, _saveTeam2.default)(state.members, function (data) {
+	        if (data.status === 500) {
+	          alert('Criteria could not be saved');
+	        } else {
+	          (0, _getTeam2.default)(function (data) {
+	            return dispatch(receiveData(data));
+	          });
+	        }
+	      });
+
+	      dispatch({
+	        type: SAVE_TEAM,
+	        members: state.members
+	      });
+	    }
+
+	    props.router.push('/ip-p2p');
+	  };
+	};
+
+	var cancel = exports.cancel = function cancel(props) {
+	  return function (dispatch) {
+	    dispatch({ type: REQUEST_TEAM });
+	    (0, _getTeam2.default)(function (data) {
+	      return dispatch(receiveData(data));
+	    });
+
+	    props.router.push('/ip-p2p');
+	  };
+		};
+
+/***/ },
+/* 532 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; // Node imports
+
+
+	var _isomorphicFetch = __webpack_require__(502);
+
+	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
+
+	var _getApiEntrypoint = __webpack_require__(504);
+
+	var _getApiEntrypoint2 = _interopRequireDefault(_getApiEntrypoint);
+
+	var _mapMember = __webpack_require__(517);
+
+	var _mapMember2 = _interopRequireDefault(_mapMember);
+
+	var _mapRating = __webpack_require__(516);
+
+	var _mapRating2 = _interopRequireDefault(_mapRating);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var apiEntrypoint = (0, _getApiEntrypoint2.default)('project/members');
+
+	exports.default = function (callback) {
+	  return (0, _isomorphicFetch2.default)(apiEntrypoint).then(function (response) {
+	    return response.json();
+	  }).then(function (data) {
+	    var members = data.map(function (member) {
+	      return _extends({}, (0, _mapMember2.default)(member), {
+	        isFinal: member.status === 'FINAL',
+	        isQM: member.qm,
+	        ratings: member.ratings.map(function (rating) {
+	          return (0, _mapRating2.default)(rating);
+	        })
+	      });
+	    });
+	    callback(members);
+	  });
+		};
+
+/***/ },
+/* 533 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _isomorphicFetch = __webpack_require__(502);
+
+	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
+
+	var _getApiEntrypoint = __webpack_require__(504);
+
+	var _getApiEntrypoint2 = _interopRequireDefault(_getApiEntrypoint);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	// Node imports
+	var apiEntrypoint = (0, _getApiEntrypoint2.default)('project/members');
+
+	exports.default = function (values, callback) {
+	  var members = values.map(function (member) {
+	    return {
+	      id: member.id,
+	      student: {
+	        id: member.studentId
+	      },
+	      roles: member.roles.map(function (memberRole) {
+	        return {
+	          id: memberRole.id,
+	          active: memberRole.active,
+	          role: {
+	            id: memberRole.roleId,
+	            title: memberRole.title
+	          }
+	        };
+	      }),
+	      added: member.added && !member.removed,
+	      removed: member.removed && !member.added,
+	      updated: member.updated };
+	  });
+
+	  (0, _isomorphicFetch2.default)(apiEntrypoint, {
+	    method: 'POST',
+	    headers: {
+	      Accept: 'application/json',
+	      'Content-Type': 'application/json'
+	    },
+	    body: JSON.stringify(members)
+	  }).then(function (response) {
+	    return response.json();
+	  }).then(function (data) {
+	    return callback(data);
+	  });
+	};
 
 /***/ },
 /* 534 */
@@ -34060,7 +34038,7 @@
 	  value: true
 	});
 
-	var _fetchMock = __webpack_require__(526);
+	var _fetchMock = __webpack_require__(523);
 
 	var _fetchMock2 = _interopRequireDefault(_fetchMock);
 
@@ -81100,10 +81078,6 @@
 	// Action imports
 
 
-	var _react = __webpack_require__(541);
-
-	var _react2 = _interopRequireDefault(_react);
-
 	var _reactRouter = __webpack_require__(931);
 
 	var _reactRedux = __webpack_require__(551);
@@ -81232,7 +81206,7 @@
 	        { className: (0, _classnames2.default)('uppercase', props.status) },
 	        props.type
 	      ),
-	      subtitle: (0, _moment2.default)(props.date).format('L'),
+	      subtitle: (0, _moment2.default)(props.date).format('DD.MM.YYYY'),
 	      style: { width: '25%', float: 'left' }
 	    }),
 	    _react2.default.createElement(
@@ -96059,7 +96033,7 @@
 
 	var _TeamRatingPageContainer2 = _interopRequireDefault(_TeamRatingPageContainer);
 
-	var _team = __webpack_require__(516);
+	var _team = __webpack_require__(531);
 
 	var _calculateProgress = __webpack_require__(1126);
 
@@ -96234,11 +96208,9 @@
 	  }
 
 	  _createClass(ProgressPageComponent, [{
-	    key: 'componentWillReceiveProps',
-	    value: function componentWillReceiveProps(nextProps) {
-	      if (this.props.ratings && nextProps.initialRatings && this.props.ratings.length !== nextProps.initialRatings.length) {
-	        this.props.initialize(nextProps.initialRatings);
-	      }
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.props.fetchRatings();
 	    }
 	  }, {
 	    key: 'render',
@@ -96271,8 +96243,8 @@
 	    handleSelectRating: function handleSelectRating(rating) {
 	      return dispatch((0, _ratings.showRating)(rating, ownProps, false));
 	    },
-	    initialize: function initialize(ratings) {
-	      return dispatch((0, _ratings.initializeRatings)(ratings));
+	    fetchRatings: function fetchRatings() {
+	      return dispatch((0, _ratings.fetchRatings)());
 	    }
 	  };
 	};
@@ -96501,13 +96473,14 @@
 	  value: true
 	});
 
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; // React imports
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(541);
+	// Component imports
 
-	var _react2 = _interopRequireDefault(_react);
+
+	// Action imports
+
 
 	var _reactRouter = __webpack_require__(931);
 
@@ -96520,50 +96493,6 @@
 	var _ratings = __webpack_require__(514);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // React imports
-
-
-	// Component imports
-
-
-	// Action imports
-
-
-	var TeamRatingPageComponent = function (_React$Component) {
-	  _inherits(TeamRatingPageComponent, _React$Component);
-
-	  function TeamRatingPageComponent() {
-	    _classCallCheck(this, TeamRatingPageComponent);
-
-	    return _possibleConstructorReturn(this, (TeamRatingPageComponent.__proto__ || Object.getPrototypeOf(TeamRatingPageComponent)).apply(this, arguments));
-	  }
-
-	  _createClass(TeamRatingPageComponent, [{
-	    key: 'componentWillReceiveProps',
-	    value: function componentWillReceiveProps(nextProps) {
-	      if (this.props.members && nextProps.members && this.props.members.length !== nextProps.members.length) {
-	        this.props.initialize(nextProps.members);
-	      }
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(_TeamRatingPage2.default, this.props);
-	    }
-	  }]);
-
-	  return TeamRatingPageComponent;
-	}(_react2.default.Component);
-
-	TeamRatingPageComponent.propTypes = {
-	  members: _react2.default.PropTypes.array,
-	  initialize: _react2.default.PropTypes.func
-	};
 
 	var mapStateToProps = function mapStateToProps(globalState, props) {
 	  var ratings = globalState.rating.ratings;
@@ -96580,14 +96509,11 @@
 	  return {
 	    handleSelectMember: function handleSelectMember(member) {
 	      return dispatch((0, _ratings.showRating)(member, ownProps, true));
-	    },
-	    initialize: function initialize(members) {
-	      return dispatch((0, _ratings.initializeMembers)(members));
 	    }
 	  };
 	};
 
-	var TeamRatingPageContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(TeamRatingPageComponent);
+	var TeamRatingPageContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_TeamRatingPage2.default);
 
 		exports.default = (0, _reactRouter.withRouter)(TeamRatingPageContainer);
 
@@ -97819,9 +97745,9 @@
 
 	var _app = __webpack_require__(499);
 
-	var _team = __webpack_require__(516);
+	var _team = __webpack_require__(531);
 
-	var _roles = __webpack_require__(531);
+	var _roles = __webpack_require__(528);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -98261,7 +98187,7 @@
 
 	var _app = __webpack_require__(499);
 
-	var _myrating = __webpack_require__(524);
+	var _team = __webpack_require__(531);
 
 	var _ratings = __webpack_require__(514);
 
@@ -98332,7 +98258,7 @@
 	      return dispatch((0, _app.setTitle)('My Ratings'));
 	    },
 	    fetchMyRating: function fetchMyRating() {
-	      return dispatch((0, _myrating.fetchMyRating)());
+	      return dispatch((0, _team.fetchTeam)());
 	    },
 	    handleSelectMember: function handleSelectMember(member, props) {
 	      return dispatch((0, _ratings.showRating)(member, props, true));
@@ -98680,7 +98606,7 @@
 
 	var _calculateProgress2 = _interopRequireDefault(_calculateProgress);
 
-	var _getCriteriaValues = __webpack_require__(521);
+	var _getCriteriaValues = __webpack_require__(519);
 
 	var _getCriteriaValues2 = _interopRequireDefault(_getCriteriaValues);
 

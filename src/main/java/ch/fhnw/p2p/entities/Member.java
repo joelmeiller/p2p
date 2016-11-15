@@ -53,6 +53,12 @@ public class Member extends VersionedObject{
 	
 	@NotNull @DecimalMax("5.0") @DecimalMin("0.0")
 	private BigDecimal deviation;
+	
+	@NotNull @DecimalMax("6.0") @DecimalMin("1.0")
+	private BigDecimal grade;
+	
+	@Transient
+	private int progress;
 
 	
 	@ManyToOne(cascade = CascadeType.ALL)
@@ -62,7 +68,7 @@ public class Member extends VersionedObject{
 	
 	// Relations
 	@ManyToOne
-    @JoinColumn(name = "studentId")
+    @JoinColumn(name = "userId")
 	private User student;
 	
 	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="member")
@@ -91,6 +97,7 @@ public class Member extends VersionedObject{
 		this.status = Status.NEW;
 		this.rating = new BigDecimal(0);
 		this.deviation = new BigDecimal(0);
+		this.grade = new BigDecimal(4.0);
 		this.roles = new HashSet<MemberRole>();
 		this.memberRatings = new ArrayList<MemberRating>();
 		this.ratings = new HashSet<MemberRatingMapping>();
@@ -123,6 +130,10 @@ public class Member extends VersionedObject{
 		return null;
 	}
 	
+	public void clearMemberRatings() {
+		memberRatings = new ArrayList<MemberRating>();
+	}
+	
 	/**
 	 * returns the REST api mapped member ratings
 	 * @param Set of MemberRating Set<MemberRating>
@@ -137,7 +148,8 @@ public class Member extends VersionedObject{
 		return ratings;
 	}
 
-	public void setRatings(Set<MemberRating> memberRatings) {
+	public void setRatings(List<MemberRating> memberRatings) {
+		ratings = new HashSet<MemberRatingMapping>();
 		for (MemberRating memberRating : memberRatings) {
 			ratings.add(new MemberRatingMapping(memberRating));
 		}

@@ -35,8 +35,8 @@ const EvaluationContainer = props => (
       readonly={props.readonly}
       onCommentChanged={props.handleCommentChanged}
       onRatingChanged={props.handleRatingChanged}
-      onClose={props.handleClose}
-      onCancel={props.handleCancel}
+      onClose={() => props.handleClose(props)}
+      onCancel={() => props.handleCancel(props)}
       {...props}
     />
   </div>
@@ -56,6 +56,7 @@ EvaluationContainer.propTypes = {
 };
 
 const mapStateToProps = (globalState, props) => {
+  const { user } = globalState.app;
   const { ratings, values, selectedIndex, ...other } = globalState.rating;
   const selectedRating = ratings[selectedIndex];
 
@@ -65,6 +66,7 @@ const mapStateToProps = (globalState, props) => {
   return {
     ...other,
     ...props,
+    onClosePath: user.isQM ? '/ip-p2p/team/rating' : '/ip-p2p',
     ratings,
     selectedIndex,
     selectedRating,
@@ -76,8 +78,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   handleSelectRating: (index, props) => dispatch(selectRating(index, props)),
   handleCommentChanged: value => dispatch(updateComment(value)),
   handleRatingChanged: (nextValue, prevValue, id) => dispatch(updateRating(nextValue, id)),
-  handleClose: () => dispatch(saveRatingAndClose(ownProps)),
-  handleCancel: () => dispatch(cancelRating(ownProps)),
+  handleClose: (props) => dispatch(saveRatingAndClose(props)),
+  handleCancel: (props) => dispatch(cancelRating(props)),
 });
 
 const TeammemberEvaluation = connect(

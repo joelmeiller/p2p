@@ -1,5 +1,6 @@
 import {
-  INITIALIZE,
+  REQUEST_RATINGS,
+  RECEIVE_RATINGS,
   SELECT_RATING,
   UPDATE_COMMENT,
   UPDATE_RATING,
@@ -18,17 +19,25 @@ const initialState = {
 };
 
 const reducer = (state = initialState, action) => {
+  const { type, ratings } = action;
   const newState = { ...state };
   newState.resetRating = undefined;
 
   const values = { ...state.values };
 
-  switch (action.type) {
-    case INITIALIZE:
+  switch (type) {
+    case REQUEST_RATINGS:
       return {
-        ...newState,
-        ratings: action.ratings,
-      }
+        ...state,
+        ratings,
+        isFetching: true,
+      };
+    case RECEIVE_RATINGS:
+      return {
+        ...state,
+        ratings,
+        isFetching: false,
+      };
     case SELECT_RATING:
       values.ratings = [];
       return {

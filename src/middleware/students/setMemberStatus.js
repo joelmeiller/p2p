@@ -11,7 +11,7 @@ export const FINAL = 'OPEN';
 export const ACCEPTED = 'ACCEPTED';
 
 
-export default (status, callback) => {
+export default (status) => {
   fetch(apiEntrypoint, {
     method: 'POST',
     headers: {
@@ -20,5 +20,9 @@ export default (status, callback) => {
     },
     body: JSON.stringify(status),
   })
-  .then(response => callback(response));
+  .then((response) => {
+    if (response.status !== 200) {
+      console.log(`Error from Server: ${response.status}`);
+    }
+  });
 };

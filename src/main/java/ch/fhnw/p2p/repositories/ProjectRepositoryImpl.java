@@ -1,5 +1,7 @@
 package ch.fhnw.p2p.repositories;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -14,6 +16,7 @@ import ch.fhnw.p2p.entities.Project;
 import ch.fhnw.p2p.entities.ProjectCriteria;
 import ch.fhnw.p2p.entities.Role;
 import ch.fhnw.p2p.entities.User;
+import ch.fhnw.p2p.evaluation.ProgressCalculator;
 
 public class ProjectRepositoryImpl {
 	
@@ -30,6 +33,54 @@ public class ProjectRepositoryImpl {
 	
 	@Autowired
 	UserRepository studentRepo;
+	
+	/**
+	 * returns the project's members with the progress or the final rating depending on the project status 
+	 * @param Project
+	 * @return set of the project's team members Set<Member>
+	 */
+	public Set<Member> getProjectMembers(User user) {
+		Set<Member> members = new HashSet<Member>();
+		if (user.isCoach()) {
+			logger.info("Request as coach (no members)");
+		} else {
+			if (user.isQM()) {
+				for (Member member: user.getMember().getProject().getMembers()) {
+					members.add(getMemberRating(user.getMember().getProject(), member));
+				}
+				logger.info("Successfully read project/members for QM " + user.toString() + " of project " + user.getMember().getProject().toString());
+			} else {
+				members.add(getMemberRating(user.getMember().getProject(), user.getMember()));
+				logger.info("Successfully read project/members for Member " + user.toString() + " of project " + user.getMember().getProject().toString());
+			}
+		}
+		return members;
+	}
+	
+	private Member getMemberRating(Project project, Member member) {
+		List<MemberRating> memberRatings = new ArrayList<MemberRating>();
+
+		member.setProgress(ProgressCalculator.getMemberProgress(member));	
+
+		if (project.getStatus() == Project.Status.FINAL) {
+			// Find ratings of other members for his member
+			for (Member mem : project.getMembers()) {
+				for (MemberRating rating: mem.getMemberRatings()) {
+					if (rating.getTargetMember().getId() == member.getId()
+							&& rating.getSourceMember().getStatus() == Member.Status.FINAL) {
+						memberRatings.add(rating);
+					}
+				}
+			}
+			member.setMemberRatings(memberRatings);
+		} else {
+			member.clearMemberRatings();
+		}
+		member.setRatings(member.getMemberRatings());
+		
+		return member;
+	}
+
 	
 	/**
 	 * add or remove team members
@@ -49,9 +100,12 @@ public class ProjectRepositoryImpl {
 					logger.info("Add student: " + student.toString() + " to project '" + project.getTitle() + "' (id=" + project.getId() + ")");
 					if (projectMember.getRoles() != null && projectMember.getRoles().size() > 0) {
 						Role role = roleRepo.findOne(projectMember.getRoles().stream().findFirst().get().getRole().getId());
-						members.add(addRatings(new Member(project, student, role)));
+						
+						logger.info("Add ratings for member " + student.toString());
+						members.add(addMemberToRatings(new Member(project, student, role)));
 					} else {
-						members.add(addRatings(new Member(project, student)));
+						logger.info("Add ratings for member " + student.toString());
+						members.add(addMemberToRatings(new Member(project, student)));
 						student.setStatus(User.Status.ALLOCATED);
 						studentRepo.save(student);
 					}
@@ -84,12 +138,13 @@ public class ProjectRepositoryImpl {
 		}
 	}
 	
+	
 	/**
 	 * enriches the member with the related project criteria for each team member
 	 * @param member member to add criteria for each team member
 	 * @return Member updated member
 	 */
-	public Member addRatings (Member updateMember) {
+	public Member addMemberToRatings (Member updateMember) {
 		logger.info("Add ratings for member " + updateMember.toString() + "(id=" + updateMember.getId() + ")");
 		List<ProjectCriteria> criterias = updateMember.getProject().getProjectCriteria();
 		

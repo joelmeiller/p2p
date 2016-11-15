@@ -1,6 +1,5 @@
 package ch.fhnw.p2p.controller;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -57,7 +56,7 @@ public class MemberController {
 	// ------------------------
 	
 	/**
-	 * Returns all team members of the project (QM only) or the team members with their ratings for the specific team member
+	 * Returns all team members of the project (QM only) or the team members with the progress or the the final ratings
 	 * 
 	 * @return A list of members
 	 */
@@ -67,20 +66,10 @@ public class MemberController {
 		logger.info("GET request for project/members");
 		User user = accessControl.login(request, AccessControl.Allowed.ALL);	
 		
-		if (user.isCoach()) {
-			logger.info("Request as coach (no members)");
-			return new ResponseEntity<Set<Member>>(new HashSet<Member>(), HttpStatus.OK);
-		} else {
-			logger.info("Successfully read project/members for " + user.toString() + " of project " + user.getMember().getProject().toString());
-			if (user.isQM()) {
-				return new ResponseEntity<Set<Member>>(user.getMember().getProject().getMembers(), HttpStatus.OK);
-			} else {
-				Set<Member> singleMember = new HashSet<Member>();
-				singleMember.add(user.getMember());
-				return new ResponseEntity<Set<Member>>(singleMember, HttpStatus.OK);
-			}
-		}
+		return new ResponseEntity<Set<Member>>(projectRepoImpl.getProjectMembers(user), HttpStatus.OK);
 	}
+	
+	
 	
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "/members", method = RequestMethod.POST)

@@ -14,8 +14,8 @@ const Dashboard = props => (
     <Inbox />
     {(props.isJury ?
       <ProjectOverview {...props} /> :
-      <TeamRatingOverview {...props} />)
-    }
+      <TeamRatingOverview {...props} />
+    )}
   </div>
 );
 

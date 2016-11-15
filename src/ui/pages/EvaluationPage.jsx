@@ -27,7 +27,7 @@ const EvaluationPage = props => (
         )}
       </div>
       <div className="col-xs-1 push-right pull-top-small">
-        <IconButton onClick={() => props.onClose(props)}>
+        <IconButton onClick={props.onClose}>
           <NavigationClose />
         </IconButton>
       </div>
@@ -59,12 +59,12 @@ const EvaluationPage = props => (
       <div className="col-xs-6 align-right">
         <RaisedButton
           label={props.readonly ? 'Back' : 'Cancel'}
-          onClick={props.handleCancel}
+          onClick={props.onCancel}
         />
       </div>
       <div className="col-xs-6">
         <p className="italic small note push-left-small push-top-small">
-          {props.readonly ? 'Die Bewertungen werden automatisch gespeichert.' : ''}
+          {!props.readonly ? 'Die Bewertungen werden automatisch gespeichert.' : ''}
         </p>
       </div>
     </div>
@@ -81,7 +81,8 @@ EvaluationPage.propTypes = {
   onCommentChanged: React.PropTypes.func,
   readonly: React.PropTypes.bool,
   rating: React.PropTypes.number,
-  handleCancel: React.PropTypes.func,
+  onCancel: React.PropTypes.func,
+  onClose: React.PropTypes.func,
 };
 
 export default EvaluationPage;
