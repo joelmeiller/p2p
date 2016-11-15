@@ -31272,6 +31272,7 @@
 	        role: data.role ? data.role.shortcut : '-',
 	        isQM: data.user.qm,
 	        isCoach: data.user.coach,
+	        isJury: data.user.coach,
 	        isFinal: !['NEW', 'OPEN'].includes(data.project.status),
 	        isApproved: data.user.status === 'ACCEPTED'
 	      },
@@ -34157,9 +34158,13 @@
 	});
 	var ADD_PROJECT = exports.ADD_PROJECT = '/project/ADD_PROJECT';
 	var CANCEL = exports.CANCEL = 'project/CANCEL';
+	var EDIT_PROJECT = exports.EDIT_PROJECT = 'project/EDIT';
 	var SET_PROJECT_TITLE = exports.SET_PROJECT_TITLE = 'project/SET_PROJECT_TITLE';
 	var SET_COACH_NAME = exports.SET_COACH_NAME = 'project/SET_COACH_NAME';
-	var EDIT_PROJECT = exports.EDIT_PROJECT = 'project/EDIT';
+	var SET_PROJECT_STUFE = exports.SET_PROJECT_STUFE = 'project/SET_PROJECT_STUFE';
+	var SET_PROJECT_START = exports.SET_PROJECT_START = 'project/SET_PROJECT_START';
+	var SET_PROJECT_ART = exports.SET_PROJECT_ART = 'project/SET_PROJECT_ART';
+	var SET_PROJECT_STATUS = exports.SET_PROJECT_STATUS = 'project/SET_PROJECT_STATUS';
 
 	var cancel = exports.cancel = function cancel(props) {
 	  return function (dispatch) {
@@ -34186,6 +34191,42 @@
 	      value: newValue
 	    });
 	  };
+	};
+
+	var setProjectStufe = exports.setProjectStufe = function setProjectStufe(newValue) {
+	  return function (dispatch) {
+	    dispatch({
+	      type: SET_PROJECT_STUFE,
+	      value: newValue
+	    });
+	  };
+	};
+
+	var setProjectStart = exports.setProjectStart = function setProjectStart(newValue) {
+	  return function (dispatch) {
+	    dispatch({
+	      type: SET_PROJECT_START,
+	      value: newValue
+	    });
+	  };
+	};
+
+	var setProjectArt = exports.setProjectArt = function setProjectArt(newValue) {
+	  return function (dispatch) {
+	    dispatch({
+	      type: SET_PROJECT_ART,
+	      value: newValue
+	    });
+	  };
+	};
+
+	var setProjectStatus = exports.setProjectStatus = function setProjectStatus(newValue) {
+	  return function (dispatch) {
+	    dispatch({
+	      type: SET_PROJECT_STATUS,
+	      value: newValue
+	    });
+	  };
 		};
 
 /***/ },
@@ -34208,7 +34249,10 @@
 	var initialState = {
 	  title: undefined,
 	  coach: undefined,
-	  status: 'open',
+	  stufe: undefined,
+	  start: undefined,
+	  art: undefined,
+	  status: undefined,
 	  isFetching: false,
 	  fetched: false
 	};
@@ -34229,6 +34273,22 @@
 	    case _project.SET_COACH_NAME:
 	      return _extends({}, state, params, {
 	        name: value
+	      });
+	    case _project.SET_PROJECT_STUFE:
+	      return _extends({}, state, params, {
+	        stufe: value
+	      });
+	    case _project.SET_PROJECT_START:
+	      return _extends({}, state, params, {
+	        start: value
+	      });
+	    case _project.SET_PROJECT_ART:
+	      return _extends({}, state, params, {
+	        art: value
+	      });
+	    case _project.SET_PROJECT_STATUS:
+	      return _extends({}, state, params, {
+	        status: value
 	      });
 	    case _project.EDIT_PROJECT:
 	      return _extends({}, state, params.project);
@@ -98039,7 +98099,6 @@
 	  }));
 
 	  var disabled = props.readonly || props.isQM || props.removed;
-
 	  var dropdown = props.isQM ? _react2.default.createElement(
 	    'div',
 	    { className: 'col-xs-3' },
@@ -99329,6 +99388,18 @@
 	    },
 	    handleCoachChanged: function handleCoachChanged(newCoachValue) {
 	      return dispatch((0, _project.setCoachName)(newCoachValue));
+	    },
+	    handleStufeChanged: function handleStufeChanged(newStufeValue) {
+	      return dispatch((0, _project.setStufe)(newStufeValue));
+	    },
+	    handleStartChanged: function handleStartChanged(newStartValue) {
+	      return dispatch((0, _project.setStart)(newStartValue));
+	    },
+	    handleArtChanged: function handleArtChanged(newArtValue) {
+	      return dispatch((0, _project.setArt)(newArtValue));
+	    },
+	    handleStatushanged: function handleStatushanged(newStatusValue) {
+	      return dispatch((0, _project.setStatus)(newStatusValue));
 	    }
 	  };
 	};
@@ -99397,6 +99468,142 @@
 	            return props.handleTitleChanged(e.target.value);
 	          }
 	        })
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'row' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-xs-2', style: { marginTop: 14 } },
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'Title'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-xs-6' },
+	          _react2.default.createElement(_TextField2.default, {
+	            hintText: 'Title',
+	            defaultValue: props.title,
+	            fullWidth: true,
+	            inputStyle: { color: '#333333' },
+	            onChange: function onChange(e) {
+	              return props.handleTitleChanged(e.target.value);
+	            }
+	          })
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'row' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-xs-2', style: { marginTop: 14 } },
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'Coach'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-xs-6' },
+	          _react2.default.createElement(_TextField2.default, {
+	            hintText: 'Name Coach',
+	            defaultValue: props.coachName,
+	            fullWidth: true,
+	            inputStyle: { color: '#333333' },
+	            onChange: function onChange(e) {
+	              return props.handleCoachChanged(e.target.value);
+	            }
+	          })
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'row' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-xs-2', style: { marginTop: 14 } },
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'Stufe'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-xs-4', style: { marginTop: -8 } },
+	          _react2.default.createElement(_Dropdown2.default, {
+	            menuItems: props.selectStates,
+	            selectedValue: props.selectedStateId
+	          })
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'row' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-xs-2', style: { marginTop: 14 } },
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'Start'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-xs-4', style: { marginTop: -8 } },
+	          _react2.default.createElement(_Dropdown2.default, {
+	            menuItems: props.selectStates,
+	            selectedValue: props.selectedStateId
+	          })
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'row' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-xs-2', style: { marginTop: 14 } },
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'Art'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-xs-4', style: { marginTop: -8 } },
+	          _react2.default.createElement(_Dropdown2.default, {
+	            menuItems: props.selectStates,
+	            selectedValue: props.selectedStateId
+	          })
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'row' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-xs-2', style: { marginTop: 14 } },
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'Status'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-xs-4', style: { marginTop: -8 } },
+	          _react2.default.createElement(_Dropdown2.default, {
+	            menuItems: props.selectStates,
+	            selectedValue: props.selectedStateId
+	          })
+	        )
 	      ),
 	      _react2.default.createElement(
 	        'div',
