@@ -47,7 +47,7 @@ public class MemberRatingController {
 	
 	@Autowired
 	private MemberRatingRepository memberRatingRepo;
-		
+	
 	
 	// ------------------------
 	// PUBLIC METHODS
@@ -64,6 +64,7 @@ public class MemberRatingController {
 		logger.info("GET Request for member/ratings");
 		User user = accessControl.login(request, AccessControl.Allowed.MEMBER);
 		
+		user.getMember().checkFinalRatings();
 		user.getMember().setRatings(user.getMember().getMemberRatings());
 		
 		logger.info("Succesfully read member/ratings of student " + user.toString());
@@ -73,18 +74,18 @@ public class MemberRatingController {
 	
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "/ratings", method = RequestMethod.POST)
-	public ResponseEntity<HttpStatus> add(HttpServletRequest request, @Valid @RequestBody MemberRatingMapping updatedMemberRating, BindingResult result) {
+	public ResponseEntity<Member> add(HttpServletRequest request, @Valid @RequestBody MemberRatingMapping updatedMemberRating, BindingResult result) {
 		logger.info("POST request to set member/ratings");
 		User user = accessControl.login(request, AccessControl.Allowed.MEMBER);	
 		
 		if (result.hasErrors()) {
 			logger.error(result);
-			return new ResponseEntity<HttpStatus>(HttpStatus.PRECONDITION_FAILED);
+			return new ResponseEntity<Member>(HttpStatus.PRECONDITION_FAILED);
 		}
 		
 		MemberRating memberRating = memberRatingRepo.findByIdAndSourceMemberId(updatedMemberRating.getId(), user.getMember().getId());
 		
-		if (memberRating == null) return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
+		if (memberRating == null) return new ResponseEntity<Member>(HttpStatus.BAD_REQUEST);
 		
 		try {
 			logger.info("Update team member ratings of " + user.getMember().toString());
@@ -100,12 +101,20 @@ public class MemberRatingController {
 				criteriaRating.setRating(updatedRating.get().getRating());
 			}
 		
+			logger.info("Checking for member rating status");
+			boolean isFinalRating = memberRating.checkFinalRating();
 			memberRatingRepo.save(memberRating);
 			
 			logger.info("Successfully updated member rating " + memberRating.toString());
-			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+			
+			if (isFinalRating) {
+				logger.info("Check all member ratings status");
+				user.getMember().checkFinalRatings();
+			}
+			
+			return new ResponseEntity<Member>(user.getMember(), HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<HttpStatus>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<Member>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }

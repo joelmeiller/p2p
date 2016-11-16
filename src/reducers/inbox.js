@@ -13,6 +13,7 @@ const initialState = {
 
 const reducer = (state = initialState, newAction) => {
   const { type, action } = newAction;
+  const newState = { ...state };
 
   switch (type) {
     // case REQUEST_INBOX:
@@ -33,11 +34,11 @@ const reducer = (state = initialState, newAction) => {
         action,
       };
     case ADD_ACTION:
-      state.actions.push(action);
-      return {
-        ...state,
-      };
-      default:
+      if (!newState.actions.find(a => a.id === action.id)) {
+        newState.actions.push(action);
+      }
+      return newState;
+    default:
       return state;
   }
 };

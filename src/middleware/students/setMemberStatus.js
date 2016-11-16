@@ -7,7 +7,7 @@ const apiEntrypoint = getApiEntrypoint('project/members/status');
 
 // Student Update Status
 export const OPEN = 'OPEN';
-export const FINAL = 'OPEN';
+export const FINAL = 'FINAL';
 export const ACCEPTED = 'ACCEPTED';
 
 

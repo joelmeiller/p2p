@@ -13,8 +13,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 import ch.fhnw.p2p.entities.mixins.VersionedObject;
 import ch.fhnw.p2p.utils.Slug;
 import lombok.Data;

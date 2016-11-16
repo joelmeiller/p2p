@@ -5,20 +5,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import ch.fhnw.p2p.entities.Category;
-import ch.fhnw.p2p.entities.Criteria;
-import ch.fhnw.p2p.entities.Locale;
-import ch.fhnw.p2p.entities.Member;
-import ch.fhnw.p2p.entities.MemberRole;
-import ch.fhnw.p2p.entities.Project;
-import ch.fhnw.p2p.entities.ProjectCategory;
-import ch.fhnw.p2p.entities.ProjectCriteria;
-import ch.fhnw.p2p.entities.Role;
 import ch.fhnw.p2p.entities.User;
-import ch.fhnw.p2p.repositories.CategoryRepository;
-import ch.fhnw.p2p.repositories.MemberRepository;
-import ch.fhnw.p2p.repositories.ProjectRepository;
-import ch.fhnw.p2p.repositories.RoleRepository;
 import ch.fhnw.p2p.repositories.UserRepository;
 
 @Component

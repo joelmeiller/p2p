@@ -15,6 +15,8 @@ export default (rating) => {
     ratingId: rating.id.toString(),
     rating: rating.rating,
     comment: rating.comment,
+    canFinalize: rating.canFinalize,
+    isFinal: rating.isFinal,
     ...mapMember(rating.member),
     categories: [],
   };

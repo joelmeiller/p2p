@@ -28,5 +28,6 @@ export default (rating, callback) => {
     },
     body: JSON.stringify(memberRating),
   })
-  .then(response => callback(response));
+  .then(response => response.json())
+  .then(data => callback(data));
 };

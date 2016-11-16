@@ -14,7 +14,7 @@ const EvaluationPage = props => (
   <div className="container push-top-small">
     <div className="row">
       <div className="col-xs-11">
-        {(props.rating ?
+        {(props.isFinal && props.rating ?
           <FinalRating
             text={`Rating for ${props.name} is`}
             value={props.rating}
@@ -78,6 +78,7 @@ EvaluationPage.propTypes = {
   progress: React.PropTypes.number,
   comment: React.PropTypes.string,
   categories: React.PropTypes.array.isRequired,
+  isFinal: React.PropTypes.bool,
   onCommentChanged: React.PropTypes.func,
   readonly: React.PropTypes.bool,
   rating: React.PropTypes.number,

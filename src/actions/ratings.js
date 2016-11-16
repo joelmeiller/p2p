@@ -4,6 +4,10 @@ import { default as apiSaveRating } from '../middleware/ratings/saveRating.js';
 
 // Actions
 import { setTitle } from './app.js';
+import { addAction, UPDATE_STATUS } from '../actions/inbox.js';
+
+// Middleware
+import { FINAL } from '../middleware/students/setMemberStatus.js';
 
 // Utils
 import getCriteriaValues from './utils/getCriteriaValues.js';
@@ -16,11 +20,29 @@ export const UPDATE_RATING = '/rating/UPDATE_RATING';
 export const CANCEL_RATING = '/rating/CANCEL_RATING';
 export const ERROR_RESET_UPDATE = '/rating/ERROR_RESET_UPDATE';
 
+const finalizeRatingsAction = {
+  id: '300',
+  message: 'Deine Bewertung ist komplett. Du kannst sie jetzt abschliessen, in dem du sie an deinen Qualtiy Manager (QM) sendest.',
+  type: 'important',
+  date: new Date(),
+  buttonText: 'Bewertung an QM senden',
+  params: {
+    type: UPDATE_STATUS,
+    status: FINAL,
+  },
+};
 
-const receiveData = data => ({
-  type: RECEIVE_RATINGS,
-  ratings: data,
-});
+const receiveData = data => (dispatch) => {
+  dispatch({
+    type: RECEIVE_RATINGS,
+    ratings: data.ratings,
+    isFinal: data.status === 'FINAL',
+  });
+
+  if (data.canFinalize) {
+    dispatch(addAction(finalizeRatingsAction));
+  }
+};
 
 const shouldFetchData = (state) => {
   if (!state.rating || state.relaod) {
@@ -42,11 +64,10 @@ export const resetPreviousRating = value => ({
   rating: value,
 });
 
-const showSelectedRating = (index, props, readonly) => ({
+const showSelectedRating = (index, props) => ({
   type: SELECT_RATING,
   onClosePath: props.onClosePath,
   index,
-  readonly,
   title: props.title,
 });
 
@@ -61,9 +82,12 @@ const saveRating = (props, index, close) => (dispatch, getState) => {
     }
     rating.comment = state.values.comment || rating.comment;
 
-    apiSaveRating(rating, (res) => {
-      if (res.status !== 200) {
-        dispatch(resetPreviousRating(props.rating));
+    apiSaveRating(rating, (data) => {
+      // if (res.status !== 200) {
+      //   dispatch(resetPreviousRating(props.rating));
+      // }
+      if (data.canFinalize) {
+        dispatch(addAction(finalizeRatingsAction));
       }
     });
   }
@@ -71,7 +95,7 @@ const saveRating = (props, index, close) => (dispatch, getState) => {
   if (close) {
     props.router.push(props.onClosePath);
   } else {
-    dispatch(showSelectedRating(index, props, true));
+    dispatch(showSelectedRating(index, props));
     props.router.push(`/ip-p2p/team/rating/${props.ratings[index].slug}`);
   }
 };
@@ -81,14 +105,14 @@ export const selectRating = (index, props) => (dispatch) => {
   dispatch(setTitle(`${props.title} ${props.ratings[index].name}`));
 };
 
-export const showRating = (rating, props, readonly) => (dispatch, getState) => {
+export const showRating = (rating, props) => (dispatch, getState) => {
   const state = getState().rating;
 
   const foundRating = state.ratings.find(rat => rat.studentId === rating.studentId);
   const index = foundRating ? state.ratings.indexOf(foundRating) : -1;
   if (index > -1) {
     dispatch(setTitle(`${props.title} ${state.ratings[index].name}`));
-    dispatch(showSelectedRating(index, props, readonly));
+    dispatch(showSelectedRating(index, props));
     props.router.push(`/ip-p2p/team/rating/${state.ratings[index].slug}`);
   } else {
     console.log('Rating not found');

@@ -23,7 +23,7 @@ import calculateProgress from '../middleware/utils/calculateProgress.js';
 import getCriteriaValues from '../actions/utils/getCriteriaValues.js';
 
 
-const EvaluationContainer = props => (
+const EvaluationComponent = props => (
   <div>
     <TabHeader
       members={props.ratings}
@@ -42,7 +42,7 @@ const EvaluationContainer = props => (
   </div>
 );
 
-EvaluationContainer.propTypes = {
+EvaluationComponent.propTypes = {
   handleSelectRating: React.PropTypes.func,
   handleCommentChanged: React.PropTypes.func,
   handleRatingChanged: React.PropTypes.func,
@@ -82,9 +82,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   handleCancel: (props) => dispatch(cancelRating(props)),
 });
 
-const TeammemberEvaluation = connect(
+const EvaluationContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(EvaluationContainer);
+)(EvaluationComponent);
 
-export default withRouter(TeammemberEvaluation);
+export default withRouter(EvaluationContainer);

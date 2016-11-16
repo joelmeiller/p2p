@@ -19,7 +19,7 @@ const initialState = {
 };
 
 const reducer = (state = initialState, action) => {
-  const { type, ratings } = action;
+  const { type, ...params } = action;
   const newState = { ...state };
   newState.resetRating = undefined;
 
@@ -29,13 +29,13 @@ const reducer = (state = initialState, action) => {
     case REQUEST_RATINGS:
       return {
         ...state,
-        ratings,
+        ...params,
         isFetching: true,
       };
     case RECEIVE_RATINGS:
       return {
         ...state,
-        ratings,
+        ...params,
         isFetching: false,
       };
     case SELECT_RATING:
