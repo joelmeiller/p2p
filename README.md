@@ -10,3 +10,8 @@ making lambok work:
 java -jar ~/Downloads/lombok.jar install /Users/michelleandrey/eclipse/java-neon/Eclipse.app
 mvn clean install
 eclipse : Project/Clean...
+
+
+`P2P_USER` must be set to run locally,
+e.g. `P2P_USER=freddy.krueger@fhnw.ch` (Coach)
+
