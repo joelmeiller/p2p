@@ -1,6 +1,5 @@
 package ch.fhnw.p2p.authorization;
 
-import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,10 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import ch.fhnw.p2p.controller.utils.NotAllowedException;
-import ch.fhnw.p2p.entities.Login;
 import ch.fhnw.p2p.entities.Member;
 import ch.fhnw.p2p.entities.User;
-import ch.fhnw.p2p.repositories.LoginRepository;
 import ch.fhnw.p2p.repositories.MemberRepository;
 import ch.fhnw.p2p.repositories.UserRepository;
 
@@ -39,9 +36,6 @@ public class AccessControl {
 	@Autowired
 	UserRepository userRepo;
 	
-	@Autowired
-	LoginRepository loginRepo;
-	
 	AccessControl() {}
 
 	/**
@@ -50,30 +44,27 @@ public class AccessControl {
 	 * @throws NotAllowedException 
 	 */
 	private User checkUser(HttpServletRequest request) throws NotAllowedException {
-		String requestMail = request.getHeader("mail");
-		logger.info("Request access for " + requestMail);
-		String mail = "max.muster@students.fhnw.ch";
-				
-		if (requestMail != null && !requestMail.equals("")) {
-			mail = requestMail;
+		String requestMail;
+		if (System.getenv().containsKey("P2P_USER")) {
+			requestMail = System.getenv().get("P2P_USER");
+			logger.info("Locale Login from Dev-Server via Environment Variable P2P_USER");
 		} else {
-			List<Login> list = loginRepo.findAll();
-			Login login = list.size() == 1 ? list.get(0) : null;
-			logger.info("Login email " + (login == null ? "undefined" : login.getEmail()));
-			if (login != null) mail = login.getEmail();
+			requestMail = request.getHeader("mail");
 		}
-		Optional<User> userCheck = userRepo.findByEmail(mail);
+		logger.info("Request access for " + requestMail);
+		
+		Optional<User> userCheck = userRepo.findByEmail(requestMail);
 		
 				
 		if (userCheck.isPresent()) {
 			this.user = userCheck.get();
 		} else {
 			logger.error("User not not found");
-			throw new NotAllowedException(mail);
+			throw new NotAllowedException(requestMail);
 		}
 		
 		if (!this.user.isCoach()) {
-			Member member = memberRepo.findByStudentEmail(mail);
+			Member member = memberRepo.findByStudentEmail(requestMail);
 			
 			if (member != null) {
 				if (member.getProject() == null) {

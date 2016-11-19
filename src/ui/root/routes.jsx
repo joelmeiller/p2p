@@ -1,7 +1,7 @@
 // React imports
 import React from 'react';
 import { Provider } from 'react-redux';
-import { Router, Route, IndexRoute, Redirect, browserHistory } from 'react-router';
+import { Router, Route, IndexRoute, Redirect, browserHistory, IndexRedirect } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 
 // Material Design Theme
@@ -25,9 +25,8 @@ export default (store) => {
       <Provider store={store} >
         <Router history={history} >
           <Route path="/">
-            <IndexRoute>
-              <Redirect from="/" to="ip-p2p" />
-            </IndexRoute>
+            <IndexRedirect to="ip-p2p" />
+
             <Route path="ip-p2p" component={App} >
               {/* General routes */}
               <IndexRoute component={Dashboard} />
