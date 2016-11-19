@@ -45,12 +45,12 @@ module.exports = {
           }
         }),
         new ExtractTextPlugin("bundle.css"),
-        new PurifyCSSPlugin({
-          basePath: __dirname,
-          paths: [
-            'src/**/*.jsx'
-          ]
-        }),
+        // new PurifyCSSPlugin({
+        //   basePath: __dirname,
+        //   paths: [
+        //     'src/**/*.jsx'
+        //   ]
+        // }),
         new webpack.optimize.UglifyJsPlugin({
           compress: {
             warnings: false
