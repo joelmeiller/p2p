@@ -5,6 +5,7 @@ import ch.fhnw.p2p.entities.Member;
 import ch.fhnw.p2p.entities.Project;
 import ch.fhnw.p2p.entities.User;
 import ch.fhnw.p2p.repositories.MemberRepository;
+import ch.fhnw.p2p.repositories.ProjectRepository;
 import ch.fhnw.p2p.repositories.ProjectRepositoryImpl;
 import ch.fhnw.p2p.repositories.UserRepository;
 import org.apache.commons.logging.Log;
@@ -17,7 +18,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -38,10 +42,7 @@ public class ProjectController {
 	private AccessControl accessControl;
 
 	@Autowired
-	private ProjectRepositoryImpl projectRepoImpl;
-
-	@Autowired
-	private MemberRepository memberRepo;
+	private ProjectRepository projectRepo;
 
 	@Autowired
 	UserRepository userRepo;
@@ -56,12 +57,27 @@ public class ProjectController {
 	 */
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<Set<Project>> getProjects(HttpServletRequest request) {
+	public ResponseEntity<List<Project>> getProjects(HttpServletRequest request) {
 		logger.info("GET request for project/projects");
 		User user = accessControl.login(request, AccessControl.Allowed.COACH);
 
-    logger.info("Successfully read projects for " + user.toString());
-    Set<Project> projectList = new HashSet<Project>();
-    return new ResponseEntity<Set<Project>>(projectList, HttpStatus.OK);
-  }
+		logger.info("Successfully read projects for " + user.toString());
+		List<Project> projectList = projectRepo.findAll();
+
+		for (Project project : projectList) {
+			Member QM = null;
+			for (Member member : project.getMembers()) {
+				if (member.isQM()) {
+					QM = member;
+					QM.setRatings(new HashSet<>());
+				}
+			}
+			project.setProjectCategories(new HashSet<>());
+			project.setMembers(new HashSet<>());
+			if (QM != null) {
+				project.getMembers().add(QM);
+			}
+		}
+		return new ResponseEntity<List<Project>>(projectList, HttpStatus.OK);
+	}
 }
