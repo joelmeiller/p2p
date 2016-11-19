@@ -47,7 +47,7 @@ public class AccessControl {
 		String requestMail;
 		if (System.getenv().containsKey("P2P_USER")) {
 			requestMail = System.getenv().get("P2P_USER");
-			logger.info("Local Login from Dev-Server via ENV_VARIABLE");
+			logger.info("Locale Login from Dev-Server via Environment Variable P2P_USER");
 		} else {
 			requestMail = request.getHeader("mail");
 		}
