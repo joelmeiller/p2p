@@ -16,19 +16,9 @@ storiesOf('pages/EditProjectPage', module)
 .add('::edit', () => (
   <div className="app flex-center-middle">
     <EditProjectPage
-      hintText="Name"
-      hintText2="Coach"
-      selectedValue=""
-      menuItems={[
-        {
-          label: 'Open',
-          value: 'O',
-        },
-        {
-          label: 'Close',
-          value: 'C',
-        },
-      ]}
+      title="Fancy Project"
+      start={new Date("2016-01-01")}
+      stop={new Date("2016-12-31")}
     />
   </div>
 ))

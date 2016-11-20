@@ -8,6 +8,7 @@ import {
   SET_COACH_NAME,
   SET_PROJECT_STUFE,
   SET_PROJECT_START,
+  SET_PROJECT_STOP,
   SET_PROJECT_ART,
   SET_PROJECT_STATUS,
   REQUEST_PROJECT,
@@ -52,6 +53,12 @@ const reducer = (state = initialState, action) => {
         ...state,
         ...params,
         start: value,
+      };
+    case SET_PROJECT_STOP:
+      return {
+        ...state,
+        ...params,
+        stop: value,
       };
     case SET_PROJECT_ART:
       return {

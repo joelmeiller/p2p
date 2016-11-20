@@ -2,6 +2,7 @@ import React from 'react';
 
 import TextField from 'material-ui/TextField';
 import { RaisedButton } from 'material-ui';
+import DatePicker from 'material-ui/DatePicker';
 import Header2Line from '../elements/Header/Header2Line.jsx';
 import Dropdown from '../elements/Dropdown.jsx';
 
@@ -69,9 +70,20 @@ const EditProjectPage = props => (
           <p>Start</p>
         </div>
         <div className="col-xs-4" style={{ marginTop: -8 }}>
-          <Dropdown
-            menuItems={props.selectStates}
-            selectedValue={props.selectedStateId}
+          <DatePicker
+            value={props.start}
+            onChange={(_, date) => props.handleStartChanged(date)}
+          />
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-xs-2" style={{ marginTop: 14 }}>
+          <p>Stop</p>
+        </div>
+        <div className="col-xs-4" style={{ marginTop: -8 }}>
+          <DatePicker
+            value={props.stop}
+            onChange={(_, date) => props.handleStopChanged(date)}
           />
         </div>
       </div>
@@ -136,8 +148,12 @@ const EditProjectPage = props => (
 
 EditProjectPage.propTypes = {
   title: React.PropTypes.string,
+  start: React.PropTypes.date,
+  stop: React.PropTypes.date,
   handleTitleChanged: React.PropTypes.func,
   handleCoachChanged: React.PropTypes.func,
+  handleStartChanged: React.PropTypes.func,
+  handleStopChanged: React.PropTypes.func,
   coach: React.PropTypes.string,
   selectStates: React.PropTypes.arrayOf(
     React.PropTypes.shape({

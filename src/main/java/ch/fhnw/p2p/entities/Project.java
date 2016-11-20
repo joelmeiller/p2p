@@ -1,5 +1,6 @@
 package ch.fhnw.p2p.entities;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -13,6 +14,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import ch.fhnw.p2p.entities.mixins.VersionedObject;
@@ -44,6 +46,10 @@ public class Project extends VersionedObject {
 	private String title;
 	private String slug;
 	private Date deadline;
+	@Type(type="date")
+	private Date start;
+	@Type(type="date")
+	private Date stop;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "project")
 	private Set<ProjectCategory> projectCategories;

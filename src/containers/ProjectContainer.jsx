@@ -13,7 +13,8 @@ import {
   setProjectTitle,
   setCoachName,
   setStufe,
-  setStart,
+  setProjectStart,
+  setProjectStop,
   setArt,
   setStatus,
   fetchProject,
@@ -52,9 +53,10 @@ const mapDispatchToProps = (dispatch, props) => ({
   handleTitleChanged: newTitleValue => dispatch(setProjectTitle(newTitleValue)),
   handleCoachChanged: newCoachValue => dispatch(setCoachName(newCoachValue)),
   handleStufeChanged: newStufeValue => dispatch(setStufe(newStufeValue)),
-  handleStartChanged: newStartValue => dispatch(setStart(newStartValue)),
   handleArtChanged: newArtValue => dispatch(setArt(newArtValue)),
   handleStatushanged: newStatusValue => dispatch(setStatus(newStatusValue)),
+  handleStartChanged: newStartValue => dispatch(setProjectStart(newStartValue)),
+  handleStopChanged: newStartValue => dispatch(setProjectStop(newStartValue)),
 });
 
 const ProjectContainer = connect(
