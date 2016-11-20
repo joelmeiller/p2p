@@ -62,7 +62,9 @@ public class ProjectController {
 	 * Fetch full project (for editing).
 	 */
 	@RequestMapping(value="{id}", method = RequestMethod.GET)
-	public ResponseEntity<Project> getProject(@PathVariable Long id) {
+	public ResponseEntity<Project> getProject(HttpServletRequest request, @PathVariable Long id) {
+		User user = accessControl.login(request, AccessControl.Allowed.COACH);
+		logger.info("GET project user=" + user.getEmail());
 		Project project = projectRepo.findById(id);
 		return new ResponseEntity<Project>(project, HttpStatus.OK);
 	}
@@ -71,7 +73,9 @@ public class ProjectController {
 	 * Update an existing project.
 	 */
 	@RequestMapping(value="{id}", method = RequestMethod.PUT)
-	public ResponseEntity<HttpStatus> updateProject(@PathVariable Long id, @Valid @RequestBody Project project, BindingResult result) {
+	public ResponseEntity<HttpStatus> updateProject(HttpServletRequest request, @PathVariable Long id, @Valid @RequestBody Project project, BindingResult result) {
+		User user = accessControl.login(request, AccessControl.Allowed.COACH);
+		logger.info("PUT project user=" + user.getEmail());
 		if (result.hasErrors()) {
 			return new ResponseEntity<HttpStatus>(HttpStatus.PRECONDITION_FAILED);
 		}
@@ -97,7 +101,9 @@ public class ProjectController {
 	 * Create a new project.
 	 */
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<HttpStatus> addProject(@Valid @RequestBody Project project, BindingResult result) {
+	public ResponseEntity<HttpStatus> addProject(HttpServletRequest request, @Valid @RequestBody Project project, BindingResult result) {
+		User user = accessControl.login(request, AccessControl.Allowed.COACH);
+		logger.info("POST project user=" + user.getEmail());
 		if (result.hasErrors()) {
 			return new ResponseEntity<HttpStatus>(HttpStatus.PRECONDITION_FAILED);
 		}
