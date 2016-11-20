@@ -12,6 +12,7 @@ import ch.fhnw.p2p.entities.Project;
 @Transactional
 public interface ProjectRepository extends JpaRepository<Project, Long> {
 
+	Project findById(Long id);
 	Project findByIdAndStatus(Long id, Project.Status status);
 	
 	Optional<Project> findByTitle(String title);

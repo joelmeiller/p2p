@@ -3,13 +3,11 @@ import fetch from 'isomorphic-fetch';
 
 import getApiEntrypoint from '../utils/getApiEntrypoint.js';
 
-const apiEntrypoint = getApiEntrypoint('projects');
 
-
-export default callback =>
-  fetch(apiEntrypoint)
+export default (id, callback) =>
+  fetch(getApiEntrypoint(`projects/${id}`))
   .then(response => response.json())
   .then((data) => {
-    const project = data;
-    callback(project);
+    const projectList = data;
+    callback(projectList);
   });

@@ -7,7 +7,7 @@ import { withRouter } from 'react-router';
 import EditProjectPage from '../ui/pages/EditProjectPage.jsx';
 
 // Action imports
-import { setTitle } from '../actions/app.js';
+// import { setTitle } from '../actions/app.js';
 import {
   cancel,
   setProjectTitle,
@@ -16,13 +16,14 @@ import {
   setStart,
   setArt,
   setStatus,
+  fetchProject,
 } from '../actions/project.js';
 
 import { saveProject } from '../actions/projectList.js';
 
 class EditProjectComponent extends Component {
   componentDidMount() {
-    this.props.initializeTitle();
+    this.props.fetchProject();
   }
 
   render() {
@@ -32,6 +33,7 @@ class EditProjectComponent extends Component {
 
 EditProjectComponent.propTypes = {
   initializeTitle: React.PropTypes.func,
+  fetchProject: React.PropTypes.func,
 };
 
 const mapStateToProps = (globalState, props) => {
@@ -44,7 +46,7 @@ const mapStateToProps = (globalState, props) => {
 };
 
 const mapDispatchToProps = (dispatch, props) => ({
-  initializeTitle: () => dispatch(setTitle('Edit Project')),
+  fetchProject: () => dispatch(fetchProject(props.routeParams.id)),
   handleSave: () => dispatch(saveProject(props)),
   handleCancel: () => dispatch(cancel(props)),
   handleTitleChanged: newTitleValue => dispatch(setProjectTitle(newTitleValue)),

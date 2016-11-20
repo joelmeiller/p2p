@@ -1,5 +1,5 @@
 // Middleware
-import { default as apiGetProjects } from '../middleware/projectList/getProjectList.js';
+import { default as apiGetProject } from '../middleware/project/getProject.js';
 
 export const ADD_PROJECT = '/project/ADD_PROJECT';
 export const CANCEL = 'project/CANCEL';
@@ -10,17 +10,17 @@ export const SET_PROJECT_STUFE = 'project/SET_PROJECT_STUFE';
 export const SET_PROJECT_START = 'project/SET_PROJECT_START';
 export const SET_PROJECT_ART = 'project/SET_PROJECT_ART';
 export const SET_PROJECT_STATUS = 'project/SET_PROJECT_STATUS';
-export const REQUEST_PROJECTS = '/projects/REQUEST_PROJECTS';
-export const RECEIVE_PROJECTS = '/projects/RECEIVE_PROJECTS';
+export const REQUEST_PROJECT = '/project/REQUEST_PROJECT';
+export const RECEIVE_PROJECT = '/project/RECEIVE_PROJECT';
 
 
 const requestData = () => ({
-  type: REQUEST_PROJECTS,
+  type: REQUEST_PROJECT,
 });
 
 const receiveData = data => ({
-  type: RECEIVE_PROJECTS,
-  projects: data,
+  type: RECEIVE_PROJECT,
+  project: data,
 });
 
 const shouldFetchData = (state) => {
@@ -31,10 +31,10 @@ const shouldFetchData = (state) => {
 };
 
 
-export const fetchProjects = () => (dispatch, getState) => {
+export const fetchProject = id => (dispatch, getState) => {
   if (shouldFetchData(getState())) {
     dispatch(requestData());
-    apiGetProjects(data => dispatch(receiveData(data)));
+    apiGetProject(id, data => dispatch(receiveData(data)));
   }
 };
 

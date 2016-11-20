@@ -1,5 +1,18 @@
 // Actions
-import { ADD_PROJECT, CANCEL, SAVE, EDIT_PROJECT, SET_PROJECT_TITLE, SET_COACH_NAME, SET_PROJECT_STUFE, SET_PROJECT_START, SET_PROJECT_ART, SET_PROJECT_STATUS } from '../actions/project.js';
+import {
+  ADD_PROJECT,
+  CANCEL,
+  SAVE,
+  EDIT_PROJECT,
+  SET_PROJECT_TITLE,
+  SET_COACH_NAME,
+  SET_PROJECT_STUFE,
+  SET_PROJECT_START,
+  SET_PROJECT_ART,
+  SET_PROJECT_STATUS,
+  REQUEST_PROJECT,
+  RECEIVE_PROJECT,
+} from '../actions/project.js';
 
 
 const initialState = {
@@ -50,7 +63,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         ...params,
-        status : value,
+        status: value,
       };
     case EDIT_PROJECT:
       return {
@@ -61,6 +74,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
       };
+    case RECEIVE_PROJECT:
+      return {
+        ...state,
+        ...params.project,
+      }
     default:
       return state;
   }

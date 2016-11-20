@@ -32,7 +32,7 @@ const EditProjectPage = props => (
         <div className="col-xs-6">
           <TextField
             hintText="Title"
-            defaultValue={props.title}
+            value={props.title}
             fullWidth
             inputStyle={{ color: '#333333' }}
             onChange={e => props.handleTitleChanged(e.target.value)}
@@ -46,7 +46,7 @@ const EditProjectPage = props => (
         <div className="col-xs-6">
           <TextField
             hintText="Name Coach"
-            defaultValue={props.coachName}
+            value={props.coach}
             fullWidth
             inputStyle={{ color: '#333333' }}
             onChange={e => props.handleCoachChanged(e.target.value)}
@@ -100,7 +100,7 @@ const EditProjectPage = props => (
       <div className="col-xs-4">
         <TextField
           hintText="Name Coach"
-          defaultValue={props.coachName}
+          value={props.coach}
           fullWidth
           inputStyle={{ color: '#333333' }}
           onChange={e => props.handleCoachChanged(e.target.value)}
@@ -138,7 +138,7 @@ EditProjectPage.propTypes = {
   title: React.PropTypes.string,
   handleTitleChanged: React.PropTypes.func,
   handleCoachChanged: React.PropTypes.func,
-  coachName: React.PropTypes.string,
+  coach: React.PropTypes.string,
   selectStates: React.PropTypes.arrayOf(
     React.PropTypes.shape({
       id: React.PropTypes.string,

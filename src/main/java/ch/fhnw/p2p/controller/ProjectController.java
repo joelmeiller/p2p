@@ -31,8 +31,8 @@ import java.util.Set;
  */
 
 @RestController
-@RequestMapping("/api/projectList")
-public class ProjectListController {
+@RequestMapping("/api/projects")
+public class ProjectController {
 	// ------------------------
 	// PRIVATE FIELDS
 	// ------------------------
@@ -50,10 +50,19 @@ public class ProjectListController {
 	// ------------------------
 	// PUBLIC METHODS
 	// ------------------------
+	
+	/**
+	 * Fetch full project (for editing).
+	 */
+	@CrossOrigin(origins = "http://localhost:3000")
+	@RequestMapping(value="{id}", method = RequestMethod.GET)
+	public ResponseEntity<Project> getProject(@PathVariable Long id) {
+		Project project = projectRepo.findById(id);
+		return new ResponseEntity<Project>(project, HttpStatus.OK);
+	}
 
 	/**
-	 *
-	 * @return A list of projects
+	 * Fetch list of abbreviated projects (for overview).
 	 */
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(method = RequestMethod.GET)

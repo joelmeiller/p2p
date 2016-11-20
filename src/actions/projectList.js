@@ -44,7 +44,7 @@ export const editProject = (selectedProjectIndexes, props) => (dispatch, getStat
       type: EDIT_PROJECT,
       project,
     });
-    props.router.push(`/ip-p2p/projects/${project.slug}`);
+    props.router.push(`/ip-p2p/projects/${project.id}`);
   } else {
     console.log(`No or more then one project found. Selected projects (index): ${selectedProjectIndexes[0]})`);
   }
