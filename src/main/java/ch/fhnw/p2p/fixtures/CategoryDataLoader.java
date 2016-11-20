@@ -10,6 +10,7 @@ import ch.fhnw.p2p.entities.Criteria;
 import ch.fhnw.p2p.entities.Locale;
 import ch.fhnw.p2p.entities.Member;
 import ch.fhnw.p2p.entities.Project;
+import ch.fhnw.p2p.entities.Project.Zeitmodell;
 import ch.fhnw.p2p.entities.ProjectCategory;
 import ch.fhnw.p2p.entities.ProjectCriteria;
 import ch.fhnw.p2p.entities.Role;
@@ -105,6 +106,7 @@ public class CategoryDataLoader implements CommandLineRunner {
 		// Add test projects
 		project = new Project("Test Project 1");
 		
+		project.setZeitmodell(Zeitmodell.BB);
 		projectCategory = new ProjectCategory(category1);
 		projectCategory.setProject(project);
 		project.getProjectCategories().add(projectCategory);
@@ -120,6 +122,8 @@ public class CategoryDataLoader implements CommandLineRunner {
 		projectRepo.save(project);
 
 		project = new Project("Test Project 2");
+		
+		project.setZeitmodell(Zeitmodell.VZ_TZ);
 		projectCategory = new ProjectCategory(category1);
 		projectCategory.setProject(project);
 		project.getProjectCategories().add(projectCategory);

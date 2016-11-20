@@ -36,6 +36,11 @@ public class Project extends VersionedObject {
 		CLOSE,
 	}
 
+	public static enum Zeitmodell {
+		BB,
+		VZ_TZ,
+	}
+	
 	private String title;
 	private String slug;
 	private Date deadline;
@@ -48,6 +53,9 @@ public class Project extends VersionedObject {
 	
 	@Enumerated(EnumType.STRING)
 	private Status status;
+	
+	@Enumerated(EnumType.STRING)
+	private Zeitmodell zeitmodell;
 
 	public Project() {
 		this.status = Status.OPEN;

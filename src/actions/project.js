@@ -1,3 +1,6 @@
+// Middleware
+import { default as apiGetProjects } from '../middleware/projectList/getProjectList.js';
+
 export const ADD_PROJECT = '/project/ADD_PROJECT';
 export const CANCEL = 'project/CANCEL';
 export const EDIT_PROJECT = 'project/EDIT';
@@ -7,7 +10,33 @@ export const SET_PROJECT_STUFE = 'project/SET_PROJECT_STUFE';
 export const SET_PROJECT_START = 'project/SET_PROJECT_START';
 export const SET_PROJECT_ART = 'project/SET_PROJECT_ART';
 export const SET_PROJECT_STATUS = 'project/SET_PROJECT_STATUS';
+export const REQUEST_PROJECTS = '/projects/REQUEST_PROJECTS';
+export const RECEIVE_PROJECTS = '/projects/RECEIVE_PROJECTS';
 
+
+const requestData = () => ({
+  type: REQUEST_PROJECTS,
+});
+
+const receiveData = data => ({
+  type: RECEIVE_PROJECTS,
+  projects: data,
+});
+
+const shouldFetchData = (state) => {
+  if (!state.criteria || state.relaod) {
+    return true;
+  }
+  return !state.criteria.isFetching && !state.criteria.fetched;
+};
+
+
+export const fetchProjects = () => (dispatch, getState) => {
+  if (shouldFetchData(getState())) {
+    dispatch(requestData());
+    apiGetProjects(data => dispatch(receiveData(data)));
+  }
+};
 
 export const cancel = props => (dispatch) => {
   dispatch({

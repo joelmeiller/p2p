@@ -1,5 +1,5 @@
 // Middleware
-import { default as apiGetProjects } from '../middleware/getProjects.mock.js';
+import { default as apiGetProjects } from '../middleware/projectList/getProjectList.js';
 import { EDIT_PROJECT, ADD_PROJECT } from './project.js';
 
 export const RECEIVE_PROJECTS = '/projectList/RECEIVE_PROJECTS';
@@ -13,7 +13,7 @@ const requestData = () => ({
 
 const receiveData = data => ({
   type: RECEIVE_PROJECTS,
-  projects: data.projects,
+  projects: data,
 });
 
 const shouldFetchData = (globalState) => {

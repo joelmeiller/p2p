@@ -31,8 +31,8 @@ import java.util.Set;
  */
 
 @RestController
-@RequestMapping("/api/projects")
-public class ProjectController {
+@RequestMapping("/api/projectList")
+public class ProjectListController {
 	// ------------------------
 	// PRIVATE FIELDS
 	// ------------------------
@@ -58,7 +58,7 @@ public class ProjectController {
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<Project>> getProjects(HttpServletRequest request) {
-		logger.info("GET request for project/projects");
+		logger.info("GET request for projectList");
 		User user = accessControl.login(request, AccessControl.Allowed.COACH);
 
 		logger.info("Successfully read projects for " + user.toString());

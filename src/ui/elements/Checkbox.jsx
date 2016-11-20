@@ -2,7 +2,7 @@
 import React from 'react';
 
 // Material Imports
-import Checkbox from 'material-ui/Checkbox';
+import MaterialCheckbox from 'material-ui/Checkbox';
 import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
@@ -18,7 +18,7 @@ const Checkbox = React.createClass({
 
   render() {
     return (
-      <Checkbox
+      <MaterialCheckbox
         label={this.props.checkboxLabel}
       />
     );
