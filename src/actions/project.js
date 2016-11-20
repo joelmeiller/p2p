@@ -1,6 +1,18 @@
 // Middleware
-import { default as apiGetProject } from '../middleware/project/getProject.js';
+import {
+  getProject as apiGetProject,
+  putProject as apiPutProject,
+  postProject as apiPostProject,
+} from '../middleware/project.js';
 
+import { initialState } from '../reducers/project.js'
+
+import { fetchProjects } from './projectList.js'
+
+// "ID" of a new object.
+export const NEW_ID = '_new';
+
+// Creates new empty project.
 export const ADD_PROJECT = '/project/ADD_PROJECT';
 export const CANCEL = 'project/CANCEL';
 export const EDIT_PROJECT = 'project/EDIT';
@@ -25,25 +37,47 @@ const receiveData = data => ({
 });
 
 const shouldFetchData = (state) => {
-  if (!state.criteria || state.relaod) {
+  if (!state.criteria || state.reload) {
     return true;
   }
   return !state.criteria.isFetching && !state.criteria.fetched;
 };
 
-
 export const fetchProject = id => (dispatch, getState) => {
+  if (id === NEW_ID) {
+    dispatch(receiveData({
+      ...initialState,
+      start: new Date(),
+      stop: new Date(),
+    }));
+    return;
+  }
   if (shouldFetchData(getState())) {
     dispatch(requestData());
     apiGetProject(id, data => dispatch(receiveData(data)));
   }
 };
 
-export const cancel = props => (dispatch) => {
+const makeSaveCallback = (dispatch, router) => (arg) => {
+  console.log('saveCallback', arg);
+  router.push('/ip-p2p');
+  dispatch(fetchProjects({ force: true }));
+};
+
+export const saveProject = router => (dispatch, getState) => {
+  const project = getState().project;
+  if (project.id) {
+    apiPutProject(project, makeSaveCallback(dispatch, router));
+  } else {
+    apiPostProject(project, makeSaveCallback(dispatch, router));
+  }
+};
+
+export const cancel = router => (dispatch) => {
   dispatch({
     type: CANCEL,
   });
-  props.router.push('/ip-p2p');
+  router.push('/ip-p2p');
 };
 
 export const setProjectTitle = newValue => (dispatch) => {

@@ -3,6 +3,7 @@ package ch.fhnw.p2p.controller;
 import ch.fhnw.p2p.authorization.AccessControl;
 import ch.fhnw.p2p.entities.Member;
 import ch.fhnw.p2p.entities.Project;
+import ch.fhnw.p2p.entities.Role;
 import ch.fhnw.p2p.entities.User;
 import ch.fhnw.p2p.repositories.MemberRepository;
 import ch.fhnw.p2p.repositories.ProjectRepository;
@@ -16,6 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -31,6 +34,7 @@ import java.util.Set;
  */
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/projects")
 public class ProjectController {
 	// ------------------------
@@ -46,6 +50,9 @@ public class ProjectController {
 
 	@Autowired
 	UserRepository userRepo;
+	
+	@PersistenceContext
+	EntityManager entityManager;
 
 	// ------------------------
 	// PUBLIC METHODS
@@ -54,7 +61,6 @@ public class ProjectController {
 	/**
 	 * Fetch full project (for editing).
 	 */
-	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value="{id}", method = RequestMethod.GET)
 	public ResponseEntity<Project> getProject(@PathVariable Long id) {
 		Project project = projectRepo.findById(id);
@@ -62,9 +68,50 @@ public class ProjectController {
 	}
 
 	/**
+	 * Update an existing project.
+	 */
+	@RequestMapping(value="{id}", method = RequestMethod.PUT)
+	public ResponseEntity<HttpStatus> updateProject(@PathVariable Long id, @Valid @RequestBody Project project, BindingResult result) {
+		if (result.hasErrors()) {
+			return new ResponseEntity<HttpStatus>(HttpStatus.PRECONDITION_FAILED);
+		}
+		Project oldProject = projectRepo.findById(project.getId());
+		if (oldProject == null) {
+			return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
+		}
+		oldProject.setTitle(project.getTitle());
+		oldProject.setStart(project.getStart());
+		oldProject.setStop(project.getStop());
+		try {
+			projectRepo.save(oldProject);
+			logger.debug("Successfully updated project[" + project.getId() + "]: " + project.toString());
+			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<HttpStatus>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	/**
+	 * Create a new project.
+	 */
+	@RequestMapping(method = RequestMethod.POST)
+	public ResponseEntity<HttpStatus> addProject(@Valid @RequestBody Project project, BindingResult result) {
+		if (result.hasErrors()) {
+			return new ResponseEntity<HttpStatus>(HttpStatus.PRECONDITION_FAILED);
+		}
+		try {
+			projectRepo.save(project);
+			logger.debug("Successfully saved project[" + project.getId() + "]: " + project.toString());
+			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<HttpStatus>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	/**
 	 * Fetch list of abbreviated projects (for overview).
 	 */
-	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<Project>> getProjects(HttpServletRequest request) {
 		logger.info("GET request for projectList");

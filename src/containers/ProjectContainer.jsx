@@ -9,6 +9,8 @@ import EditProjectPage from '../ui/pages/EditProjectPage.jsx';
 // Action imports
 // import { setTitle } from '../actions/app.js';
 import {
+  fetchProject,
+  saveProject,
   cancel,
   setProjectTitle,
   setCoachName,
@@ -17,10 +19,7 @@ import {
   setProjectStop,
   setArt,
   setStatus,
-  fetchProject,
 } from '../actions/project.js';
-
-import { saveProject } from '../actions/projectList.js';
 
 class EditProjectComponent extends Component {
   componentDidMount() {
@@ -48,8 +47,8 @@ const mapStateToProps = (globalState, props) => {
 
 const mapDispatchToProps = (dispatch, props) => ({
   fetchProject: () => dispatch(fetchProject(props.routeParams.id)),
-  handleSave: () => dispatch(saveProject(props)),
-  handleCancel: () => dispatch(cancel(props)),
+  handleSave: () => dispatch(saveProject(props.router)),
+  handleCancel: () => dispatch(cancel(props.router)),
   handleTitleChanged: newTitleValue => dispatch(setProjectTitle(newTitleValue)),
   handleCoachChanged: newCoachValue => dispatch(setCoachName(newCoachValue)),
   handleStufeChanged: newStufeValue => dispatch(setStufe(newStufeValue)),

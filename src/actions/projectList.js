@@ -1,6 +1,6 @@
 // Middleware
 import { default as apiGetProjects } from '../middleware/projectList/getProjectList.js';
-import { EDIT_PROJECT, ADD_PROJECT } from './project.js';
+import { EDIT_PROJECT, ADD_PROJECT, NEW_ID } from './project.js';
 
 export const RECEIVE_PROJECTS = '/projectList/RECEIVE_PROJECTS';
 export const REMOVE_PROJECT = '/projectList/REMOVE_PROJECT';
@@ -17,14 +17,14 @@ const receiveData = data => ({
 });
 
 const shouldFetchData = (globalState) => {
-  if (!globalState.projectList || globalState.relaod) {
+  if (!globalState.projectList || globalState.reload) {
     return true;
   }
   return !globalState.projectList.isFetching && !globalState.projectList.fetched;
 };
 
-export const fetchProject = () => (dispatch, getState) => {
-  if (shouldFetchData(getState())) {
+export const fetchProjects = (params = {}) => (dispatch, getState) => {
+  if (params.force || shouldFetchData(getState())) {
     dispatch(requestData());
 
     apiGetProjects((data) => {
@@ -89,7 +89,7 @@ export const addProject = props => (dispatch) => {
   dispatch({
     type: ADD_PROJECT,
   });
-  props.router.push('/ip-p2p/projects/add');
+  props.router.push(`/ip-p2p/projects/${NEW_ID}`);
 };
 
 export const cancel = props => (dispatch) => {

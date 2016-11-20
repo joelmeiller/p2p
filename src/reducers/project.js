@@ -1,8 +1,6 @@
 // Actions
 import {
   ADD_PROJECT,
-  CANCEL,
-  SAVE,
   EDIT_PROJECT,
   SET_PROJECT_TITLE,
   SET_COACH_NAME,
@@ -16,18 +14,20 @@ import {
 } from '../actions/project.js';
 
 
-const initialState = {
+export const initialState = {
   title: undefined,
   coach: undefined,
   stufe: undefined,
   start: undefined,
+  stop: undefined,
   art: undefined,
   status: undefined,
+  // Indicate server fetching status.
   isFetching: false,
   fetched: false,
 };
 
-const reducer = (state = initialState, action) => {
+const reducer = (state = { ...initialState }, action) => {
   const { type, value, ...params } = action;
   switch (type) {
     case SET_PROJECT_TITLE:
@@ -79,13 +79,20 @@ const reducer = (state = initialState, action) => {
       };
     case ADD_PROJECT:
       return {
+        ...initialState,
+      };
+    case REQUEST_PROJECT:
+      return {
         ...state,
+        isFetching: true,
       };
     case RECEIVE_PROJECT:
       return {
         ...state,
         ...params.project,
-      }
+        isFetching: false,
+        fetched: true,
+      };
     default:
       return state;
   }

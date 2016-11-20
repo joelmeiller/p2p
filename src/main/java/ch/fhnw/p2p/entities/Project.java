@@ -89,4 +89,19 @@ public class Project extends VersionedObject {
 		}
 		return criterias;
 	}
+	
+	// http://stackoverflow.com/questions/22031128/how-to-update-an-entity-with-spring-data-jpa
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (id == null || obj == null || getClass() != obj.getClass())
+            return false;
+        Project that = (Project) obj;
+        return id.equals(that.id);
+    }
+    @Override
+    public int hashCode() {
+        return id == null ? 0 : id.hashCode();
+    }
 }
