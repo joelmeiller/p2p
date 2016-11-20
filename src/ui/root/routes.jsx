@@ -1,7 +1,7 @@
 // React imports
 import React from 'react';
 import { Provider } from 'react-redux';
-import { Router, Route, IndexRoute, Redirect, browserHistory, IndexRedirect } from 'react-router';
+import { Router, Route, IndexRoute, browserHistory, IndexRedirect } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 
 // Material Design Theme
