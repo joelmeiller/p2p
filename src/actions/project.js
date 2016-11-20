@@ -21,7 +21,7 @@ export const SET_COACH_NAME = 'project/SET_COACH_NAME';
 export const SET_PROJECT_STUFE = 'project/SET_PROJECT_STUFE';
 export const SET_PROJECT_START = 'project/SET_PROJECT_START';
 export const SET_PROJECT_STOP = 'project/SET_PROJECT_STOP';
-export const SET_PROJECT_ART = 'project/SET_PROJECT_ART';
+export const SET_PROJECT_ZEITMODELL = 'project/SET_PROJECT_ZEITMODELL';
 export const SET_PROJECT_STATUS = 'project/SET_PROJECT_STATUS';
 export const REQUEST_PROJECT = '/project/REQUEST_PROJECT';
 export const RECEIVE_PROJECT = '/project/RECEIVE_PROJECT';
@@ -115,9 +115,9 @@ export const setProjectStop = newValue => (dispatch) => {
   });
 };
 
-export const setProjectArt = newValue => (dispatch) => {
+export const setZeitmodell = newValue => (dispatch) => {
   dispatch({
-    type: SET_PROJECT_ART,
+    type: SET_PROJECT_ZEITMODELL,
     value: newValue,
   });
 };

@@ -87,12 +87,16 @@ const EditProjectPage = props => (
 
     <div className="row">
       <div className="col-xs-2" style={{ marginTop: 14 }}>
-        <p>Art</p>
+        <p>Zeitmodell</p>
       </div>
       <div className="col-xs-4" style={{ marginTop: -8 }}>
         <Dropdown
-          menuItems={props.selectStates}
-          selectedValue={props.selectedStateId}
+          items={[
+            { id: 'BB', label: 'Berufsbegleitend' },
+            { id: 'VZ_TZ', label: 'Vollzeit/Teilzeit' },
+          ]}
+          selectedValue={props.zeitmodell}
+          onChange={props.handleZeitmodellChanged}
         />
       </div>
     </div>
@@ -159,10 +163,12 @@ EditProjectPage.propTypes = {
   title: React.PropTypes.string,
   start: React.PropTypes.instanceOf(Date),
   stop: React.PropTypes.instanceOf(Date),
+  zeitmodell: React.PropTypes.string,
   handleTitleChanged: React.PropTypes.func,
   handleCoachChanged: React.PropTypes.func,
   handleStartChanged: React.PropTypes.func,
   handleStopChanged: React.PropTypes.func,
+  handleZeitmodellChanged: React.PropTypes.func,
   coach: React.PropTypes.string,
   selectStates: React.PropTypes.arrayOf(
     React.PropTypes.shape({

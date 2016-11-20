@@ -19,6 +19,7 @@ storiesOf('pages/EditProjectPage', module)
       title="Fancy Project"
       start={new Date("2016-01-01")}
       stop={new Date("2016-12-31")}
+      zeitmodell="BB"
     />
   </div>
 ))

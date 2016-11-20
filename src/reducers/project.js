@@ -7,7 +7,7 @@ import {
   SET_PROJECT_STUFE,
   SET_PROJECT_START,
   SET_PROJECT_STOP,
-  SET_PROJECT_ART,
+  SET_PROJECT_ZEITMODELL,
   SET_PROJECT_STATUS,
   REQUEST_PROJECT,
   RECEIVE_PROJECT,
@@ -20,7 +20,7 @@ export const initialState = {
   stufe: undefined,
   start: undefined,
   stop: undefined,
-  art: undefined,
+  zeitmodell: undefined,
   status: undefined,
   // Indicate server fetching status.
   isFetching: false,
@@ -60,11 +60,11 @@ const reducer = (state = { ...initialState }, action) => {
         ...params,
         stop: value,
       };
-    case SET_PROJECT_ART:
+    case SET_PROJECT_ZEITMODELL:
       return {
         ...state,
         ...params,
-        art: value,
+        zeitmodell: value,
       };
     case SET_PROJECT_STATUS:
       return {

@@ -17,7 +17,7 @@ import {
   setStufe,
   setProjectStart,
   setProjectStop,
-  setArt,
+  setZeitmodell,
   setStatus,
 } from '../actions/project.js';
 
@@ -32,7 +32,6 @@ class EditProjectComponent extends Component {
 }
 
 EditProjectComponent.propTypes = {
-  initializeTitle: React.PropTypes.func,
   fetchProject: React.PropTypes.func,
 };
 
@@ -52,7 +51,7 @@ const mapDispatchToProps = (dispatch, props) => ({
   handleTitleChanged: newTitleValue => dispatch(setProjectTitle(newTitleValue)),
   handleCoachChanged: newCoachValue => dispatch(setCoachName(newCoachValue)),
   handleStufeChanged: newStufeValue => dispatch(setStufe(newStufeValue)),
-  handleArtChanged: newArtValue => dispatch(setArt(newArtValue)),
+  handleZeitmodellChanged: newZeitmodellValue => dispatch(setZeitmodell(newZeitmodellValue)),
   handleStatushanged: newStatusValue => dispatch(setStatus(newStatusValue)),
   handleStartChanged: newStartValue => dispatch(setProjectStart(newStartValue)),
   handleStopChanged: newStartValue => dispatch(setProjectStop(newStartValue)),

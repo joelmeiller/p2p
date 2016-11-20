@@ -22,6 +22,7 @@ const rarifyProject = project => ({
   title: project.title,
   start: project.start.toISOString().substring(0, 10),
   stop: project.stop.toISOString().substring(0, 10),
+  zeitmodell: project.zeitmodell,
 });
 
 const params = data => ({

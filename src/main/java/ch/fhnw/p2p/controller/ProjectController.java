@@ -82,6 +82,7 @@ public class ProjectController {
 		oldProject.setTitle(project.getTitle());
 		oldProject.setStart(project.getStart());
 		oldProject.setStop(project.getStop());
+		oldProject.setZeitmodell(project.getZeitmodell());
 		try {
 			projectRepo.save(oldProject);
 			logger.debug("Successfully updated project[" + project.getId() + "]: " + project.toString());
