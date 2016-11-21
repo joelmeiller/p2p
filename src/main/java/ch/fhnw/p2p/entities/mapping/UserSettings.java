@@ -1,6 +1,5 @@
 package ch.fhnw.p2p.entities.mapping;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import ch.fhnw.p2p.entities.Role;
 import ch.fhnw.p2p.entities.User;

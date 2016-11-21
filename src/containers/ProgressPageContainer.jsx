@@ -32,13 +32,17 @@ ProgressPageComponent.propTypes = {
 };
 
 
-const mapStateToProps = (globalState, props) => {
+const mapStateToProps = (globalState) => {
   const { ratings } = globalState.rating;
+
+  const updatedRatings = ratings.map(rating => ({
+    ...rating,
+    progress: calculateProgress(rating),
+  }));
 
   return {
     title: 'Rating for',
-    ...props,
-    ratings,
+    ratings: updatedRatings,
   };
 };
 

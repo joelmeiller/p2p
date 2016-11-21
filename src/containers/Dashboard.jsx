@@ -12,25 +12,22 @@ import TeamRatingOverview from './TeamRatingOverview.jsx';
 const Dashboard = props => (
   <div>
     <Inbox />
-    {(props.isJury ?
-      <ProjectOverview {...props} /> :
-      <TeamRatingOverview {...props} />)
+    {(props.isCoach ?
+      <ProjectOverview /> :
+      <TeamRatingOverview />)
     }
   </div>
 );
 
 Dashboard.propTypes = {
-  isJury: React.PropTypes.bool,
+  isCoach: React.PropTypes.bool,
 };
 
-const mapStateToProps = (globalState, props) => {
+const mapStateToProps = (globalState) => {
   const { user } = globalState.app;
 
   return {
-    isJury: user.isJury,
-    isQM: user.isQM,
-    user,
-    ...props,
+    isCoach: user.isCoach,
   };
 };
 
