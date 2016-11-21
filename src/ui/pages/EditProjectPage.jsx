@@ -5,6 +5,9 @@ import { RaisedButton } from 'material-ui';
 import DatePicker from 'material-ui/DatePicker';
 import Header2Line from '../elements/Header/Header2Line.jsx';
 import Dropdown from '../elements/Dropdown.jsx';
+import AutoSuggest from '../elements/AutoSuggest.jsx';
+import getMembersSuggestions from '../../middleware/students/getMemberSuggestions.js';
+
 
 
 const EditProjectPage = props => (
@@ -52,10 +55,10 @@ const EditProjectPage = props => (
         <p>QM</p>
       </div>
       <div className="col-xs-4" style={{ marginTop: -8 }}>
-        <Dropdown
-          hintText="Name QM"
-          menuItems={props.selectStates}
-          selectedValue={props.selectedStateId}
+        <AutoSuggest
+          middleware={getMembersSuggestions}
+          onSuggestionSelected={props.handleAddQM}
+          {...props}
         />
       </div>
     </div>
@@ -125,6 +128,11 @@ const EditProjectPage = props => (
       </div>
       <div className="col-xs-4" style={{ marginTop: -8 }}>
         <Dropdown
+          items={[
+            { id: 'Offen', label: 'Offen' },
+            { id: 'IP4', label: 'IP4' },
+            { id: 'IP5', label: 'IP5' },
+          ]}
           menuItems={props.selectStates}
           selectedValue={props.selectedStateId}
         />
@@ -157,6 +165,7 @@ EditProjectPage.propTypes = {
   zeitmodell: React.PropTypes.string,
   handleTitleChanged: React.PropTypes.func,
   handleCoachChanged: React.PropTypes.func,
+  handleAddQM: React.PropTypes.func,
   handleStartChanged: React.PropTypes.func,
   handleStopChanged: React.PropTypes.func,
   handleZeitmodellChanged: React.PropTypes.func,
