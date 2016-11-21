@@ -14,9 +14,9 @@ const EvaluationPage = props => (
   <div className="container push-top-small">
     <div className="row">
       <div className="col-xs-11">
-        {(props.isFinal && props.rating ?
+        {(props.rating ?
           <FinalRating
-            text={`Rating for ${props.name} is`}
+            text={`Bewertung für ${props.name}`}
             value={props.rating}
           /> :
           <H2Progress

@@ -31,7 +31,7 @@ class TeamRatingOverviewComponent extends Component {
       </div> :
       <div className="container push-top-small">
         <h2>Bewertungsfortschritt</h2>
-        {(this.props.isOpen ?
+        {(this.props.rating.isOpen ?
           <ProgressPageContainer
             {...memberRating}
             initialRatings={memberRating.ratings}

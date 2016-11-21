@@ -31,6 +31,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         ...params,
         isFetching: false,
+        fetched: true,
       };
     case REMOVE_MEMBER:
     case SAVE_TEAM:

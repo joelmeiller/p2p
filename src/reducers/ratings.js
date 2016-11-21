@@ -2,6 +2,7 @@ import {
   REQUEST_RATINGS,
   RECEIVE_RATINGS,
   SELECT_RATING,
+  SAVE_RATINGS,
   UPDATE_COMMENT,
   UPDATE_RATING,
   ERROR_RESET_UPDATE,
@@ -37,6 +38,12 @@ const reducer = (state = initialState, action) => {
         ...state,
         ...params,
         isFetching: false,
+        fetched: true,
+      };
+    case SAVE_RATINGS:
+      return {
+        ...state,
+        ...params,
       };
     case SELECT_RATING:
       values.ratings = [];

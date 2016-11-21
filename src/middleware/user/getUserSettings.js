@@ -19,10 +19,11 @@ export default callback =>
       isQM: data.user.qm,
       isCoach: data.user.coach,
     },
-    rating: data.rating ? {
-      isOpen: data.rating.open,
-      isFinal: data.rating.final,
-      isAccepted: data.rating.accepted,
+    rating: data.ratingState ? {
+      isNew: !data.ratingState.open && !data.ratingState.final && !data.ratingState.accepted,
+      isOpen: data.ratingState.open,
+      isFinal: data.ratingState.final,
+      isAccepted: data.ratingState.accepted,
     } : {},
     project: data.project ? {
       ...data.project,

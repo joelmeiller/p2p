@@ -19,12 +19,12 @@ export const performAction = action => (dispatch) => {
   switch (action.params.type) {
     case UPDATE_STATUS:
       apiSetMemberStatus(action.params.status, (data) => {
-        if (data.rating) {
-          setRatingStatus({
-            isOpen: data.rating.open,
-            isFinal: data.rating.final,
-            isAccepted: data.rating.accepted,
-          });
+        if (data) {
+          dispatch(setRatingStatus({
+            isOpen: data.open,
+            isFinal: data.final,
+            isAccepted: data.accepted,
+          }));
         }
       });
       break;

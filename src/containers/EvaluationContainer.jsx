@@ -56,7 +56,7 @@ EvaluationComponent.propTypes = {
 };
 
 const mapStateToProps = (globalState, props) => {
-  const { user } = globalState.app;
+  const { user, rating } = globalState.app;
   const { ratings, values, selectedIndex, ...other } = globalState.rating;
   const selectedRating = ratings[selectedIndex];
 
@@ -67,6 +67,7 @@ const mapStateToProps = (globalState, props) => {
     ...other,
     ...props,
     onClosePath: user.isQM ? '/ip-p2p/team/rating' : '/ip-p2p',
+    readonly: rating.isFinal || rating.isAccepted,
     ratings,
     selectedIndex,
     selectedRating,

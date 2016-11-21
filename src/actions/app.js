@@ -16,10 +16,13 @@ export const setTitle = title => ({
   title,
 });
 
-export const setRatingStatus = rating => ({
-  type: SET_STATUS,
-  rating,
-});
+export const setRatingStatus = rating => (dispatch) => {
+  console.log(rating);
+  dispatch({
+    type: SET_STATUS,
+    rating,
+  });
+};
 
 
 const requestData = () => ({
@@ -34,10 +37,14 @@ const receiveData = data => (dispatch) => {
     rating: data.rating,
   });
 
-  if (!data.user.isCoach && !data.user.isAccepted) {
+  if (data.rating && data.rating.isNew) {
+    const username = `${data.user.firstName} ${data.user.lastName}`;
+    const message = data.user.isQM ?
+    `Willkommen ${username} im Project ${data.project.title}. Bitte bestätige, dass deine Zuteilung als Quality Manager (QM) korrekt ist oder melde dich bei den Projektverantwortlichen.` :
+    `Willkommen ${username} im Project ${data.project.title}. Bitte bestätige, dass deine Zuteilung korrekt ist oder melde dich beim Quality Manager dieses Projektes.` ;
     dispatch(addAction({
       id: '100',
-      message: `Willkommen ${data.user.username} im Project ${data.project.title}. Bitte bestätige, dass deine Zuteilung korrekt ist oder melde dich beim Quality Manager dieses Projektes.`,
+      message,
       type: 'confirm',
       date: new Date(),
       buttonText: 'Ich bestätige',

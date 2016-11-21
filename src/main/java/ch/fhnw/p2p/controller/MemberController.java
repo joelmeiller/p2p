@@ -21,6 +21,7 @@ import ch.fhnw.p2p.authorization.AccessControl;
 import ch.fhnw.p2p.entities.Member;
 import ch.fhnw.p2p.entities.Project;
 import ch.fhnw.p2p.entities.User;
+import ch.fhnw.p2p.entities.mapping.UserRatingState;
 import ch.fhnw.p2p.repositories.MemberRepository;
 import ch.fhnw.p2p.repositories.ProjectRepositoryImpl;
 import ch.fhnw.p2p.repositories.UserRepository;
@@ -94,22 +95,22 @@ public class MemberController {
 
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "/members/status", method = RequestMethod.POST)
-	public ResponseEntity<HttpStatus> updateStatus(HttpServletRequest request, @Valid @RequestBody Member.Status status, BindingResult result) {
+	public ResponseEntity<UserRatingState> updateStatus(HttpServletRequest request, @Valid @RequestBody Member.Status status, BindingResult result) {
 		logger.info("POST request for project/members/status");
 		User user = accessControl.login(request, AccessControl.Allowed.MEMBER);
 
 		if (result.hasErrors()) {
 			logger.error(result);
-			return new ResponseEntity<HttpStatus>(HttpStatus.PRECONDITION_FAILED);
+			return new ResponseEntity<UserRatingState>(HttpStatus.PRECONDITION_FAILED);
 		}
 		if (status == Member.Status.NEW) {
-			return new ResponseEntity<HttpStatus>(HttpStatus.NOT_ACCEPTABLE);
+			return new ResponseEntity<UserRatingState>(HttpStatus.NOT_ACCEPTABLE);
 		} else if (status == Member.Status.OPEN && user.getMember().getStatus() != Member.Status.NEW) {
-			return new ResponseEntity<HttpStatus>(HttpStatus.NOT_ACCEPTABLE);
+			return new ResponseEntity<UserRatingState>(HttpStatus.NOT_ACCEPTABLE);
 		} else if (status == Member.Status.FINAL && user.getMember().getStatus() != Member.Status.OPEN) {
-			return new ResponseEntity<HttpStatus>(HttpStatus.NOT_ACCEPTABLE);
+			return new ResponseEntity<UserRatingState>(HttpStatus.NOT_ACCEPTABLE);
 		} else if (status == Member.Status.ACCEPTED && user.getMember().getStatus() != Member.Status.FINAL) {
-			return new ResponseEntity<HttpStatus>(HttpStatus.NOT_ACCEPTABLE);
+			return new ResponseEntity<UserRatingState>(HttpStatus.NOT_ACCEPTABLE);
 		}
 
 		try {
@@ -122,9 +123,9 @@ public class MemberController {
 			}
 
 			logger.info("Successfully updated member status to " + status + " of student " + user.toString());
-			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+			return new ResponseEntity<UserRatingState>(new UserRatingState(user.getMember()), HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<HttpStatus>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<UserRatingState>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }

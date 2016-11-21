@@ -1,7 +1,4 @@
 package ch.fhnw.p2p.entities.mapping;
-
-import ch.fhnw.p2p.entities.Member;
-
 import ch.fhnw.p2p.entities.Role;
 import ch.fhnw.p2p.entities.User;
 import lombok.Data;
@@ -14,28 +11,15 @@ public class UserSettings {
 	private User user;
 	private ProjectMapping project;
 	private Role role;
-	private Rating rating;
+	private UserRatingState ratingState;
 	
 	
 	public UserSettings(User user) {
 		this.user = user;
 		if (this.user.getMember() != null) {
-			this.rating = new Rating(this.user.getMember());
+			this.ratingState = new UserRatingState(this.user.getMember());
 			this.project = new ProjectMapping(this.user.getMember().getProject());
 			this.role = this.user.getMember().getActiveRole();
-		}
-	}
-	
-	@Data
-	class Rating {
-		private boolean isFinal;
-		private boolean isAccepted;
-		private boolean isOpen;
-		
-		protected Rating(Member member) {
-			this.isOpen = member.getStatus() == Member.Status.OPEN;
-			this.isFinal = member.getStatus() == Member.Status.FINAL;
-			this.isAccepted = member.getStatus() == Member.Status.ACCEPTED;
 		}
 	}
 }

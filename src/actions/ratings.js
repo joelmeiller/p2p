@@ -17,6 +17,7 @@ export const REQUEST_RATINGS = '/rating/REQUEST_RATINGS';
 export const SELECT_RATING = '/rating/SELECT_RATING';
 export const UPDATE_COMMENT = '/rating/UPDATE_COMMENT';
 export const UPDATE_RATING = '/rating/UPDATE_RATING';
+export const SAVE_RATING = '/rating/SAVE_RATING';
 export const CANCEL_RATING = '/rating/CANCEL_RATING';
 export const ERROR_RESET_UPDATE = '/rating/ERROR_RESET_UPDATE';
 
@@ -36,7 +37,6 @@ const receiveData = data => (dispatch) => {
   dispatch({
     type: RECEIVE_RATINGS,
     ratings: data.ratings,
-    isFinal: data.status === 'FINAL',
   });
 
   if (data.canFinalize) {
@@ -82,13 +82,13 @@ const saveRating = (props, index, close) => (dispatch, getState) => {
     }
     rating.comment = state.values.comment || rating.comment;
 
+    dispatch({
+      type: SAVE_RATING,
+      ratings: state.ratings.map(rat => (rat.id === rating.id ? rating : rat)),
+    });
+
     apiSaveRating(rating, (data) => {
-      // if (res.status !== 200) {
-      //   dispatch(resetPreviousRating(props.rating));
-      // }
-      if (data.canFinalize) {
-        dispatch(addAction(finalizeRatingsAction));
-      }
+      dispatch(receiveData(data));
     });
   }
 

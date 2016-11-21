@@ -20,20 +20,26 @@ class ProgressPageComponent extends React.Component {
 
   render() {
     return (
-      <ProgressPage
-        {...this.props}
-      />
+      <div className="container push-top-small">
+        <h2>Bewertungsfortschritt</h2>
+        {(this.props.rating.isNew ?
+          <p>Bevor du deine Ratings abgeben kannst, musst du bestätigen, dass du richtig in diesem Projekt eingeteilt bist.</p> :
+          <ProgressPage {...this.props} />
+        )}
+      </div>
     );
   }
 }
 
 ProgressPageComponent.propTypes = {
+  rating: React.PropTypes.object,
   ratings: React.PropTypes.array,
   initialize: React.PropTypes.func,
 };
 
 
 const mapStateToProps = (globalState) => {
+  const { rating } = globalState.app;
   const { ratings } = globalState.rating;
 
   const updatedRatings = ratings.map(rating => ({
@@ -41,10 +47,9 @@ const mapStateToProps = (globalState) => {
     progress: calculateProgress(rating),
   }));
 
-  console.log(updatedRatings);
-
   return {
     title: 'Rating for',
+    rating,
     ratings: updatedRatings,
   };
 };
