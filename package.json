@@ -76,8 +76,7 @@
   },
   "babel": {
     "presets": [
-      "es2015",
-      "react"
+      "es2015"
     ]
   },
   "eslintConfig": {
@@ -87,16 +86,16 @@
       }
     },
     "plugins": [
-      "react",
-      "prefer-object-spread"
+      "meteor",
+      "react"
     ],
     "extends": [
       "plugin:react/recommended",
-      "airbnb"
+      "airbnb",
+      "plugin:meteor/guide"
     ],
     "rules": {
-      "max-lines": "warn",
-      "prefer-object-spread/prefer-object-spread": 2
+      "max-lines": "warn"
     }
-  }
+  },
 }

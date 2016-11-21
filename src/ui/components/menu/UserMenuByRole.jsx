@@ -21,7 +21,7 @@ const userMenuTM = props => ([
   }, {
     name: 'My Ratings',
     icon: <Assessment className="menu-icon" />,
-    path: '/ip-p2p/myrating',
+    path: '/ip-p2p/team/member/rating',
     disabled: !props.isFinal,
   }, {
     divider: true,
@@ -46,7 +46,7 @@ const userMenuQM = props => ([
   }, {
     name: 'My Ratings',
     icon: <Assessment className="menu-icon" />,
-    path: '/ip-p2p/myrating',
+    path: '/ip-p2p/team/member/rating',
     disabled: !props.isFinal,
   }, {
     divider: true,

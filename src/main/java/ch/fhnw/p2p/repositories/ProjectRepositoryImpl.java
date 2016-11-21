@@ -66,9 +66,12 @@ public class ProjectRepositoryImpl {
 			// Find ratings of other members for his member
 			for (Member mem : project.getMembers()) {
 				for (MemberRating rating: mem.getMemberRatings()) {
-					if (rating.getTargetMember().getId() == member.getId()
-							&& rating.getSourceMember().getStatus() == Member.Status.FINAL) {
-						memberRatings.add(rating);
+					if (rating.getTargetMember().getId() == member.getId()) {
+						if (rating.getSourceMember().getStatus() == Member.Status.FINAL) {
+							memberRatings.add(rating);
+						} else {
+							member.setStatus(Member.Status.OPEN);
+						}
 					}
 				}
 			}
@@ -76,7 +79,7 @@ public class ProjectRepositoryImpl {
 		} else {
 			member.clearMemberRatings();
 		}
-		member.setRatings(member.getMemberRatings());
+		member.setRatings(member.getMemberRatings(), false);
 		
 		return member;
 	}

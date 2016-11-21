@@ -22,7 +22,7 @@ public class MemberRatingMapping {
 	
 	public MemberRatingMapping() {};
 	
-	public MemberRatingMapping(MemberRating rating) {
+	public MemberRatingMapping(MemberRating rating, boolean sourceMemberMapping) {
 		this.id = rating.getId();
 		this.rating = rating.getRating();
 		this.comment = rating.getComment() == null ? "" : rating.getComment();
@@ -30,6 +30,6 @@ public class MemberRatingMapping {
 		for (CriteriaRating criteriaRating: rating.getCriteriaRatings()) {
 			this.criteriaRatings.add(new CriteriaRatingMapping(criteriaRating));
 		}
-		this.member = new MemberMapping(rating.getTargetMember());
+		this.member = new MemberMapping(sourceMemberMapping ? rating.getTargetMember() : rating.getSourceMember());
 	}	
 }

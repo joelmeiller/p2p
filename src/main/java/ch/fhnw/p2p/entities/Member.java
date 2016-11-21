@@ -146,16 +146,16 @@ public class Member extends VersionedObject{
 	public Set<MemberRatingMapping> getRatings() {
 		if (ratings.size() == 0 && memberRatings.size() > 0) {
 			for (MemberRating memberRating : memberRatings) {
-				ratings.add(new MemberRatingMapping(memberRating));
+				ratings.add(new MemberRatingMapping(memberRating, true));
 			}
 		}
 		return ratings;
 	}
 
-	public void setRatings(List<MemberRating> memberRatings) {
+	public void setRatings(List<MemberRating> memberRatings, boolean sourceMemberRating) {
 		ratings = new HashSet<MemberRatingMapping>();
 		for (MemberRating memberRating : memberRatings) {
-			ratings.add(new MemberRatingMapping(memberRating));
+			ratings.add(new MemberRatingMapping(memberRating, sourceMemberRating));
 		}
 	}
 

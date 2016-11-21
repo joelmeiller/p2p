@@ -18,7 +18,7 @@ const MemberRatingPage = props => (
     </div>
     <div className="row push-top-medium">
       <div className="col-xs-10">
-        {props.members.filter(m => !m.removed).sort(sortMembers).map(member =>
+        {props.ratings.filter(m => !m.removed).sort(sortMembers).map(member =>
           <div
             className="col-xs-6 push-bottom-medium"
             key={member.id}
@@ -36,8 +36,10 @@ const MemberRatingPage = props => (
 
 MemberRatingPage.propTypes = {
   rating: React.PropTypes.number,
-  members: React.PropTypes.arrayOf(
-    React.PropTypes.shape(MemberCard.propTypes)).isRequired,
+  ratings: React.PropTypes.arrayOf(
+    React.PropTypes.shape(MemberCard.propTypes)
+  ).isRequired,
+  handleSelectMember: React.PropTypes.func,
 };
 
 export default MemberRatingPage;
