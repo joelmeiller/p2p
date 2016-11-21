@@ -49,10 +49,28 @@ const EditProjectPage = props => (
 
     <div className="row">
       <div className="col-xs-2" style={{ marginTop: 14 }}>
-        <p>Stufe</p>
+        <p>QM</p>
       </div>
       <div className="col-xs-4" style={{ marginTop: -8 }}>
         <Dropdown
+          hintText="Name QM"
+          menuItems={props.selectStates}
+          selectedValue={props.selectedStateId}
+        />
+      </div>
+    </div>
+
+    <div className="row">
+      <div className="col-xs-2" style={{ marginTop: 14 }}>
+        <p>Projektstufe</p>
+      </div>
+      <div className="col-xs-4" style={{ marginTop: -8 }}>
+        <Dropdown
+          items={[
+            { id: 'IP3', label: 'IP3' },
+            { id: 'IP4', label: 'IP4' },
+            { id: 'IP5', label: 'IP5' },
+          ]}
           menuItems={props.selectStates}
           selectedValue={props.selectedStateId}
         />
@@ -104,33 +122,6 @@ const EditProjectPage = props => (
     <div className="row">
       <div className="col-xs-2" style={{ marginTop: 14 }}>
         <p>Status</p>
-      </div>
-      <div className="col-xs-4" style={{ marginTop: -8 }}>
-        <Dropdown
-          menuItems={props.selectStates}
-          selectedValue={props.selectedStateId}
-        />
-      </div>
-    </div>
-
-    <div className="row">
-      <div className="col-xs-2" style={{ marginTop: 14 }}>
-        <p>Art</p>
-      </div>
-      <div className="col-xs-4">
-          <TextField
-            hintText="Name Coach"
-            value={props.coach}
-            fullWidth
-            inputStyle={{ color: '#333333' }}
-            onChange={e => props.handleCoachChanged(e.target.value)}
-          />
-      </div>
-    </div>
-
-    <div className="row">
-      <div className="col-xs-2" style={{ marginTop: 14 }}>
-        <p>Coach</p>
       </div>
       <div className="col-xs-4" style={{ marginTop: -8 }}>
         <Dropdown
