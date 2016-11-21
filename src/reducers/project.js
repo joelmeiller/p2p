@@ -4,6 +4,7 @@ import {
   EDIT_PROJECT,
   SET_PROJECT_TITLE,
   SET_COACH_NAME,
+  ADD_QM,
   SET_PROJECT_STUFE,
   SET_PROJECT_START,
   SET_PROJECT_STOP,
@@ -43,6 +44,11 @@ const reducer = (state = { ...initialState }, action) => {
         ...params,
         name: value,
       };
+    case ADD_QM:
+      return {
+        ...state,
+        ...params,
+      };
     case SET_PROJECT_STUFE:
       return {
         ...state,
@@ -81,6 +87,7 @@ const reducer = (state = { ...initialState }, action) => {
     case ADD_PROJECT:
       return {
         ...initialState,
+        members: [],
       };
     case REQUEST_PROJECT:
       return {

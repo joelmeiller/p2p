@@ -5,8 +5,6 @@ import {
   postProject as apiPostProject,
 } from '../middleware/project.js';
 
-import { initialState } from '../reducers/project.js'
-
 import { fetchProjects } from './projectList.js'
 
 // "ID" of a new object.
@@ -25,6 +23,7 @@ export const SET_PROJECT_ZEITMODELL = 'project/SET_PROJECT_ZEITMODELL';
 export const SET_PROJECT_STATUS = 'project/SET_PROJECT_STATUS';
 export const REQUEST_PROJECT = '/project/REQUEST_PROJECT';
 export const RECEIVE_PROJECT = '/project/RECEIVE_PROJECT';
+export const ADD_QM = '/project/ADD_QM';
 
 
 const requestData = () => ({
@@ -46,7 +45,6 @@ const shouldFetchData = (state) => {
 export const fetchProject = id => (dispatch, getState) => {
   if (id === NEW_ID) {
     dispatch(receiveData({
-      ...initialState,
       start: new Date(),
       stop: new Date(),
     }));
@@ -126,5 +124,24 @@ export const setProjectStatus = newValue => (dispatch) => {
   dispatch({
     type: SET_PROJECT_STATUS,
     value: newValue,
+  });
+};
+
+export const addQM = (student) => (dispatch, getState) => {
+  const state = getState().project;
+  const members = state.members;
+
+  console.log(student);
+
+  members.push({
+    student: {
+      ...student,
+    },
+    roles: [],
+  });
+
+  dispatch({
+    type: ADD_QM,
+    members,
   });
 };
