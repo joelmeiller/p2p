@@ -9,15 +9,13 @@ import InboxPage from '../ui/pages/InboxPage.jsx';
 import { fetchInbox, performAction } from '../actions/inbox.js';
 
 
-const mapStateToProps = (globalState, props) => {
+const mapStateToProps = (globalState) => {
   const { actions } = globalState.inbox;
 
-  const newProps = {
-    ...props,
+  return {
     actions,
+    hasActions: actions.length > 0,
   };
-
-  return newProps;
 };
 
 const mapDispatchToProps = dispatch => ({

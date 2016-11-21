@@ -24,17 +24,20 @@ class TeamRatingOverviewComponent extends Component {
     const memberRating = ratings.length === 1 ? ratings[0] : {};
 
     return ((!this.props.isQMRating && this.props.user.isQM)
-      || !this.props.rating.isOpen ?
+      || this.props.rating.isFinal || this.props.rating.isAccepted ?
       <div className="container push-top-small">
         <h2>Bewertungsübersicht</h2>
         <TeamRatingPageContainer {...this.props} />
       </div> :
       <div className="container push-top-small">
         <h2>Bewertungsfortschritt</h2>
-        <ProgressPageContainer
-          {...memberRating}
-          initialRatings={memberRating.ratings}
-        />
+        {(this.props.isOpen ?
+          <ProgressPageContainer
+            {...memberRating}
+            initialRatings={memberRating.ratings}
+          /> :
+          <p>Bevor du deine Ratings abgeben kannst, musst du bestätigen, dass du richtig in diesem Projekt eingeteilt bist.</p>
+        )}
       </div>
     );
   }

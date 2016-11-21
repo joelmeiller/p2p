@@ -5,7 +5,7 @@ import ActionItem from '../elements/ActionItem.jsx';
 const InboxPage = props => (
   <div className="container push-top-small">
     <h2>Inbox</h2>
-    {(props.actions.length > 0 ? props.actions.map(item =>
+    {(props.hasActions ? props.actions.map(item =>
       <div key={item.id} className="row">
         <ActionItem
           {...item}
@@ -18,9 +18,8 @@ const InboxPage = props => (
 );
 
 InboxPage.propTypes = {
-  actions: React.PropTypes.arrayOf(
-    React.PropTypes.shape(ActionItem.propTypes)
-  ),
+  actions: React.PropTypes.array,
+  hasActions: React.PropTypes.bool,
   handlePerformAction: React.PropTypes.func,
 };
 
