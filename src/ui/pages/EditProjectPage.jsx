@@ -54,7 +54,7 @@ const EditProjectPage = props => (
       <div className="col-xs-2" style={{ marginTop: 14 }}>
         <p>QM</p>
       </div>
-      <div className="col-xs-4" style={{ marginTop: -8 }}>
+      <div className="col-xs-4" style={{ marginTop: 15 }}>
         {(props.qmName ?
           <p>{props.qmName}</p> :
           <AutoSuggest
@@ -133,8 +133,7 @@ const EditProjectPage = props => (
         <Dropdown
           items={[
             { id: 'Offen', label: 'Offen' },
-            { id: 'IP4', label: 'IP4' },
-            { id: 'IP5', label: 'IP5' },
+            { id: 'Geschlossen', label: 'Geschlossen' },
           ]}
           menuItems={props.selectStates}
           selectedValue={props.selectedStateId}
