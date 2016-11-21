@@ -17,6 +17,7 @@ import {
 export const initialState = {
   title: undefined,
   coach: undefined,
+  members: [],
   stufe: undefined,
   start: undefined,
   stop: undefined,

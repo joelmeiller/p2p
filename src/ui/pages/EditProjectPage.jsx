@@ -55,11 +55,14 @@ const EditProjectPage = props => (
         <p>QM</p>
       </div>
       <div className="col-xs-4" style={{ marginTop: -8 }}>
-        <AutoSuggest
-          middleware={getMembersSuggestions}
-          onSuggestionSelected={props.handleAddQM}
-          {...props}
-        />
+        {(props.qmName ?
+          <p>{props.qmName}</p> :
+          <AutoSuggest
+            middleware={getMembersSuggestions}
+            onSuggestionSelected={props.handleAddQM}
+            {...props}
+          />
+        )}
       </div>
     </div>
 
@@ -160,6 +163,7 @@ const EditProjectPage = props => (
 
 EditProjectPage.propTypes = {
   title: React.PropTypes.string,
+  qmName: React.PropTypes.string,
   start: React.PropTypes.instanceOf(Date),
   stop: React.PropTypes.instanceOf(Date),
   zeitmodell: React.PropTypes.string,

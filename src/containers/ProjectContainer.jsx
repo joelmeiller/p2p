@@ -36,11 +36,13 @@ EditProjectComponent.propTypes = {
 };
 
 const mapStateToProps = (globalState, props) => {
-  const state = globalState.project;
-
+  const project = globalState.project;
+// because there should be just one member in the array.
+  const qm = project.members.length === 1 ? project.members[0].student : undefined;
   return {
     ...props,
-    ...state,
+    ...project,
+    qmName: qm ? `${qm.firstName} ${qm.lastName} ${qm.email}` : undefined,
   };
 };
 
@@ -50,6 +52,7 @@ const mapDispatchToProps = (dispatch, props) => ({
   handleCancel: () => dispatch(cancel(props.router)),
   handleTitleChanged: newTitleValue => dispatch(setProjectTitle(newTitleValue)),
   handleCoachChanged: newCoachValue => dispatch(setCoachName(newCoachValue)),
+  handleAddQM: student => dispatch(addMember(student)),
   handleStufeChanged: newStufeValue => dispatch(setStufe(newStufeValue)),
   handleZeitmodellChanged: newZeitmodellValue => dispatch(setZeitmodell(newZeitmodellValue)),
   handleStatushanged: newStatusValue => dispatch(setStatus(newStatusValue)),
