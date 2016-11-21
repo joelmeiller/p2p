@@ -20,7 +20,7 @@ const mapStateToProps = (globalState, props) => {
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  handleSelectMember: member => dispatch(showRating(member, ownProps, true)),
+  handleSelectMember: member => dispatch(showRating(member, ownProps)),
 });
 
 const TeamRatingPageContainer = connect(

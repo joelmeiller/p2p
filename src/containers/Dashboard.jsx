@@ -25,7 +25,6 @@ const Dashboard = props => (
 
 Dashboard.propTypes = {
   user: React.PropTypes.object,
-  isQMRating: React.PropTypes.bool,
 };
 
 const mapStateToProps = (globalState, props) => {
@@ -33,7 +32,6 @@ const mapStateToProps = (globalState, props) => {
 
   return {
     user,
-    isQMRating: props.location.pathname !== '/ip-p2p/team/rating',
   };
 };
 
