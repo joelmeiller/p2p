@@ -1,7 +1,7 @@
 // React imports
 import React from 'react';
 import { Provider } from 'react-redux';
-import { Router, Route, IndexRoute, Redirect, browserHistory, IndexRedirect } from 'react-router';
+import { Router, Route, IndexRoute, browserHistory, IndexRedirect } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 
 // Material Design Theme
@@ -33,15 +33,15 @@ export default (store) => {
 
               {/* TM & QM Rating routes */}
               <Route path="team/rating" component={TeamRatingOverview} />
-              <Route path="team/rating/:slug" component={TeammemberEvaluation} />
+              <Route path="team/rating/:id" component={TeammemberEvaluation} />
               <Route path="myrating" component={MyRatingOverview} />
 
               {/* QM edit routes */}
               <Route path="criteria/edit" component={CriteriaOverview} />
               <Route path="team/edit" component={TeamOverview} />
 
-              {/* FCoach routes*/}
-              <Route path="projects/:slug" component={ProjectContainer} />
+              {/* Coach routes*/}
+              <Route path="projects/:id" component={ProjectContainer} />
 
               {/* Test Routes */}
               <Route path="/:test" component={TeamRatingOverview} />

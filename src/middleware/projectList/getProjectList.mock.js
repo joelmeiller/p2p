@@ -1,7 +1,7 @@
 // Node imports
 import mock from 'fetch-mock';
 
-import { apiEntrypoint, getProjects as origin } from './getProjects.js';
+import { apiEntrypoint, getProjects as origin } from './getProjectList.js';
 
 const data = {
   projects: [
@@ -9,7 +9,7 @@ const data = {
       id: '12345',
       level: 'IP3',
       start: 'FS16',
-      type: '',
+      zeitmodell: '',
       title: 'Technology Chooser',
       slug: 'technology-chooser',
       lastUpdateTSD: new Date(),
@@ -19,7 +19,7 @@ const data = {
       id: '12346',
       level: 'IP4',
       start: 'FS16',
-      type: 'BB',
+      zeitmodell: 'BB',
       title: 'Switch Server Anbindung',
       slug: 'switch-server',
       lastUpdateTSD: new Date(),
@@ -29,7 +29,7 @@ const data = {
       id: '12347',
       level: 'IP4',
       start: 'FS16',
-      type: '',
+      zeitmodell: '',
       title: 'Evento API Erweiterung',
       slug: 'evento-api',
       lastUpdateTSD: new Date(),
@@ -39,7 +39,7 @@ const data = {
       id: '12348',
       level: 'IP3',
       start: 'FS16',
-      type: '',
+      zeitmodell: '',
       title: 'Wasserspar App',
       slug: 'water-saving-app',
       lastUpdateTSD: new Date(),
