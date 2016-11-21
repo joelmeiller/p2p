@@ -4,8 +4,8 @@ import { SET_TITLE, REQUEST_USER, RECEIVE_USER } from '../actions/app.js';
 
 const initialState = {
   title: 'Dashboard',
-  user: {},
-  project: {},
+  user: undefined,
+  project: undefined,
   hasEvaluation: false,
   isFetching: false,
   fetched: false,

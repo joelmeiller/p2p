@@ -23,7 +23,8 @@ class TeamRatingOverviewComponent extends Component {
     const ratings = this.props.members.filter(member => member.studentId === this.props.user.id);
     const memberRating = ratings.length === 1 ? ratings[0] : {};
 
-    return ((this.props.location.pathname !== '/ip-p2p/team/rating' && this.props.isQM) || this.props.isFinal ?
+    return ((this.props.location.pathname !== '/ip-p2p/team/rating' && this.props.user.isQM)
+      || this.props.rating.isFinal || this.props.rating.isAccepted ?
       <div className="container push-top-small">
         <h2>Bewertungsübersicht</h2>
         <TeamRatingPageContainer {...this.props} />
@@ -33,7 +34,7 @@ class TeamRatingOverviewComponent extends Component {
         <ProgressPageContainer
           {...memberRating}
           initialRatings={memberRating.ratings}
-          isFinal={this.props.isFinal}
+          isFinal={!this.props.isOpen}
         />
       </div>
     );
@@ -50,7 +51,7 @@ TeamRatingOverviewComponent.propTypes = {
 };
 
 const mapStateToProps = (globalState, props) => {
-  const { user } = globalState.app;
+  const userSettings = globalState.app;
   const { members, readonly } = globalState.team;
 
   const updatedMembers = members.map(member => ({
@@ -60,12 +61,12 @@ const mapStateToProps = (globalState, props) => {
   }));
 
   return {
+    ...props,
+    ...userSettings,
     title: 'Rating for',
     onClosePath: '/ip-p2p',
     readonly,
     members: updatedMembers,
-    user,
-    ...props,
   };
 };
 

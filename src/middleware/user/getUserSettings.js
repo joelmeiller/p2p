@@ -18,11 +18,12 @@ export default callback =>
       role: data.role ? data.role.shortcut : '-',
       isQM: data.user.qm,
       isCoach: data.user.coach,
-      isJury: data.user.coach,
-      isApproved: data.user.status === 'ACCEPTED',
     },
+    rating: data.rating ? {
+      isFinal: data.rating.final,
+      isAccepted: data.rating.accepted,
+    } : {},
     project: data.project ? {
       ...data.project,
-      isFinal: !['NEW', 'OPEN'].includes(data.project.status),
     } : {},
   }));

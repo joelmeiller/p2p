@@ -28,10 +28,10 @@ import lombok.EqualsAndHashCode;
 public class Project extends VersionedObject {
 	
 	public static enum Status {
-		OPEN,
-		FINAL,
-		SEND,
-		CLOSE,
+		OPEN, // the team members can set their ratings and the deadline is after the current date
+		FINAL, // either all team member send their ratings or the deadline to enter ratings has past
+		SEND, // the quality manager has sent the final ratings and grades to the coach
+		CLOSE, // final state: closed project. no further interactions possible
 	}
 
 	private String title;

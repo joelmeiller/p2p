@@ -11,7 +11,7 @@ const data = {
     lastName: 'Misteli',
     role: 'QM',
     isQM: false,
-    isJury: false,
+    isCoach: false,
     isFinal: false, // <-- set to show my rating
   },
   project: {

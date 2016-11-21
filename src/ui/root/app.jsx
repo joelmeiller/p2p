@@ -34,11 +34,14 @@ App.propTypes = {
 const mapStateToProps = (globalState, props) => {
   const { project, user } = globalState.app;
 
-  const username = user.role ? `${user.fullName}, ${user.role}` : user.fullName;
+  let username = ''
+  if (user) {
+    user.role ? `${user.fullName}, ${user.role}` : user.fullName;
+  }
 
   return {
-    ...project,
     ...props,
+    ...project,
     ...user,
     username,
   };
