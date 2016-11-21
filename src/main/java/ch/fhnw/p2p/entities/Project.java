@@ -1,5 +1,6 @@
 package ch.fhnw.p2p.entities;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -12,6 +13,10 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+
+
+import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import ch.fhnw.p2p.entities.mixins.VersionedObject;
 import ch.fhnw.p2p.utils.Slug;
@@ -34,9 +39,18 @@ public class Project extends VersionedObject {
 		CLOSE, // final state: closed project. no further interactions possible
 	}
 
+	public static enum Zeitmodell {
+		BB,
+		VZ_TZ,
+	}
+	
 	private String title;
 	private String slug;
 	private Date deadline;
+	@Type(type="date")
+	private Date start;
+	@Type(type="date")
+	private Date stop;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "project")
 	private Set<ProjectCategory> projectCategories;
@@ -46,6 +60,9 @@ public class Project extends VersionedObject {
 	
 	@Enumerated(EnumType.STRING)
 	private Status status;
+	
+	@Enumerated(EnumType.STRING)
+	private Zeitmodell zeitmodell;
 
 	public Project() {
 		this.status = Status.OPEN;
@@ -73,4 +90,19 @@ public class Project extends VersionedObject {
 		}
 		return criterias;
 	}
+	
+	// http://stackoverflow.com/questions/22031128/how-to-update-an-entity-with-spring-data-jpa
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (id == null || obj == null || getClass() != obj.getClass())
+            return false;
+        Project that = (Project) obj;
+        return id.equals(that.id);
+    }
+    @Override
+    public int hashCode() {
+        return id == null ? 0 : id.hashCode();
+    }
 }

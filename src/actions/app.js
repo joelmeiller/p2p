@@ -24,6 +24,7 @@ const receiveData = data => (dispatch) => {
     type: RECEIVE_USER,
     project: data.project,
     user: data.user,
+    rating: data.rating,
   });
 
   if (!data.user.isCoach && !data.user.isAccepted) {

@@ -37,8 +37,8 @@ const ProjectPage = props => (
             >Start</TableHeaderColumn>
             <TableHeaderColumn
               tooltip="Berufsbegleitend"
-              style={{ width: '30px' }}
-            >BB</TableHeaderColumn>
+              style={{ width: '90px' }}
+            >Zeitmodell</TableHeaderColumn>
             <TableHeaderColumn
               tooltip="Projektbezeichnung"
             >Title</TableHeaderColumn>
@@ -68,8 +68,8 @@ const ProjectPage = props => (
                 style={{ width: '80px' }}
               >{project.start}</TableRowColumn>
               <TableRowColumn
-                style={{ width: '30px' }}
-              >{project.type}</TableRowColumn>
+                style={{ width: '90px' }}
+              >{project.zeitmodell}</TableRowColumn>
               <TableRowColumn
               >{project.title}</TableRowColumn>
               <TableRowColumn

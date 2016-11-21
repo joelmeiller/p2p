@@ -2,6 +2,7 @@ import React from 'react';
 
 import TextField from 'material-ui/TextField';
 import { RaisedButton } from 'material-ui';
+import DatePicker from 'material-ui/DatePicker';
 import Header2Line from '../elements/Header/Header2Line.jsx';
 import Dropdown from '../elements/Dropdown.jsx';
 
@@ -15,99 +16,41 @@ const EditProjectPage = props => (
         />
       </div>
     </div>
+
     <div className="row">
-      <div className="col-xs-4">
+      <div className="col-xs-2" style={{ marginTop: 14 }}>
+        <p>Title</p>
+      </div>
+      <div className="col-xs-6">
         <TextField
           hintText="Title"
-          defaultValue={props.title}
+          value={props.title}
           fullWidth
           inputStyle={{ color: '#333333' }}
           onChange={e => props.handleTitleChanged(e.target.value)}
         />
       </div>
-      <div className="row">
-        <div className="col-xs-2" style={{ marginTop: 14 }}>
-          <p>Title</p>
-        </div>
-        <div className="col-xs-6">
-          <TextField
-            hintText="Title"
-            defaultValue={props.title}
-            fullWidth
-            inputStyle={{ color: '#333333' }}
-            onChange={e => props.handleTitleChanged(e.target.value)}
-          />
-        </div>
+    </div>
+
+    <div className="row">
+      <div className="col-xs-2" style={{ marginTop: 14 }}>
+        <p>Coach</p>
       </div>
-      <div className="row">
-        <div className="col-xs-2" style={{ marginTop: 14 }}>
-          <p>Coach</p>
-        </div>
-        <div className="col-xs-6">
-          <TextField
-            hintText="Name Coach"
-            defaultValue={props.coachName}
-            fullWidth
-            inputStyle={{ color: '#333333' }}
-            onChange={e => props.handleCoachChanged(e.target.value)}
-          />
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-xs-2" style={{ marginTop: 14 }}>
-          <p>Stufe</p>
-        </div>
-        <div className="col-xs-4" style={{ marginTop: -8 }}>
-          <Dropdown
-            menuItems={props.selectStates}
-            selectedValue={props.selectedStateId}
-          />
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-xs-2" style={{ marginTop: 14 }}>
-          <p>Start</p>
-        </div>
-        <div className="col-xs-4" style={{ marginTop: -8 }}>
-          <Dropdown
-            menuItems={props.selectStates}
-            selectedValue={props.selectedStateId}
-          />
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-xs-2" style={{ marginTop: 14 }}>
-          <p>Art</p>
-        </div>
-        <div className="col-xs-4" style={{ marginTop: -8 }}>
-          <Dropdown
-            menuItems={props.selectStates}
-            selectedValue={props.selectedStateId}
-          />
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-xs-2" style={{ marginTop: 14 }}>
-          <p>Status</p>
-        </div>
-        <div className="col-xs-4" style={{ marginTop: -8 }}>
-          <Dropdown
-            menuItems={props.selectStates}
-            selectedValue={props.selectedStateId}
-          />
-        </div>
-      </div>
-      <div className="col-xs-4">
+      <div className="col-xs-6">
         <TextField
           hintText="Name Coach"
-          defaultValue={props.coachName}
+          value={props.coach}
           fullWidth
           inputStyle={{ color: '#333333' }}
           onChange={e => props.handleCoachChanged(e.target.value)}
         />
       </div>
     </div>
+
     <div className="row">
+      <div className="col-xs-2" style={{ marginTop: 14 }}>
+        <p>Stufe</p>
+      </div>
       <div className="col-xs-4" style={{ marginTop: -8 }}>
         <Dropdown
           menuItems={props.selectStates}
@@ -115,6 +58,88 @@ const EditProjectPage = props => (
         />
       </div>
     </div>
+
+    <div className="row">
+      <div className="col-xs-2" style={{ marginTop: 14 }}>
+        <p>Start</p>
+      </div>
+      <div className="col-xs-4" style={{ marginTop: -8 }}>
+        <DatePicker
+          value={props.start}
+          onChange={(_, date) => props.handleStartChanged(date)}
+          hintText="Project start date"
+        />
+      </div>
+    </div>
+
+    <div className="row">
+      <div className="col-xs-2" style={{ marginTop: 14 }}>
+        <p>Stop</p>
+      </div>
+      <div className="col-xs-4" style={{ marginTop: -8 }}>
+        <DatePicker
+          value={props.stop}
+          onChange={(_, date) => props.handleStopChanged(date)}
+          hintText="Project stop date"
+        />
+      </div>
+    </div>
+
+    <div className="row">
+      <div className="col-xs-2" style={{ marginTop: 14 }}>
+        <p>Zeitmodell</p>
+      </div>
+      <div className="col-xs-4" style={{ marginTop: -8 }}>
+        <Dropdown
+          items={[
+            { id: 'BB', label: 'Berufsbegleitend' },
+            { id: 'VZ_TZ', label: 'Vollzeit/Teilzeit' },
+          ]}
+          selectedValue={props.zeitmodell}
+          onChange={props.handleZeitmodellChanged}
+        />
+      </div>
+    </div>
+
+    <div className="row">
+      <div className="col-xs-2" style={{ marginTop: 14 }}>
+        <p>Status</p>
+      </div>
+      <div className="col-xs-4" style={{ marginTop: -8 }}>
+        <Dropdown
+          menuItems={props.selectStates}
+          selectedValue={props.selectedStateId}
+        />
+      </div>
+    </div>
+
+    <div className="row">
+      <div className="col-xs-2" style={{ marginTop: 14 }}>
+        <p>Art</p>
+      </div>
+      <div className="col-xs-4">
+          <TextField
+            hintText="Name Coach"
+            value={props.coach}
+            fullWidth
+            inputStyle={{ color: '#333333' }}
+            onChange={e => props.handleCoachChanged(e.target.value)}
+          />
+      </div>
+    </div>
+
+    <div className="row">
+      <div className="col-xs-2" style={{ marginTop: 14 }}>
+        <p>Coach</p>
+      </div>
+      <div className="col-xs-4" style={{ marginTop: -8 }}>
+        <Dropdown
+          menuItems={props.selectStates}
+          selectedValue={props.selectedStateId}
+        />
+      </div>
+    </div>
+
     <div className="row push-top-medium">
       <div className="col-xs-4 align-right">
         <RaisedButton
@@ -136,9 +161,15 @@ const EditProjectPage = props => (
 
 EditProjectPage.propTypes = {
   title: React.PropTypes.string,
+  start: React.PropTypes.instanceOf(Date),
+  stop: React.PropTypes.instanceOf(Date),
+  zeitmodell: React.PropTypes.string,
   handleTitleChanged: React.PropTypes.func,
   handleCoachChanged: React.PropTypes.func,
-  coachName: React.PropTypes.string,
+  handleStartChanged: React.PropTypes.func,
+  handleStopChanged: React.PropTypes.func,
+  handleZeitmodellChanged: React.PropTypes.func,
+  coach: React.PropTypes.string,
   selectStates: React.PropTypes.arrayOf(
     React.PropTypes.shape({
       id: React.PropTypes.string,

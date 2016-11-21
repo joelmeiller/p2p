@@ -7,22 +7,23 @@ import { withRouter } from 'react-router';
 import EditProjectPage from '../ui/pages/EditProjectPage.jsx';
 
 // Action imports
-import { setTitle } from '../actions/app.js';
+// import { setTitle } from '../actions/app.js';
 import {
+  fetchProject,
+  saveProject,
   cancel,
   setProjectTitle,
   setCoachName,
   setStufe,
-  setStart,
-  setArt,
+  setProjectStart,
+  setProjectStop,
+  setZeitmodell,
   setStatus,
 } from '../actions/project.js';
 
-import { saveProject } from '../actions/projectList.js';
-
 class EditProjectComponent extends Component {
   componentDidMount() {
-    this.props.initializeTitle();
+    this.props.fetchProject();
   }
 
   render() {
@@ -31,7 +32,7 @@ class EditProjectComponent extends Component {
 }
 
 EditProjectComponent.propTypes = {
-  initializeTitle: React.PropTypes.func,
+  fetchProject: React.PropTypes.func,
 };
 
 const mapStateToProps = (globalState, props) => {
@@ -44,15 +45,16 @@ const mapStateToProps = (globalState, props) => {
 };
 
 const mapDispatchToProps = (dispatch, props) => ({
-  initializeTitle: () => dispatch(setTitle('Edit Project')),
-  handleSave: () => dispatch(saveProject(props)),
-  handleCancel: () => dispatch(cancel(props)),
+  fetchProject: () => dispatch(fetchProject(props.routeParams.id)),
+  handleSave: () => dispatch(saveProject(props.router)),
+  handleCancel: () => dispatch(cancel(props.router)),
   handleTitleChanged: newTitleValue => dispatch(setProjectTitle(newTitleValue)),
   handleCoachChanged: newCoachValue => dispatch(setCoachName(newCoachValue)),
   handleStufeChanged: newStufeValue => dispatch(setStufe(newStufeValue)),
-  handleStartChanged: newStartValue => dispatch(setStart(newStartValue)),
-  handleArtChanged: newArtValue => dispatch(setArt(newArtValue)),
+  handleZeitmodellChanged: newZeitmodellValue => dispatch(setZeitmodell(newZeitmodellValue)),
   handleStatushanged: newStatusValue => dispatch(setStatus(newStatusValue)),
+  handleStartChanged: newStartValue => dispatch(setProjectStart(newStartValue)),
+  handleStopChanged: newStartValue => dispatch(setProjectStop(newStartValue)),
 });
 
 const ProjectContainer = connect(

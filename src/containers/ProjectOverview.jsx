@@ -10,12 +10,12 @@ import { connect } from 'react-redux';
 import ProjectPage from '../ui/pages/ProjectPage.jsx';
 
 // Action imports
-import { fetchProject, editProject, addProject } from '../actions/projectList.js';
+import { fetchProjects, editProject, addProject } from '../actions/projectList.js';
 
 
 class ProjectOverviewComponent extends Component {
   componentDidMount() {
-    this.props.fetchProject();
+    this.props.fetchProjects();
   }
 
   render() {
@@ -24,7 +24,7 @@ class ProjectOverviewComponent extends Component {
 }
 
 ProjectOverviewComponent.propTypes = {
-  fetchProject: React.PropTypes.func,
+  fetchProjects: React.PropTypes.func,
 };
 
 const mapStateToProps = (globalState, props) => {
@@ -43,7 +43,7 @@ const mapStateToProps = (globalState, props) => {
 };
 
 const mapDispatchToProps = (dispatch, props) => ({
-  fetchProject: () => dispatch(fetchProject()),
+  fetchProjects: () => dispatch(fetchProjects()),
   handleSelectProject: selectedProject => dispatch(editProject(selectedProject, props)),
   handleAddProject: () => dispatch(addProject(props)),
 });

@@ -9,6 +9,10 @@ import ProgressPage from '../ui/pages/ProgressPage.jsx';
 // Action imports
 import { fetchRatings, showRating } from '../actions/ratings.js';
 
+// Utils imports
+import calculateProgress from '../middleware/utils/calculateProgress.js';
+
+
 class ProgressPageComponent extends React.Component {
   componentDidMount() {
     this.props.fetchRatings();
@@ -29,13 +33,17 @@ ProgressPageComponent.propTypes = {
 };
 
 
-const mapStateToProps = (globalState, props) => {
+const mapStateToProps = (globalState) => {
   const { ratings } = globalState.rating;
+
+  const updatedRatings = ratings.map(rating => ({
+    ...rating,
+    progress: calculateProgress(rating),
+  }));
 
   return {
     title: 'Rating for',
-    ...props,
-    ratings,
+    ratings: updatedRatings,
   };
 };
 

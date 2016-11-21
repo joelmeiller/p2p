@@ -1,6 +1,7 @@
 package ch.fhnw.p2p.entities.mapping;
 
 import ch.fhnw.p2p.entities.Member;
+
 import ch.fhnw.p2p.entities.Role;
 import ch.fhnw.p2p.entities.User;
 import lombok.Data;

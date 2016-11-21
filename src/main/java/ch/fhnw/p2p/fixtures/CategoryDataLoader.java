@@ -1,5 +1,9 @@
 package ch.fhnw.p2p.fixtures;
 
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
@@ -10,6 +14,7 @@ import ch.fhnw.p2p.entities.Criteria;
 import ch.fhnw.p2p.entities.Locale;
 import ch.fhnw.p2p.entities.Member;
 import ch.fhnw.p2p.entities.Project;
+import ch.fhnw.p2p.entities.Project.Zeitmodell;
 import ch.fhnw.p2p.entities.ProjectCategory;
 import ch.fhnw.p2p.entities.ProjectCriteria;
 import ch.fhnw.p2p.entities.Role;
@@ -76,6 +81,9 @@ public class CategoryDataLoader implements CommandLineRunner {
 		// Add student, project and member
 		studentRepo.save(new User("Max", "Muster", "max.muster@students.fhnw.ch", User.Type.STUDENT, User.StudentType.BB));
 		Project project = new Project("Test Project");
+		project.setStart(new Date(2016 - 1900, 1 - 1, 1));
+		project.setStop(new Date(2016 - 1900, 12 - 1, 31));
+		project.setZeitmodell(Zeitmodell.BB);
 		
 		// Add project categories & criterias
 		ProjectCategory projectCategory = new ProjectCategory(category1);
@@ -105,6 +113,7 @@ public class CategoryDataLoader implements CommandLineRunner {
 		// Add test projects
 		project = new Project("Test Project 1");
 		
+		project.setZeitmodell(Zeitmodell.BB);
 		projectCategory = new ProjectCategory(category1);
 		projectCategory.setProject(project);
 		project.getProjectCategories().add(projectCategory);
@@ -120,6 +129,8 @@ public class CategoryDataLoader implements CommandLineRunner {
 		projectRepo.save(project);
 
 		project = new Project("Test Project 2");
+		
+		project.setZeitmodell(Zeitmodell.VZ_TZ);
 		projectCategory = new ProjectCategory(category1);
 		projectCategory.setProject(project);
 		project.getProjectCategories().add(projectCategory);

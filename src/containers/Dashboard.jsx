@@ -16,7 +16,7 @@ const Dashboard = props => (
         <Inbox />
         {(props.user.isCoach ?
           <ProjectOverview /> :
-          <TeamRatingOverview />
+          <TeamRatingOverview isQMRating={props.isQMRating} />
         )}
       </div> : undefined
     )}
@@ -25,13 +25,15 @@ const Dashboard = props => (
 
 Dashboard.propTypes = {
   user: React.PropTypes.object,
+  isQMRating: React.PropTypes.bool,
 };
 
-const mapStateToProps = (globalState) => {
+const mapStateToProps = (globalState, props) => {
   const { user } = globalState.app;
 
   return {
     user,
+    isQMRating: props.location.pathname !== '/ip-p2p/team/rating',
   };
 };
 

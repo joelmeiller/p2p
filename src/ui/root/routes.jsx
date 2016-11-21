@@ -40,8 +40,8 @@ export default (store) => {
               <Route path="criteria/edit" component={CriteriaOverview} />
               <Route path="team/edit" component={TeamOverview} />
 
-              {/* FCoach routes*/}
-              <Route path="projects/:slug" component={ProjectContainer} />
+              {/* Coach routes*/}
+              <Route path="projects/:id" component={ProjectContainer} />
 
               {/* Test Routes */}
               <Route path="/:test" component={TeamRatingOverview} />

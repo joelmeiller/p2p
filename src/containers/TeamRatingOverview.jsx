@@ -23,7 +23,7 @@ class TeamRatingOverviewComponent extends Component {
     const ratings = this.props.members.filter(member => member.studentId === this.props.user.id);
     const memberRating = ratings.length === 1 ? ratings[0] : {};
 
-    return ((this.props.location.pathname !== '/ip-p2p/team/rating' && this.props.user.isQM)
+    return ((!this.props.isQMRating && this.props.user.isQM)
       || this.props.rating.isFinal || this.props.rating.isAccepted ?
       <div className="container push-top-small">
         <h2>Bewertungsübersicht</h2>
