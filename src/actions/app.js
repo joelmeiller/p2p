@@ -7,6 +7,7 @@ import getUserSettings from '../middleware/user/getUserSettings.js';
 
 
 export const SET_TITLE = 'app/SET_TITLE';
+export const SET_STATUS = 'app/SET_STATUS';
 export const REQUEST_USER = 'app/REQUEST_USER_AND_PROJECT';
 export const RECEIVE_USER = 'app/RECEIVE_USER_AND_PROJECT';
 
@@ -14,6 +15,12 @@ export const setTitle = title => ({
   type: SET_TITLE,
   title,
 });
+
+export const setRatingStatus = rating => ({
+  type: SET_STATUS,
+  rating,
+});
+
 
 const requestData = () => ({
   type: REQUEST_USER,

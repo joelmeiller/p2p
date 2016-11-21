@@ -24,7 +24,7 @@ class TeamRatingOverviewComponent extends Component {
     const memberRating = ratings.length === 1 ? ratings[0] : {};
 
     return ((!this.props.isQMRating && this.props.user.isQM)
-      || this.props.rating.isFinal || this.props.rating.isAccepted ?
+      || !this.props.rating.isOpen ?
       <div className="container push-top-small">
         <h2>Bewertungsübersicht</h2>
         <TeamRatingPageContainer {...this.props} />
@@ -34,7 +34,6 @@ class TeamRatingOverviewComponent extends Component {
         <ProgressPageContainer
           {...memberRating}
           initialRatings={memberRating.ratings}
-          isFinal={!this.props.isOpen}
         />
       </div>
     );
@@ -44,7 +43,7 @@ class TeamRatingOverviewComponent extends Component {
 TeamRatingOverviewComponent.propTypes = {
   fetchTeam: React.PropTypes.func,
   isQM: React.PropTypes.bool,
-  isFinal: React.PropTypes.bool,
+  isOpen: React.PropTypes.bool,
   location: React.PropTypes.object,
   members: React.PropTypes.array,
   user: React.PropTypes.object,

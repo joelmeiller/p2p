@@ -4,6 +4,8 @@
 import apiSetMemberStatus from '../middleware/students/setMemberStatus.js';
 
 // Actions
+import { setRatingStatus } from './app.js';
+
 export const REQUEST_INBOX = '/inbox/REQUEST_INBOX';
 export const RECEIVE_INBOX = '/inbox/RECEIVE_INBOX';
 export const PERFORM_ACTION = '/inbox/PERFORM_ACTION';
@@ -16,7 +18,15 @@ export const UPDATE_STATUS = '/action/UPDATE_STATUS';
 export const performAction = action => (dispatch) => {
   switch (action.params.type) {
     case UPDATE_STATUS:
-      apiSetMemberStatus(action.params.status);
+      apiSetMemberStatus(action.params.status, (data) => {
+        if (data.rating) {
+          setRatingStatus({
+            isOpen: data.rating.open,
+            isFinal: data.rating.final,
+            isAccepted: data.rating.accepted,
+          });
+        }
+      });
       break;
     default:
       // no action

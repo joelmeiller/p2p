@@ -34,7 +34,7 @@ App.propTypes = {
 const mapStateToProps = (globalState, props) => {
   const { project, user } = globalState.app;
 
-  let username = ''
+  let username = '-'
   if (user) {
     user.role ? `${user.fullName}, ${user.role}` : user.fullName;
   }

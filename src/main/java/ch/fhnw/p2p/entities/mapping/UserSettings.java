@@ -30,8 +30,10 @@ public class UserSettings {
 	class Rating {
 		private boolean isFinal;
 		private boolean isAccepted;
+		private boolean isOpen;
 		
 		protected Rating(Member member) {
+			this.isOpen = member.getStatus() == Member.Status.OPEN;
 			this.isFinal = member.getStatus() == Member.Status.FINAL;
 			this.isAccepted = member.getStatus() == Member.Status.ACCEPTED;
 		}

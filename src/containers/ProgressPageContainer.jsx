@@ -41,6 +41,8 @@ const mapStateToProps = (globalState) => {
     progress: calculateProgress(rating),
   }));
 
+  console.log(updatedRatings);
+
   return {
     title: 'Rating for',
     ratings: updatedRatings,
