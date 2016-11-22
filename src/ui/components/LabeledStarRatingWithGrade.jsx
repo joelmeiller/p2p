@@ -51,7 +51,6 @@ LabeledStarRatingWithGrade.propTypes = {
   rating: React.PropTypes.number,
   isFinal: React.PropTypes.bool,
   progress: React.PropTypes.number,
-  status: React.PropTypes.string,
   statusWarning: React.PropTypes.bool,
 };
 

@@ -34,18 +34,23 @@ TeamRatingOverviewComponent.propTypes = {
 };
 
 const mapStateToProps = (globalState, props) => {
-  const userSettings = globalState.app;
+  const { project } = globalState.app;
   const { members } = globalState.team;
+
+  const projectGrade = project && project.grade ? project.grade : 4;
+
+  console.log(projectGrade);
 
   const updatedMembers = members.map(member => ({
     ...member,
     activeRole: getActiveRoleShortcut(member.roles),
+    grade: projectGrade + member.deviation,
   }));
 
   return {
     ...props,
-    ...userSettings,
     title: 'Rating for',
+    projectGrade,
     members: updatedMembers,
   };
 };

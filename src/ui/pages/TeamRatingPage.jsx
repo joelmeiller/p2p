@@ -56,10 +56,11 @@ TeamRatingPage.propTypes = {
       statusWarning: React.PropTypes.bool,
     })
   ).isRequired,
+  projectGrade: React.PropTypes.number,
 };
 
 TeamRatingPage.defaultProps = {
   canSubmit: false,
-}
+};
 
 export default TeamRatingPage;

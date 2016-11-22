@@ -65,7 +65,7 @@ public class MemberRatingDataLoader implements CommandLineRunner {
 			for (CriteriaRating critRating : rating.getCriteriaRatings()) {
 				critRating.setRating(new BigDecimal(3));
 			}
-			rating.checkFinalRating();
+			rating.checkAndSetFinalRating();
 		}
 		req.setStatus(Member.Status.FINAL);
 		

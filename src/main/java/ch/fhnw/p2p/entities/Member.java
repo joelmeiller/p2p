@@ -52,6 +52,11 @@ public class Member extends VersionedObject{
 	@NotNull @DecimalMax("5.0") @DecimalMin("0.0")
 	private BigDecimal deviation;
 	
+	// IMPORTANT: The grade will not be updated during the project life-cycle phases where the students
+	// update their ratings
+	// This grade will be set once the final grade for the project is set and defines the final grade
+	// of the student for this project calculated by the project grade + deviation
+	// During the project's duration the students only see template grades set by the QM
 	@NotNull @DecimalMax("6.0") @DecimalMin("1.0")
 	private BigDecimal grade;
 	
@@ -98,7 +103,7 @@ public class Member extends VersionedObject{
 		this.status = Status.NEW;
 		this.rating = new BigDecimal(0);
 		this.deviation = new BigDecimal(0);
-		this.grade = new BigDecimal(1.0);
+		this.grade = new BigDecimal(4.0);
 		this.roles = new HashSet<MemberRole>();
 		this.memberRatings = new HashSet<MemberRating>();
 		this.ratings = new HashSet<MemberRatingMapping>();
@@ -175,7 +180,7 @@ public class Member extends VersionedObject{
 	 * the status of his member ratings to final
 	 * @return boolean indicating if all member ratings are in the final status 
 	 */
-	public boolean checkFinalRatings() {
+	public boolean checkAndSetFinalRatings() {
 		Double finalRating = 0.0;
 		int ratingCount = 0;
 

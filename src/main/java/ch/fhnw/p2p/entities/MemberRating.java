@@ -84,7 +84,7 @@ public class MemberRating extends VersionedObject {
 	 * the comment are filled with valid values (not empty and not ZERO)
 	 * @return boolean indicating if the member rating is in the final status 
 	 */
-	public boolean checkFinalRating() {
+	public boolean checkAndSetFinalRating() {
 		if (this.status == Status.FINAL) return true;
 		
 		if (this.getComment() == null || this.getComment().isEmpty()) return false;

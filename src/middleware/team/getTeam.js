@@ -16,7 +16,7 @@ export default callback =>
       ...mapMember(member),
       rating: member.rating,
       progress: member.progress,
-      grade: member.grade,
+      // grade: member.grade,
       deviation: member.deviation,
       isFinal: member.status === 'FINAL',
       isQM: member.qm,

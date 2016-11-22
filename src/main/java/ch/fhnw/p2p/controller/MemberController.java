@@ -81,6 +81,10 @@ public class MemberController {
 			logger.error(result);
 			return new ResponseEntity<Set<Member>>(HttpStatus.PRECONDITION_FAILED);
 		}
+		
+		if (user.getMember().getProject().getStatus() == Project.Status.FINAL) {
+			return new ResponseEntity<Set<Member>>(HttpStatus.NOT_ACCEPTABLE);
+		}
 
 		try {
 			logger.info("Update members of project '" + user.getMember().getProject().getTitle() + "'");

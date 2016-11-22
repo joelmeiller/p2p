@@ -7,7 +7,7 @@ import ch.fhnw.p2p.entities.Member;
 
 public abstract class GradeCalculator {
 
-	public static Set<Member> getDeviation(Set<Member> members) {
+	public static Set<Member> getDeviations(Set<Member> members) {
 		double averageRating = 0;
 		
 		if (members.size() > 0) {
@@ -19,6 +19,15 @@ public abstract class GradeCalculator {
 			for (Member member: members) {
 				member.setDeviation(new BigDecimal(member.getRating().doubleValue() - averageRating));
 			}
+		}
+		
+		return members;
+	}
+	
+	public static Set<Member> getGrades(double grade, Set<Member> members) {
+		
+		for (Member member : members) {
+			member.setGrade(new BigDecimal(grade + member.getDeviation().doubleValue()));
 		}
 		
 		return members;

@@ -64,7 +64,7 @@ public class MemberRatingController {
 		logger.info("GET Request for member/ratings");
 		User user = accessControl.login(request, AccessControl.Allowed.MEMBER);
 		
-		user.getMember().checkFinalRatings();
+		user.getMember().checkAndSetFinalRatings();
 		user.getMember().setRatings(user.getMember().getMemberRatings(), true);
 		
 		logger.info("Succesfully read member/ratings of student " + user.toString());
@@ -102,14 +102,14 @@ public class MemberRatingController {
 			}
 		
 			logger.info("Checking for member rating status");
-			boolean isFinalRating = memberRating.checkFinalRating();
+			boolean isFinalRating = memberRating.checkAndSetFinalRating();
 			memberRatingRepo.save(memberRating);
 			
 			logger.info("Successfully updated member rating " + memberRating.toString());
 			
 			if (isFinalRating) {
 				logger.info("Check all member ratings status");
-				user.getMember().checkFinalRatings();
+				user.getMember().checkAndSetFinalRatings();
 			}
 			
 			return new ResponseEntity<Member>(user.getMember(), HttpStatus.OK);

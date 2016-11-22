@@ -55,7 +55,7 @@ public class ProjectRepositoryImpl {
 				
 				if (project.getStatus() == Project.Status.FINAL) {
 					logger.info("Project in status 'FINAL'. Calculate deviation...");
-					members = GradeCalculator.getDeviation(members);
+					members = GradeCalculator.getDeviations(members);
 				}
 				logger.info("Successfully read project/members for QM " + user.toString() + " of project " + user.getMember().getProject().toString());
 			} else {
@@ -82,12 +82,14 @@ public class ProjectRepositoryImpl {
 			}
 			// Set progress & final rating
 			ratedMember.setMemberRatings(memberRatings);
-			ratedMember.checkFinalRatings();
+			ratedMember.checkAndSetFinalRatings();
 			ratedMember.setStatus(Member.Status.FINAL);
 			ratedMember.setProgress(100);	
 		} else {
 			ratedMember.setProgress(ProgressCalculator.getMemberProgress(member));
-			ratedMember.setStatus(Member.Status.OPEN);
+			if (ratedMember.getStatus() == Member.Status.FINAL) {
+				ratedMember.setStatus(Member.Status.OPEN);
+			}
 		}
 		
 		ratedMember.setRatings(ratedMember.getMemberRatings(), false);
@@ -140,8 +142,6 @@ public class ProjectRepositoryImpl {
 					} else {
 						logger.info("Add ratings for member " + student.toString());
 						members.add(addMemberToRatings(new Member(project, student)));
-						student.setStatus(User.Status.ALLOCATED);
-						studentRepo.save(student);
 					}
 				}	
 	
@@ -191,6 +191,9 @@ public class ProjectRepositoryImpl {
 		
 			// Update existing members with new member
 			member.getMemberRatings().add(new MemberRating(member, updateMember, criterias));
+			if (member.getStatus() == Member.Status.FINAL) {
+				member.setStatus(Member.Status.OPEN);
+			}
 		}
 		
 		return updateMember;
