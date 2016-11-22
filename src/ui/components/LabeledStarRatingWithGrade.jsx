@@ -13,22 +13,22 @@ const LabeledStarRatingWithGrade = props => (
         {...props}
       />
     </div>
-    <div className="col-xs-2">
-      {(props.isFinal ?
-        <p
-          className={classNames({
-            warning: props.deviationWarning,
-          })}
-        >
-          <span className="prefix">Deviation:</span>{props.deviation > 0 ? '+' : ''}{props.deviation}
-        </p> : undefined
-      )}
-    </div>
-    {(props.isFinal ?
-      <div className="col-xs-2">
-        <p><span className="prefix">Grade:</span>{props.grade}</p>
+    {(props.isFinal && props.deviation ?
+      <div>
+        <div className="col-xs-2">
+          <p
+            className={classNames({
+              warning: props.deviationWarning,
+            })}
+          >
+            <span className="prefix">Deviation:</span>{props.deviation > 0 ? '+' : ''}{props.deviation}
+          </p>
+        </div>
+        <div className="col-xs-2">
+          <p><span className="prefix">Grade:</span>{props.grade}</p>
+        </div>
       </div> :
-      <div className="col-xs-2">
+      <div className="col-xs-4">
         <p><span className="prefix">Progress:</span>{props.progress} %</p>
       </div>
     )}

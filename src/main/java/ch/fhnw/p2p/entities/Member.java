@@ -189,6 +189,19 @@ public class Member extends VersionedObject{
 		return true;
 	}
 	
+	public Member clone() {
+		Member member = new Member(this.project, this.student);
+		member.setId(this.id);
+		member.setStatus(this.status);
+		member.setRoles(this.roles);
+		member.setGrade(this.grade);
+		member.setDeviation(this.deviation);
+		member.setRemoved(this.removed);
+		member.setRating(this.rating);
+		
+		return member;
+	}
+	
 	public String toString() {
 		return this.getClass() + " (id=" + this.getId() + ")";
 	}

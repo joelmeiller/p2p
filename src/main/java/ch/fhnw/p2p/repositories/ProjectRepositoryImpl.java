@@ -63,8 +63,9 @@ public class ProjectRepositoryImpl {
 	
 	private Member getMemberRating(Project project, Member member) {
 		Set<MemberRating> memberRatings = new HashSet<MemberRating>();
+		Member ratedMember = member.clone();
 
-		member.setProgress(ProgressCalculator.getMemberProgress(member));	
+		ratedMember.setProgress(ProgressCalculator.getMemberProgress(member));	
 
 		System.out.println("Ratings for " + member.getStudent().toString() + " (" + member.getId() + ")");
 		
@@ -80,13 +81,12 @@ public class ProjectRepositoryImpl {
 					}
 				}
 			}
-			member.setMemberRatings(memberRatings);
-		} else {
-			member.clearMemberRatings();
+			ratedMember.setMemberRatings(memberRatings);
 		}
-		member.setRatings(member.getMemberRatings(), false);
 		
-		return member;
+		ratedMember.setRatings(ratedMember.getMemberRatings(), false);
+		
+		return ratedMember;
 	}
 
 	/**
