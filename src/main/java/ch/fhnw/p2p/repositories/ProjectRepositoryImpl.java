@@ -16,6 +16,7 @@ import ch.fhnw.p2p.entities.Project;
 import ch.fhnw.p2p.entities.ProjectCriteria;
 import ch.fhnw.p2p.entities.Role;
 import ch.fhnw.p2p.entities.User;
+import ch.fhnw.p2p.evaluation.GradeCalculator;
 import ch.fhnw.p2p.evaluation.ProgressCalculator;
 
 public class ProjectRepositoryImpl {
@@ -51,6 +52,11 @@ public class ProjectRepositoryImpl {
 				for (Member member: project.getMembers()) {
 					members.add(getMemberRating(project, member));
 				}
+				
+				if (project.getStatus() == Project.Status.FINAL) {
+					logger.info("Project in status 'FINAL'. Calculate deviation...");
+					members = GradeCalculator.getDeviation(members);
+				}
 				logger.info("Successfully read project/members for QM " + user.toString() + " of project " + user.getMember().getProject().toString());
 			} else {
 				members.add(getMemberRating(project, user.getMember()));
@@ -65,25 +71,20 @@ public class ProjectRepositoryImpl {
 		Set<MemberRating> memberRatings = new HashSet<MemberRating>();
 		Member ratedMember = member.clone();
 
-
-		System.out.println("Ratings for " + member.getStudent().toString() + " (" + member.getId() + ")");
-		
 		if (project.getStatus() == Project.Status.FINAL) {
 			// Find ratings of other members for his member
 			for (Member mem : project.getMembers()) {
-				System.out.println("Check Ratings of " + mem.getStudent().toString() + " (" + mem.getId() + ")");
 				for (MemberRating rating: mem.getMemberRatings()) {
-					
-					System.out.println(rating.getSourceMember().toString() + " / " + rating.getTargetMember().toString());
 					if (rating.getTargetMember().getId() == member.getId()) {
 						memberRatings.add(rating);
 					}
 				}
 			}
+			// Set progress & final rating
 			ratedMember.setMemberRatings(memberRatings);
 			ratedMember.checkFinalRatings();
 			ratedMember.setStatus(Member.Status.FINAL);
-			ratedMember.setProgress(ProgressCalculator.getMemberProgress(ratedMember));	
+			ratedMember.setProgress(100);	
 		} else {
 			ratedMember.setProgress(ProgressCalculator.getMemberProgress(member));
 			ratedMember.setStatus(Member.Status.OPEN);

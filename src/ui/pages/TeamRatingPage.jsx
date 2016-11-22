@@ -35,6 +35,9 @@ const TeamRatingPage = props => (
         />
       </div>
     </div>
+    <div className="row push-top-small">
+      <p className="italic small">* Dies ist nicht die effektive Note, sondern nur ein Richtwert. Entscheidend für die individuelle Note, ist die Teamnote und die hier ersichtliche <strong>Abweichung</strong>.</p>
+    </div>
   </div>
 );
 

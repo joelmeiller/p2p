@@ -17,11 +17,11 @@ const LabeledStarRatingWithGrade = props => (
       <div>
         <div className="col-xs-2">
           <p
-            className={classNames('uppercase', 'bold', 'status', {
+            className={classNames('status', {
               warning: props.statusWarning,
             })}
           >
-            <span className="prefix">Rating:</span>{props.rating > 0 ? props.rating : undefined}
+            <span className="prefix">Bewertung:</span>{props.rating > 0 ? props.rating : undefined}
           </p>
         </div>
         <div className="col-xs-2">
@@ -30,24 +30,17 @@ const LabeledStarRatingWithGrade = props => (
               warning: props.deviationWarning,
             })}
           >
-            <span className="prefix">Deviation:</span>{props.deviation > 0 ? '+' : ''}{props.deviation}
+            <span className="prefix">Abweichung:</span>{props.deviation > 0 ? '+' : ''}{props.deviation}
           </p>
         </div>
         <div className="col-xs-2">
-          <p><span className="prefix">Grade:</span>{props.grade}</p>
+          <p><span className="prefix">Note<sup>*</sup>:</span>{props.grade}</p>
         </div>
       </div> :
       <div className="col-xs-6">
         <p><span className="prefix">Progress:</span>{props.progress} %</p>
       </div>
     )}
-    <div className="col-xs-2">
-      <p
-        className={classNames('uppercase', 'bold', 'status', {
-          warning: props.statusWarning,
-        })}
-      >{props.status}</p>
-    </div>
   </div>
 );
 
