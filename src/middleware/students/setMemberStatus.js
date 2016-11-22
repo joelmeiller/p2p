@@ -7,7 +7,7 @@ const apiEntrypoint = getApiEntrypoint('project/members/status');
 
 // Student Update Status
 export const OPEN = 'OPEN';
-export const FINAL = 'OPEN';
+export const FINAL = 'FINAL';
 export const ACCEPTED = 'ACCEPTED';
 
 
@@ -20,5 +20,11 @@ export default (status, callback) => {
     },
     body: JSON.stringify(status),
   })
-  .then(response => callback(response));
+  .then(response => response.json())
+  .then(data => callback(data));
+  // .then((response) => {
+  //   if (response.status !== 200) {
+  //     console.log(`Error from Server: ${response.status}`);
+  //   }
+  // });
 };

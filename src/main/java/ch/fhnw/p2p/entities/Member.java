@@ -53,6 +53,12 @@ public class Member extends VersionedObject{
 	
 	@NotNull @DecimalMax("5.0") @DecimalMin("0.0")
 	private BigDecimal deviation;
+	
+	@NotNull @DecimalMax("6.0") @DecimalMin("1.0")
+	private BigDecimal grade;
+	
+	@Transient
+	private int progress;
 
 	
 	@ManyToOne(cascade = CascadeType.ALL)
@@ -62,7 +68,7 @@ public class Member extends VersionedObject{
 	
 	// Relations
 	@ManyToOne
-    @JoinColumn(name = "studentId")
+    @JoinColumn(name = "userId")
 	private User student;
 	
 	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="member")
@@ -85,15 +91,20 @@ public class Member extends VersionedObject{
 	private boolean updated;
 	@Transient
 	private boolean isQM;
+	
+	@Transient
+	private boolean canFinalize;
 
 	// Constructor
 	public Member() {
 		this.status = Status.NEW;
 		this.rating = new BigDecimal(0);
 		this.deviation = new BigDecimal(0);
+		this.grade = new BigDecimal(4.0);
 		this.roles = new HashSet<MemberRole>();
 		this.memberRatings = new ArrayList<MemberRating>();
 		this.ratings = new HashSet<MemberRatingMapping>();
+		this.canFinalize = false;
 	}
 
 	public Member(Project project, User student) {
@@ -123,6 +134,10 @@ public class Member extends VersionedObject{
 		return null;
 	}
 	
+	public void clearMemberRatings() {
+		memberRatings = new ArrayList<MemberRating>();
+	}
+	
 	/**
 	 * returns the REST api mapped member ratings
 	 * @param Set of MemberRating Set<MemberRating>
@@ -137,7 +152,8 @@ public class Member extends VersionedObject{
 		return ratings;
 	}
 
-	public void setRatings(Set<MemberRating> memberRatings) {
+	public void setRatings(List<MemberRating> memberRatings) {
+		ratings = new HashSet<MemberRatingMapping>();
 		for (MemberRating memberRating : memberRatings) {
 			ratings.add(new MemberRatingMapping(memberRating));
 		}
@@ -153,6 +169,24 @@ public class Member extends VersionedObject{
 			if (role.getRole() != null && role.getRole().getType() == Role.Type.QM) return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * checks and sets the final status of the member ratings, if all member ratings
+	 * are filled with valid values (not empty and not ZERO). As of this moment the user can set 
+	 * the status of his member ratings to final
+	 * @return boolean indicating if all member ratings are in the final status 
+	 */
+	public boolean checkFinalRatings() {
+		if (this.status == Status.FINAL) return true;
+
+		for (MemberRating rating : this.memberRatings) {
+			if (rating.getStatus() != MemberRating.Status.FINAL) return false;
+		}
+		
+		this.canFinalize = true;
+		
+		return true;
 	}
 	
 	public String toString() {

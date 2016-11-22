@@ -1,6 +1,5 @@
 // React imports
 import React, { Component } from 'react';
-import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
 // Component imports
@@ -24,18 +23,21 @@ class TeamRatingOverviewComponent extends Component {
     const ratings = this.props.members.filter(member => member.studentId === this.props.user.id);
     const memberRating = ratings.length === 1 ? ratings[0] : {};
 
-    return ((this.props.location.pathname !== '/ip-p2p/team/rating' && this.props.isQM) || this.props.isFinal ?
+    return ((!this.props.isQMRating && this.props.user.isQM)
+      || this.props.rating.isFinal || this.props.rating.isAccepted ?
       <div className="container push-top-small">
         <h2>Bewertungsübersicht</h2>
         <TeamRatingPageContainer {...this.props} />
       </div> :
       <div className="container push-top-small">
         <h2>Bewertungsfortschritt</h2>
-        <ProgressPageContainer
-          {...memberRating}
-          initialRatings={memberRating.ratings}
-          isFinal={this.props.isFinal}
-        />
+        {(this.props.rating.isOpen ?
+          <ProgressPageContainer
+            {...memberRating}
+            initialRatings={memberRating.ratings}
+          /> :
+          <p>Bevor du deine Ratings abgeben kannst, musst du bestätigen, dass du richtig in diesem Projekt eingeteilt bist.</p>
+        )}
       </div>
     );
   }
@@ -44,14 +46,14 @@ class TeamRatingOverviewComponent extends Component {
 TeamRatingOverviewComponent.propTypes = {
   fetchTeam: React.PropTypes.func,
   isQM: React.PropTypes.bool,
-  isFinal: React.PropTypes.bool,
+  isOpen: React.PropTypes.bool,
   location: React.PropTypes.object,
   members: React.PropTypes.array,
   user: React.PropTypes.object,
 };
 
 const mapStateToProps = (globalState, props) => {
-  const { user } = globalState.app;
+  const userSettings = globalState.app;
   const { members, readonly } = globalState.team;
 
   const updatedMembers = members.map(member => ({
@@ -61,12 +63,12 @@ const mapStateToProps = (globalState, props) => {
   }));
 
   return {
+    ...props,
+    ...userSettings,
     title: 'Rating for',
     onClosePath: '/ip-p2p',
     readonly,
     members: updatedMembers,
-    user,
-    ...props,
   };
 };
 
@@ -79,4 +81,4 @@ const TeamRatingOverview = connect(
   mapDispatchToProps
 )(TeamRatingOverviewComponent);
 
-export default withRouter(TeamRatingOverview);
+export default TeamRatingOverview;

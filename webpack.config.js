@@ -1,7 +1,7 @@
 /* eslint-disable */
 const path = require('path');
 const webpack = require('webpack');
-const PurifyCSSPlugin = require("purifycss-webpack-plugin");
+// const PurifyCSSPlugin = require("purifycss-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {

@@ -70,7 +70,7 @@ const userMenuQM = props => ([
     path: '/ip-p2p/settings',
   }]);
 
-const userMenuJury = [
+const userMenuCoach = [
   {
     name: 'Dashboard',
     icon: <Dashboard className="menu-icon" />,
@@ -106,8 +106,8 @@ class UserMenuByRole extends Component {
       menuItems = userMenuQM(this.props);
     }
 
-    if (this.props.isJury) {
-      menuItems = userMenuJury;
+    if (this.props.isCoach) {
+      menuItems = userMenuCoach;
     }
 
     return <UserMenu menuItems={menuItems} />;
@@ -116,7 +116,7 @@ class UserMenuByRole extends Component {
 
 UserMenuByRole.propTypes = {
   isQM: React.PropTypes.bool,
-  isJury: React.PropTypes.bool,
+  isCoach: React.PropTypes.bool,
 };
 
 export default UserMenuByRole;
