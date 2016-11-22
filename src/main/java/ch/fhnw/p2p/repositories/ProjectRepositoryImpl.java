@@ -65,7 +65,6 @@ public class ProjectRepositoryImpl {
 		Set<MemberRating> memberRatings = new HashSet<MemberRating>();
 		Member ratedMember = member.clone();
 
-		ratedMember.setProgress(ProgressCalculator.getMemberProgress(member));	
 
 		System.out.println("Ratings for " + member.getStudent().toString() + " (" + member.getId() + ")");
 		
@@ -82,6 +81,12 @@ public class ProjectRepositoryImpl {
 				}
 			}
 			ratedMember.setMemberRatings(memberRatings);
+			ratedMember.checkFinalRatings();
+			ratedMember.setStatus(Member.Status.FINAL);
+			ratedMember.setProgress(ProgressCalculator.getMemberProgress(ratedMember));	
+		} else {
+			ratedMember.setProgress(ProgressCalculator.getMemberProgress(member));
+			ratedMember.setStatus(Member.Status.OPEN);
 		}
 		
 		ratedMember.setRatings(ratedMember.getMemberRatings(), false);

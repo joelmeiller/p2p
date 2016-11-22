@@ -14,6 +14,10 @@ export default callback =>
   .then((data) => {
     const members = data.map(member => ({
       ...mapMember(member),
+      rating: member.rating,
+      progress: member.progress,
+      grade: member.grade,
+      deviation: member.deviation,
       isFinal: member.status === 'FINAL',
       isQM: member.qm,
       ratings: member.ratings.map(rating => mapRating(rating)),

@@ -39,7 +39,6 @@ const mapStateToProps = (globalState, props) => {
 
   const updatedMembers = members.map(member => ({
     ...member,
-    progress: calculateProgress(member),
     activeRole: getActiveRoleShortcut(member.roles),
   }));
 

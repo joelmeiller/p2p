@@ -1,9 +1,7 @@
 package ch.fhnw.p2p.entities;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -100,7 +98,7 @@ public class Member extends VersionedObject{
 		this.status = Status.NEW;
 		this.rating = new BigDecimal(0);
 		this.deviation = new BigDecimal(0);
-		this.grade = new BigDecimal(4.0);
+		this.grade = new BigDecimal(1.0);
 		this.roles = new HashSet<MemberRole>();
 		this.memberRatings = new HashSet<MemberRating>();
 		this.ratings = new HashSet<MemberRatingMapping>();
@@ -172,16 +170,29 @@ public class Member extends VersionedObject{
 	}
 	
 	/**
-	 * checks and sets the final status of the member ratings, if all member ratings
+	 * checks and sets the final status of the member rating, if all member ratings
 	 * are filled with valid values (not empty and not ZERO). As of this moment the user can set 
 	 * the status of his member ratings to final
 	 * @return boolean indicating if all member ratings are in the final status 
 	 */
 	public boolean checkFinalRatings() {
-		if (this.status == Status.FINAL) return true;
+		Double finalRating = 0.0;
+		int ratingCount = 0;
 
 		for (MemberRating rating : this.memberRatings) {
+			for (CriteriaRating criteriaRating : rating.getCriteriaRatings()) {
+				if (criteriaRating.getRating().compareTo(BigDecimal.ZERO) == 0)
+					return false;
+				finalRating += criteriaRating.getRating().doubleValue();
+			}
+
+			ratingCount += rating.getCriteriaRatings().size();
+			
 			if (rating.getStatus() != MemberRating.Status.FINAL) return false;
+		}
+		
+		if (ratingCount > 0) {
+			this.rating = new BigDecimal(finalRating / ratingCount);
 		}
 		
 		this.canFinalize = true;
