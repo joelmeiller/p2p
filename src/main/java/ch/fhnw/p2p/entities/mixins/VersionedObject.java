@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode(of="id")
+@EqualsAndHashCode(callSuper=false, of="id")
 @MappedSuperclass
 public abstract class VersionedObject extends Versioning {
 	

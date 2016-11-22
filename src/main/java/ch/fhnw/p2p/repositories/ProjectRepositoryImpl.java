@@ -44,34 +44,39 @@ public class ProjectRepositoryImpl {
 		if (user.isCoach()) {
 			logger.info("Request as coach (no members)");
 		} else {
+			logger.info("Check project status");
+			Project project = checkFinalRatings(user.getMember().getProject());
+			
 			if (user.isQM()) {
-				for (Member member: user.getMember().getProject().getMembers()) {
-					members.add(getMemberRating(user.getMember().getProject(), member));
+				for (Member member: project.getMembers()) {
+					members.add(getMemberRating(project, member));
 				}
 				logger.info("Successfully read project/members for QM " + user.toString() + " of project " + user.getMember().getProject().toString());
 			} else {
-				members.add(getMemberRating(user.getMember().getProject(), user.getMember()));
+				members.add(getMemberRating(project, user.getMember()));
 				logger.info("Successfully read project/members for Member " + user.toString() + " of project " + user.getMember().getProject().toString());
 			}
 		}
 		return members;
 	}
 	
+	
 	private Member getMemberRating(Project project, Member member) {
-		List<MemberRating> memberRatings = new ArrayList<MemberRating>();
+		Set<MemberRating> memberRatings = new HashSet<MemberRating>();
 
 		member.setProgress(ProgressCalculator.getMemberProgress(member));	
 
+		System.out.println("Ratings for " + member.getStudent().toString() + " (" + member.getId() + ")");
+		
 		if (project.getStatus() == Project.Status.FINAL) {
 			// Find ratings of other members for his member
 			for (Member mem : project.getMembers()) {
+				System.out.println("Check Ratings of " + mem.getStudent().toString() + " (" + mem.getId() + ")");
 				for (MemberRating rating: mem.getMemberRatings()) {
+					
+					System.out.println(rating.getSourceMember().toString() + " / " + rating.getTargetMember().toString());
 					if (rating.getTargetMember().getId() == member.getId()) {
-						if (rating.getSourceMember().getStatus() == Member.Status.FINAL) {
-							memberRatings.add(rating);
-						} else {
-							member.setStatus(Member.Status.OPEN);
-						}
+						memberRatings.add(rating);
 					}
 				}
 			}
@@ -84,6 +89,26 @@ public class ProjectRepositoryImpl {
 		return member;
 	}
 
+	/**
+	 * checks whether the project is in final status either because all team members successfully set their ratings or the deadline is of
+	 * @param project
+	 * @return true if all member ratings are in final status.
+	 */
+	private Project checkFinalRatings(Project project) {
+		if (project.getStatus() != Project.Status.OPEN) return project;
+		
+		boolean isFinal = true;
+		for (Member member: project.getMembers()) {
+			isFinal = isFinal && member.getStatus() == Member.Status.FINAL;
+		}
+		
+		if (isFinal) {
+			project.setStatus(Project.Status.FINAL);
+			projectRepo.save(project);
+		}
+		
+		return project;
+	}
 	
 	/**
 	 * add or remove team members

@@ -1,6 +1,5 @@
 package ch.fhnw.p2p.entities;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -16,7 +15,6 @@ import javax.persistence.OneToMany;
 
 
 import org.hibernate.annotations.Type;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import ch.fhnw.p2p.entities.mixins.VersionedObject;
 import ch.fhnw.p2p.utils.Slug;
@@ -90,6 +88,7 @@ public class Project extends VersionedObject {
 		}
 		return criterias;
 	}
+	
 	
 	// http://stackoverflow.com/questions/22031128/how-to-update-an-entity-with-spring-data-jpa
     @Override

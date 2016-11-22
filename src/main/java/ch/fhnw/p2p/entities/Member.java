@@ -35,7 +35,7 @@ import lombok.EqualsAndHashCode;
  **/
 
 @Data
-@EqualsAndHashCode(callSuper=false, exclude={"project", "roles", "memberRatings"})
+@EqualsAndHashCode(callSuper=true, of={"student"})
 @Entity
 public class Member extends VersionedObject{
 
@@ -79,7 +79,7 @@ public class Member extends VersionedObject{
 
 	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "sourceMember")
 	@JsonIgnore
-	private List<MemberRating> memberRatings;
+	private Set<MemberRating> memberRatings;
 	@Transient
 	private Set<MemberRatingMapping> ratings;
 	
@@ -102,7 +102,7 @@ public class Member extends VersionedObject{
 		this.deviation = new BigDecimal(0);
 		this.grade = new BigDecimal(4.0);
 		this.roles = new HashSet<MemberRole>();
-		this.memberRatings = new ArrayList<MemberRating>();
+		this.memberRatings = new HashSet<MemberRating>();
 		this.ratings = new HashSet<MemberRatingMapping>();
 		this.canFinalize = false;
 	}
@@ -118,7 +118,7 @@ public class Member extends VersionedObject{
 		this.roles.add(new MemberRole(this, role));
 	}
 
-	public Member(Project project, User student, Role role, List<MemberRating> memberRatings) {
+	public Member(Project project, User student, Role role, Set<MemberRating> memberRatings) {
 		this(project, student, role);
 		this.memberRatings = memberRatings;
 	}
@@ -135,7 +135,7 @@ public class Member extends VersionedObject{
 	}
 	
 	public void clearMemberRatings() {
-		memberRatings = new ArrayList<MemberRating>();
+		memberRatings = new HashSet<MemberRating>();
 	}
 	
 	/**
@@ -152,7 +152,7 @@ public class Member extends VersionedObject{
 		return ratings;
 	}
 
-	public void setRatings(List<MemberRating> memberRatings, boolean sourceMemberRating) {
+	public void setRatings(Set<MemberRating> memberRatings, boolean sourceMemberRating) {
 		ratings = new HashSet<MemberRatingMapping>();
 		for (MemberRating memberRating : memberRatings) {
 			ratings.add(new MemberRatingMapping(memberRating, sourceMemberRating));

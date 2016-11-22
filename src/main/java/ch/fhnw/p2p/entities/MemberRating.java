@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -22,7 +23,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode(callSuper=false, exclude={"sourceMember", "targetMember", "criteriaRatings"})
+@EqualsAndHashCode(callSuper=false, exclude={"criteriaRatings", "progress"})
 @Entity
 public class MemberRating extends VersionedObject {
 	
@@ -38,7 +39,7 @@ public class MemberRating extends VersionedObject {
 	private BigDecimal rating;
 	private String comment;
 	
-	@Enumerated
+	@Enumerated(EnumType.STRING)
 	private Status status;
 	
 	@Transient
