@@ -1,6 +1,5 @@
 package ch.fhnw.p2p.repositories;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -8,6 +7,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import ch.fhnw.p2p.entities.Member;
 import ch.fhnw.p2p.entities.MemberRating;
@@ -19,7 +19,8 @@ import ch.fhnw.p2p.entities.User;
 import ch.fhnw.p2p.evaluation.GradeCalculator;
 import ch.fhnw.p2p.evaluation.ProgressCalculator;
 
-public class ProjectRepositoryImpl {
+@Component
+public class ProjectMemberRepositoryImpl {
 	
 	private Log logger = LogFactory.getLog(this.getClass());
 	
@@ -126,10 +127,8 @@ public class ProjectRepositoryImpl {
 	 * @param Members the updated list of members to add or remove from project
 	 * @return Project the updated project
 	 */
-	public Project updateProject(Project project, Set<Member> updatedMembers) {
+	public Project updateProjectMembers(Project project, Set<Member> updatedMembers) {
 		Set<Member> members = project.getMembers();
-		
-		System.out.println("Members: " + updatedMembers.size());
 		
 		try {
 			// Set members

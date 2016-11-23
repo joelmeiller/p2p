@@ -34,12 +34,12 @@ public class ProjectRepositoryTest {
     @Autowired
     private UserRepository studentRepo;
     
-    private ProjectRepositoryImpl projectRepoImpl;
+    private ProjectMemberRepositoryImpl projectRepoImpl;
     
 
     @Before
     public void prepareEntities() {
-    	projectRepoImpl = new ProjectRepositoryImpl();
+    	projectRepoImpl = new ProjectMemberRepositoryImpl();
     	
     	project = new Project("Not found");
     	student = studentRepo.save(new User("Not", "Fount", "not.found@fhnw.ch"));
@@ -83,7 +83,7 @@ public class ProjectRepositoryTest {
     	updatedMembers.add(addedMember);
     	
     	project = projectRepo.findOne(project.getId());
-    	Project projectUpdated = projectRepoImpl.updateProject(project, updatedMembers);
+    	Project projectUpdated = projectRepoImpl.updateProjectMembers(project, updatedMembers);
     	assertNotNull(projectUpdated.getId());
         assertEquals(projectUpdated.getMembers().size(), 2);
     }

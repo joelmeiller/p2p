@@ -7,7 +7,7 @@ import ch.fhnw.p2p.entities.Role;
 import ch.fhnw.p2p.entities.User;
 import ch.fhnw.p2p.repositories.MemberRepository;
 import ch.fhnw.p2p.repositories.ProjectRepository;
-import ch.fhnw.p2p.repositories.ProjectRepositoryImpl;
+import ch.fhnw.p2p.repositories.ProjectMemberRepositoryImpl;
 import ch.fhnw.p2p.repositories.UserRepository;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

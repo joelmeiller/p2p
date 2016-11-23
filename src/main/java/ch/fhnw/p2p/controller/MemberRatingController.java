@@ -1,8 +1,6 @@
 package ch.fhnw.p2p.controller;
 
 
-import java.util.Optional;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -95,10 +93,10 @@ public class MemberRatingController {
 			}
 				
 			for (CriteriaRating criteriaRating : memberRating.getCriteriaRatings()) {
-				Optional<CriteriaRatingMapping> updatedRating = updatedMemberRating.getCriteriaRatings().stream()
-						.filter(r -> r.getId() == criteriaRating.getId()).findFirst();
+				CriteriaRatingMapping updatedRating = updatedMemberRating.getCriteriaRatings().stream()
+						.filter(r -> r.getId() == criteriaRating.getId()).findFirst().get();
 
-				criteriaRating.setRating(updatedRating.get().getRating());
+				criteriaRating.setRating(updatedRating.getRating());
 			}
 		
 			logger.info("Checking for member rating status");
@@ -114,6 +112,7 @@ public class MemberRatingController {
 			
 			return new ResponseEntity<Member>(user.getMember(), HttpStatus.OK);
 		} catch (Exception e) {
+			logger.error("Server error", e);
 			return new ResponseEntity<Member>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}

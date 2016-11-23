@@ -17,7 +17,7 @@ import ch.fhnw.p2p.entities.Role;
 import ch.fhnw.p2p.entities.User;
 import ch.fhnw.p2p.repositories.MemberRepository;
 import ch.fhnw.p2p.repositories.ProjectRepository;
-import ch.fhnw.p2p.repositories.ProjectRepositoryImpl;
+import ch.fhnw.p2p.repositories.ProjectMemberRepositoryImpl;
 import ch.fhnw.p2p.repositories.RoleRepository;
 import ch.fhnw.p2p.repositories.UserRepository;
 
@@ -27,7 +27,7 @@ public class MemberRatingDataLoader implements CommandLineRunner {
 
 	@Autowired
 	ProjectRepository projectRepo;
-	ProjectRepositoryImpl projectRepoImpl = new ProjectRepositoryImpl();
+	ProjectMemberRepositoryImpl projectRepoImpl = new ProjectMemberRepositoryImpl();
 	
 	@Autowired
 	MemberRepository memberRepo;

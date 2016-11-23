@@ -23,7 +23,7 @@ import ch.fhnw.p2p.entities.Project;
 import ch.fhnw.p2p.entities.User;
 import ch.fhnw.p2p.entities.mapping.UserRatingState;
 import ch.fhnw.p2p.repositories.MemberRepository;
-import ch.fhnw.p2p.repositories.ProjectRepositoryImpl;
+import ch.fhnw.p2p.repositories.ProjectMemberRepositoryImpl;
 import ch.fhnw.p2p.repositories.UserRepository;
 
 /**
@@ -44,7 +44,7 @@ public class MemberController {
 	private AccessControl accessControl;
 
 	@Autowired
-	private ProjectRepositoryImpl projectRepoImpl;
+	private ProjectMemberRepositoryImpl projectRepoImpl;
 
 	@Autowired
 	private MemberRepository memberRepo;
@@ -88,11 +88,12 @@ public class MemberController {
 
 		try {
 			logger.info("Update members of project '" + user.getMember().getProject().getTitle() + "'");
-			Project project = projectRepoImpl.updateProject(user.getMember().getProject(), updatedMembers);
+			Project project = projectRepoImpl.updateProjectMembers(user.getMember().getProject(), updatedMembers);
 
 			logger.info("Successfully updated members of project " + project.toString());
 			return new ResponseEntity<Set<Member>>(project.getMembers(), HttpStatus.OK);
 		} catch (Exception e) {
+			logger.error("Server error", e);
 			return new ResponseEntity<Set<Member>>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -129,6 +130,7 @@ public class MemberController {
 			logger.info("Successfully updated member status to " + status + " of student " + user.toString());
 			return new ResponseEntity<UserRatingState>(new UserRatingState(user.getMember()), HttpStatus.OK);
 		} catch (Exception e) {
+			logger.error("Server error", e);
 			return new ResponseEntity<UserRatingState>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
