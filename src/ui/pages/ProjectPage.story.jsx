@@ -7,7 +7,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import ProjectPage from './ProjectPage.jsx';
 
 
-storiesOf('pages/ProjectPage', module)
+storiesOf('pages/ProjectOverview', module)
 .addDecorator(story => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>
     {story()}
@@ -18,42 +18,41 @@ storiesOf('pages/ProjectPage', module)
     <ProjectPage
       projects={[
         {
-          id: '12345',
-          level: 'IP3',
-          start: 'FS16',
-          zeitmodell: '',
+          id: '1',
           title: 'Technology Chooser',
-          lastUpdate: '22.09.16 13.34',
-          status: 'complete',
           coach: 'Markus Oehninger',
-        }, {
-          id: '12346',
-          level: 'IP4',
-          start: 'FS16',
-          zeitmodell: 'BB',
-          title: 'Switch Server Anbindung',
-          lastUpdate: '22.09.16 13.34',
-          status: 'pending',
-          coach: 'Stefan Vetter',
-        }, {
-          id: '12347',
-          level: 'IP4',
-          start: 'FS16',
-          zeitmodell: '',
-          title: 'Evento API Erweiterung',
-          lastUpdate: '22.09.16 13.34',
-          status: 'pending',
-          coach: 'Christoph Denzler',
-        }, {
-          id: '12348',
+          qmName: 'joel.meiller@student.fhnw.ch',
           level: 'IP3',
-          start: 'FS16',
-          zeitmodell: '',
+          zeitmodell: 'BB',
+          start: new Date('2016-05-05'),
+          stop: null,
+        }, {
+          id: '2',
+          title: 'Switch Server Anbindung',
+          coach: 'Stefan Vetter',
+          qmName: 'joel.meiller@student.fhnw.ch',
+          level: 'IP3',
+          zeitmodell: 'VZ_TZ',
+          start: new Date('2014-03-05'),
+          stop: new Date('2014-12-12'),
+        }, {
+          id: '3',
+          title: 'Evento API Erweiterung',
+          coach: 'Christoph Denzler',
+          qmName: 'joel.meiller@student.fhnw.ch',
+          level: 'IP3',
+          zeitmodell: 'VZ_TZ',
+          start: new Date('2016-05-05'),
+          stop: null,
+        }, {
+          id: '4',
           title: 'Wasserspar App',
-          lastUpdate: '22.09.16 13.34',
-          status: 'overdue',
-          statusWarning: true,
           coach: 'Markus Oehninger',
+          qmName: 'joel.meiller@student.fhnw.ch',
+          level: 'IP3',
+          zeitmodell: 'BB',
+          start: new Date('2016-05-05'),
+          stop: new Date('2016-11-10'),
         },
       ]}
     />

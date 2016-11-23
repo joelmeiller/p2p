@@ -10,6 +10,10 @@ export default callback =>
   fetch(apiEntrypoint)
   .then(response => response.json())
   .then((data) => {
-    const project = data;
-    callback(project);
+    const projects = data.map(project => ({
+      ...project,
+      start: new Date(project.start),
+      stop: project.stop == null ? null : new Date(project.stop),
+    }));
+    callback(projects);
   });
