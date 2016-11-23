@@ -9,8 +9,7 @@ import AutoSuggest from '../elements/AutoSuggest.jsx';
 import getMembersSuggestions from '../../middleware/students/getMemberSuggestions.js';
 
 
-
-const EditProjectPage = props => (
+const CreateProjectPage = props => (
   <div className="container">
     <div className="row">
       <div className="col-xs-12">
@@ -160,7 +159,7 @@ const EditProjectPage = props => (
   </div>
 );
 
-EditProjectPage.propTypes = {
+CreateProjectPage.propTypes = {
   title: React.PropTypes.string,
   qmName: React.PropTypes.string,
   start: React.PropTypes.instanceOf(Date),
@@ -185,4 +184,4 @@ EditProjectPage.propTypes = {
   readonly: React.PropTypes.bool,
 };
 
-export default EditProjectPage;
+export default CreateProjectPage;

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 // Component imports
-import EditProjectPage from '../ui/pages/EditProjectPage.jsx';
+import CreateProjectPage from '../ui/pages/CreateProjectPage.jsx';
 
 // Action imports
 // import { setTitle } from '../actions/app.js';
@@ -22,17 +22,17 @@ import {
   addQM,
 } from '../actions/project.js';
 
-class EditProjectComponent extends Component {
+class CreateProjectComponent extends Component {
   componentDidMount() {
     this.props.fetchProject();
   }
 
   render() {
-    return (<EditProjectPage {...this.props} />);
+    return (<CreateProjectPage {...this.props} />);
   }
 }
 
-EditProjectComponent.propTypes = {
+CreateProjectComponent.propTypes = {
   fetchProject: React.PropTypes.func,
 };
 
@@ -40,7 +40,6 @@ const mapStateToProps = (globalState, props) => {
   const project = globalState.project;
 // because there should be just one member in the array.
   const qm = project.members.length === 1 ? project.members[0].student : undefined;
-  console.log(project, qm);
   return {
     ...props,
     ...project,
@@ -62,9 +61,9 @@ const mapDispatchToProps = (dispatch, props) => ({
   handleStopChanged: newStartValue => dispatch(setProjectStop(newStartValue)),
 });
 
-const ProjectContainer = connect(
+const CreateProjectContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(EditProjectComponent);
+)(CreateProjectComponent);
 
-export default withRouter(ProjectContainer);
+export default withRouter(CreateProjectContainer);
