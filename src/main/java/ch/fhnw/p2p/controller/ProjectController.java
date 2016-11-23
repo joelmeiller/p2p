@@ -132,7 +132,7 @@ public class ProjectController {
 			for (Member member : project.getMembers()) {
 				if (member.isQM()) {
 					QM = member;
-					QM.setRatings(new HashSet<>());
+					QM.setRatings(new ArrayList<>());
 				}
 			}
 			project.setProjectCategories(new HashSet<>());
