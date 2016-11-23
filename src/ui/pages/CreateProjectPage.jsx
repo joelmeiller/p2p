@@ -8,6 +8,16 @@ import Dropdown from '../elements/Dropdown.jsx';
 import AutoSuggest from '../elements/AutoSuggest.jsx';
 import getMembersSuggestions from '../../middleware/students/getMemberSuggestions.js';
 
+const PROJECT_LEVELS = [
+  { id: 'IP3', label: 'IP3' },
+  { id: 'IP4', label: 'IP4' },
+  { id: 'IP5', label: 'IP5' },
+];
+
+const ZEITMODELLE = [
+  { id: 'BB', label: 'Berufsbegleitend' },
+  { id: 'VZ_TZ', label: 'Vollzeit/Teilzeit' },
+];
 
 const CreateProjectPage = props => (
   <div className="container">
@@ -58,7 +68,7 @@ const CreateProjectPage = props => (
           <p>{props.qmName}</p> :
           <AutoSuggest
             middleware={getMembersSuggestions}
-            onSuggestionSelected={props.handleAddQM}
+            onSuggestionSelected={props.handleQmNameChanged}
             {...props}
           />
         )}
@@ -67,17 +77,26 @@ const CreateProjectPage = props => (
 
     <div className="row">
       <div className="col-xs-2" style={{ marginTop: 14 }}>
-        <p>Projektstufe</p>
+        <p>Level</p>
       </div>
       <div className="col-xs-4" style={{ marginTop: -8 }}>
         <Dropdown
-          items={[
-            { id: 'IP3', label: 'IP3' },
-            { id: 'IP4', label: 'IP4' },
-            { id: 'IP5', label: 'IP5' },
-          ]}
-          menuItems={props.selectStates}
-          selectedValue={props.selectedStateId}
+          items={PROJECT_LEVELS}
+          selectedValue={props.level}
+          onChange={props.handleLevelChanged}
+        />
+      </div>
+    </div>
+
+    <div className="row">
+      <div className="col-xs-2" style={{ marginTop: 14 }}>
+        <p>Zeitmodell</p>
+      </div>
+      <div className="col-xs-4" style={{ marginTop: -8 }}>
+        <Dropdown
+          items={ZEITMODELLE}
+          selectedValue={props.zeitmodell}
+          onChange={props.handleZeitmodellChanged}
         />
       </div>
     </div>
@@ -95,51 +114,6 @@ const CreateProjectPage = props => (
       </div>
     </div>
 
-    <div className="row">
-      <div className="col-xs-2" style={{ marginTop: 14 }}>
-        <p>Stop</p>
-      </div>
-      <div className="col-xs-4" style={{ marginTop: -8 }}>
-        <DatePicker
-          value={props.stop}
-          onChange={(_, date) => props.handleStopChanged(date)}
-          hintText="Project stop date"
-        />
-      </div>
-    </div>
-
-    <div className="row">
-      <div className="col-xs-2" style={{ marginTop: 14 }}>
-        <p>Zeitmodell</p>
-      </div>
-      <div className="col-xs-4" style={{ marginTop: -8 }}>
-        <Dropdown
-          items={[
-            { id: 'BB', label: 'Berufsbegleitend' },
-            { id: 'VZ_TZ', label: 'Vollzeit/Teilzeit' },
-          ]}
-          selectedValue={props.zeitmodell}
-          onChange={props.handleZeitmodellChanged}
-        />
-      </div>
-    </div>
-
-    <div className="row">
-      <div className="col-xs-2" style={{ marginTop: 14 }}>
-        <p>Status</p>
-      </div>
-      <div className="col-xs-4" style={{ marginTop: -8 }}>
-        <Dropdown
-          items={[
-            { id: 'Offen', label: 'Offen' },
-            { id: 'Geschlossen', label: 'Geschlossen' },
-          ]}
-          menuItems={props.selectStates}
-          selectedValue={props.selectedStateId}
-        />
-      </div>
-    </div>
-
     <div className="row push-top-medium">
       <div className="col-xs-4 align-right">
         <RaisedButton
@@ -152,7 +126,6 @@ const CreateProjectPage = props => (
           label="Save"
           primary
           onClick={props.handleSave}
-          disabled={props.readonly}
         />
       </div>
     </div>
@@ -161,27 +134,21 @@ const CreateProjectPage = props => (
 
 CreateProjectPage.propTypes = {
   title: React.PropTypes.string,
+  coach: React.PropTypes.string,
   qmName: React.PropTypes.string,
-  start: React.PropTypes.instanceOf(Date),
-  stop: React.PropTypes.instanceOf(Date),
+  level: React.PropTypes.string,
   zeitmodell: React.PropTypes.string,
+  start: React.PropTypes.instanceOf(Date),
+
   handleTitleChanged: React.PropTypes.func,
   handleCoachChanged: React.PropTypes.func,
-  handleAddQM: React.PropTypes.func,
-  handleStartChanged: React.PropTypes.func,
-  handleStopChanged: React.PropTypes.func,
+  handleQmNameChanged: React.PropTypes.func,
+  handleLevelChanged: React.PropTypes.func,
   handleZeitmodellChanged: React.PropTypes.func,
-  coach: React.PropTypes.string,
-  selectStates: React.PropTypes.arrayOf(
-    React.PropTypes.shape({
-      id: React.PropTypes.string,
-      label: React.PropTypes.string,
-    })
-  ),
-  selectedStateId: React.PropTypes.string,
+  handleStartChanged: React.PropTypes.func,
+
   handleCancel: React.PropTypes.func,
   handleSave: React.PropTypes.func,
-  readonly: React.PropTypes.bool,
 };
 
 export default CreateProjectPage;

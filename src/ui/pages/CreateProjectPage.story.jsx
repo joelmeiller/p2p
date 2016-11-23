@@ -17,9 +17,11 @@ storiesOf('pages/CreateProjectPage', module)
   <div className="app flex-center-middle">
     <CreateProjectPage
       title="Fancy Project"
-      start={new Date("2016-01-01")}
-      stop={new Date("2016-12-31")}
+      coach="Freddy Krüger"
+      qmName="joel.meiller@students.fhnw.ch"
+      level="IP3"
       zeitmodell="BB"
+      start={new Date("2016-01-01")}
     />
   </div>
 ));

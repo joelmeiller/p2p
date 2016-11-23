@@ -13,9 +13,12 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import ch.fhnw.p2p.entities.mixins.VersionedObject;
 import ch.fhnw.p2p.utils.Slug;
@@ -31,23 +34,40 @@ import lombok.EqualsAndHashCode;
 @Entity
 public class Project extends VersionedObject {
 	
-	public static enum Status {
-		OPEN,
-		FINAL,
-		SEND,
-		CLOSE,
-	}
-
 	public static enum Zeitmodell {
+		// Berufsbegleitend.
 		BB,
+		// Vollzeit/Teilzeit.
 		VZ_TZ,
 	}
 	
+	public static enum Level {
+		IP3,
+		IP4,
+		IP5
+	}
+	
+	public static enum Status {
+		OPEN,
+		CLOSE,
+	}
+
 	private String title;
-	private String slug;
-	private Date deadline;
+	
+//	private String slug;
+//	private Date deadline;
+	
+	private String coach;
+	
+	@Enumerated(EnumType.STRING)
+	private Level level;
+
+	@Enumerated(EnumType.STRING)
+	private Zeitmodell zeitmodell;
+
 	@Type(type="date")
 	private Date start;
+
 	@Type(type="date")
 	private Date stop;
 	
@@ -57,12 +77,10 @@ public class Project extends VersionedObject {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "project")
 	private Set<Member> members;
 	
-	@Enumerated(EnumType.STRING)
+	@Transient 
+	@JsonIgnore
 	private Status status;
 	
-	@Enumerated(EnumType.STRING)
-	private Zeitmodell zeitmodell;
-
 	public Project() {
 		this.status = Status.OPEN;
 		this.projectCategories = new HashSet<ProjectCategory>();
@@ -72,7 +90,7 @@ public class Project extends VersionedObject {
 	public Project(String title) {
 		this();
 		this.title = title;
-		this.slug = Slug.makeSlug(title);
+//		this.slug = Slug.makeSlug(title);
 	}
 	
 	public String toString() {
@@ -88,6 +106,10 @@ public class Project extends VersionedObject {
 			}
 		}
 		return criterias;
+	}
+	
+	public Status getStatus() {
+		return stop == null ? Status.OPEN : Status.CLOSE;
 	}
 	
 	// http://stackoverflow.com/questions/22031128/how-to-update-an-entity-with-spring-data-jpa

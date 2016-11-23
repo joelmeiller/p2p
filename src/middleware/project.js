@@ -18,11 +18,9 @@ export const getProject = (id, callback) =>
 
 
 const rarifyProject = project => ({
-  id: project.id,
-  title: project.title,
+  ...project,
   start: project.start.toISOString().substring(0, 10),
-  stop: project.stop.toISOString().substring(0, 10),
-  zeitmodell: project.zeitmodell,
+  stop: project.stop == null ? null : project.stop.toISOString().substring(0, 10),
 });
 
 const params = data => ({

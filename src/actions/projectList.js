@@ -89,7 +89,7 @@ export const addProject = props => (dispatch) => {
   dispatch({
     type: ADD_PROJECT,
   });
-  props.router.push(`/ip-p2p/projects/${NEW_ID}`);
+  props.router.push('/ip-p2p/projects/_new');
 };
 
 export const cancel = props => (dispatch) => {

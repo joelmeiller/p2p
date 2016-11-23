@@ -7,23 +7,19 @@ import {
 
 import { fetchProjects } from './projectList.js'
 
-// "ID" of a new object.
-export const NEW_ID = '_new';
+export const REQUEST_PROJECT = '/project/REQUEST_PROJECT';
+export const RECEIVE_PROJECT = '/project/RECEIVE_PROJECT';
 
-// Creates new empty project.
-export const ADD_PROJECT = '/project/ADD_PROJECT';
-export const CANCEL = 'project/CANCEL';
-export const EDIT_PROJECT = 'project/EDIT';
 export const SET_PROJECT_TITLE = 'project/SET_PROJECT_TITLE';
 export const SET_COACH_NAME = 'project/SET_COACH_NAME';
+export const SET_QM = '/project/SET_QM';
 export const SET_PROJECT_STUFE = 'project/SET_PROJECT_STUFE';
 export const SET_PROJECT_START = 'project/SET_PROJECT_START';
 export const SET_PROJECT_STOP = 'project/SET_PROJECT_STOP';
 export const SET_PROJECT_ZEITMODELL = 'project/SET_PROJECT_ZEITMODELL';
-export const SET_PROJECT_STATUS = 'project/SET_PROJECT_STATUS';
-export const REQUEST_PROJECT = '/project/REQUEST_PROJECT';
-export const RECEIVE_PROJECT = '/project/RECEIVE_PROJECT';
-export const ADD_QM = '/project/ADD_QM';
+
+export const ADD_PROJECT = '/project/ADD_PROJECT';
+export const CANCEL = 'project/CANCEL';
 
 
 const requestData = () => ({
@@ -43,13 +39,6 @@ const shouldFetchData = (state) => {
 };
 
 export const fetchProject = id => (dispatch, getState) => {
-  if (id === NEW_ID) {
-    dispatch(receiveData({
-      start: new Date(),
-      stop: new Date(),
-    }));
-    return;
-  }
   if (shouldFetchData(getState())) {
     dispatch(requestData());
     apiGetProject(id, data => dispatch(receiveData(data)));
@@ -92,7 +81,26 @@ export const setCoachName = newValue => (dispatch) => {
   });
 };
 
-export const setProjectStufe = newValue => (dispatch) => {
+export const setQmName = (student) => (dispatch, getState) => {
+  const state = getState().project;
+  const members = state.members;
+
+  console.log(student);
+
+  members.push({
+    student: {
+      ...student,
+    },
+    roles: [],
+  });
+
+  dispatch({
+    type: SET_QM,
+    members,
+  });
+};
+
+export const setStufe = newValue => (dispatch) => {
   dispatch({
     type: SET_PROJECT_STUFE,
     value: newValue,
@@ -117,31 +125,5 @@ export const setZeitmodell = newValue => (dispatch) => {
   dispatch({
     type: SET_PROJECT_ZEITMODELL,
     value: newValue,
-  });
-};
-
-export const setProjectStatus = newValue => (dispatch) => {
-  dispatch({
-    type: SET_PROJECT_STATUS,
-    value: newValue,
-  });
-};
-
-export const addQM = (student) => (dispatch, getState) => {
-  const state = getState().project;
-  const members = state.members;
-
-  console.log(student);
-
-  members.push({
-    student: {
-      ...student,
-    },
-    roles: [],
-  });
-
-  dispatch({
-    type: ADD_QM,
-    members,
   });
 };

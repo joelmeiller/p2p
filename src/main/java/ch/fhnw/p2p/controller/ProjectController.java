@@ -1,31 +1,33 @@
 package ch.fhnw.p2p.controller;
 
-import ch.fhnw.p2p.authorization.AccessControl;
-import ch.fhnw.p2p.entities.Member;
-import ch.fhnw.p2p.entities.Project;
-import ch.fhnw.p2p.entities.Role;
-import ch.fhnw.p2p.entities.User;
-import ch.fhnw.p2p.repositories.MemberRepository;
-import ch.fhnw.p2p.repositories.ProjectRepository;
-import ch.fhnw.p2p.repositories.ProjectRepositoryImpl;
-import ch.fhnw.p2p.repositories.UserRepository;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import java.util.HashSet;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import ch.fhnw.p2p.authorization.AccessControl;
+import ch.fhnw.p2p.entities.Member;
+import ch.fhnw.p2p.entities.MemberRating;
+import ch.fhnw.p2p.entities.Project;
+import ch.fhnw.p2p.entities.User;
+import ch.fhnw.p2p.repositories.ProjectRepository;
+import ch.fhnw.p2p.repositories.UserRepository;
 
 /**
  * REST api controller for the project list
@@ -132,7 +134,7 @@ public class ProjectController {
 			for (Member member : project.getMembers()) {
 				if (member.isQM()) {
 					QM = member;
-					QM.setRatings(new ArrayList<>());
+					QM.setRatings(new HashSet<MemberRating>());
 				}
 			}
 			project.setProjectCategories(new HashSet<>());

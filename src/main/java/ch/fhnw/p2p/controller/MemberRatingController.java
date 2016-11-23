@@ -2,11 +2,9 @@ package ch.fhnw.p2p.controller;
 
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -89,7 +87,7 @@ public class MemberRatingController {
 		
 		Member member = user.getMember();
 		
-		if (member.getProject().getStatus() == Project.Status.FINAL) {
+		if (member.getProject().getStatus() == Project.Status.CLOSE) {
 			List<MemberRating> memberRatings = new ArrayList<MemberRating>();
 
 			// Find ratings of other members fot his member
