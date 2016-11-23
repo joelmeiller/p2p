@@ -158,7 +158,10 @@ public class Member extends VersionedObject{
 	public void setRatings(Set<MemberRating> memberRatings, boolean sourceMemberRating) {
 		ratings = new HashSet<MemberRatingMapping>();
 		for (MemberRating memberRating : memberRatings) {
-			ratings.add(new MemberRatingMapping(memberRating, sourceMemberRating));
+			Member member = sourceMemberRating ? memberRating.getSourceMember() : memberRating.getTargetMember();
+			if (!member.isRemoved()) {
+				ratings.add(new MemberRatingMapping(memberRating, sourceMemberRating));
+			}
 		}
 	}
 

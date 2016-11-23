@@ -107,7 +107,9 @@ public class ProjectRepositoryImpl {
 		
 		boolean isFinal = true;
 		for (Member member: project.getMembers()) {
-			isFinal = isFinal && member.getStatus() == Member.Status.FINAL;
+			if (!member.isRemoved()) {
+				isFinal = isFinal && member.getStatus() == Member.Status.FINAL;
+			}
 		}
 		
 		if (isFinal) {
@@ -151,7 +153,7 @@ public class ProjectRepositoryImpl {
 				else if (projectMember.isRemoved()) {
 					logger.info("Remove student " + studentRepo.findOne(projectMember.getStudent().getId()) + "(id=" + projectMember.getId() + ") from project '" + project.getTitle() + "' (id=" + project.getId() + ")");
 					Member removeMember = memberRepo.findOne(projectMember.getId());
-					removeMember.setRemoved(true);
+					removeMemberFromRatings(removeMember).setRemoved(true);
 					User student = studentRepo.findOne(projectMember.getStudent().getId());
 					student.setStatus(User.Status.FREE);
 					studentRepo.save(student);
@@ -199,5 +201,28 @@ public class ProjectRepositoryImpl {
 		}
 		
 		return updateMember;
+	}
+	
+	/**
+	 * removes the member with the related project criteria from each team member
+	 * @param member member to add criteria for each team member
+	 * @return Member updated member
+	 */
+	public Member removeMemberFromRatings (Member removeMember) {
+		logger.info("Remove ratings for member " + removeMember.toString() + "(id=" + removeMember.getId() + ")");
+		
+		// Remove self rating
+		removeMember.setMemberRatings(new HashSet<MemberRating>());
+		
+		for (Member member: removeMember.getProject().getMembers()) {
+			// remove ratings of removod member form existing members
+			for (MemberRating memberRating: member.getMemberRatings()) {
+				if (memberRating.getTargetMember().getId() == removeMember.getId()) {
+					member.getMemberRatings().remove(memberRating);
+				}
+			}
+		}
+		
+		return removeMember;
 	}
 }

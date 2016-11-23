@@ -38,7 +38,10 @@ const LabeledStarRatingWithGrade = props => (
         </div>
       </div> :
       <div className="col-xs-6">
-        <p><span className="prefix">Progress:</span>{props.progress} %</p>
+        {(props.removed ?
+          <p>-</p> :
+          <p><span className="prefix">Progress:</span>{props.progress} %</p>
+        )}
       </div>
     )}
   </div>
@@ -51,6 +54,7 @@ LabeledStarRatingWithGrade.propTypes = {
   grade: React.PropTypes.number,
   rating: React.PropTypes.number,
   isFinal: React.PropTypes.bool,
+  removed: React.PropTypes.bool,
   progress: React.PropTypes.number,
   statusWarning: React.PropTypes.bool,
 };
