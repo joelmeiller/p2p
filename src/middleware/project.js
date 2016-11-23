@@ -21,6 +21,11 @@ const rarifyProject = project => ({
   ...project,
   start: project.start.toISOString().substring(0, 10),
   stop: project.stop == null ? null : project.stop.toISOString().substring(0, 10),
+  members: [{
+    student: {
+      email: project.qmName,
+    },
+  }],
 });
 
 const params = data => ({

@@ -25,8 +25,10 @@ import ch.fhnw.p2p.authorization.AccessControl;
 import ch.fhnw.p2p.entities.Member;
 import ch.fhnw.p2p.entities.MemberRating;
 import ch.fhnw.p2p.entities.Project;
+import ch.fhnw.p2p.entities.Role;
 import ch.fhnw.p2p.entities.User;
 import ch.fhnw.p2p.repositories.ProjectRepository;
+import ch.fhnw.p2p.repositories.RoleRepository;
 import ch.fhnw.p2p.repositories.UserRepository;
 
 /**
@@ -53,6 +55,9 @@ public class ProjectController {
 	@Autowired
 	UserRepository userRepo;
 	
+	@Autowired
+	RoleRepository roleRepo;
+
 	@PersistenceContext
 	EntityManager entityManager;
 
@@ -100,7 +105,8 @@ public class ProjectController {
 	}
 
 	/**
-	 * Create a new project.
+	 * Create a new project. The posted project must contain a Member with a
+	 * user that has the email address set.
 	 */
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<HttpStatus> addProject(HttpServletRequest request, @Valid @RequestBody Project project, BindingResult result) {
@@ -109,11 +115,20 @@ public class ProjectController {
 		if (result.hasErrors()) {
 			return new ResponseEntity<HttpStatus>(HttpStatus.PRECONDITION_FAILED);
 		}
+		if (project.getMembers().size() > 0) {
+			User qmUser = userRepo.findByEmail(project.getMembers().iterator().next().getStudent().getEmail()).get();
+			project.getMembers().clear();
+			Role qmRole = roleRepo.findByShortcut("QM");
+			Member qmMember = new Member(project, qmUser, qmRole);
+			project.getMembers().add(qmMember);
+			logger.info("Adding QM=" + qmUser.toString());
+		}
 		try {
 			projectRepo.save(project);
 			logger.debug("Successfully saved project[" + project.getId() + "]: " + project.toString());
 			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 		} catch (Exception e) {
+			e.printStackTrace();
 			return new ResponseEntity<HttpStatus>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}

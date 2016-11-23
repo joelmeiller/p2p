@@ -1,6 +1,6 @@
 // Middleware
 import { default as apiGetProjects } from '../middleware/projectList/getProjectList.js';
-import { EDIT_PROJECT, ADD_PROJECT, NEW_ID } from './project.js';
+import { EDIT_PROJECT, ADD_PROJECT } from './project.js';
 
 export const RECEIVE_PROJECTS = '/projectList/RECEIVE_PROJECTS';
 export const REMOVE_PROJECT = '/projectList/REMOVE_PROJECT';

@@ -81,22 +81,10 @@ export const setCoachName = newValue => (dispatch) => {
   });
 };
 
-export const setQmName = (student) => (dispatch, getState) => {
-  const state = getState().project;
-  const members = state.members;
-
-  console.log(student);
-
-  members.push({
-    student: {
-      ...student,
-    },
-    roles: [],
-  });
-
+export const setQmName = student => (dispatch) => {
   dispatch({
     type: SET_QM,
-    members,
+    value: student.email,
   });
 };
 

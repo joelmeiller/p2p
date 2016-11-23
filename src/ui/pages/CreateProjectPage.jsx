@@ -1,7 +1,7 @@
 import React from 'react';
 
 import TextField from 'material-ui/TextField';
-import { RaisedButton } from 'material-ui';
+import { RaisedButton, FlatButton, FontIcon } from 'material-ui';
 import DatePicker from 'material-ui/DatePicker';
 import Header2Line from '../elements/Header/Header2Line.jsx';
 import Dropdown from '../elements/Dropdown.jsx';
@@ -65,11 +65,21 @@ const CreateProjectPage = props => (
       </div>
       <div className="col-xs-4" style={{ marginTop: 15 }}>
         {(props.qmName ?
-          <p>{props.qmName}</p> :
+          <div className="row">
+            <div className="col-xs-10">
+              {props.qmName}
+            </div>
+            <div className="col-xs-2">
+              <FlatButton
+                onClick={() => props.handleQmNameChanged('')}
+                icon={<FontIcon className="material-icons">edit</FontIcon>}
+              />
+            </div>
+          </div>
+          :
           <AutoSuggest
             middleware={getMembersSuggestions}
             onSuggestionSelected={props.handleQmNameChanged}
-            {...props}
           />
         )}
       </div>
