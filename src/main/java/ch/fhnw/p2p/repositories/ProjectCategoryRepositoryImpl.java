@@ -116,6 +116,7 @@ public class ProjectCategoryRepositoryImpl {
 		for (Member member : project.getMembers()) {
 			for (MemberRating memberRating : member.getMemberRatings()) {
 				memberRating.getCriteriaRatings().add(new CriteriaRating(newProjectCriteria, memberRating));
+				memberRating.setStatus(MemberRating.Status.OPEN);
 			}
 			// Reset status to open
 			if (member.getStatus() != Member.Status.NEW) {
