@@ -45,6 +45,7 @@ const LabeledStarRatingWithGrade = props => (
 );
 
 LabeledStarRatingWithGrade.propTypes = {
+  studentId: React.PropTypes.string,
   deviation: React.PropTypes.number,
   deviationWarning: React.PropTypes.bool,
   grade: React.PropTypes.number,

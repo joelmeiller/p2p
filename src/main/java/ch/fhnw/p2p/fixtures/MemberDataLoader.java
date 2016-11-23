@@ -1,5 +1,7 @@
 package ch.fhnw.p2p.fixtures;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
@@ -7,8 +9,10 @@ import org.springframework.stereotype.Component;
 
 import ch.fhnw.p2p.entities.Locale;
 import ch.fhnw.p2p.entities.Member;
+import ch.fhnw.p2p.entities.MemberRating;
 import ch.fhnw.p2p.entities.MemberRole;
 import ch.fhnw.p2p.entities.Project;
+import ch.fhnw.p2p.entities.ProjectCriteria;
 import ch.fhnw.p2p.entities.Role;
 import ch.fhnw.p2p.entities.User;
 import ch.fhnw.p2p.repositories.MemberRepository;
@@ -74,12 +78,18 @@ public class MemberDataLoader implements CommandLineRunner {
 
 		User student = studentRepo.findByEmail("joel.meiller@students.fhnw.ch").get();
 		member = new Member(project, student, qm);
+		List<ProjectCriteria> criterias = member.getProject().getProjectCriteria();
+		// Add self rating
+		member.getMemberRatings().add(new MemberRating(member, member, criterias));
 		project.getMembers().add(member);
 		projectRepo.save(project);
 
 		project = projectRepo.findByTitle("Test Project 2").get();
 		student = studentRepo.findByEmail("michelle.andrey@students.fhnw.ch").get();
 		member = new Member(project, student, qm);
+		criterias = member.getProject().getProjectCriteria();
+		// Add self rating
+		member.getMemberRatings().add(new MemberRating(member, member, criterias));
 		project.getMembers().add(member);
 		projectRepo.save(project);
 	}

@@ -13,7 +13,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode(callSuper=false, exclude={"member"})
+@EqualsAndHashCode(callSuper=true, exclude={"member"})
 @Entity
 public class MemberRole extends VersionedObject {
 	

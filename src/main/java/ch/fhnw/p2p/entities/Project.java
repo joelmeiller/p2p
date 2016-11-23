@@ -29,7 +29,7 @@ import lombok.EqualsAndHashCode;
   *
   **/
 @Data
-@EqualsAndHashCode(callSuper=false, exclude={"projectCategories", "members"})
+@EqualsAndHashCode(callSuper=true, exclude={"projectCategories", "members"})
 @Entity
 public class Project extends VersionedObject {
 	

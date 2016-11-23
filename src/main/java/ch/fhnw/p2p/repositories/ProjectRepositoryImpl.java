@@ -127,6 +127,8 @@ public class ProjectRepositoryImpl {
 	public Project updateProject(Project project, Set<Member> updatedMembers) {
 		Set<Member> members = project.getMembers();
 		
+		System.out.println("Members: " + updatedMembers.size());
+		
 		try {
 			// Set members
 			for (Member projectMember: updatedMembers) {

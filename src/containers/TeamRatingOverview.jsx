@@ -10,7 +10,6 @@ import { fetchTeam } from '../actions/team.js';
 import { showRating } from '../actions/ratings.js';
 
 // Utils impors
-import calculateProgress from '../middleware/utils/calculateProgress.js';
 import { getActiveRoleShortcut } from '../middleware/utils/activeRole.js';
 
 
@@ -38,8 +37,6 @@ const mapStateToProps = (globalState, props) => {
   const { members } = globalState.team;
 
   const projectGrade = project && project.grade ? project.grade : 4;
-
-  console.log(projectGrade);
 
   const updatedMembers = members.map(member => ({
     ...member,

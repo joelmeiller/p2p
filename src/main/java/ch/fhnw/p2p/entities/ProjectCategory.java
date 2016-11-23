@@ -1,8 +1,6 @@
 package ch.fhnw.p2p.entities;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -17,10 +15,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import ch.fhnw.p2p.entities.mixins.VersionedObject;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 @Data
-@EqualsAndHashCode(exclude={"projectCriterias", "project"})
+@EqualsAndHashCode(callSuper=true, exclude={"projectCriterias", "project"})
 @Entity
 public class ProjectCategory extends VersionedObject {
 	

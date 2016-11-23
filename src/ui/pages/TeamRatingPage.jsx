@@ -1,3 +1,6 @@
+// Node imports
+import classNames from 'classnames';
+
 // React imports
 import React from 'react';
 
@@ -13,11 +16,15 @@ const TeamRatingPage = props => (
   <div className="push-top-small">
     {(props.members.length > 0 ? props.members.sort(sortMembers).map(member =>
       <div
-        key={member.id}
+        key={member.studentId}
+        className={classNames('member', {
+          disabled: member.removed,
+        })}
         onClick={() => (member.isFinal ? props.handleSelectMember(member) : undefined)}
       >
         <LabeledStarRatingWithGrade
           {...member}
+          id={member.studentId}
           label={`${member.name}, ${member.activeRole}`}
           value={member.rating}
           readonly
