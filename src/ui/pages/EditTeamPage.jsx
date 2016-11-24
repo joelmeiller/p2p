@@ -36,37 +36,39 @@ const EditTeamPage = props => (
         </div>)
       )}
     </div>
-    <div className="row push-top-medium">
-      <div className="col-xs-4 align-right">
-        <AutoSuggest
-          middleware={getMembersSuggestions}
-          onSuggestionSelected={props.handleAdd}
-          {...props}
-        />
-      </div>
-    </div>
+    {(!props.readonly ?
+      <div className="row push-top-medium">
+        <div className="col-xs-4 align-right">
+          <AutoSuggest
+            middleware={getMembersSuggestions}
+            onSuggestionSelected={props.handleAdd}
+            {...props}
+          />
+        </div>
+      </div> : undefined
+    )}
     <div className="row push-top-medium">
       <div className="col-xs-4 align-right">
         <RaisedButton
-          label="Cancel"
+          label={props.readonly ? 'Back' : 'Cancel'}
           onClick={props.handleCancel}
         />
       </div>
-      <div className="col-xs-4">
-        <RaisedButton
-          label="Save"
-          primary
-          onClick={props.handleSave}
-          disabled={props.readonly}
-        />
-      </div>
+      {(!props.readonly ?
+        <div className="col-xs-4">
+          <RaisedButton
+            label="Save"
+            primary
+            onClick={props.handleSave}
+          />
+        </div> : undefined
+      )}
     </div>
   </div>
 );
 
 EditTeamPage.propTypes = {
   readonly: React.PropTypes.bool,
-  canAdd: React.PropTypes.bool,
   members: React.PropTypes.arrayOf(React.PropTypes.shape(EditableMember.propTypes)),
   newMemberRoleId: React.PropTypes.string,
   roles: React.PropTypes.arrayOf(React.PropTypes.shape(roleType)),

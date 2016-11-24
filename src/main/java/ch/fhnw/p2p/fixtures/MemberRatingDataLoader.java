@@ -60,14 +60,14 @@ public class MemberRatingDataLoader implements CommandLineRunner {
 		project.getMembers().add(projectRepoImpl.addMemberToRatings(req));
 		
 		// Set ratings for heidi
-		/*for (MemberRating rating: req.getMemberRatings()) {	
+		for (MemberRating rating: req.getMemberRatings()) {	
 			rating.setComment("Well done");
 			for (CriteriaRating critRating : rating.getCriteriaRatings()) {
 				critRating.setRating(new BigDecimal(3));
 			}
 			rating.checkAndSetFinalRating();
 		}
-		req.setStatus(Member.Status.FINAL);*/
+		req.setStatus(Member.Status.FINAL);
 		
 		projectRepo.save(project);
 	}

@@ -20,6 +20,7 @@ import ch.fhnw.p2p.authorization.AccessControl;
 import ch.fhnw.p2p.entities.CriteriaRating;
 import ch.fhnw.p2p.entities.Member;
 import ch.fhnw.p2p.entities.MemberRating;
+import ch.fhnw.p2p.entities.Project;
 import ch.fhnw.p2p.entities.User;
 import ch.fhnw.p2p.entities.mapping.CriteriaRatingMapping;
 import ch.fhnw.p2p.entities.mapping.MemberRatingMapping;
@@ -82,8 +83,11 @@ public class MemberRatingController {
 		}
 		
 		MemberRating memberRating = memberRatingRepo.findByIdAndSourceMemberId(updatedMemberRating.getId(), user.getMember().getId());
-		
 		if (memberRating == null) return new ResponseEntity<Member>(HttpStatus.BAD_REQUEST);
+		
+		if (user.getMember().getProject().getStatus() == Project.Status.FINAL) {
+			return new ResponseEntity<Member>(HttpStatus.NOT_ACCEPTABLE);
+		}
 		
 		try {
 			logger.info("Update team member ratings of " + user.getMember().toString());

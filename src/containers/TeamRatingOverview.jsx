@@ -41,7 +41,7 @@ const mapStateToProps = (globalState, props) => {
   const updatedMembers = members.map(member => ({
     ...member,
     activeRole: getActiveRoleShortcut(member.roles),
-    grade: projectGrade + member.deviation,
+    grade: Math.round((projectGrade + member.deviation) * 10) / 10,
   }));
 
   return {
@@ -49,6 +49,7 @@ const mapStateToProps = (globalState, props) => {
     title: 'Rating for',
     projectGrade,
     members: updatedMembers,
+    readonly: project && project.isSent,
   };
 };
 

@@ -11,7 +11,6 @@ const initialState = {
   members: [],
   ratings: [],
   newMemberValues: {},
-  canAdd: false,
   roles: [],
   isFetching: false,
   fetched: false,

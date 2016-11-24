@@ -39,15 +39,16 @@ TeamOverviewComponent.propTypes = {
 };
 
 const mapStateToProps = (globalState, props) => {
-  const { members, canAdd } = globalState.team;
+  const { project } = globalState.app;
+  const { members } = globalState.team;
   const { roles } = globalState.role;
 
   const newProps = {
     ...props,
     title: `Teammembers (${members.length})`,
-    canAdd,
     members,
     roles,
+    readonly: project && project.isFinal,
   };
 
   return newProps;

@@ -88,8 +88,7 @@ public class RoleController {
 	/**
 	 * DELETE method --> Delete the role having the passed id.
 	 * 
-	 * @param id
-	 *            The id of the role to delete
+	 * @param id The id of the role to delete
 	 * @return Http Status
 	 */
 	@RequestMapping(method = RequestMethod.DELETE)

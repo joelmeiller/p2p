@@ -51,6 +51,7 @@ public class Member extends VersionedObject{
 	
 	@NotNull @DecimalMax("5.0") @DecimalMin("0.0")
 	private BigDecimal deviation;
+	private boolean deviationAdjusted;
 	
 	// IMPORTANT: The grade will not be updated during the project life-cycle phases where the students
 	// update their ratings
@@ -103,6 +104,7 @@ public class Member extends VersionedObject{
 		this.status = Status.NEW;
 		this.rating = new BigDecimal(0);
 		this.deviation = new BigDecimal(0);
+		this.deviationAdjusted = false;
 		this.grade = new BigDecimal(4.0);
 		this.roles = new HashSet<MemberRole>();
 		this.memberRatings = new HashSet<MemberRating>();

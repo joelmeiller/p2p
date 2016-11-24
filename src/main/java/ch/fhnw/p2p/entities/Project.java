@@ -36,6 +36,7 @@ public class Project extends VersionedObject {
 	public static enum Status {
 		OPEN, // the team members can set their ratings and the deadline is after the current date
 		FINAL, // either all team member send their ratings or the deadline to enter ratings has past
+		REVIEW, // the quality manager has checked and adjusted the deviations and the deviation is in review at the team members.
 		SEND, // the quality manager has sent the final ratings and grades to the coach
 		CLOSE, // final state: closed project. no further interactions possible
 	}
