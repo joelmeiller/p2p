@@ -9,8 +9,9 @@ import {
   SET_COACH_NAME,
   SET_QM,
   SET_PROJECT_STUFE,
-  SET_PROJECT_START,
   SET_PROJECT_ZEITMODELL,
+  SET_PROJECT_START,
+  SET_PROJECT_STOP,
 } from '../actions/project.js';
 
 
@@ -82,6 +83,12 @@ const reducer = (state = { ...initialState }, action) => {
         ...state,
         ...params,
         start: value,
+      };
+    case SET_PROJECT_STOP:
+      return {
+        ...state,
+        ...params,
+        stop: value,
       };
 
     default:

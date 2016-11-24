@@ -77,7 +77,7 @@ public class ProjectController {
 	}
 
 	/**
-	 * Update an existing project.
+	 * Update an existing project -- UI only supports changing of stop.
 	 */
 	@RequestMapping(value="{id}", method = RequestMethod.PUT)
 	public ResponseEntity<HttpStatus> updateProject(HttpServletRequest request, @PathVariable Long id, @Valid @RequestBody Project project, BindingResult result) {
@@ -90,10 +90,7 @@ public class ProjectController {
 		if (oldProject == null) {
 			return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
 		}
-		oldProject.setTitle(project.getTitle());
-		oldProject.setStart(project.getStart());
 		oldProject.setStop(project.getStop());
-		oldProject.setZeitmodell(project.getZeitmodell());
 		try {
 			projectRepo.save(oldProject);
 			logger.debug("Successfully updated project[" + project.getId() + "]: " + project.toString());

@@ -1,5 +1,4 @@
 // React imports
-// import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
@@ -21,20 +20,6 @@ import {
   saveProject,
   cancel,
 } from '../actions/project.js';
-
-// class CreateProjectComponent extends Component {
-//   componentDidMount() {
-//     this.props.fetchProject();
-//   }
-//
-//   render() {
-//     return (<CreateProjectPage {...this.props} />);
-//   }
-// }
-
-// CreateProjectComponent.propTypes = {
-//   fetchProject: React.PropTypes.func,
-// };
 
 const mapStateToProps = (globalState, props) => {
   const project = globalState.project;

@@ -16,6 +16,7 @@ import MyRatingOverview from '../../containers/MyRatingOverview.jsx';
 import TeamRatingOverview from '../../containers/TeamRatingOverview.jsx';
 import TeammemberEvaluation from '../../containers/TeammemberEvaluation.jsx';
 import CreateProjectContainer from '../../containers/CreateProjectContainer.jsx';
+import ShowProjectContainer from '../../containers/ShowProjectContainer.jsx';
 
 
 export default (store) => {
@@ -42,6 +43,7 @@ export default (store) => {
 
               {/* Coach routes*/}
               <Route path="projects/_new" component={CreateProjectContainer} />
+              <Route path="projects/:id" component={ShowProjectContainer} />
 
               {/* Test Routes */}
               <Route path="/:test" component={TeamRatingOverview} />

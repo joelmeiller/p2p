@@ -11,7 +11,7 @@ export const getProject = (id, callback) =>
     const projectList = {
       ...data,
       start: new Date(data.start),
-      stop: new Date(data.stop),
+      stop: data.stop == null ? null : new Date(data.stop),
     };
     callback(projectList);
   });

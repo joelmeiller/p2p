@@ -1,6 +1,6 @@
 // Middleware
 import { default as apiGetProjects } from '../middleware/projectList/getProjectList.js';
-import { EDIT_PROJECT, ADD_PROJECT } from './project.js';
+import { ADD_PROJECT } from './project.js';
 
 export const RECEIVE_PROJECTS = '/projectList/RECEIVE_PROJECTS';
 export const REMOVE_PROJECT = '/projectList/REMOVE_PROJECT';
@@ -33,21 +33,8 @@ export const fetchProjects = (params = {}) => (dispatch, getState) => {
   }
 };
 
-
-export const editProject = (selectedProjectIndexes, props) => (dispatch, getState) => {
-  console.log(selectedProjectIndexes);
-  const state = getState().projectList;
-
-  if (selectedProjectIndexes.length === 1 && state.projects) {
-    const project = state.projects[selectedProjectIndexes[0]];
-    dispatch({
-      type: EDIT_PROJECT,
-      project,
-    });
-    props.router.push(`/ip-p2p/projects/${project.id}`);
-  } else {
-    console.log(`No or more then one project found. Selected projects (index): ${selectedProjectIndexes[0]})`);
-  }
+export const showProject = (project, props) => (dispatch, getStore) => {
+  props.router.push(`/ip-p2p/projects/${project.id}`);
 };
 
 export const saveProject = props => (dispatch, getStore) => {

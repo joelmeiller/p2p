@@ -8,13 +8,13 @@ import Dropdown from '../elements/Dropdown.jsx';
 import AutoSuggest from '../elements/AutoSuggest.jsx';
 import getMembersSuggestions from '../../middleware/students/getMemberSuggestions.js';
 
-const PROJECT_LEVELS = [
+export const PROJECT_LEVELS = [
   { id: 'IP3', label: 'IP3' },
   { id: 'IP4', label: 'IP4' },
   { id: 'IP5', label: 'IP5' },
 ];
 
-const ZEITMODELLE = [
+export const ZEITMODELLE = [
   { id: 'BB', label: 'Berufsbegleitend' },
   { id: 'VZ_TZ', label: 'Vollzeit/Teilzeit' },
 ];

@@ -21,7 +21,7 @@ const ProjectPage = props => (
     <div className="row">
       <Table
         fixedHeader
-        onRowSelection={props.handleSelectProject}
+        onRowSelection={selection => props.handleSelectProject(props.projects[selection[0]])}
       >
         <TableHeader
           displaySelectAll={false}
