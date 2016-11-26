@@ -2,6 +2,7 @@ import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
 import { routerReducer as routing } from 'react-router-redux';
+import { reducer as toastrReducer } from 'react-redux-toastr'
 
 import { default as app } from '../reducers/app.js';
 import { default as criteria } from '../reducers/criteria.js';
@@ -30,6 +31,7 @@ const configureStore = () => {
       projectList,
       project,
       autosuggest,
+      toastr: toastrReducer,
     }),
     {},
     compose(

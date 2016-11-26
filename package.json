@@ -50,6 +50,7 @@
     "react-motion": "^0.4.4",
     "react-rater": "^0.3.4",
     "react-redux": "^4.4.5",
+    "react-redux-toastr": "^4.0.6",
     "react-router": "^2.6.1",
     "react-router-redux": "^4.0.5",
     "react-star-rating-component": "^1.2.1",

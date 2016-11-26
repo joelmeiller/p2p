@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import ReduxToastr from 'react-redux-toastr';
 
 // Actions
 import { fetchUserAndProjectSettings } from '../../actions/app.js';
@@ -17,6 +18,10 @@ class App extends Component {
     return (<div className="app">
       <AppBarHeader
         {...this.props}
+      />
+      <ReduxToastr
+        position="top-center"
+        progressBar
       />
       <main>
         {this.props.children}
