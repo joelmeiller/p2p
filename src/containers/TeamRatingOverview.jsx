@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import TeamRatingPage from '../ui/pages/TeamRatingPage.jsx';
 
 // Action imports
+import { closeProject } from '../actions/app';
 import { fetchTeam, showMemberRating } from '../actions/team.js';
 
 // Utils impors
@@ -44,6 +45,7 @@ const mapStateToProps = (globalState, props) => {
     activeRole: getActiveRoleShortcut(member.roles),
     grade: Math.round((projectGrade + member.deviation) * 10) / 10,
     status: member.isAccepted ? 'Akzeptiert' : 'Offen',
+    statusSuccess: member.isAccepted,
   }));
 
 
@@ -61,6 +63,7 @@ const mapStateToProps = (globalState, props) => {
 const mapDispatchToProps = (dispatch, ownProps) => ({
   fetchTeam: isQM => dispatch(fetchTeam(isQM)),
   handleSelectMember: (member, props) => dispatch(showMemberRating(member, props)),
+  handleCloseProject: () => dispatch(closeProject()),
 });
 
 const TeamRatingOverview = connect(

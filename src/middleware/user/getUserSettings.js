@@ -28,6 +28,6 @@ export default callback =>
     project: data.project ? {
       ...data.project,
       isFinal: data.project.status === 'FINAL',
-      isSent: data.project.status === 'SEND',
+      isClosed: data.project.status === 'CLOSED',
     } : {},
   }));

@@ -13,7 +13,7 @@ export const ADD_ACTION = '/inbox/ADD_ACTION';
 
 // Action Types
 export const UPDATE_STATUS = '/action/UPDATE_STATUS';
-
+export const CLOSE = '/actions/CLOSE';
 
 export const addAction = action => ({
   type: ADD_ACTION,
@@ -31,6 +31,7 @@ export const performAction = action => (dispatch) => {
             isAccepted: data.accepted,
           }));
 
+          console.log(data);
           if (data.accepted) {
             const message = "Die Bestätigung wurde erfolgreich übermittelt und deine Bewertung ist damit abgeschlossen :)";
             dispatch(addAction({
@@ -39,6 +40,9 @@ export const performAction = action => (dispatch) => {
               type: 'info',
               date: new Date(),
               buttonText: 'Okay',
+              params: {
+                type: CLOSE,
+              },
             }));
           }
         }

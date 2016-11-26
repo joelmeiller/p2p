@@ -56,7 +56,7 @@ public class ProjectMemberRepositoryImpl {
 					members.add(getMemberRating(project, member));
 				}
 				
-				if (project.getStatus() == Project.Status.FINAL) {
+				if (project.getStatus() != Project.Status.OPEN) {
 					logger.info("Project in status 'FINAL'. Calculate deviation...");
 					members = GradeCalculator.getDeviations(members);
 				}
@@ -74,7 +74,7 @@ public class ProjectMemberRepositoryImpl {
 		Set<MemberRating> memberRatings = new HashSet<MemberRating>();
 		Member ratedMember = member.clone();
 
-		if (project.getStatus() == Project.Status.FINAL) {
+		if (project.getStatus() != Project.Status.OPEN) {
 			// Find ratings of other members for his member
 			for (Member mem : project.getMembers()) {
 				for (MemberRating rating: mem.getMemberRatings()) {
@@ -86,7 +86,7 @@ public class ProjectMemberRepositoryImpl {
 			// Set progress & final rating
 			ratedMember.setMemberRatings(memberRatings);
 			ratedMember.checkAndSetFinalRatings();
-			ratedMember.setStatus(Member.Status.FINAL);
+			ratedMember.setStatus(ratedMember.getStatus() == Member.Status.OPEN ? Member.Status.FINAL: ratedMember.getStatus());
 			ratedMember.setProgress(100);	
 		} else {
 			ratedMember.setProgress(ProgressCalculator.getMemberProgress(member));

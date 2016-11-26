@@ -4,10 +4,14 @@ import StarsRating from '../elements/StarsRating.jsx';
 import Header2 from '../elements/Header/Header2.jsx';
 
 const FinalRating = props => (
-  <div className="container flex">
+  <div className="flex">
     <Header2
       className="title-left"
-      title={`${props.text} ${props.value}:`}
+      title={
+        <span>{`${props.text}:`}
+          <span className="push-left-small">{props.value}</span>
+        </span>
+      }
     />
     <StarsRating
       value={props.value}

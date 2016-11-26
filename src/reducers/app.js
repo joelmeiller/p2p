@@ -1,5 +1,11 @@
 // Actions
-import { SET_TITLE, SET_STATUS, REQUEST_USER, RECEIVE_USER } from '../actions/app.js';
+import {
+  SET_TITLE,
+  SET_STATUS,
+  CLOSE_PROJECT,
+  REQUEST_USER,
+  RECEIVE_USER
+} from '../actions/app.js';
 
 
 const initialState = {
@@ -17,6 +23,7 @@ const reducer = (state = initialState, action) => {
   switch (type) {
     case SET_TITLE:
     case SET_STATUS:
+    case CLOSE_PROJECT:
       return {
         ...state,
         ...params,

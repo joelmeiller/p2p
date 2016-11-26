@@ -17,7 +17,7 @@ const LabeledStarRatingWithGrade = props => (
         readonly
       />
     </div>
-    {(props.isFinal ?
+    {(props.isFinal || props.isAccepted ?
       <div>
         <div className="col-xs-4">
           <div className="row">
@@ -62,6 +62,7 @@ const LabeledStarRatingWithGrade = props => (
           <p
             className={classNames({
               warning: props.statusWarning,
+              success: props.statusSuccess,
             })}
           >
             {props.status}

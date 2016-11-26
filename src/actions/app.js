@@ -3,11 +3,13 @@ import { addAction, UPDATE_STATUS } from '../actions/inbox.js';
 
 // Middleware
 import { OPEN, ACCEPTED } from '../middleware/students/setMemberStatus.js';
-import getUserSettings from '../middleware/user/getUserSettings.js';
+import apiGetUserSettings from '../middleware/user/getUserSettings.js';
+import apiCloseProject from '../middleware/projects/closeProject.js';
 
 
 export const SET_TITLE = 'app/SET_TITLE';
 export const SET_STATUS = 'app/SET_STATUS';
+export const CLOSE_PROJECT = 'app/CLOSE_PROJECT';
 export const REQUEST_USER = 'app/REQUEST_USER_AND_PROJECT';
 export const RECEIVE_USER = 'app/RECEIVE_USER_AND_PROJECT';
 
@@ -22,6 +24,16 @@ export const setRatingStatus = rating => (dispatch) => {
     rating,
   });
 };
+
+export const closeProject = () => (dispatch, getState) => {
+  const state = getState().app;
+  apiCloseProject(state.project.id, (data) => {
+    dispatch({
+      type: CLOSE_PROJECT,
+      project: data.project,
+    })
+  });
+}
 
 
 const requestData = () => ({
@@ -56,8 +68,7 @@ const receiveData = data => (dispatch) => {
   }
 
   // Set accept rating action item when all ratings are available
-  if (data.project && data.project.isFinal) {
-    const username = `${data.user.firstName} ${data.user.lastName}`;
+  if (data.project && data.project.isFinal && !data.rating.isAccepted) {
     const message = `Deine Bewertung für das Projekt ${data.project.title} ist abgeschlossen. Bitte bestätige, dass du mit deiner Bewertung und der damit verbundenen Abweichung gegenüber der Teamnote einverstanden bist oder nimm direkt mit dem Quality Manager (QM) Kontakt auf.` ;
     dispatch(addAction({
       id: '500',
@@ -85,7 +96,7 @@ export const fetchUserAndProjectSettings = () => (dispatch, getState) => {
   if (shouldFetchData(getState())) {
     dispatch(requestData());
 
-    getUserSettings((data) => {
+    apiGetUserSettings((data) => {
       dispatch(receiveData(data));
     });
   }

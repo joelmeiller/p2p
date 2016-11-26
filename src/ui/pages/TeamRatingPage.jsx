@@ -42,7 +42,7 @@ const TeamRatingPage = props => (
               id={member.studentId}
               label={`${member.name}, ${member.activeRole}`}
               value={member.rating}
-              readonly={props.project.isSent}
+              readonly={member.isAccepted || props.project.isClosed}
               onChanged={value => props.handleDeviationChanged(member, value)}
               smallStars
             />
@@ -58,10 +58,11 @@ const TeamRatingPage = props => (
           primary
           disabled={!props.canSubmit}
           labelStyle={{ fontWeight: 'bold' }}
+          onClick={props.handleCloseProject}
         />
       </div>
     </div>
-    <div className="row push-top-small">
+    <div className="row push-top-large">
       <p className="italic small">* Dies ist nicht die effektive Note, sondern nur ein Richtwert. Entscheidend für die individuelle Note, ist die Teamnote und die hier ersichtliche <strong>Abweichung</strong>.</p>
     </div>
   </div>

@@ -3,18 +3,25 @@ import React from 'react';
 import FinalRating from '../components/FinalRating.jsx';
 import MemberCard from '../components/MemberCard.jsx';
 
+import Header3 from '../elements/Header/Header3.jsx';
+
 import sortMembers from '../utils/sortMembers.js';
 
 
 const MemberRatingPage = props => (
   <div className="container">
     <div className="card row push-top-medium">
-      <div className="col-xs-12">
-        <FinalRating
-          text="Deine Bewertung"
-          value={props.rating}
-        />
-      </div>
+      <FinalRating
+        text={props.title}
+        value={props.rating}
+      />
+      <Header3
+        title={
+          <span>Notenabweichung:<sup>*</sup>
+            <span className="push-left-small">{props.deviation}</span>
+          </span>
+        }
+      />
     </div>
     <div className="row push-top-medium">
       {(props.ratings.length > 0 ?
@@ -34,10 +41,14 @@ const MemberRatingPage = props => (
         <p>Die Bewertung ist noch nicht abgeschlossen.</p>
       )}
     </div>
+    <div className="row push-top-large">
+      <p className="italic small">* Die <strong>Abweichung</strong> ist entscheidend für deine individuelle Bewertung. Sie wird mit der Teamnote verrechnet (-/+) und ergibt deine finale Einzelnote.</p>
+    </div>
   </div>
 );
 
 MemberRatingPage.propTypes = {
+  ratingTitle: React.PropTypes.string,
   rating: React.PropTypes.number,
   ratings: React.PropTypes.arrayOf(
     React.PropTypes.shape(MemberCard.propTypes)

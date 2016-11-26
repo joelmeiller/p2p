@@ -88,6 +88,12 @@
   font-weight: bold;
   color: var(--colorWarning) !important;
 }
+
+.success {
+  font-weight: bold;
+  color: var(--colorSuccess) !important;
+}
+
 .warning-background {
   background-color: var(--colorWarningBack) !important;
 }
