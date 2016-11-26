@@ -15,6 +15,11 @@ export const ADD_ACTION = '/inbox/ADD_ACTION';
 export const UPDATE_STATUS = '/action/UPDATE_STATUS';
 
 
+export const addAction = action => ({
+  type: ADD_ACTION,
+  action,
+});
+
 export const performAction = action => (dispatch) => {
   switch (action.params.type) {
     case UPDATE_STATUS:
@@ -25,6 +30,17 @@ export const performAction = action => (dispatch) => {
             isFinal: data.final,
             isAccepted: data.accepted,
           }));
+
+          if (data.accepted) {
+            const message = "Die Bestätigung wurde erfolgreich übermittelt und deine Bewertung ist damit abgeschlossen :)";
+            dispatch(addAction({
+              id: '900',
+              message,
+              type: 'info',
+              date: new Date(),
+              buttonText: 'Okay',
+            }));
+          }
         }
       });
       break;
@@ -37,8 +53,3 @@ export const performAction = action => (dispatch) => {
     action,
   });
 };
-
-export const addAction = action => ({
-  type: ADD_ACTION,
-  action,
-});

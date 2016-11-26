@@ -31,10 +31,13 @@ export default (store) => {
               {/* General routes */}
               <IndexRoute component={Dashboard} />
 
-              {/* TM & QM Rating routes */}
-              <Route path="team/rating" component={ProgressPageContainer} />
+              {/* TM Rating routes */}
               <Route path="team/rating/:slug" component={EvaluationContainer} />
               <Route path="team/member/rating" component={MemberRatingContainer} />
+
+              {/* QM Rating routes */}
+              <Route path="team/rating" component={ProgressPageContainer} />
+              <Route path="team/member/rating/:slug" component={MemberRatingContainer} />
 
               {/* QM edit routes */}
               <Route path="criteria/edit" component={CriteriaOverview} />

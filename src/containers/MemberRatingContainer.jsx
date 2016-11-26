@@ -26,18 +26,15 @@ MemberRatingComponent.propTypes = {
 
 const mapStateToProps = (globalState, props) => {
   const { user } = globalState.app;
-  const { members } = globalState.team;
+  let { members, member } = globalState.team;
 
-  let member = {};
-  if (members.length > 0) {
-    member = props.selectedMemberId ?
-      members.find(m => m.id === props.selectedMemberId) :
-      members.find(m => m.studentId === user.id);
+  if (!props.params.slug) {
+    member = members.find(m => m.studentId === user.id);
   }
 
   return {
     title: 'Rating from',
-    onClosePath: '/ip-p2p/team/member/rating',
+    onClosePath: `/ip-p2p/team/member/rating/${props.params.slug}`,
     ...member,
   };
 };

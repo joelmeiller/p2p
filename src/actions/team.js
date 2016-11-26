@@ -2,10 +2,6 @@
 import { default as apiGetTeam } from '../middleware/team/getTeam.js';
 import { default as apiSaveTeam } from '../middleware/team/saveTeam.js';
 
-// Actions
-import { setTitle } from './app.js';
-import { selectRating } from './ratings.js';
-
 
 export const ADD_MEMBER = '/team/ADD_MEMBER';
 export const RECEIVE_TEAM = '/team/RECEIVE_TEAM';
@@ -13,6 +9,7 @@ export const REMOVE_MEMBER = '/team/REMOVE_MEMBER';
 export const REQUEST_TEAM = '/team/REQUEST_TEAM';
 export const UPDATE_TEAM = '/team/UPDATE_TEAM';
 export const SAVE_TEAM = '/team/SAVE_TEAM';
+export const SHOW_MEMBER_RATING = '/team/SHOW_MEMBER_RATING';
 
 
 const receiveData = (data) => ({
@@ -35,13 +32,13 @@ export const fetchTeam = () => (dispatch, getState) => {
 };
 
 
-export const showMemberEvaluation = (member, props) => (dispatch) => {
-  if (member.categories) {
-    dispatch(setTitle('Evaluation'));
-    dispatch(selectRating(props.members.indexOf(member), props));
-  } else {
-    console.log('No Criterias defined');
-  }
+export const showMemberRating = (member, props) => (dispatch) => {
+  dispatch({
+    type: SHOW_MEMBER_RATING,
+    member,
+  });
+
+  props.router.push(`/ip-p2p/team/member/rating/${member.slug}`);
 };
 
 export const updateRoleOfMember = (value, updateMember) => (dispatch, getState) => {

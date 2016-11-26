@@ -35,7 +35,7 @@ const TeamRatingPage = props => (
             className={classNames('member', {
               disabled: member.removed,
             })}
-            onClick={() => (member.isFinal ? props.handleSelectMember(member) : undefined)}
+            onClick={() => (member.isFinal ? props.handleSelectMember(member, props) : undefined)}
           >
             <LabeledStarRatingWithGrade
               {...member}

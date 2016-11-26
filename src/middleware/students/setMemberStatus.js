@@ -22,9 +22,4 @@ export default (status, callback) => {
   })
   .then(response => response.json())
   .then(data => callback(data));
-  // .then((response) => {
-  //   if (response.status !== 200) {
-  //     console.log(`Error from Server: ${response.status}`);
-  //   }
-  // });
 };

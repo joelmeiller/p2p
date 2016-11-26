@@ -2,7 +2,7 @@
 import { addAction, UPDATE_STATUS } from '../actions/inbox.js';
 
 // Middleware
-import { OPEN } from '../middleware/students/setMemberStatus.js';
+import { OPEN, ACCEPTED } from '../middleware/students/setMemberStatus.js';
 import getUserSettings from '../middleware/user/getUserSettings.js';
 
 
@@ -17,7 +17,6 @@ export const setTitle = title => ({
 });
 
 export const setRatingStatus = rating => (dispatch) => {
-  console.log(rating);
   dispatch({
     type: SET_STATUS,
     rating,
@@ -37,6 +36,7 @@ const receiveData = data => (dispatch) => {
     rating: data.rating,
   });
 
+  // Set welcome action item for new member
   if (data.rating && data.rating.isNew) {
     const username = `${data.user.firstName} ${data.user.lastName}`;
     const message = data.user.isQM ?
@@ -51,6 +51,23 @@ const receiveData = data => (dispatch) => {
       params: {
         type: UPDATE_STATUS,
         status: OPEN,
+      },
+    }));
+  }
+
+  // Set accept rating action item when all ratings are available
+  if (data.project && data.project.isFinal) {
+    const username = `${data.user.firstName} ${data.user.lastName}`;
+    const message = `Deine Bewertung für das Projekt ${data.project.title} ist abgeschlossen. Bitte bestätige, dass du mit deiner Bewertung und der damit verbundenen Abweichung gegenüber der Teamnote einverstanden bist oder nimm direkt mit dem Quality Manager (QM) Kontakt auf.` ;
+    dispatch(addAction({
+      id: '500',
+      message,
+      type: 'confirm',
+      date: new Date(),
+      buttonText: 'Bewertung akzeptieren',
+      params: {
+        type: UPDATE_STATUS,
+        status: ACCEPTED,
       },
     }));
   }

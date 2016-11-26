@@ -1,13 +1,13 @@
 // React imports
 import React, { Component } from 'react';
+import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
 // Component imports
 import TeamRatingPage from '../ui/pages/TeamRatingPage.jsx';
 
 // Action imports
-import { fetchTeam } from '../actions/team.js';
-import { showRating } from '../actions/ratings.js';
+import { fetchTeam, showMemberRating } from '../actions/team.js';
 
 // Utils impors
 import { getActiveRoleShortcut } from '../middleware/utils/activeRole.js';
@@ -60,7 +60,7 @@ const mapStateToProps = (globalState, props) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   fetchTeam: isQM => dispatch(fetchTeam(isQM)),
-  handleSelectMember: member => dispatch(showRating(member, ownProps)),
+  handleSelectMember: (member, props) => dispatch(showMemberRating(member, props)),
 });
 
 const TeamRatingOverview = connect(
@@ -68,4 +68,4 @@ const TeamRatingOverview = connect(
   mapDispatchToProps
 )(TeamRatingOverviewComponent);
 
-export default TeamRatingOverview;
+export default withRouter(TeamRatingOverview);
