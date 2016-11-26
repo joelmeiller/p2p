@@ -1,6 +1,6 @@
 package ch.fhnw.p2p.repositories;
 
-import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -8,6 +8,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import ch.fhnw.p2p.entities.Member;
 import ch.fhnw.p2p.entities.MemberRating;
@@ -16,9 +17,12 @@ import ch.fhnw.p2p.entities.Project;
 import ch.fhnw.p2p.entities.ProjectCriteria;
 import ch.fhnw.p2p.entities.Role;
 import ch.fhnw.p2p.entities.User;
+import ch.fhnw.p2p.evaluation.GradeCalculator;
 import ch.fhnw.p2p.evaluation.ProgressCalculator;
+import ch.fhnw.p2p.utils.DateComparison;
 
-public class ProjectRepositoryImpl {
+@Component
+public class ProjectMemberRepositoryImpl {
 	
 	private Log logger = LogFactory.getLog(this.getClass());
 	
@@ -44,43 +48,82 @@ public class ProjectRepositoryImpl {
 		if (user.isCoach()) {
 			logger.info("Request as coach (no members)");
 		} else {
+			logger.info("Check project status");
+			Project project = checkFinalRatings(user.getMember().getProject());
+			
 			if (user.isQM()) {
-				for (Member member: user.getMember().getProject().getMembers()) {
-					members.add(getMemberRating(user.getMember().getProject(), member));
+				for (Member member: project.getMembers()) {
+					members.add(getMemberRating(project, member));
+				}
+				
+				if (project.getStatus() != Project.Status.OPEN) {
+					logger.info("Project in status 'FINAL'. Calculate deviation...");
+					members = GradeCalculator.getDeviations(members);
 				}
 				logger.info("Successfully read project/members for QM " + user.toString() + " of project " + user.getMember().getProject().toString());
 			} else {
-				members.add(getMemberRating(user.getMember().getProject(), user.getMember()));
+				members.add(getMemberRating(project, user.getMember()));
 				logger.info("Successfully read project/members for Member " + user.toString() + " of project " + user.getMember().getProject().toString());
 			}
 		}
 		return members;
 	}
 	
+	
 	private Member getMemberRating(Project project, Member member) {
-		List<MemberRating> memberRatings = new ArrayList<MemberRating>();
+		Set<MemberRating> memberRatings = new HashSet<MemberRating>();
+		Member ratedMember = member.clone();
 
-		member.setProgress(ProgressCalculator.getMemberProgress(member));	
-
-		if (project.getStatus() == Project.Status.FINAL) {
+		if (project.getStatus() != Project.Status.OPEN) {
 			// Find ratings of other members for his member
 			for (Member mem : project.getMembers()) {
 				for (MemberRating rating: mem.getMemberRatings()) {
-					if (rating.getTargetMember().getId() == member.getId()
-							&& rating.getSourceMember().getStatus() == Member.Status.FINAL) {
+					if (rating.getTargetMember().getId() == member.getId()) {
 						memberRatings.add(rating);
 					}
 				}
 			}
-			member.setMemberRatings(memberRatings);
+			// Set progress & final rating
+			ratedMember.setMemberRatings(memberRatings);
+			ratedMember.checkAndSetFinalRatings();
+			ratedMember.setStatus(ratedMember.getStatus() == Member.Status.OPEN ? Member.Status.FINAL: ratedMember.getStatus());
+			ratedMember.setProgress(100);	
 		} else {
-			member.clearMemberRatings();
+			ratedMember.setProgress(ProgressCalculator.getMemberProgress(member));
+			if (ratedMember.getStatus() == Member.Status.FINAL) {
+				ratedMember.setStatus(Member.Status.OPEN);
+			}
 		}
-		member.setRatings(member.getMemberRatings());
 		
-		return member;
+		ratedMember.setRatings(ratedMember.getMemberRatings(), false);
+		
+		return ratedMember;
 	}
 
+	/**
+	 * checks whether the project is in final status either because all team members successfully set their ratings or the deadline is of
+	 * @param project
+	 * @return true if all member ratings are in final status.
+	 */
+	private Project checkFinalRatings(Project project) {
+		if (project.getStatus() != Project.Status.OPEN) return project;
+		
+		boolean isFinal = true;
+		for (Member member: project.getMembers()) {
+			if (!member.isRemoved()) {
+				isFinal = isFinal && member.getStatus() == Member.Status.FINAL;
+			}
+		}
+		
+		// 2 weeks before the project stop, no more 
+		// if (isFinal && DateComparison.isUpdateDeadlinePast(project.getStop())) {
+		if (isFinal) {
+			project.setStatus(Project.Status.FINAL);
+			projectRepo.save(project);
+		}
+		
+		return project;
+	}
 	
 	/**
 	 * add or remove team members
@@ -88,7 +131,7 @@ public class ProjectRepositoryImpl {
 	 * @param Members the updated list of members to add or remove from project
 	 * @return Project the updated project
 	 */
-	public Project updateProject(Project project, Set<Member> updatedMembers) {
+	public Project updateProjectMembers(Project project, Set<Member> updatedMembers) {
 		Set<Member> members = project.getMembers();
 		
 		try {
@@ -106,8 +149,6 @@ public class ProjectRepositoryImpl {
 					} else {
 						logger.info("Add ratings for member " + student.toString());
 						members.add(addMemberToRatings(new Member(project, student)));
-						student.setStatus(User.Status.ALLOCATED);
-						studentRepo.save(student);
 					}
 				}	
 	
@@ -115,7 +156,7 @@ public class ProjectRepositoryImpl {
 				else if (projectMember.isRemoved()) {
 					logger.info("Remove student " + studentRepo.findOne(projectMember.getStudent().getId()) + "(id=" + projectMember.getId() + ") from project '" + project.getTitle() + "' (id=" + project.getId() + ")");
 					Member removeMember = memberRepo.findOne(projectMember.getId());
-					removeMember.setRemoved(true);
+					removeMemberFromRatings(removeMember).setRemoved(true);
 					User student = studentRepo.findOne(projectMember.getStudent().getId());
 					student.setStatus(User.Status.FREE);
 					studentRepo.save(student);
@@ -157,8 +198,34 @@ public class ProjectRepositoryImpl {
 		
 			// Update existing members with new member
 			member.getMemberRatings().add(new MemberRating(member, updateMember, criterias));
+			if (member.getStatus() == Member.Status.FINAL) {
+				member.setStatus(Member.Status.OPEN);
+			}
 		}
 		
 		return updateMember;
+	}
+	
+	/**
+	 * removes the member with the related project criteria from each team member
+	 * @param member member to add criteria for each team member
+	 * @return Member updated member
+	 */
+	public Member removeMemberFromRatings (Member removeMember) {
+		logger.info("Remove ratings for member " + removeMember.toString() + "(id=" + removeMember.getId() + ")");
+		
+		// Remove self rating
+		removeMember.setMemberRatings(new HashSet<MemberRating>());
+		
+		for (Member member: removeMember.getProject().getMembers()) {
+			// remove ratings of removod member form existing members
+			for (MemberRating memberRating: member.getMemberRatings()) {
+				if (memberRating.getTargetMember().getId() == removeMember.getId()) {
+					member.getMemberRatings().remove(memberRating);
+				}
+			}
+		}
+		
+		return removeMember;
 	}
 }

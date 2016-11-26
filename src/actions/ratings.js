@@ -21,26 +21,34 @@ export const SAVE_RATING = '/rating/SAVE_RATING';
 export const CANCEL_RATING = '/rating/CANCEL_RATING';
 export const ERROR_RESET_UPDATE = '/rating/ERROR_RESET_UPDATE';
 
-const finalizeRatingsAction = {
-  id: '300',
-  message: 'Deine Bewertung ist komplett. Du kannst sie jetzt abschliessen, in dem du sie an deinen Qualtiy Manager (QM) sendest.',
-  type: 'important',
-  date: new Date(),
-  buttonText: 'Bewertung an QM senden',
-  params: {
-    type: UPDATE_STATUS,
-    status: FINAL,
-  },
+const finalizeRatingsAction = (user) => {
+  const message = user.isQM ?
+    'Deine Bewertung ist komplett, du kannst sie jetzt abschliessen.' :
+    'Deine Bewertung ist komplett. Du kannst sie jetzt abschliessen, in dem du sie an deinen Qualtiy Manager (QM) sendest.';
+
+  return {
+    id: '300',
+    message,
+    type: 'important',
+    date: new Date(),
+    buttonText: user.isQM ? 'Bewertung abschliessen' : 'Bewertung an QM senden',
+    params: {
+      type: UPDATE_STATUS,
+      status: FINAL,
+    },
+  };
 };
 
-const receiveData = data => (dispatch) => {
+const receiveData = data => (dispatch, getState) => {
+  const { user, rating } = getState().app;
+
   dispatch({
     type: RECEIVE_RATINGS,
     ratings: data.ratings,
   });
 
-  if (data.canFinalize) {
-    dispatch(addAction(finalizeRatingsAction));
+  if (rating.isOpen && data.canFinalize) {
+    dispatch(addAction(finalizeRatingsAction(user)));
   }
 };
 

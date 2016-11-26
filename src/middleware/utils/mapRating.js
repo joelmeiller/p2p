@@ -13,7 +13,7 @@ const mapCriteriaRating = (criteriaRating) => ({
 export default (rating) => {
   const ratings = {
     ratingId: rating.id.toString(),
-    rating: rating.rating,
+    rating: Math.round(rating.rating * 10) / 10,
     comment: rating.comment,
     canFinalize: rating.canFinalize,
     isFinal: rating.isFinal,

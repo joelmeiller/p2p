@@ -31,7 +31,7 @@ public class RoleController {
 	// ------------------------
 	// PRIVATE FIELDS
 	// ------------------------
-	private Log log = LogFactory.getLog(this.getClass());
+	private Log logger = LogFactory.getLog(this.getClass());
 
 	@Autowired
 	private RoleRepository repository;
@@ -50,10 +50,10 @@ public class RoleController {
 	public ResponseEntity<List<Role>> getAllRoles() {
 		List<Role> roles = repository.findAll();
 		if ((roles == null) || (roles.isEmpty())) {
-			log.debug("No roles found");
+			logger.debug("No roles found");
 			return new ResponseEntity<List<Role>>(HttpStatus.NO_CONTENT);
 		} else {
-			log.debug("Successfully read " + roles.size() + " Roles");
+			logger.debug("Successfully read " + roles.size() + " Roles");
 			return new ResponseEntity<List<Role>>(roles, HttpStatus.OK);
 		}
 	}
@@ -77,9 +77,10 @@ public class RoleController {
 		}
 		try {
 			role = repository.save(role);
-			log.debug("Successfully saved role[" + role.getId() + "] with content '" + role.toString() + "'");
+			logger.debug("Successfully saved role[" + role.getId() + "] with content '" + role.toString() + "'");
 			return new ResponseEntity<Role>(role, HttpStatus.OK);
 		} catch (Exception e) {
+			logger.error("Server error", e);
 			return new ResponseEntity<Role>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -87,8 +88,7 @@ public class RoleController {
 	/**
 	 * DELETE method --> Delete the role having the passed id.
 	 * 
-	 * @param id
-	 *            The id of the role to delete
+	 * @param id The id of the role to delete
 	 * @return Http Status
 	 */
 	@RequestMapping(method = RequestMethod.DELETE)
@@ -96,9 +96,10 @@ public class RoleController {
 		try {
 			Role role = new Role(id);
 			repository.delete(role);
-			log.debug("Successfully deleted role[" + role.getId() + "] with content '" + role.toString() + "'");
+			logger.debug("Successfully deleted role[" + role.getId() + "] with content '" + role.toString() + "'");
 			return new ResponseEntity<Role>(HttpStatus.OK);
-		} catch (Exception ex) {
+		} catch (Exception e) {
+			logger.error("Server error", e);
 			return new ResponseEntity<Role>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}

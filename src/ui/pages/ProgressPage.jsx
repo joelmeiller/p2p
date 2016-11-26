@@ -9,7 +9,7 @@ import sortMembers from '../utils/sortMembers.js';
 
 const ProgressPage = props => (
   <div className="push-top-small">
-    {props.ratings ? props.ratings.filter(m => !m.removed).sort(sortMembers).map(member =>
+    {(props.ratings ? props.ratings.filter(m => !m.removed).sort(sortMembers).map(member =>
       <div
         key={member.email}
         className="row"
@@ -27,11 +27,12 @@ const ProgressPage = props => (
               starCount={5}
               value={member.rating}
               name={member.id}
+              editing={false}
             /> : undefined
           )}
         </div>
       </div>) : undefined
-    }
+    )}
   </div>
 );
 
@@ -39,6 +40,7 @@ ProgressPage.propTypes = {
   ratings: React.PropTypes.arrayOf(
     React.PropTypes.shape(MemberProgress.propTypes)
   ),
+  handleSelectRating: React.PropTypes.func,
 };
 
 export default ProgressPage;

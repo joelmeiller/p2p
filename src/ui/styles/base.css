@@ -3,6 +3,7 @@
   --colorPrimaryInverse: #ffffff;
   --colorSecondary: #00bcd4;
   --colorWarning: #cc0000;
+  --colorSuccess: #00A51C;
   --colorWarningBack: #660000;
   --colorDisabled: rgba(0, 0, 0, 0.298039);
 }
@@ -37,6 +38,10 @@ p .prefix {
 }
 p.small {
   font-size: 0.8em;
+}
+
+p.header {
+  font-weight: bold;
 }
 
 h1 {

@@ -25,7 +25,7 @@ public class MemberTest {
 	private Project project; 
 	private User student;
 	private Role role;
-    private List<MemberRating> ratings;
+    private Set<MemberRating> ratings;
 
    
     
@@ -38,7 +38,7 @@ public class MemberTest {
     	student = new User("Max", "Muster", "max.muster@fhnw.ch");
     	role = new Role("Teammember", "TM", Locale.Language.DE);
  
-    	ratings = new ArrayList<MemberRating>();
+    	ratings = new HashSet<MemberRating>();
     	ratings.add(new MemberRating());
     }
     

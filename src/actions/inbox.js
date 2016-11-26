@@ -13,7 +13,12 @@ export const ADD_ACTION = '/inbox/ADD_ACTION';
 
 // Action Types
 export const UPDATE_STATUS = '/action/UPDATE_STATUS';
+export const CLOSE = '/actions/CLOSE';
 
+export const addAction = action => ({
+  type: ADD_ACTION,
+  action,
+});
 
 export const performAction = action => (dispatch) => {
   switch (action.params.type) {
@@ -25,6 +30,21 @@ export const performAction = action => (dispatch) => {
             isFinal: data.final,
             isAccepted: data.accepted,
           }));
+
+          console.log(data);
+          if (data.accepted) {
+            const message = "Die Bestätigung wurde erfolgreich übermittelt und deine Bewertung ist damit abgeschlossen :)";
+            dispatch(addAction({
+              id: '900',
+              message,
+              type: 'info',
+              date: new Date(),
+              buttonText: 'Okay',
+              params: {
+                type: CLOSE,
+              },
+            }));
+          }
         }
       });
       break;
@@ -37,8 +57,3 @@ export const performAction = action => (dispatch) => {
     action,
   });
 };
-
-export const addAction = action => ({
-  type: ADD_ACTION,
-  action,
-});

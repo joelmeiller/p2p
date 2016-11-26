@@ -1,5 +1,6 @@
 package ch.fhnw.p2p.fixtures;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import ch.fhnw.p2p.entities.CriteriaRating;
 import ch.fhnw.p2p.entities.Member;
 import ch.fhnw.p2p.entities.MemberRating;
 import ch.fhnw.p2p.entities.Project;
@@ -15,7 +17,7 @@ import ch.fhnw.p2p.entities.Role;
 import ch.fhnw.p2p.entities.User;
 import ch.fhnw.p2p.repositories.MemberRepository;
 import ch.fhnw.p2p.repositories.ProjectRepository;
-import ch.fhnw.p2p.repositories.ProjectRepositoryImpl;
+import ch.fhnw.p2p.repositories.ProjectMemberRepositoryImpl;
 import ch.fhnw.p2p.repositories.RoleRepository;
 import ch.fhnw.p2p.repositories.UserRepository;
 
@@ -25,7 +27,7 @@ public class MemberRatingDataLoader implements CommandLineRunner {
 
 	@Autowired
 	ProjectRepository projectRepo;
-	ProjectRepositoryImpl projectRepoImpl = new ProjectRepositoryImpl();
+	ProjectMemberRepositoryImpl projectRepoImpl = new ProjectMemberRepositoryImpl();
 	
 	@Autowired
 	MemberRepository memberRepo;
@@ -53,8 +55,19 @@ public class MemberRatingDataLoader implements CommandLineRunner {
 		Project project = qm.getProject();
 		User student = studentRepo.findByEmail("heidi.vonderheide@students.fhnw.ch").get();
 		Role re = roleRepo.findByShortcut("RE");
+		Member req = new Member(project, student, re);
 		
-		project.getMembers().add(projectRepoImpl.addMemberToRatings(new Member(project, student, re)));
+		project.getMembers().add(projectRepoImpl.addMemberToRatings(req));
+		
+		// Set ratings for heidi
+		for (MemberRating rating: req.getMemberRatings()) {	
+			rating.setComment("Well done");
+			for (CriteriaRating critRating : rating.getCriteriaRatings()) {
+				critRating.setRating(new BigDecimal(3));
+			}
+			rating.checkAndSetFinalRating();
+		}
+		req.setStatus(Member.Status.FINAL);
 		
 		projectRepo.save(project);
 	}

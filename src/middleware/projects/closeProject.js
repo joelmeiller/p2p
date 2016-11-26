@@ -3,22 +3,17 @@ import fetch from 'isomorphic-fetch';
 
 import getApiEntrypoint from '../utils/getApiEntrypoint.js';
 
-const apiEntrypoint = getApiEntrypoint('project/members/status');
-
-// Student Update Status
-export const OPEN = 'OPEN';
-export const FINAL = 'FINAL';
-export const ACCEPTED = 'ACCEPTED';
+const apiEntrypoint = getApiEntrypoint('projects/close');
 
 
-export default (status, callback) => {
+export default (projectId, callback) => {
   fetch(apiEntrypoint, {
-    method: 'POST',
+    method: 'PUT',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(status),
+    body: JSON.stringify({ id: projectId }),
   })
   .then(response => response.json())
   .then(data => callback(data));

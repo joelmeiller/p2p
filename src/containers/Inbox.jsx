@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import InboxPage from '../ui/pages/InboxPage.jsx';
 
 // Action imports
-import { fetchInbox, performAction } from '../actions/inbox.js';
+import { performAction } from '../actions/inbox.js';
 
 
 const mapStateToProps = (globalState) => {
@@ -19,7 +19,6 @@ const mapStateToProps = (globalState) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  fetchInbox: () => dispatch(fetchInbox()),
   handlePerformAction: action => dispatch(performAction(action)),
 });
 

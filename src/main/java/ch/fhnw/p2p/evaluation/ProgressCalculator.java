@@ -9,15 +9,12 @@ public abstract class ProgressCalculator {
 	public static int getMemberProgress(Member member) {
 		if (member.getMemberRatings().size() == 0) return 0;
 		
-		int ratings = (member.getStatus() == Member.Status.FINAL || member.getStatus() == Member.Status.ACCEPTED) ? 100 : 0;
+		int ratings = 0;
 		
-		if (member.getStatus() == Member.Status.OPEN) {
-			for (MemberRating rating: member.getMemberRatings()) {
-				ratings += ProgressCalculator.getRatingProgress(rating);
-				
-			}
+		for (MemberRating rating: member.getMemberRatings()) {
+			ratings += ProgressCalculator.getRatingProgress(rating);			
 		}
-		
+	
 		return ratings / member.getMemberRatings().size();
 	}
 
@@ -38,6 +35,6 @@ public abstract class ProgressCalculator {
 			filledRatings++;
 		}
 		
-		return filledRatings / (rating.getCriteriaRatings().size() + 1);
+		return filledRatings / (rating.getCriteriaRatings().size() + 1) * 100;
 	}
 }

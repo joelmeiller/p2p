@@ -27,5 +27,7 @@ export default callback =>
     } : {},
     project: data.project ? {
       ...data.project,
+      isFinal: data.project.status === 'FINAL',
+      isClosed: data.project.status === 'CLOSED',
     } : {},
   }));

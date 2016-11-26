@@ -1,8 +1,6 @@
 package ch.fhnw.p2p.controller;
 
 
-import java.util.Optional;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -22,6 +20,7 @@ import ch.fhnw.p2p.authorization.AccessControl;
 import ch.fhnw.p2p.entities.CriteriaRating;
 import ch.fhnw.p2p.entities.Member;
 import ch.fhnw.p2p.entities.MemberRating;
+import ch.fhnw.p2p.entities.Project;
 import ch.fhnw.p2p.entities.User;
 import ch.fhnw.p2p.entities.mapping.CriteriaRatingMapping;
 import ch.fhnw.p2p.entities.mapping.MemberRatingMapping;
@@ -64,8 +63,8 @@ public class MemberRatingController {
 		logger.info("GET Request for member/ratings");
 		User user = accessControl.login(request, AccessControl.Allowed.MEMBER);
 		
-		user.getMember().checkFinalRatings();
-		user.getMember().setRatings(user.getMember().getMemberRatings());
+		user.getMember().checkAndSetFinalRatings();
+		user.getMember().setRatings(user.getMember().getMemberRatings(), true);
 		
 		logger.info("Succesfully read member/ratings of student " + user.toString());
 		return new ResponseEntity<Member>(user.getMember(), HttpStatus.OK);
@@ -84,8 +83,11 @@ public class MemberRatingController {
 		}
 		
 		MemberRating memberRating = memberRatingRepo.findByIdAndSourceMemberId(updatedMemberRating.getId(), user.getMember().getId());
-		
 		if (memberRating == null) return new ResponseEntity<Member>(HttpStatus.BAD_REQUEST);
+		
+		if (user.getMember().getProject().getStatus() == Project.Status.FINAL) {
+			return new ResponseEntity<Member>(HttpStatus.NOT_ACCEPTABLE);
+		}
 		
 		try {
 			logger.info("Update team member ratings of " + user.getMember().toString());
@@ -95,25 +97,26 @@ public class MemberRatingController {
 			}
 				
 			for (CriteriaRating criteriaRating : memberRating.getCriteriaRatings()) {
-				Optional<CriteriaRatingMapping> updatedRating = updatedMemberRating.getCriteriaRatings().stream()
-						.filter(r -> r.getId() == criteriaRating.getId()).findFirst();
+				CriteriaRatingMapping updatedRating = updatedMemberRating.getCriteriaRatings().stream()
+						.filter(r -> r.getId() == criteriaRating.getId()).findFirst().get();
 
-				criteriaRating.setRating(updatedRating.get().getRating());
+				criteriaRating.setRating(updatedRating.getRating());
 			}
 		
 			logger.info("Checking for member rating status");
-			boolean isFinalRating = memberRating.checkFinalRating();
+			boolean isFinalRating = memberRating.checkAndSetFinalRating();
 			memberRatingRepo.save(memberRating);
 			
 			logger.info("Successfully updated member rating " + memberRating.toString());
 			
 			if (isFinalRating) {
 				logger.info("Check all member ratings status");
-				user.getMember().checkFinalRatings();
+				user.getMember().checkAndSetFinalRatings();
 			}
 			
 			return new ResponseEntity<Member>(user.getMember(), HttpStatus.OK);
 		} catch (Exception e) {
+			logger.error("Server error", e);
 			return new ResponseEntity<Member>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}

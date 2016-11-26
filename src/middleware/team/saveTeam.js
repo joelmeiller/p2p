@@ -25,6 +25,8 @@ export default (values, callback) => {
     updated: member.updated, // only roles can be updated
   }));
 
+  console.log(members);
+
   fetch(apiEntrypoint, {
     method: 'POST',
     headers: {
