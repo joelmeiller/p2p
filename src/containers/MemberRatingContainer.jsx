@@ -25,10 +25,15 @@ MemberRatingComponent.propTypes = {
 };
 
 const mapStateToProps = (globalState, props) => {
+  const { user } = globalState.app;
   const { members } = globalState.team;
 
-  const member = (members.length > 0 && props.selectedMemberId) ?
-    members.find(m => m.id === props.selectedMemberId) : {};
+  let member = {};
+  if (members.length > 0) {
+    member = props.selectedMemberId ?
+      members.find(m => m.id === props.selectedMemberId) :
+      members.find(m => m.studentId === user.id);
+  }
 
   return {
     title: 'Rating from',

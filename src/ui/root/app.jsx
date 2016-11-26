@@ -41,7 +41,7 @@ const mapStateToProps = (globalState, props) => {
 
   return {
     ...props,
-    project,
+    project: project || { title: 'Projekte' },
     user,
     username,
   };

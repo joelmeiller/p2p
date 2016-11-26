@@ -37,19 +37,24 @@ const mapStateToProps = (globalState, props) => {
   const { members } = globalState.team;
 
   const projectGrade = project && project.grade ? project.grade : 4;
+  const canSubmit = members.length > 0 && !members.find(m => !m.isAccepted);
 
   const updatedMembers = members.map(member => ({
     ...member,
     activeRole: getActiveRoleShortcut(member.roles),
     grade: Math.round((projectGrade + member.deviation) * 10) / 10,
+    status: member.isAccepted ? 'Akzeptiert' : 'Offen',
   }));
+
+
 
   return {
     ...props,
     title: 'Rating for',
     projectGrade,
     members: updatedMembers,
-    readonly: project && project.isSent,
+    project: project || {},
+    canSubmit,
   };
 };
 

@@ -11,25 +11,28 @@ const MemberRatingPage = props => (
     <div className="card row push-top-medium">
       <div className="col-xs-12">
         <FinalRating
-          text="Your final rating is"
+          text="Deine Bewertung"
           value={props.rating}
         />
       </div>
     </div>
     <div className="row push-top-medium">
-      <div className="col-xs-10">
-        {props.ratings.filter(m => !m.removed).sort(sortMembers).map(member =>
-          <div
-            className="col-xs-6 push-bottom-medium"
-            key={member.id}
-          >
-            <MemberCard
-              onReadMore={() => props.handleSelectMember(member, props)}
-              {...member}
-            />
-          </div>
-        )}
-      </div>
+      {(props.ratings.length > 0 ?
+        <div className="col-xs-10">
+          {props.ratings.filter(m => !m.removed).sort(sortMembers).map(member =>
+            <div
+              className="col-xs-6 push-bottom-medium"
+              key={member.id}
+            >
+              <MemberCard
+                onReadMore={() => props.handleSelectMember(member, props)}
+                {...member}
+              />
+            </div>
+          )}
+        </div> :
+        <p>Die Bewertung ist noch nicht abgeschlossen.</p>
+      )}
     </div>
   </div>
 );

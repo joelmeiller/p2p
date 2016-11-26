@@ -17,7 +17,6 @@ const userMenuTM = props => ([
     name: 'Dashboard',
     icon: <Dashboard className="menu-icon" />,
     path: '/ip-p2p/',
-    disabled: props.isFinal,
   }, {
     name: 'My Ratings',
     icon: <Assessment className="menu-icon" />,
@@ -42,7 +41,6 @@ const userMenuQM = props => ([
     name: 'Evaluation',
     icon: <Grade className="menu-icon" />,
     path: '/ip-p2p/team/rating',
-    disabled: props.isFinal,
   }, {
     name: 'My Ratings',
     icon: <Assessment className="menu-icon" />,

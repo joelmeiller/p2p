@@ -14,40 +14,58 @@ const LabeledStarRatingWithGrade = props => (
     <div className="col-xs-6">
       <LabeledStarRating
         {...props}
+        readonly
       />
     </div>
     {(props.isFinal ?
       <div>
-        <div className="col-xs-2">
-          <p
-            className={classNames('status', {
-              warning: props.statusWarning,
-            })}
-          >
-            <span className="prefix">Bewertung:</span>{props.rating > 0 ? props.rating : undefined}
-          </p>
-        </div>
-        <div className="col-xs-3">
-          <p
-            className={classNames('pull-top-small', {
-              warning: props.deviationWarning,
-            })}
-          >
-            <span className="prefix">Abweichung:</span>
-            <span className="pull-top-small" style={{ width: 40 }}>
+        <div className="col-xs-4">
+          <div className="row">
+            <div className="col-xs-4">
+              <p
+                className={classNames({
+                  warning: props.ratingWarning,
+                })}
+              >
+                {props.rating > 0 ? props.rating : undefined}
+              </p>
+            </div>
+            <div
+              className={classNames('col-xs-5', {
+                warning: props.deviationWarning,
+              })}
+            >
               <TextField
                 name={props.id}
+                className="pull-top-small push-left-mini"
                 defaultValue={props.deviation}
                 onChange={(e) => { if (props.onChanged) props.onChanged(e.target.value); }}
                 disabled={props.readonly}
-                inputStyle={{ color: '#333333', width: 40 }}
+                style={{ width: '60px' }}
+                inputStyle={{ color: '#333333' }}
+                children={
+                  <input
+                    name={props.id}
+                    type="number"
+                    step="0.01"
+                    defaultValue={props.deviation}
+                  />
+                }
               />
-            </span>
-          {/*props.deviation > 0 ? '+' : ''}{props.deviation*/}
-          </p>
+            </div>
+            <div className="col-xs-3">
+              <p>{props.grade}</p>
+            </div>
+          </div>
         </div>
-        <div className="col-xs-1">
-          <p><span className="prefix">Note<sup>*</sup>:</span>{props.grade}</p>
+        <div className="col-xs-2">
+          <p
+            className={classNames({
+              warning: props.statusWarning,
+            })}
+          >
+            {props.status}
+          </p>
         </div>
       </div> :
       <div className="col-xs-6">
@@ -61,16 +79,18 @@ const LabeledStarRatingWithGrade = props => (
 );
 
 LabeledStarRatingWithGrade.propTypes = {
-  id: React.PropTypes.string,
   deviation: React.PropTypes.number,
   deviationWarning: React.PropTypes.bool,
   grade: React.PropTypes.number,
-  rating: React.PropTypes.number,
+  id: React.PropTypes.string,
   isFinal: React.PropTypes.bool,
   onChanged: React.PropTypes.func,
+  progress: React.PropTypes.number,
+  rating: React.PropTypes.number,
+  ratingWarning: React.PropTypes.bool,
   readonly: React.PropTypes.bool,
   removed: React.PropTypes.bool,
-  progress: React.PropTypes.number,
+  status: React.PropTypes.string,
   statusWarning: React.PropTypes.bool,
 };
 

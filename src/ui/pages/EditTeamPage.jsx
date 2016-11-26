@@ -47,7 +47,7 @@ const EditTeamPage = props => (
         </div>
       </div> : undefined
     )}
-    <div className="row push-top-medium">
+    <div className="row push-top-large">
       <div className="col-xs-4 align-right">
         <RaisedButton
           label={props.readonly ? 'Back' : 'Cancel'}

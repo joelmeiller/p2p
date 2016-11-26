@@ -40,14 +40,14 @@ const finalizeRatingsAction = (user) => {
 };
 
 const receiveData = data => (dispatch, getState) => {
-  const { user } = getState().app;
+  const { user, rating } = getState().app;
 
   dispatch({
     type: RECEIVE_RATINGS,
     ratings: data.ratings,
   });
 
-  if (data.canFinalize) {
+  if (rating.isOpen && data.canFinalize) {
     dispatch(addAction(finalizeRatingsAction(user)));
   }
 };

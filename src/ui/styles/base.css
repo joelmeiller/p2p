@@ -39,6 +39,10 @@ p.small {
   font-size: 0.8em;
 }
 
+p.header {
+  font-weight: bold;
+}
+
 h1 {
   font-size: 4em;
   font-weight: 200;

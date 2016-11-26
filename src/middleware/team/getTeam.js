@@ -19,6 +19,7 @@ export default callback =>
       // grade: member.grade,
       deviation: Math.round(member.deviation * 100) / 100,
       isFinal: member.status === 'FINAL',
+      isAccepted: member.status === 'ACCEPTED',
       isQM: member.qm,
       ratings: member.ratings.map(rating => mapRating(rating)),
     }));

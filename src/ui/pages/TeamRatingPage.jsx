@@ -14,24 +14,43 @@ import sortMembers from '../utils/sortMembers.js';
 
 const TeamRatingPage = props => (
   <div className="push-top-small">
-    {(props.members.length > 0 ? props.members.sort(sortMembers).map(member =>
-      <div
-        key={member.studentId}
-        className={classNames('member', {
-          disabled: member.removed,
-        })}
-        onClick={() => (member.isFinal ? props.handleSelectMember(member) : undefined)}
-      >
-        <LabeledStarRatingWithGrade
-          {...member}
-          id={member.studentId}
-          label={`${member.name}, ${member.activeRole}`}
-          value={member.rating}
-          readonly
-          smallStars
-        />
-      </div>
-    ) : <p>Noch keine Teammitglieder oder Kriterien definiert.</p>)}
+    {(props.members.length > 0 ?
+      <div>
+        {(props.project.isFinal ?
+          <div className="row">
+            <div className="col-xs-6"></div>
+            <div className="col-xs-4">
+              <div className="row">
+                <div className="col-xs-4"><p className="header">Bewertung</p></div>
+                <div className="col-xs-5"><p className="header">Abweichung</p></div>
+                <div className="col-xs-3"><p className="header">Note<sup>*</sup></p></div>
+              </div>
+            </div>
+            <div className="col-xs-2"><p className="header">Status</p></div>
+          </div> : undefined
+        )}
+        {(props.members.sort(sortMembers).map(member =>
+          <div
+            key={member.studentId}
+            className={classNames('member', {
+              disabled: member.removed,
+            })}
+            onClick={() => (member.isFinal ? props.handleSelectMember(member) : undefined)}
+          >
+            <LabeledStarRatingWithGrade
+              {...member}
+              id={member.studentId}
+              label={`${member.name}, ${member.activeRole}`}
+              value={member.rating}
+              readonly={props.project.isSent}
+              onChanged={value => props.handleDeviationChanged(member, value)}
+              smallStars
+            />
+          </div>
+        ))}
+      </div> :
+      <p>Noch keine Teammitglieder oder Kriterien definiert.</p>
+    )}
     <div className="row">
       <div className="col-xs-12 push-top-small">
         <FlatButton
@@ -64,6 +83,7 @@ TeamRatingPage.propTypes = {
     })
   ).isRequired,
   projectGrade: React.PropTypes.number,
+  project: React.PropTypes.object,
 };
 
 TeamRatingPage.defaultProps = {

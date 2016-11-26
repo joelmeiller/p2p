@@ -1,5 +1,6 @@
 package ch.fhnw.p2p.repositories;
 
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -18,6 +19,7 @@ import ch.fhnw.p2p.entities.Role;
 import ch.fhnw.p2p.entities.User;
 import ch.fhnw.p2p.evaluation.GradeCalculator;
 import ch.fhnw.p2p.evaluation.ProgressCalculator;
+import ch.fhnw.p2p.utils.DateComparison;
 
 @Component
 public class ProjectMemberRepositoryImpl {
@@ -113,6 +115,8 @@ public class ProjectMemberRepositoryImpl {
 			}
 		}
 		
+		// 2 weeks before the project stop, no more 
+		// if (isFinal && DateComparison.isUpdateDeadlinePast(project.getStop())) {
 		if (isFinal) {
 			project.setStatus(Project.Status.FINAL);
 			projectRepo.save(project);
