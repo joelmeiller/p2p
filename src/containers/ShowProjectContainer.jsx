@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import ShowProjectPage from '../ui/pages/ShowProjectPage.jsx';
 
 // Action imports
-import { fetchProject, setProjectStop, saveProject, cancel } from '../actions/project.js';
+import { fetchProject, setProjectStatus, saveProject, cancel } from '../actions/project.js';
 
 class ShowProjectComponent extends Component {
   componentDidMount() {
@@ -36,7 +36,7 @@ const mapStateToProps = (globalState, props) => {
 const mapDispatchToProps = (dispatch, props) => ({
   fetchProject: () => dispatch(fetchProject(props.routeParams.id)),
 
-  handleStopChanged: newStartValue => dispatch(setProjectStop(newStartValue)),
+  handleStatusChanged: newStartValue => dispatch(setProjectStatus(newStartValue)),
 
   handleSave: () => dispatch(saveProject(props.router)),
   handleCancel: () => dispatch(cancel(props.router)),

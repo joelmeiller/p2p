@@ -15,7 +15,7 @@ export const SET_COACH_NAME = 'project/SET_COACH_NAME';
 export const SET_QM = '/project/SET_QM';
 export const SET_PROJECT_STUFE = 'project/SET_PROJECT_STUFE';
 export const SET_PROJECT_START = 'project/SET_PROJECT_START';
-export const SET_PROJECT_STOP = 'project/SET_PROJECT_STOP';
+export const SET_PROJECT_STATUS = 'project/SET_PROJECT_STATUS';
 export const SET_PROJECT_ZEITMODELL = 'project/SET_PROJECT_ZEITMODELL';
 
 export const ADD_PROJECT = '/project/ADD_PROJECT';
@@ -102,9 +102,9 @@ export const setProjectStart = newValue => (dispatch) => {
   });
 };
 
-export const setProjectStop = newValue => (dispatch) => {
+export const setProjectStatus = newValue => (dispatch) => {
   dispatch({
-    type: SET_PROJECT_STOP,
+    type: SET_PROJECT_STATUS,
     value: newValue,
   });
 };

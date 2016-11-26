@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 import { RaisedButton } from 'material-ui';
 
 import {
@@ -12,7 +11,13 @@ import {
   TableRowColumn,
 } from 'material-ui/Table';
 
-const dateToTerm = date => (date.getMonth() + 1 >= 9 || date.getMonth() + 1 <= 2 ? 'HS' : 'FS') + date.getYear();
+const dateToTerm = date => (date.getMonth() + 1 >= 9 || date.getMonth() + 1 <= 2 ? 'HS' : 'FS') + (date.getYear() % 100);
+
+export const STATUS_MAPPING = {
+  OPEN: 'Offen',
+  FINAL: 'Final',
+  CLOSE: 'Closed',
+};
 
 const ProjectPage = props => (
   <div className="container push-top-small">
@@ -68,27 +73,25 @@ const ProjectPage = props => (
               <TableRowColumn
                 style={{ width: '90px' }}
               >{project.zeitmodell}</TableRowColumn>
-              <TableRowColumn
-              >{project.title}</TableRowColumn>
+              <TableRowColumn>{project.title}</TableRowColumn>
               <TableRowColumn
                 style={{ width: '100px' }}
-              >{project.stop == null ? 'open' : 'closed'}</TableRowColumn>
-              <TableRowColumn
-              >{project.coach}</TableRowColumn>
+              >{STATUS_MAPPING[project.status]}</TableRowColumn>
+              <TableRowColumn>{project.coach}</TableRowColumn>
             </TableRow>
             ))}
         </TableBody>
       </Table>
     </div>
-        <div className="row">
-          <div className="col-xs-4">
-            <RaisedButton
-              label="Add"
-              primary
-              onClick={props.handleAddProject}
-            />
-          </div>
-        </div>
+    <div className="row">
+      <div className="col-xs-4">
+        <RaisedButton
+          label="Add"
+          primary
+          onClick={props.handleAddProject}
+        />
+      </div>
+    </div>
   </div>
 );
 

@@ -1,5 +1,6 @@
 // Node imports
 import fetch from 'isomorphic-fetch';
+import moment from 'moment';
 
 import getApiEntrypoint from './utils/getApiEntrypoint.js';
 
@@ -11,7 +12,7 @@ export const getProject = (id, callback) =>
     const projectList = {
       ...data,
       start: new Date(data.start),
-      stop: data.stop == null ? null : new Date(data.stop),
+      stop: data.stop === null ? null : new Date(data.stop),
     };
     callback(projectList);
   });
@@ -19,8 +20,8 @@ export const getProject = (id, callback) =>
 
 const rarifyProject = project => ({
   ...project,
-  start: project.start.toISOString().substring(0, 10),
-  stop: project.stop == null ? null : project.stop.toISOString().substring(0, 10),
+  start: moment(project.start).format('YYYY-MM-DD'),
+  stop: project.stop === null ? null : moment(project.start).format('YYYY-MM-DD'),
   members: [{
     student: {
       email: project.qmName,

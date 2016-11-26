@@ -4,8 +4,11 @@ import { RaisedButton } from 'material-ui';
 import Header2Line from '../elements/Header/Header2Line.jsx';
 import Dropdown from '../elements/Dropdown.jsx';
 import { PROJECT_LEVELS, ZEITMODELLE } from './CreateProjectPage.jsx';
+import { STATUS_MAPPING } from './ProjectPage.jsx';
 
 const getLabel = (items, id) => (items.find(item => item.id === id) || { label: '' }).label;
+
+const isEditable = props => (props.status === 'FINAL') || (props.status === 'CLOSE' && props.stop === null);
 
 const ShowProjectPage = props => (
   <div className="container">
@@ -76,34 +79,47 @@ const ShowProjectPage = props => (
         <p>Status</p>
       </div>
       <div className="col-xs-4" style={{ marginTop: 0 }}>
-        <Dropdown
-          selectedValue={props.stop == null ? 'open' : 'closed'}
-          onChange={value => props.handleStopChanged(value === 'open' ? null : new Date())}
-          items={[{
-            id: 'open',
-            label: 'Open',
-          }, {
-            id: 'closed',
-            label: 'Closed',
-          }]}
-        />
+        {isEditable(props) ?
+          <Dropdown
+            selectedValue={props.status}
+            onChange={props.handleStatusChanged}
+            items={[{
+              id: 'FINAL',
+              label: STATUS_MAPPING.FINAL,
+            }, {
+              id: 'CLOSE',
+              label: STATUS_MAPPING.CLOSE,
+            }]}
+          /> :
+          <p>{STATUS_MAPPING[props.status]}</p>
+        }
       </div>
     </div>
 
     <div className="row push-top-medium">
-      <div className="col-xs-4 align-right">
-        <RaisedButton
-          label="Cancel"
-          onClick={props.handleCancel}
-        />
-      </div>
-      <div className="col-xs-4">
-        <RaisedButton
-          label="Save"
-          primary
-          onClick={props.handleSave}
-        />
-      </div>
+      {isEditable(props) ?
+        <div>
+          <div className="col-xs-4 align-right">
+            <RaisedButton
+              label="Cancel"
+              onClick={props.handleCancel}
+            />
+          </div>
+          <div className="col-xs-4">
+            <RaisedButton
+              label="Save"
+              primary
+              onClick={props.handleSave}
+            />
+          </div>
+        </div> :
+        <div className="col-xs-4 align-right">
+          <RaisedButton
+            label="Back"
+            onClick={props.handleCancel}
+          />
+        </div>
+      }
     </div>
   </div>
 );
@@ -115,9 +131,9 @@ ShowProjectPage.propTypes = {
   level: React.PropTypes.string,
   zeitmodell: React.PropTypes.string,
   start: React.PropTypes.instanceOf(Date),
-  stop: React.PropTypes.instanceOf(Date),
+  status: React.PropTypes.string,
 
-  handleStopChanged: React.PropTypes.func,
+  handleStatusChanged: React.PropTypes.func,
 
   handleCancel: React.PropTypes.func,
   handleSave: React.PropTypes.func,

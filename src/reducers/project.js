@@ -11,7 +11,7 @@ import {
   SET_PROJECT_STUFE,
   SET_PROJECT_ZEITMODELL,
   SET_PROJECT_START,
-  SET_PROJECT_STOP,
+  SET_PROJECT_STATUS,
 } from '../actions/project.js';
 
 
@@ -84,11 +84,11 @@ const reducer = (state = { ...initialState }, action) => {
         ...params,
         start: value,
       };
-    case SET_PROJECT_STOP:
+    case SET_PROJECT_STATUS:
       return {
         ...state,
         ...params,
-        stop: value,
+        status: value,
       };
 
     default:

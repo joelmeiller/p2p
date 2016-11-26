@@ -1,5 +1,6 @@
 package ch.fhnw.p2p.controller;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -25,6 +26,7 @@ import ch.fhnw.p2p.authorization.AccessControl;
 import ch.fhnw.p2p.entities.Member;
 import ch.fhnw.p2p.entities.MemberRating;
 import ch.fhnw.p2p.entities.Project;
+import ch.fhnw.p2p.entities.Project.Status;
 import ch.fhnw.p2p.entities.Role;
 import ch.fhnw.p2p.entities.User;
 import ch.fhnw.p2p.repositories.ProjectRepository;
@@ -77,7 +79,8 @@ public class ProjectController {
 	}
 
 	/**
-	 * Update an existing project -- UI only supports changing of stop.
+	 * Update an existing project -- UI only supports changing of status from
+	 * final to closed.
 	 */
 	@RequestMapping(value="{id}", method = RequestMethod.PUT)
 	public ResponseEntity<HttpStatus> updateProject(HttpServletRequest request, @PathVariable Long id, @Valid @RequestBody Project project, BindingResult result) {
@@ -90,7 +93,14 @@ public class ProjectController {
 		if (oldProject == null) {
 			return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
 		}
-		oldProject.setStop(project.getStop());
+		if (oldProject.getStatus() != Status.FINAL
+				|| (project.getStatus() != Status.CLOSE && project.getStatus() != Status.FINAL)) {
+			return new ResponseEntity<HttpStatus>(HttpStatus.PRECONDITION_FAILED);
+		}
+		if (project.getStatus() == Status.CLOSE) {
+			oldProject.setStop(new Date());
+			oldProject.setStatus(Status.CLOSE);
+		}
 		try {
 			projectRepo.save(oldProject);
 			logger.debug("Successfully updated project[" + project.getId() + "]: " + project.toString());
@@ -114,6 +124,9 @@ public class ProjectController {
 		}
 		if (project.getMembers().size() > 0) {
 			User qmUser = userRepo.findByEmail(project.getMembers().iterator().next().getStudent().getEmail()).get();
+			if (qmUser.getStatus() != User.Status.FREE) {
+				return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
+			}
 			project.getMembers().clear();
 			Role qmRole = roleRepo.findByShortcut("QM");
 			Member qmMember = new Member(project, qmUser, qmRole);

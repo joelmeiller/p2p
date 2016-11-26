@@ -1,6 +1,5 @@
 package ch.fhnw.p2p.entities;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -13,15 +12,10 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
-import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
-import org.hibernate.validator.constraints.NotEmpty;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import ch.fhnw.p2p.entities.mixins.VersionedObject;
-import ch.fhnw.p2p.utils.Slug;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -48,7 +42,11 @@ public class Project extends VersionedObject {
 	}
 	
 	public static enum Status {
+		// Neues Projekt.
 		OPEN,
+		// Alle ratings eingetragen. erst jetzt kann das projekt vom Coach geschlossen werden.
+		FINAL,
+		// geschlossenes Projekt kann nicht mehr verändert werden.
 		CLOSE,
 	}
 
@@ -77,8 +75,6 @@ public class Project extends VersionedObject {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "project")
 	private Set<Member> members;
 	
-	@Transient 
-	@JsonIgnore
 	private Status status;
 	
 	public Project() {
@@ -106,10 +102,6 @@ public class Project extends VersionedObject {
 			}
 		}
 		return criterias;
-	}
-	
-	public Status getStatus() {
-		return stop == null ? Status.OPEN : Status.CLOSE;
 	}
 	
 	// http://stackoverflow.com/questions/22031128/how-to-update-an-entity-with-spring-data-jpa
