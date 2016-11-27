@@ -39,7 +39,7 @@ import ch.fhnw.p2p.repositories.MemberRatingRepository;
 
 @RestController
 @RequestMapping("/api/project/member")
-public class MemberRatingController {
+public class MemberRatingController extends BaseController {
 
 	// ------------------------
 	// PRIVATE FIELDS

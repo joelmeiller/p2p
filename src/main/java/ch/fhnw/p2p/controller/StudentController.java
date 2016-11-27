@@ -27,7 +27,7 @@ import ch.fhnw.p2p.repositories.UserRepository;
  */
 @Controller
 @RequestMapping("/api/students")
-public class StudentController {
+public class StudentController extends BaseController {
 	
 	// ------------------------
 	// PRIVATE FIELDS

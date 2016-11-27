@@ -32,7 +32,7 @@ import ch.fhnw.p2p.repositories.ProjectCategoryRepositoryImpl;
 
 @Controller
 @RequestMapping("/api/project")
-public class ProjectCategoryController {
+public class ProjectCategoryController extends BaseController {
 	// ------------------------
 	// PRIVATE FIELDS
 	// ------------------------

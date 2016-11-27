@@ -25,9 +25,8 @@ import ch.fhnw.p2p.repositories.RoleRepository;
  * @author Joel Meiller
  */
 @Controller
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/roles")
-public class RoleController {
+public class RoleController extends BaseController {
 	// ------------------------
 	// PRIVATE FIELDS
 	// ------------------------

@@ -22,9 +22,8 @@ import ch.fhnw.p2p.entities.mapping.UserSettings;
  * @author Joel Meiller
  */
 @Controller
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/user")
-public class UserController {
+public class UserController extends BaseController {
 	// ------------------------
 	// PRIVATE FIELDS
 	// ------------------------

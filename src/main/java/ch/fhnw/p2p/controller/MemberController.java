@@ -34,7 +34,7 @@ import ch.fhnw.p2p.repositories.UserRepository;
 
 @RestController
 @RequestMapping("/api/project")
-public class MemberController {
+public class MemberController extends BaseController {
 	// ------------------------
 	// PRIVATE FIELDS
 	// ------------------------

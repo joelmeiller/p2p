@@ -5,10 +5,12 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @Controller
+@CrossOrigin(origins = { "http://localhost:3000", "https://www.cs.technik.fhnw.ch" })
 public class HomeController {
 	
 	private Log logger = LogFactory.getLog(this.getClass());

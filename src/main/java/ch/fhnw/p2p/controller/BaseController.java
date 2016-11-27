@@ -2,6 +2,7 @@ package ch.fhnw.p2p.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import lombok.Data;
@@ -11,6 +12,7 @@ import lombok.Data;
  * 
  * From http://stackoverflow.com/questions/16232833/how-to-respond-with-http-400-error-in-a-spring-mvc-responsebody-method-returnin
  */
+@CrossOrigin(origins = { "http://localhost:3000", "https://www.cs.technik.fhnw.ch" })
 public class BaseController {
 	
 	static class BadRequestException extends RuntimeException {
