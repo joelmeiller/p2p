@@ -1,13 +1,25 @@
 import React from 'react';
 
 import TextField from 'material-ui/TextField';
-import { RaisedButton } from 'material-ui';
+import { RaisedButton, FlatButton, FontIcon } from 'material-ui';
 import DatePicker from 'material-ui/DatePicker';
 import Header2Line from '../elements/Header/Header2Line.jsx';
 import Dropdown from '../elements/Dropdown.jsx';
+import AutoSuggest from '../elements/AutoSuggest.jsx';
+import getMembersSuggestions from '../../middleware/students/getMemberSuggestions.js';
 
+export const PROJECT_LEVELS = [
+  { id: 'IP3', label: 'IP3' },
+  { id: 'IP4', label: 'IP4' },
+  { id: 'IP5', label: 'IP5' },
+];
 
-const EditProjectPage = props => (
+export const ZEITMODELLE = [
+  { id: 'BB', label: 'Berufsbegleitend' },
+  { id: 'VZ_TZ', label: 'Vollzeit/Teilzeit' },
+];
+
+const CreateProjectPage = props => (
   <div className="container">
     <div className="row">
       <div className="col-xs-12">
@@ -49,12 +61,52 @@ const EditProjectPage = props => (
 
     <div className="row">
       <div className="col-xs-2" style={{ marginTop: 14 }}>
-        <p>Stufe</p>
+        <p>QM</p>
+      </div>
+      <div className="col-xs-4" style={{ marginTop: 15 }}>
+        {(props.qmName ?
+          <div className="row">
+            <div className="col-xs-10">
+              {props.qmName}
+            </div>
+            <div className="col-xs-2">
+              <FlatButton
+                onClick={() => props.handleQmNameChanged('')}
+                icon={<FontIcon className="material-icons">edit</FontIcon>}
+              />
+            </div>
+          </div>
+          :
+          <AutoSuggest
+            middleware={getMembersSuggestions}
+            onSuggestionSelected={props.handleQmNameChanged}
+          />
+        )}
+      </div>
+    </div>
+
+    <div className="row">
+      <div className="col-xs-2" style={{ marginTop: 14 }}>
+        <p>Level</p>
       </div>
       <div className="col-xs-4" style={{ marginTop: -8 }}>
         <Dropdown
-          menuItems={props.selectStates}
-          selectedValue={props.selectedStateId}
+          items={PROJECT_LEVELS}
+          selectedValue={props.level}
+          onChange={props.handleLevelChanged}
+        />
+      </div>
+    </div>
+
+    <div className="row">
+      <div className="col-xs-2" style={{ marginTop: 14 }}>
+        <p>Zeitmodell</p>
+      </div>
+      <div className="col-xs-4" style={{ marginTop: -8 }}>
+        <Dropdown
+          items={ZEITMODELLE}
+          selectedValue={props.zeitmodell}
+          onChange={props.handleZeitmodellChanged}
         />
       </div>
     </div>
@@ -72,74 +124,6 @@ const EditProjectPage = props => (
       </div>
     </div>
 
-    <div className="row">
-      <div className="col-xs-2" style={{ marginTop: 14 }}>
-        <p>Stop</p>
-      </div>
-      <div className="col-xs-4" style={{ marginTop: -8 }}>
-        <DatePicker
-          value={props.stop}
-          onChange={(_, date) => props.handleStopChanged(date)}
-          hintText="Project stop date"
-        />
-      </div>
-    </div>
-
-    <div className="row">
-      <div className="col-xs-2" style={{ marginTop: 14 }}>
-        <p>Zeitmodell</p>
-      </div>
-      <div className="col-xs-4" style={{ marginTop: -8 }}>
-        <Dropdown
-          items={[
-            { id: 'BB', label: 'Berufsbegleitend' },
-            { id: 'VZ_TZ', label: 'Vollzeit/Teilzeit' },
-          ]}
-          selectedValue={props.zeitmodell}
-          onChange={props.handleZeitmodellChanged}
-        />
-      </div>
-    </div>
-
-    <div className="row">
-      <div className="col-xs-2" style={{ marginTop: 14 }}>
-        <p>Status</p>
-      </div>
-      <div className="col-xs-4" style={{ marginTop: -8 }}>
-        <Dropdown
-          menuItems={props.selectStates}
-          selectedValue={props.selectedStateId}
-        />
-      </div>
-    </div>
-
-    <div className="row">
-      <div className="col-xs-2" style={{ marginTop: 14 }}>
-        <p>Art</p>
-      </div>
-      <div className="col-xs-4">
-          <TextField
-            hintText="Name Coach"
-            value={props.coach}
-            fullWidth
-            inputStyle={{ color: '#333333' }}
-            onChange={e => props.handleCoachChanged(e.target.value)}
-          />
-      </div>
-    </div>
-
-    <div className="row">
-      <div className="col-xs-2" style={{ marginTop: 14 }}>
-        <p>Coach</p>
-      </div>
-      <div className="col-xs-4" style={{ marginTop: -8 }}>
-        <Dropdown
-          menuItems={props.selectStates}
-          selectedValue={props.selectedStateId}
-        />
-      </div>
-    </div>
-
     <div className="row push-top-medium">
       <div className="col-xs-4 align-right">
         <RaisedButton
@@ -152,34 +136,29 @@ const EditProjectPage = props => (
           label="Save"
           primary
           onClick={props.handleSave}
-          disabled={props.readonly}
         />
       </div>
     </div>
   </div>
 );
 
-EditProjectPage.propTypes = {
+CreateProjectPage.propTypes = {
   title: React.PropTypes.string,
-  start: React.PropTypes.instanceOf(Date),
-  stop: React.PropTypes.instanceOf(Date),
+  coach: React.PropTypes.string,
+  qmName: React.PropTypes.string,
+  level: React.PropTypes.string,
   zeitmodell: React.PropTypes.string,
+  start: React.PropTypes.instanceOf(Date),
+
   handleTitleChanged: React.PropTypes.func,
   handleCoachChanged: React.PropTypes.func,
-  handleStartChanged: React.PropTypes.func,
-  handleStopChanged: React.PropTypes.func,
+  handleQmNameChanged: React.PropTypes.func,
+  handleLevelChanged: React.PropTypes.func,
   handleZeitmodellChanged: React.PropTypes.func,
-  coach: React.PropTypes.string,
-  selectStates: React.PropTypes.arrayOf(
-    React.PropTypes.shape({
-      id: React.PropTypes.string,
-      label: React.PropTypes.string,
-    })
-  ),
-  selectedStateId: React.PropTypes.string,
+  handleStartChanged: React.PropTypes.func,
+
   handleCancel: React.PropTypes.func,
   handleSave: React.PropTypes.func,
-  readonly: React.PropTypes.bool,
 };
 
-export default EditProjectPage;
+export default CreateProjectPage;

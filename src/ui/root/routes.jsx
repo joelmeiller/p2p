@@ -12,10 +12,12 @@ import App from './app.jsx';
 import Dashboard from '../../containers/Dashboard.jsx';
 import CriteriaOverview from '../../containers/CriteriaOverview.jsx';
 import TeamOverview from '../../containers/TeamOverview.jsx';
+import TeamRatingOverview from '../../containers/TeamRatingOverview.jsx';
+import CreateProjectContainer from '../../containers/CreateProjectContainer.jsx';
+import ShowProjectContainer from '../../containers/ShowProjectContainer.jsx';
 import MemberRatingContainer from '../../containers/MemberRatingContainer.jsx';
 import ProgressPageContainer from '../../containers/ProgressPageContainer.jsx';
 import EvaluationContainer from '../../containers/EvaluationContainer.jsx';
-import ProjectContainer from '../../containers/ProjectContainer.jsx';
 
 
 export default (store) => {
@@ -44,7 +46,11 @@ export default (store) => {
               <Route path="team/edit" component={TeamOverview} />
 
               {/* Coach routes*/}
-              <Route path="projects/:id" component={ProjectContainer} />
+              <Route path="projects/_new" component={CreateProjectContainer} />
+              <Route path="projects/:id" component={ShowProjectContainer} />
+
+              {/* Test Routes */}
+              <Route path="/:test" component={TeamRatingOverview} />
             </Route>
           </Route>
         </Router>

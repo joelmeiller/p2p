@@ -48,7 +48,7 @@ const mapStateToProps = (globalState, props) => {
   }
 
   return {
-    title: props.params.slug ? `Bewertung für ${member.firstName} ${member.lastName}` : 'Deine Bewertung',
+    title: props.params.slug && member ? `Bewertung für ${member.firstName} ${member.lastName}` : 'Deine Bewertung',
     onClosePath: `/ip-p2p/team/member/rating/${props.params.slug}`,
     action: !props.params.slug && actions.find(act => (act.id === '500')),
     ...member,

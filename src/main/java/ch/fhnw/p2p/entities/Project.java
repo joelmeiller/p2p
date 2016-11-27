@@ -20,7 +20,6 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.Type;
 
 import ch.fhnw.p2p.entities.mixins.VersionedObject;
-import ch.fhnw.p2p.utils.Slug;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -33,25 +32,46 @@ import lombok.EqualsAndHashCode;
 @Entity
 public class Project extends VersionedObject {
 	
+	public static enum Zeitmodell {
+		// Berufsbegleitend.
+		BB,
+		// Vollzeit/Teilzeit.
+		VZ_TZ,
+	}
+	
+	public static enum Level {
+		IP3,
+		IP4,
+		IP5
+	}
+	
 	public static enum Status {
 		OPEN, // the team members can set their ratings and the deadline is after the current date
 		FINAL, // either all team member send their ratings or the deadline to enter ratings has past
 		CLOSE, // final state: closed project. no further interactions possible
 	}
 
-	public static enum Zeitmodell {
-		BB,
-		VZ_TZ,
-	}
-	
 	private String title;
-	private String slug;
-	private Date deadline;
+	
+//	private String slug;
+//	private Date deadline;
+	
+	private String coach;
+	
+	@Enumerated(EnumType.STRING)
+	private Level level;
+
+	@Enumerated(EnumType.STRING)
+	private Zeitmodell zeitmodell;
+
 	@Type(type="date")
 	private Date start;
+
 	@Type(type="date")
 	private Date stop;
 	
+	private Status status;
+
 	// Final grade of the project (not used during project duration)
 	@NotNull @DecimalMax("6.0") @DecimalMin("1.0")
 	private BigDecimal grade;
@@ -62,12 +82,6 @@ public class Project extends VersionedObject {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "project")
 	private Set<Member> members;
 	
-	@Enumerated(EnumType.STRING)
-	private Status status;
-	
-	@Enumerated(EnumType.STRING)
-	private Zeitmodell zeitmodell;
-
 	public Project() {
 		this.status = Status.OPEN;
 		this.projectCategories = new HashSet<ProjectCategory>();
@@ -78,7 +92,7 @@ public class Project extends VersionedObject {
 	public Project(String title) {
 		this();
 		this.title = title;
-		this.slug = Slug.makeSlug(title);
+//		this.slug = Slug.makeSlug(title);
 	}
 	
 	public String toString() {
@@ -95,20 +109,4 @@ public class Project extends VersionedObject {
 		}
 		return criterias;
 	}
-	
-	
-	// http://stackoverflow.com/questions/22031128/how-to-update-an-entity-with-spring-data-jpa
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (id == null || obj == null || getClass() != obj.getClass())
-            return false;
-        Project that = (Project) obj;
-        return id.equals(that.id);
-    }
-    @Override
-    public int hashCode() {
-        return id == null ? 0 : id.hashCode();
-    }
 }

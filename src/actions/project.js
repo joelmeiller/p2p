@@ -1,30 +1,25 @@
 // Middleware
 import {
   getProject as apiGetProject,
-  putProject as apiPutProject,
+  updateProjectStatus as apiUpdateProjectStatus,
   postProject as apiPostProject,
 } from '../middleware/project.js';
 
-import { initialState } from '../reducers/project.js'
-
 import { fetchProjects } from './projectList.js'
 
-// "ID" of a new object.
-export const NEW_ID = '_new';
-
-// Creates new empty project.
-export const ADD_PROJECT = '/project/ADD_PROJECT';
-export const CANCEL = 'project/CANCEL';
-export const EDIT_PROJECT = 'project/EDIT';
-export const SET_PROJECT_TITLE = 'project/SET_PROJECT_TITLE';
-export const SET_COACH_NAME = 'project/SET_COACH_NAME';
-export const SET_PROJECT_STUFE = 'project/SET_PROJECT_STUFE';
-export const SET_PROJECT_START = 'project/SET_PROJECT_START';
-export const SET_PROJECT_STOP = 'project/SET_PROJECT_STOP';
-export const SET_PROJECT_ZEITMODELL = 'project/SET_PROJECT_ZEITMODELL';
-export const SET_PROJECT_STATUS = 'project/SET_PROJECT_STATUS';
 export const REQUEST_PROJECT = '/project/REQUEST_PROJECT';
 export const RECEIVE_PROJECT = '/project/RECEIVE_PROJECT';
+
+export const SET_PROJECT_TITLE = 'project/SET_PROJECT_TITLE';
+export const SET_COACH_NAME = 'project/SET_COACH_NAME';
+export const SET_QM = '/project/SET_QM';
+export const SET_PROJECT_STUFE = 'project/SET_PROJECT_STUFE';
+export const SET_PROJECT_START = 'project/SET_PROJECT_START';
+export const SET_PROJECT_STATUS = 'project/SET_PROJECT_STATUS';
+export const SET_PROJECT_ZEITMODELL = 'project/SET_PROJECT_ZEITMODELL';
+
+export const ADD_PROJECT = '/project/ADD_PROJECT';
+export const CANCEL = 'project/CANCEL';
 
 
 const requestData = () => ({
@@ -44,17 +39,9 @@ const shouldFetchData = (state) => {
 };
 
 export const fetchProject = id => (dispatch, getState) => {
-  if (id === NEW_ID) {
-    dispatch(receiveData({
-      ...initialState,
-      start: new Date(),
-      stop: new Date(),
-    }));
-    return;
-  }
   if (shouldFetchData(getState())) {
     dispatch(requestData());
-    apiGetProject(id, data => dispatch(receiveData(data)));
+    apiGetProject(id).then(data => dispatch(receiveData(data)));
   }
 };
 
@@ -67,9 +54,9 @@ const makeSaveCallback = (dispatch, router) => (arg) => {
 export const saveProject = router => (dispatch, getState) => {
   const project = getState().project;
   if (project.id) {
-    apiPutProject(project, makeSaveCallback(dispatch, router));
+    apiUpdateProjectStatus(project).then(makeSaveCallback(dispatch, router));
   } else {
-    apiPostProject(project, makeSaveCallback(dispatch, router));
+    apiPostProject(project).then(makeSaveCallback(dispatch, router));
   }
 };
 
@@ -94,7 +81,14 @@ export const setCoachName = newValue => (dispatch) => {
   });
 };
 
-export const setProjectStufe = newValue => (dispatch) => {
+export const setQmName = student => (dispatch) => {
+  dispatch({
+    type: SET_QM,
+    value: student.email,
+  });
+};
+
+export const setStufe = newValue => (dispatch) => {
   dispatch({
     type: SET_PROJECT_STUFE,
     value: newValue,
@@ -108,9 +102,9 @@ export const setProjectStart = newValue => (dispatch) => {
   });
 };
 
-export const setProjectStop = newValue => (dispatch) => {
+export const setProjectStatus = newValue => (dispatch) => {
   dispatch({
-    type: SET_PROJECT_STOP,
+    type: SET_PROJECT_STATUS,
     value: newValue,
   });
 };
@@ -118,13 +112,6 @@ export const setProjectStop = newValue => (dispatch) => {
 export const setZeitmodell = newValue => (dispatch) => {
   dispatch({
     type: SET_PROJECT_ZEITMODELL,
-    value: newValue,
-  });
-};
-
-export const setProjectStatus = newValue => (dispatch) => {
-  dispatch({
-    type: SET_PROJECT_STATUS,
     value: newValue,
   });
 };

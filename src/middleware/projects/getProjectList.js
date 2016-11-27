@@ -1,15 +1,12 @@
-// Node imports
-import fetch from 'isomorphic-fetch';
-
-import getApiEntrypoint from '../utils/getApiEntrypoint.js';
-
-const apiEntrypoint = getApiEntrypoint('projects');
-
+import fetch from '../utils/fetch.js';
 
 export default callback =>
-  fetch(apiEntrypoint)
-  .then(response => response.json())
+  fetch('projects')
   .then((data) => {
-    const project = data;
-    callback(project);
+    const projects = data.map(project => ({
+      ...project,
+      start: new Date(project.start),
+      stop: project.stop == null ? null : new Date(project.stop),
+    }));
+    callback(projects);
   });

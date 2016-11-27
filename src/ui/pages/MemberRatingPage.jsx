@@ -24,7 +24,7 @@ const MemberRatingPage = props => (
       />
     </div>
     <div className="row push-top-medium">
-      {(props.ratings.length > 0 ?
+      {(props.ratings && props.ratings.length > 0 ?
         <div className="col-xs-10">
           {props.ratings.filter(m => !m.removed).sort(sortMembers).map(member =>
             <div
