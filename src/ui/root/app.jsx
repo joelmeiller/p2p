@@ -22,6 +22,7 @@ class App extends Component {
       <ReduxToastr
         position="top-center"
         progressBar
+        preventDuplicates
       />
       <main>
         {this.props.children}

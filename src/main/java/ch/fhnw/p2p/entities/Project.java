@@ -69,13 +69,13 @@ public class Project extends VersionedObject {
 	@Type(type="date")
 	private Date stop;
 	
+	private Status status;
+	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "project")
 	private Set<ProjectCategory> projectCategories;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "project")
 	private Set<Member> members;
-	
-	private Status status;
 	
 	public Project() {
 		this.status = Status.OPEN;
@@ -103,19 +103,4 @@ public class Project extends VersionedObject {
 		}
 		return criterias;
 	}
-	
-	// http://stackoverflow.com/questions/22031128/how-to-update-an-entity-with-spring-data-jpa
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (id == null || obj == null || getClass() != obj.getClass())
-            return false;
-        Project that = (Project) obj;
-        return id.equals(that.id);
-    }
-    @Override
-    public int hashCode() {
-        return id == null ? 0 : id.hashCode();
-    }
 }

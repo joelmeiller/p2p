@@ -21,11 +21,12 @@ export const initialState = {
 
   title: undefined,
   coach: undefined,
-  qmName: undefined,
+  emailQm: undefined,
   level: undefined,
   zeitmodell: undefined,
   start: undefined,
   stop: null,
+  status: undefined,
 };
 
 const reducer = (state = { ...initialState }, action) => {
@@ -64,7 +65,7 @@ const reducer = (state = { ...initialState }, action) => {
     case SET_QM:
       return {
         ...state,
-        qmName: value,
+        emailQm: value,
       };
     case SET_PROJECT_STUFE:
       return {

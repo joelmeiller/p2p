@@ -43,7 +43,7 @@ const ShowProjectPage = props => (
         <p>QM</p>
       </div>
       <div className="col-xs-4" style={{ marginTop: 0 }}>
-        <p>{props.qmName}</p>
+        <p>{props.emailQm}</p>
       </div>
     </div>
 
@@ -127,7 +127,7 @@ const ShowProjectPage = props => (
 ShowProjectPage.propTypes = {
   title: React.PropTypes.string,
   coach: React.PropTypes.string,
-  qmName: React.PropTypes.string,
+  emailQm: React.PropTypes.string,
   level: React.PropTypes.string,
   zeitmodell: React.PropTypes.string,
   start: React.PropTypes.instanceOf(Date),

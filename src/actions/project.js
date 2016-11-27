@@ -1,7 +1,7 @@
 // Middleware
 import {
   getProject as apiGetProject,
-  putProject as apiPutProject,
+  updateProjectStatus as apiUpdateProjectStatus,
   postProject as apiPostProject,
 } from '../middleware/project.js';
 
@@ -41,7 +41,7 @@ const shouldFetchData = (state) => {
 export const fetchProject = id => (dispatch, getState) => {
   if (shouldFetchData(getState())) {
     dispatch(requestData());
-    apiGetProject(id, data => dispatch(receiveData(data)));
+    apiGetProject(id).then(data => dispatch(receiveData(data)));
   }
 };
 
@@ -54,9 +54,9 @@ const makeSaveCallback = (dispatch, router) => (arg) => {
 export const saveProject = router => (dispatch, getState) => {
   const project = getState().project;
   if (project.id) {
-    apiPutProject(project, makeSaveCallback(dispatch, router));
+    apiUpdateProjectStatus(project).then(makeSaveCallback(dispatch, router));
   } else {
-    apiPostProject(project, makeSaveCallback(dispatch, router));
+    apiPostProject(project).then(makeSaveCallback(dispatch, router));
   }
 };
 
