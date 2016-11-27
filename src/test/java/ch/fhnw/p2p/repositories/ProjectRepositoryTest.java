@@ -2,10 +2,7 @@ package ch.fhnw.p2p.repositories;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 import org.junit.Before;
@@ -59,15 +56,17 @@ public class ProjectRepositoryTest {
     	assertEquals(3, studentRepo.findAll().size());
     }
     
-    @Test
-    public void testFindProjectByMemberAndStatus() {
-        Project foundProject = projectRepo.findByIdAndStatus(member.getProject().getId(), Project.Status.OPEN);
-       
-        assertNotNull(foundProject.getId());
-        assertEquals(Project.Status.OPEN, foundProject.getStatus());
-        assertEquals("Test", foundProject.getTitle());
-        assertTrue(foundProject.getMembers().contains(member));
-    }
+	// @Test
+	// public void testFindProjectByMemberAndStatus() {
+	// Project foundProject =
+	// projectRepo.findByIdAndStatus(member.getProject().getId(),
+	// Project.Status.OPEN);
+	//
+	// assertNotNull(foundProject.getId());
+	// assertEquals(Project.Status.OPEN, foundProject.getStatus());
+	// assertEquals("Test", foundProject.getTitle());
+	// assertTrue(foundProject.getMembers().contains(member));
+	// }
     
     @Test
     public void testAddMember() {
