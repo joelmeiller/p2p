@@ -1,6 +1,11 @@
 package ch.fhnw.p2p.controller;
 
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -69,7 +74,43 @@ public class MemberRatingController {
 		logger.info("Succesfully read member/ratings of student " + user.toString());
 		return new ResponseEntity<Member>(user.getMember(), HttpStatus.OK);
 	}
+	
+	/**
+	 * Returns the member's final ratings from other team members.
+	 * 
+	 * @return The member with the list of its final ratings Set<Member> 
+	 */
+	@CrossOrigin(origins = "http://localhost:3000")
+	@RequestMapping(value = "member/ratings/final", method = RequestMethod.GET)
+	public ResponseEntity<Member> getMembersFinalRatings(HttpServletRequest request) {
+		logger.info("GET Request for member/ratings/final");
+		User user = accessControl.login(request, AccessControl.Allowed.MEMBER);
+		
+		
+		Member member = user.getMember();
+		
+		if (member.getProject().getStatus() == Project.Status.CLOSE) {
+			List<MemberRating> memberRatings = new ArrayList<MemberRating>();
 
+			// Find ratings of other members fot his member
+			for (Member mem: member.getProject().getMembers()) {
+				Iterator<MemberRating> it = mem.getMemberRatings().iterator();
+				while (it.hasNext()) {
+					MemberRating rating = it.next();
+					if (rating.getTargetMember().getId() == member.getId()
+					  && rating.getSourceMember().getStatus() == Member.Status.FINAL) {
+						memberRatings.add(rating);
+					}
+				}
+			}
+			
+			member.setMemberRatings(new HashSet<>(memberRatings));
+		}
+		
+		logger.info("Succesfully read member/ratings/final of student " + user.toString());
+		return new ResponseEntity<Member>(member, HttpStatus.OK);
+
+	}
 	
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "/ratings", method = RequestMethod.POST)

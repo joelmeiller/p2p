@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import ProjectPage from '../ui/pages/ProjectPage.jsx';
 
 // Action imports
-import { fetchProjects, editProject, addProject } from '../actions/projectList.js';
+import { fetchProjects, showProject, addProject } from '../actions/projectList.js';
 
 
 class ProjectOverviewComponent extends Component {
@@ -44,7 +44,7 @@ const mapStateToProps = (globalState, props) => {
 
 const mapDispatchToProps = (dispatch, props) => ({
   fetchProjects: () => dispatch(fetchProjects()),
-  handleSelectProject: selectedProject => dispatch(editProject(selectedProject, props)),
+  handleSelectProject: project => dispatch(showProject(project, props)),
   handleAddProject: () => dispatch(addProject(props)),
 });
 

@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 import { RaisedButton } from 'material-ui';
 
 import {
@@ -12,14 +11,22 @@ import {
   TableRowColumn,
 } from 'material-ui/Table';
 
+const dateToTerm = date => (date.getMonth() + 1 >= 9 || date.getMonth() + 1 <= 2 ? 'HS' : 'FS') + (date.getYear() % 100);
+
+export const STATUS_MAPPING = {
+  OPEN: 'Offen',
+  FINAL: 'Final',
+  CLOSE: 'Closed',
+};
+
 const ProjectPage = props => (
   <div className="container push-top-small">
-    <h2>Projektübersicht</h2>
+    <h2>Projekt overview</h2>
 
     <div className="row">
       <Table
         fixedHeader
-        onRowSelection={props.handleSelectProject}
+        onRowSelection={selection => props.handleSelectProject(props.projects[selection[0]])}
       >
         <TableHeader
           displaySelectAll={false}
@@ -30,25 +37,21 @@ const ProjectPage = props => (
             <TableHeaderColumn
               tooltip="Projektschiene"
               style={{ width: '50px' }}
-            >Stufe</TableHeaderColumn>
+            >Level</TableHeaderColumn>
             <TableHeaderColumn
               tooltip="Semster in welchem das Projekt gestartet ist"
-              style={{ width: '80px' }}
+              style={{ width: '90px' }}
             >Start</TableHeaderColumn>
             <TableHeaderColumn
               tooltip="Berufsbegleitend"
               style={{ width: '90px' }}
-            >Zeitmodell</TableHeaderColumn>
+            >ZM</TableHeaderColumn>
             <TableHeaderColumn
-              tooltip="Projektbezeichnung"
+              tooltip="Zeitmodell"
             >Title</TableHeaderColumn>
             <TableHeaderColumn
-              tooltip="Letzer Update auf dem Prjekt von den Studierenden"
-              style={{ width: '100px' }}
-            >Last Update</TableHeaderColumn>
-            <TableHeaderColumn
               tooltip="Projektstatus"
-              style={{ width: '120px' }}
+              style={{ width: '100px' }}
             >Status</TableHeaderColumn>
             <TableHeaderColumn
               tooltip="Verantwortlicher Coach für dieses Projekt"
@@ -65,35 +68,30 @@ const ProjectPage = props => (
                 style={{ width: '50px' }}
               >{project.level}</TableRowColumn>
               <TableRowColumn
-                style={{ width: '80px' }}
-              >{project.start}</TableRowColumn>
+                style={{ width: '90px' }}
+              >{dateToTerm(project.start)}</TableRowColumn>
               <TableRowColumn
                 style={{ width: '90px' }}
               >{project.zeitmodell}</TableRowColumn>
-              <TableRowColumn
-              >{project.title}</TableRowColumn>
+              <TableRowColumn>{project.title}</TableRowColumn>
               <TableRowColumn
                 style={{ width: '100px' }}
-              >{project.lastUpdate}</TableRowColumn>
-              <TableRowColumn
-                style={{ width: '120px' }}
-              >{project.status}</TableRowColumn>
-              <TableRowColumn
-              >{project.coach}</TableRowColumn>
+              >{STATUS_MAPPING[project.status]}</TableRowColumn>
+              <TableRowColumn>{project.coach}</TableRowColumn>
             </TableRow>
             ))}
         </TableBody>
       </Table>
     </div>
-        <div className="row">
-          <div className="col-xs-4">
-            <RaisedButton
-              label="Add"
-              primary
-              onClick={props.handleAddProject}
-            />
-          </div>
-        </div>
+    <div className="row">
+      <div className="col-xs-4">
+        <RaisedButton
+          label="Add"
+          primary
+          onClick={props.handleAddProject}
+        />
+      </div>
+    </div>
   </div>
 );
 

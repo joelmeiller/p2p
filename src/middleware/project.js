@@ -1,48 +1,36 @@
 // Node imports
-import fetch from 'isomorphic-fetch';
+import moment from 'moment';
 
-import getApiEntrypoint from './utils/getApiEntrypoint.js';
+import fetch from './utils/fetch.js';
 
+const processReceived = project => ({
+  ...project,
+  start: new Date(project.start),
+  stop: project.stop === null ? null : new Date(project.stop),
+});
 
-export const getProject = (id, callback) =>
-  fetch(getApiEntrypoint(`projects/${id}`))
-  .then(response => response.json())
-  .then((data) => {
-    const projectList = {
-      ...data,
-      start: new Date(data.start),
-      stop: new Date(data.stop),
-    };
-    callback(projectList);
+export const getProject = id =>
+  fetch(`projects/${id}`, {
+    errorMessage: 'Could not get project list',
+  })
+  .then(processReceived);
+
+const processToTransmit = project => ({
+  ...project,
+  start: moment(project.start).format('YYYY-MM-DD'),
+  stop: project.stop === null ? null : moment(project.start).format('YYYY-MM-DD'),
+});
+
+export const postProject = project =>
+  fetch('projects', {
+    errorMessage: 'Could not create new project',
+    method: 'POST',
+    data: processToTransmit(project),
   });
 
-
-const rarifyProject = project => ({
-  id: project.id,
-  title: project.title,
-  start: project.start.toISOString().substring(0, 10),
-  stop: project.stop.toISOString().substring(0, 10),
-  zeitmodell: project.zeitmodell,
-});
-
-const params = data => ({
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify(rarifyProject(data)),
-});
-
-export const putProject = (project, callback) =>
-  fetch(getApiEntrypoint(`projects/${project.id}`), {
-    ...params(project),
+export const updateProjectStatus = project =>
+  fetch(`projects/${project.id}/status`, {
+    error_message: 'Could not update status of project',
     method: 'PUT',
-  })
-  .then(callback);
-
-
-export const postProject = (project, callback) =>
-  fetch(getApiEntrypoint('projects'), {
-    ...params(project),
-    method: 'POST',
-  })
-  .then(callback);
+    data: project.status,
+  });
