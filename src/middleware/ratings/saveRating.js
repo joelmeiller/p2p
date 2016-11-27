@@ -1,8 +1,9 @@
 // Node imports
 import fetch from 'isomorphic-fetch';
 import getApiEntrypoint from '../utils/getApiEntrypoint.js';
+import mapRating from '../utils/mapRating.js';
 
-const apiEntrypoint = getApiEntrypoint('project/member/rating');
+const apiEntrypoint = getApiEntrypoint('project/member/ratings');
 
 
 export default (rating, callback) => {
@@ -28,5 +29,9 @@ export default (rating, callback) => {
     },
     body: JSON.stringify(memberRating),
   })
-  .then(response => callback(response));
+  .then(response => response.json())
+  .then(data => callback({
+    ...data,
+    ratings: data.ratings.map(rating => mapRating(rating)),
+  }));
 };

@@ -9,6 +9,7 @@
     "babel-loader": "^6.2.4",
     "babel-preset-es2015": "^6.13.2",
     "babel-preset-react": "^6.11.1",
+    "babel-preset-stage-0": "^6.16.0",
     "babel-preset-stage-2": "^6.17.0",
     "eslint": "^3.5.0",
     "eslint-config-airbnb": "^11.1.0",
@@ -78,7 +79,8 @@
   "babel": {
     "presets": [
       "es2015",
-      "react"
+      "react",
+      "stage-0"
     ]
   },
   "eslintConfig": {
@@ -88,16 +90,15 @@
       }
     },
     "plugins": [
-      "react",
-      "prefer-object-spread"
+      "react"
     ],
     "extends": [
       "plugin:react/recommended",
-      "airbnb"
+      "airbnb",
+      "plugin:meteor/guide"
     ],
     "rules": {
-      "max-lines": "warn",
-      "prefer-object-spread/prefer-object-spread": 2
+      "max-lines": "warn"
     }
   }
 }

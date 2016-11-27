@@ -35,6 +35,9 @@
 .push-left-small {
   margin-left: 20px;
 }
+.push-left-mini {
+  margin-left: 10px;
+}
 
 .align-right {
   text-align: right;
@@ -82,8 +85,15 @@
 }
 
 .warning {
+  font-weight: bold;
   color: var(--colorWarning) !important;
 }
+
+.success {
+  font-weight: bold;
+  color: var(--colorSuccess) !important;
+}
+
 .warning-background {
   background-color: var(--colorWarningBack) !important;
 }

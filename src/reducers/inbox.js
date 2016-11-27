@@ -1,6 +1,4 @@
 import {
-  // RECEIVE_INBOX,
-  // REQUEST_INBOX,
   PERFORM_ACTION,
   ADD_ACTION,
 } from '../actions/inbox.js';
@@ -13,19 +11,9 @@ const initialState = {
 
 const reducer = (state = initialState, newAction) => {
   const { type, action } = newAction;
+  const newState = { ...state };
 
   switch (type) {
-    // case REQUEST_INBOX:
-    //   return {
-    //     ...state,
-    //     isFetching: true,
-    //   };
-    // case RECEIVE_INBOX:
-    //   return {
-    //     ...state,
-    //     ...params,
-    //     isFetching: false,
-    //   };
     case PERFORM_ACTION:
       return {
         ...state,
@@ -33,11 +21,11 @@ const reducer = (state = initialState, newAction) => {
         action,
       };
     case ADD_ACTION:
-      state.actions.push(action);
-      return {
-        ...state,
-      };
-      default:
+      if (!newState.actions.find(a => a.id === action.id)) {
+        newState.actions.push(action);
+      }
+      return newState;
+    default:
       return state;
   }
 };

@@ -2,9 +2,9 @@ package ch.fhnw.p2p.controller;
 
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -38,7 +38,7 @@ import ch.fhnw.p2p.repositories.MemberRatingRepository;
  */
 
 @RestController
-@RequestMapping("/api/project")
+@RequestMapping("/api/project/member")
 public class MemberRatingController {
 
 	// ------------------------
@@ -51,7 +51,7 @@ public class MemberRatingController {
 	
 	@Autowired
 	private MemberRatingRepository memberRatingRepo;
-		
+	
 	
 	// ------------------------
 	// PUBLIC METHODS
@@ -63,14 +63,16 @@ public class MemberRatingController {
 	 * @return The member with the list of its member ratings Set<Member> 
 	 */
 	@CrossOrigin(origins = "http://localhost:3000")
-	@RequestMapping(value = "member/ratings", method = RequestMethod.GET)
+	@RequestMapping(value = "/ratings", method = RequestMethod.GET)
 	public ResponseEntity<Member> getMemberRatings(HttpServletRequest request) {
 		logger.info("GET Request for member/ratings");
 		User user = accessControl.login(request, AccessControl.Allowed.MEMBER);
 		
+		user.getMember().checkAndSetFinalRatings();
+		user.getMember().setRatings(user.getMember().getMemberRatings(), true);
+		
 		logger.info("Succesfully read member/ratings of student " + user.toString());
 		return new ResponseEntity<Member>(user.getMember(), HttpStatus.OK);
-
 	}
 	
 	/**
@@ -102,7 +104,7 @@ public class MemberRatingController {
 				}
 			}
 			
-			member.setMemberRatings(memberRatings);
+			member.setMemberRatings(new HashSet<>(memberRatings));
 		}
 		
 		logger.info("Succesfully read member/ratings/final of student " + user.toString());
@@ -110,23 +112,23 @@ public class MemberRatingController {
 
 	}
 	
-	
-
-	
 	@CrossOrigin(origins = "http://localhost:3000")
-	@RequestMapping(value = "member/rating", method = RequestMethod.POST)
-	public ResponseEntity<HttpStatus> add(HttpServletRequest request, @Valid @RequestBody MemberRatingMapping updatedMemberRating, BindingResult result) {
+	@RequestMapping(value = "/ratings", method = RequestMethod.POST)
+	public ResponseEntity<Member> add(HttpServletRequest request, @Valid @RequestBody MemberRatingMapping updatedMemberRating, BindingResult result) {
 		logger.info("POST request to set member/ratings");
 		User user = accessControl.login(request, AccessControl.Allowed.MEMBER);	
 		
 		if (result.hasErrors()) {
 			logger.error(result);
-			return new ResponseEntity<HttpStatus>(HttpStatus.PRECONDITION_FAILED);
+			return new ResponseEntity<Member>(HttpStatus.PRECONDITION_FAILED);
 		}
 		
 		MemberRating memberRating = memberRatingRepo.findByIdAndSourceMemberId(updatedMemberRating.getId(), user.getMember().getId());
+		if (memberRating == null) return new ResponseEntity<Member>(HttpStatus.BAD_REQUEST);
 		
-		if (memberRating == null) return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
+		if (user.getMember().getProject().getStatus() == Project.Status.FINAL) {
+			return new ResponseEntity<Member>(HttpStatus.NOT_ACCEPTABLE);
+		}
 		
 		try {
 			logger.info("Update team member ratings of " + user.getMember().toString());
@@ -136,18 +138,27 @@ public class MemberRatingController {
 			}
 				
 			for (CriteriaRating criteriaRating : memberRating.getCriteriaRatings()) {
-				Optional<CriteriaRatingMapping> updatedRating = updatedMemberRating.getCriteriaRatings().stream()
-						.filter(r -> r.getId() == criteriaRating.getId()).findFirst();
+				CriteriaRatingMapping updatedRating = updatedMemberRating.getCriteriaRatings().stream()
+						.filter(r -> r.getId() == criteriaRating.getId()).findFirst().get();
 
-				criteriaRating.setRating(updatedRating.get().getRating());
+				criteriaRating.setRating(updatedRating.getRating());
 			}
 		
+			logger.info("Checking for member rating status");
+			boolean isFinalRating = memberRating.checkAndSetFinalRating();
 			memberRatingRepo.save(memberRating);
 			
 			logger.info("Successfully updated member rating " + memberRating.toString());
-			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+			
+			if (isFinalRating) {
+				logger.info("Check all member ratings status");
+				user.getMember().checkAndSetFinalRatings();
+			}
+			
+			return new ResponseEntity<Member>(user.getMember(), HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<HttpStatus>(HttpStatus.INTERNAL_SERVER_ERROR);
+			logger.error("Server error", e);
+			return new ResponseEntity<Member>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }

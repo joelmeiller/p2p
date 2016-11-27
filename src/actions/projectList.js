@@ -1,5 +1,5 @@
 // Middleware
-import { default as apiGetProjects } from '../middleware/projectList/getProjectList.js';
+import { default as apiGetProjects } from '../middleware/projects/getProjectList.js';
 import { ADD_PROJECT } from './project.js';
 
 export const RECEIVE_PROJECTS = '/projectList/RECEIVE_PROJECTS';
@@ -33,7 +33,7 @@ export const fetchProjects = (params = {}) => (dispatch, getState) => {
   }
 };
 
-export const showProject = (project, props) => (dispatch, getStore) => {
+export const showProject = (project, props) => () => {
   props.router.push(`/ip-p2p/projects/${project.id}`);
 };
 

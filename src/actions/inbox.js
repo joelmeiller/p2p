@@ -4,6 +4,8 @@
 import apiSetMemberStatus from '../middleware/students/setMemberStatus.js';
 
 // Actions
+import { setRatingStatus } from './app.js';
+
 export const REQUEST_INBOX = '/inbox/REQUEST_INBOX';
 export const RECEIVE_INBOX = '/inbox/RECEIVE_INBOX';
 export const PERFORM_ACTION = '/inbox/PERFORM_ACTION';
@@ -11,12 +13,40 @@ export const ADD_ACTION = '/inbox/ADD_ACTION';
 
 // Action Types
 export const UPDATE_STATUS = '/action/UPDATE_STATUS';
+export const CLOSE = '/actions/CLOSE';
 
+export const addAction = action => ({
+  type: ADD_ACTION,
+  action,
+});
 
 export const performAction = action => (dispatch) => {
   switch (action.params.type) {
     case UPDATE_STATUS:
-      apiSetMemberStatus(action.params.status);
+      apiSetMemberStatus(action.params.status, (data) => {
+        if (data) {
+          dispatch(setRatingStatus({
+            isOpen: data.open,
+            isFinal: data.final,
+            isAccepted: data.accepted,
+          }));
+
+          console.log(data);
+          if (data.accepted) {
+            const message = "Die Bestätigung wurde erfolgreich übermittelt und deine Bewertung ist damit abgeschlossen :)";
+            dispatch(addAction({
+              id: '900',
+              message,
+              type: 'info',
+              date: new Date(),
+              buttonText: 'Okay',
+              params: {
+                type: CLOSE,
+              },
+            }));
+          }
+        }
+      });
       break;
     default:
       // no action
@@ -27,34 +57,3 @@ export const performAction = action => (dispatch) => {
     action,
   });
 };
-
-export const addAction = action => ({
-  type: ADD_ACTION,
-  action,
-});
-
-// const requestData = () => ({
-//   type: REQUEST_INBOX,
-// });
-
-// const receiveData = data => ({
-//   type: RECEIVE_INBOX,
-//   ...data,
-// });
-
-// const shouldFetchData = (state) => {
-//   if (!state.inbox || state.relaod) {
-//     return true;
-//   }
-//   return !state.inbox.isFetching && !state.inbox.fetched;
-// };
-
-// export const fetchInbox = () => (dispatch, getState) => {
-//   if (shouldFetchData(getState())) {
-//     dispatch(requestData());
-
-//     apiGetInbox((data) => {
-//       dispatch(receiveData(data));
-//     });
-//   }
-// };

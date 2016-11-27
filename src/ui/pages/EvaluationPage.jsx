@@ -16,7 +16,7 @@ const EvaluationPage = props => (
       <div className="col-xs-11">
         {(props.rating ?
           <FinalRating
-            text={`Rating for ${props.name} is`}
+            text={`Bewertung für ${props.name}`}
             value={props.rating}
           /> :
           <H2Progress
@@ -27,7 +27,7 @@ const EvaluationPage = props => (
         )}
       </div>
       <div className="col-xs-1 push-right pull-top-small">
-        <IconButton onClick={() => props.onClose(props)}>
+        <IconButton onClick={props.onClose}>
           <NavigationClose />
         </IconButton>
       </div>
@@ -59,12 +59,12 @@ const EvaluationPage = props => (
       <div className="col-xs-6 align-right">
         <RaisedButton
           label={props.readonly ? 'Back' : 'Cancel'}
-          onClick={props.handleCancel}
+          onClick={props.onCancel}
         />
       </div>
       <div className="col-xs-6">
         <p className="italic small note push-left-small push-top-small">
-          {props.readonly ? 'Die Bewertungen werden automatisch gespeichert.' : ''}
+          {!props.readonly ? 'Die Bewertungen werden automatisch gespeichert.' : ''}
         </p>
       </div>
     </div>
@@ -78,10 +78,12 @@ EvaluationPage.propTypes = {
   progress: React.PropTypes.number,
   comment: React.PropTypes.string,
   categories: React.PropTypes.array.isRequired,
+  isFinal: React.PropTypes.bool,
   onCommentChanged: React.PropTypes.func,
   readonly: React.PropTypes.bool,
   rating: React.PropTypes.number,
-  handleCancel: React.PropTypes.func,
+  onCancel: React.PropTypes.func,
+  onClose: React.PropTypes.func,
 };
 
 export default EvaluationPage;

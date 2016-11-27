@@ -9,7 +9,12 @@ export default callback =>
   .then((data) => {
     const members = data.map(member => ({
       ...mapMember(member),
+      rating: Math.round(member.rating * 10) / 10,
+      progress: member.progress,
+      // grade: member.grade,
+      deviation: Math.round(member.deviation * 100) / 100,
       isFinal: member.status === 'FINAL',
+      isAccepted: member.status === 'ACCEPTED',
       isQM: member.qm,
       ratings: member.ratings.map(rating => mapRating(rating)),
     }));

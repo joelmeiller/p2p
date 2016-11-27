@@ -4,14 +4,13 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
 // Component imports
-import ProgressPageContainer from './ProgressPageContainer.jsx';
-import TeamRatingPageContainer from './TeamRatingPageContainer.jsx';
+import TeamRatingPage from '../ui/pages/TeamRatingPage.jsx';
 
 // Action imports
-import { fetchTeam } from '../actions/team.js';
+import { closeProject } from '../actions/app';
+import { fetchTeam, showMemberRating } from '../actions/team.js';
 
 // Utils impors
-import calculateProgress from '../middleware/utils/calculateProgress.js';
 import { getActiveRoleShortcut } from '../middleware/utils/activeRole.js';
 
 
@@ -21,21 +20,10 @@ class TeamRatingOverviewComponent extends Component {
   }
 
   render() {
-    const ratings = this.props.members.filter(member => member.studentId === this.props.user.id);
-    const memberRating = ratings.length === 1 ? ratings[0] : {};
-
-    return ((this.props.location.pathname !== '/ip-p2p/team/rating' && this.props.isQM) || this.props.isFinal ?
+    return (
       <div className="container push-top-small">
         <h2>Bewertungsübersicht</h2>
-        <TeamRatingPageContainer {...this.props} />
-      </div> :
-      <div className="container push-top-small">
-        <h2>Bewertungsfortschritt</h2>
-        <ProgressPageContainer
-          {...memberRating}
-          initialRatings={memberRating.ratings}
-          isFinal={this.props.isFinal}
-        />
+        <TeamRatingPage {...this.props} />
       </div>
     );
   }
@@ -43,35 +31,39 @@ class TeamRatingOverviewComponent extends Component {
 
 TeamRatingOverviewComponent.propTypes = {
   fetchTeam: React.PropTypes.func,
-  isQM: React.PropTypes.bool,
-  isFinal: React.PropTypes.bool,
-  location: React.PropTypes.object,
-  members: React.PropTypes.array,
-  user: React.PropTypes.object,
 };
 
 const mapStateToProps = (globalState, props) => {
-  const { user } = globalState.app;
-  const { members, readonly } = globalState.team;
+  const { project } = globalState.app;
+  const { members } = globalState.team;
+
+  const projectGrade = project && project.grade ? project.grade : 4;
+  const canSubmit = members.length > 0 && !members.find(m => !m.isAccepted);
 
   const updatedMembers = members.map(member => ({
     ...member,
-    progress: calculateProgress(member),
     activeRole: getActiveRoleShortcut(member.roles),
+    grade: Math.round((projectGrade + member.deviation) * 10) / 10,
+    status: member.isAccepted ? 'Akzeptiert' : 'Offen',
+    statusSuccess: member.isAccepted,
   }));
 
+
+
   return {
-    title: 'Rating for',
-    onClosePath: '/ip-p2p',
-    readonly,
-    members: updatedMembers,
-    user,
     ...props,
+    title: 'Rating for',
+    projectGrade,
+    members: updatedMembers,
+    project: project || {},
+    canSubmit,
   };
 };
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch, ownProps) => ({
   fetchTeam: isQM => dispatch(fetchTeam(isQM)),
+  handleSelectMember: (member, props) => dispatch(showMemberRating(member, props)),
+  handleCloseProject: () => dispatch(closeProject()),
 });
 
 const TeamRatingOverview = connect(

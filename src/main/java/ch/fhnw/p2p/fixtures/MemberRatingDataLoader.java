@@ -1,24 +1,23 @@
 package ch.fhnw.p2p.fixtures;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import ch.fhnw.p2p.entities.Category;
-import ch.fhnw.p2p.entities.Criteria;
-import ch.fhnw.p2p.entities.Locale;
+import ch.fhnw.p2p.entities.CriteriaRating;
 import ch.fhnw.p2p.entities.Member;
-import ch.fhnw.p2p.entities.MemberRole;
+import ch.fhnw.p2p.entities.MemberRating;
 import ch.fhnw.p2p.entities.Project;
-import ch.fhnw.p2p.entities.ProjectCategory;
 import ch.fhnw.p2p.entities.ProjectCriteria;
 import ch.fhnw.p2p.entities.Role;
 import ch.fhnw.p2p.entities.User;
-import ch.fhnw.p2p.repositories.CategoryRepository;
 import ch.fhnw.p2p.repositories.MemberRepository;
 import ch.fhnw.p2p.repositories.ProjectRepository;
-import ch.fhnw.p2p.repositories.ProjectRepositoryImpl;
+import ch.fhnw.p2p.repositories.ProjectMemberRepositoryImpl;
 import ch.fhnw.p2p.repositories.RoleRepository;
 import ch.fhnw.p2p.repositories.UserRepository;
 
@@ -28,7 +27,7 @@ public class MemberRatingDataLoader implements CommandLineRunner {
 
 	@Autowired
 	ProjectRepository projectRepo;
-	ProjectRepositoryImpl projectRepoImpl = new ProjectRepositoryImpl();
+	ProjectMemberRepositoryImpl projectRepoImpl = new ProjectMemberRepositoryImpl();
 	
 	@Autowired
 	MemberRepository memberRepo;
@@ -47,11 +46,28 @@ public class MemberRatingDataLoader implements CommandLineRunner {
 		// Add student, project and member
 		if (!studentRepo.findByEmail("heidi.vonderheide@students.fhnw.ch").isPresent()) studentRepo.save(new User("Heidi", "Von der Heide", "heidi.vonderheide@students.fhnw.ch", User.Type.STUDENT, User.StudentType.BB));
 		
-		Project project = memberRepo.findByStudentEmail("max.muster@students.fhnw.ch").getProject();
+		Member qm = memberRepo.findByStudentEmail("max.muster@students.fhnw.ch");
+		List<ProjectCriteria> criterias = qm.getProject().getProjectCriteria();
+		
+		// Add self rating
+		qm.getMemberRatings().add(new MemberRating(qm, qm, criterias));
+		
+		Project project = qm.getProject();
 		User student = studentRepo.findByEmail("heidi.vonderheide@students.fhnw.ch").get();
 		Role re = roleRepo.findByShortcut("RE");
+		Member req = new Member(project, student, re);
 		
-		project.getMembers().add(projectRepoImpl.addRatings(new Member(project, student, re)));
+		project.getMembers().add(projectRepoImpl.addMemberToRatings(req));
+		
+		// Set ratings for heidi
+		for (MemberRating rating: req.getMemberRatings()) {	
+			rating.setComment("Well done");
+			for (CriteriaRating critRating : rating.getCriteriaRatings()) {
+				critRating.setRating(new BigDecimal(3));
+			}
+			rating.checkAndSetFinalRating();
+		}
+		req.setStatus(Member.Status.FINAL);
 		
 		projectRepo.save(project);
 	}

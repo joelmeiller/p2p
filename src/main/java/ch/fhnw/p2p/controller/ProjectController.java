@@ -20,11 +20,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import ch.fhnw.p2p.authorization.AccessControl;
+import ch.fhnw.p2p.entities.Member;
 import ch.fhnw.p2p.entities.Project;
 import ch.fhnw.p2p.entities.Project.Status;
 import ch.fhnw.p2p.entities.User;
 import ch.fhnw.p2p.entities.mapping.MappingException;
 import ch.fhnw.p2p.entities.mapping.NewProject;
+import ch.fhnw.p2p.entities.mapping.ProjectMapping;
 import ch.fhnw.p2p.repositories.ProjectRepository;
 import ch.fhnw.p2p.repositories.RoleRepository;
 import ch.fhnw.p2p.repositories.UserRepository;
@@ -111,6 +113,42 @@ public class ProjectController extends BaseController {
 		projectRepo.save(project);
 		logger.debug("Successfully updated project[" + project.getId() + "].status=" + status);
 		return ApiResponse.create("Status changed to" + status);
+	}
+	
+	/**
+	 * Close an open project.
+	 */
+	@RequestMapping(value = "/projects/close", method = RequestMethod.PUT)
+	public ResponseEntity<ProjectMapping> closeProject(HttpServletRequest request, @Valid @RequestBody ProjectMapping project, BindingResult result) {
+		User user = accessControl.login(request, AccessControl.Allowed.QM);
+		logger.info("PUT close project user=" + user.getEmail());
+		if (result.hasErrors()) {
+			return new ResponseEntity<ProjectMapping>(HttpStatus.PRECONDITION_FAILED);
+		}
+		Project oldProject = projectRepo.findById(project.getId());
+		if (oldProject == null) {
+			return new ResponseEntity<ProjectMapping>(HttpStatus.NOT_FOUND);
+		}
+		
+		if (oldProject.getStatus() == Project.Status.FINAL) {
+			for (Member member: oldProject.getMembers()) {
+				if (member.getStatus() != Member.Status.ACCEPTED) {
+					return new ResponseEntity<ProjectMapping>(HttpStatus.NOT_ACCEPTABLE);
+				}
+			}
+			oldProject.setStatus(Project.Status.CLOSE);
+			
+			try {
+				projectRepo.save(oldProject);
+				logger.debug("Successfully closed project[" + project.getId() + "]: " + project.toString());
+				return new ResponseEntity<ProjectMapping>(new ProjectMapping(oldProject), HttpStatus.OK);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return new ResponseEntity<ProjectMapping>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		} else {
+			return new ResponseEntity<ProjectMapping>(HttpStatus.NOT_ACCEPTABLE);
+		}
 	}
 
 	/**

@@ -10,11 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -23,7 +19,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode(callSuper=false, exclude={"memberRating", "criteria"})
+@EqualsAndHashCode(callSuper=true, exclude={"memberRating", "criteria"})
 @Entity
 public class CriteriaRating extends VersionedObject {
 	
@@ -33,7 +29,7 @@ public class CriteriaRating extends VersionedObject {
 	private BigDecimal rating;
 
 	// Relations
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "memberRatingId")
 	@JsonIgnore
 	private MemberRating memberRating;

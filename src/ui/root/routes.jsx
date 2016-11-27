@@ -12,11 +12,12 @@ import App from './app.jsx';
 import Dashboard from '../../containers/Dashboard.jsx';
 import CriteriaOverview from '../../containers/CriteriaOverview.jsx';
 import TeamOverview from '../../containers/TeamOverview.jsx';
-import MyRatingOverview from '../../containers/MyRatingOverview.jsx';
 import TeamRatingOverview from '../../containers/TeamRatingOverview.jsx';
-import TeammemberEvaluation from '../../containers/TeammemberEvaluation.jsx';
 import CreateProjectContainer from '../../containers/CreateProjectContainer.jsx';
 import ShowProjectContainer from '../../containers/ShowProjectContainer.jsx';
+import MemberRatingContainer from '../../containers/MemberRatingContainer.jsx';
+import ProgressPageContainer from '../../containers/ProgressPageContainer.jsx';
+import EvaluationContainer from '../../containers/EvaluationContainer.jsx';
 
 
 export default (store) => {
@@ -32,10 +33,13 @@ export default (store) => {
               {/* General routes */}
               <IndexRoute component={Dashboard} />
 
-              {/* TM & QM Rating routes */}
-              <Route path="team/rating" component={TeamRatingOverview} />
-              <Route path="team/rating/:id" component={TeammemberEvaluation} />
-              <Route path="myrating" component={MyRatingOverview} />
+              {/* TM Rating routes */}
+              <Route path="team/rating/:slug" component={EvaluationContainer} />
+              <Route path="team/member/rating" component={MemberRatingContainer} />
+
+              {/* QM Rating routes */}
+              <Route path="team/rating" component={ProgressPageContainer} />
+              <Route path="team/member/rating/:slug" component={MemberRatingContainer} />
 
               {/* QM edit routes */}
               <Route path="criteria/edit" component={CriteriaOverview} />

@@ -1,9 +1,7 @@
 package ch.fhnw.p2p.entities;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -35,7 +33,7 @@ import lombok.EqualsAndHashCode;
  **/
 
 @Data
-@EqualsAndHashCode(callSuper=false, exclude={"project", "roles", "memberRatings"})
+@EqualsAndHashCode(callSuper=true, of={"student"})
 @Entity
 public class Member extends VersionedObject{
 
@@ -53,6 +51,18 @@ public class Member extends VersionedObject{
 	
 	@NotNull @DecimalMax("5.0") @DecimalMin("0.0")
 	private BigDecimal deviation;
+	private boolean deviationAdjusted;
+	
+	// IMPORTANT: The grade will not be updated during the project life-cycle phases where the students
+	// update their ratings
+	// This grade will be set once the final grade for the project is set and defines the final grade
+	// of the student for this project calculated by the project grade + deviation
+	// During the project's duration the students only see template grades set by the QM
+	@NotNull @DecimalMax("6.0") @DecimalMin("1.0")
+	private BigDecimal grade;
+	
+	@Transient
+	private int progress;
 
 	
 	@ManyToOne(cascade = CascadeType.ALL)
@@ -62,7 +72,7 @@ public class Member extends VersionedObject{
 	
 	// Relations
 	@ManyToOne
-    @JoinColumn(name = "studentId")
+    @JoinColumn(name = "userId")
 	private User student;
 	
 	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="member")
@@ -73,7 +83,7 @@ public class Member extends VersionedObject{
 
 	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "sourceMember")
 	@JsonIgnore
-	private List<MemberRating> memberRatings;
+	private Set<MemberRating> memberRatings;
 	@Transient
 	private Set<MemberRatingMapping> ratings;
 	
@@ -85,15 +95,21 @@ public class Member extends VersionedObject{
 	private boolean updated;
 	@Transient
 	private boolean isQM;
+	
+	@Transient
+	private boolean canFinalize;
 
 	// Constructor
 	public Member() {
 		this.status = Status.NEW;
 		this.rating = new BigDecimal(0);
 		this.deviation = new BigDecimal(0);
+		this.deviationAdjusted = false;
+		this.grade = new BigDecimal(4.0);
 		this.roles = new HashSet<MemberRole>();
-		this.memberRatings = new ArrayList<MemberRating>();
+		this.memberRatings = new HashSet<MemberRating>();
 		this.ratings = new HashSet<MemberRatingMapping>();
+		this.canFinalize = false;
 	}
 
 	public Member(Project project, User student) {
@@ -107,7 +123,7 @@ public class Member extends VersionedObject{
 		this.roles.add(new MemberRole(this, role));
 	}
 
-	public Member(Project project, User student, Role role, List<MemberRating> memberRatings) {
+	public Member(Project project, User student, Role role, Set<MemberRating> memberRatings) {
 		this(project, student, role);
 		this.memberRatings = memberRatings;
 	}
@@ -123,6 +139,10 @@ public class Member extends VersionedObject{
 		return null;
 	}
 	
+	public void clearMemberRatings() {
+		memberRatings = new HashSet<MemberRating>();
+	}
+	
 	/**
 	 * returns the REST api mapped member ratings
 	 * @param Set of MemberRating Set<MemberRating>
@@ -131,15 +151,19 @@ public class Member extends VersionedObject{
 	public Set<MemberRatingMapping> getRatings() {
 		if (ratings.size() == 0 && memberRatings.size() > 0) {
 			for (MemberRating memberRating : memberRatings) {
-				ratings.add(new MemberRatingMapping(memberRating));
+				ratings.add(new MemberRatingMapping(memberRating, true));
 			}
 		}
 		return ratings;
 	}
 
-	public void setRatings(Set<MemberRating> memberRatings) {
+	public void setRatings(Set<MemberRating> memberRatings, boolean sourceMemberRating) {
+		ratings = new HashSet<MemberRatingMapping>();
 		for (MemberRating memberRating : memberRatings) {
-			ratings.add(new MemberRatingMapping(memberRating));
+			Member member = sourceMemberRating ? memberRating.getSourceMember() : memberRating.getTargetMember();
+			if (!member.isRemoved()) {
+				ratings.add(new MemberRatingMapping(memberRating, sourceMemberRating));
+			}
 		}
 	}
 
@@ -153,6 +177,50 @@ public class Member extends VersionedObject{
 			if (role.getRole() != null && role.getRole().getType() == Role.Type.QM) return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * checks and sets the final status of the member rating, if all member ratings
+	 * are filled with valid values (not empty and not ZERO). As of this moment the user can set 
+	 * the status of his member ratings to final
+	 * @return boolean indicating if all member ratings are in the final status 
+	 */
+	public boolean checkAndSetFinalRatings() {
+		Double finalRating = 0.0;
+		int ratingCount = 0;
+
+		for (MemberRating rating : this.memberRatings) {
+			for (CriteriaRating criteriaRating : rating.getCriteriaRatings()) {
+				if (criteriaRating.getRating().compareTo(BigDecimal.ZERO) == 0)
+					return false;
+				finalRating += criteriaRating.getRating().doubleValue();
+			}
+
+			ratingCount += rating.getCriteriaRatings().size();
+			
+			if (rating.getStatus() != MemberRating.Status.FINAL) return false;
+		}
+		
+		if (ratingCount > 0) {
+			this.rating = new BigDecimal(finalRating / ratingCount);
+		}
+		
+		this.canFinalize = true;
+		
+		return true;
+	}
+	
+	public Member clone() {
+		Member member = new Member(this.project, this.student);
+		member.setId(this.id);
+		member.setStatus(this.status);
+		member.setRoles(this.roles);
+		member.setGrade(this.grade);
+		member.setDeviation(this.deviation);
+		member.setRemoved(this.removed);
+		member.setRating(this.rating);
+		
+		return member;
 	}
 	
 	public String toString() {

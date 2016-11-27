@@ -10,4 +10,7 @@ const apiEntrypoint = getApiEntrypoint('project/member/ratings');
 export default callback =>
   fetch(apiEntrypoint)
   .then(response => response.json())
-  .then(data => callback(data.ratings.map(rating => mapRating(rating))));
+  .then(data => callback({
+    ...data,
+    ratings: data.ratings.map(rating => mapRating(rating)),
+  }));

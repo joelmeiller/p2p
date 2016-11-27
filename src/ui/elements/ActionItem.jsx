@@ -13,7 +13,7 @@ const ActionItem = props => (
   <Card className="col-xs-12 push-top-mini">
     <CardHeader
       title={<span className={classNames('uppercase', props.status)}>{props.type}</span>}
-      subtitle={moment(props.date).format('L')}
+      subtitle={moment(props.date).format('DD.MM.YYYY')}
       style={{ width: '25%', float: 'left' }}
     />
     <CardText

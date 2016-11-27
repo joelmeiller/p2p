@@ -5,13 +5,13 @@ import {
   REQUEST_TEAM,
   UPDATE_TEAM,
   SAVE_TEAM,
+  SHOW_MEMBER_RATING,
 } from '../actions/team.js';
 
 const initialState = {
   members: [],
   ratings: [],
   newMemberValues: {},
-  canAdd: false,
   roles: [],
   isFetching: false,
   fetched: false,
@@ -34,6 +34,7 @@ const reducer = (state = initialState, action) => {
       };
     case REMOVE_MEMBER:
     case SAVE_TEAM:
+    case SHOW_MEMBER_RATING:
     case ADD_MEMBER:
     case UPDATE_TEAM:
       return {

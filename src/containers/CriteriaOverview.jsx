@@ -38,7 +38,8 @@ CriteriaOverviewComponent.propTypes = {
 };
 
 const mapStateToProps = (globalState, props) => {
-  const { categories, readonly, ...other } = globalState.criteria;
+  const { project } = globalState.app;
+  const { categories, ...other } = globalState.criteria;
 
   const updatedCategories = categories ? categories.map(category => ({
     ...category,
@@ -53,7 +54,7 @@ const mapStateToProps = (globalState, props) => {
     ...other,
     title: 'Criteria',
     categories: updatedCategories,
-    readonly,
+    readonly: project && project.isFinal,
   };
 };
 

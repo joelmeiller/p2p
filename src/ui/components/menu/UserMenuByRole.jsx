@@ -17,11 +17,10 @@ const userMenuTM = props => ([
     name: 'Dashboard',
     icon: <Dashboard className="menu-icon" />,
     path: '/ip-p2p/',
-    disabled: props.isFinal,
   }, {
     name: 'My Ratings',
     icon: <Assessment className="menu-icon" />,
-    path: '/ip-p2p/myrating',
+    path: '/ip-p2p/team/member/rating',
     disabled: !props.isFinal,
   }, {
     divider: true,
@@ -42,11 +41,10 @@ const userMenuQM = props => ([
     name: 'Evaluation',
     icon: <Grade className="menu-icon" />,
     path: '/ip-p2p/team/rating',
-    disabled: props.isFinal,
   }, {
     name: 'My Ratings',
     icon: <Assessment className="menu-icon" />,
-    path: '/ip-p2p/myrating',
+    path: '/ip-p2p/team/member/rating',
     disabled: !props.isFinal,
   }, {
     divider: true,
@@ -70,7 +68,7 @@ const userMenuQM = props => ([
     path: '/ip-p2p/settings',
   }]);
 
-const userMenuJury = [
+const userMenuCoach = [
   {
     name: 'Dashboard',
     icon: <Dashboard className="menu-icon" />,
@@ -106,8 +104,8 @@ class UserMenuByRole extends Component {
       menuItems = userMenuQM(this.props);
     }
 
-    if (this.props.isJury) {
-      menuItems = userMenuJury;
+    if (this.props.isCoach) {
+      menuItems = userMenuCoach;
     }
 
     return <UserMenu menuItems={menuItems} />;
@@ -116,7 +114,7 @@ class UserMenuByRole extends Component {
 
 UserMenuByRole.propTypes = {
   isQM: React.PropTypes.bool,
-  isJury: React.PropTypes.bool,
+  isCoach: React.PropTypes.bool,
 };
 
 export default UserMenuByRole;

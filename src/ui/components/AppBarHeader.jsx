@@ -12,7 +12,7 @@ import UserMenuByRole from './menu/UserMenuByRole.jsx';
 
 const AppBarHeader = props => (
   <AppBar
-    title={props.title}
+    title={props.project.title}
     zDepth={0}
     titleStyle={{
       fontSize: '2.5rem',
@@ -24,7 +24,7 @@ const AppBarHeader = props => (
           <IconButton><NavIcon className="nav-icon" /></IconButton>
         }
       >
-        <UserMenuByRole {...props} />
+        <UserMenuByRole {...props.user} isFinal={props.project.isFinal} />
       </IconMenu>
     }
     iconElementRight={
@@ -40,7 +40,8 @@ const AppBarHeader = props => (
 
 
 AppBarHeader.propTypes = {
-  title: React.PropTypes.string,
+  project: React.PropTypes.object,
+  user: React.PropTypes.object,
   username: React.PropTypes.string,
 };
 
