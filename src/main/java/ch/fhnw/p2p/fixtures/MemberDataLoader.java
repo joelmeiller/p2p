@@ -71,6 +71,8 @@ public class MemberDataLoader implements CommandLineRunner {
 		studentRepo.save(new User("Bettina", "Burri", "bettina.burri@students.fhnw.ch", User.Type.STUDENT, User.StudentType.BB));
 		studentRepo.save(new User("Rebekka", "Stoffel", "rebekka.stoffel@students.fhnw.ch", User.Type.STUDENT, User.StudentType.BB));
 		studentRepo.save(new User("Elena", "Mastrandrea", "elena.mastrandrea@students.fhnw.ch", User.Type.STUDENT, User.StudentType.BB));
+		studentRepo.save(new User("Christoph", "Denzler", "christoph.denzler@fhnw.ch", User.Type.COACH));
+		studentRepo.save(new User("Stefan", "Vetter", "stefan.vetter@fhnw.ch", User.Type.COACH));
 
 
 //		Project project = projectRepo.findByTitle("Test Project 1").get();
