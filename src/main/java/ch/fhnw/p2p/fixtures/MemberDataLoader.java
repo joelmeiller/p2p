@@ -71,6 +71,35 @@ public class MemberDataLoader implements CommandLineRunner {
 		studentRepo.save(new User("Bettina", "Burri", "bettina.burri@students.fhnw.ch", User.Type.STUDENT, User.StudentType.BB));
 		studentRepo.save(new User("Rebekka", "Stoffel", "rebekka.stoffel@students.fhnw.ch", User.Type.STUDENT, User.StudentType.BB));
 		studentRepo.save(new User("Elena", "Mastrandrea", "elena.mastrandrea@students.fhnw.ch", User.Type.STUDENT, User.StudentType.BB));
-		
+
+
+//		Project project = projectRepo.findByTitle("Test Project 1").get();
+//
+//		User student = studentRepo.findByEmail("joel.meiller@students.fhnw.ch").get();
+//		member = new Member(project, student, qm);
+//		List<ProjectCriteria> criterias = member.getProject().getProjectCriteria();
+//		// Add self rating
+//		member.getMemberRatings().add(new MemberRating(member, member, criterias));
+//		project.getMembers().add(member);
+//		projectRepo.save(project);
+//
+//		project = projectRepo.findByTitle("Test Project 2").get();
+//		student = studentRepo.findByEmail("michelle.andrey@students.fhnw.ch").get();
+//		member = new Member(project, student, qm);
+//		criterias = member.getProject().getProjectCriteria();
+//		// Add self rating
+//		member.getMemberRatings().add(new MemberRating(member, member, criterias));
+//		project.getMembers().add(member);
+//
+//		student = studentRepo.findByEmail("rebekka.stoffel@students.fhnw.ch").get();
+//		member = new Member(project, student, tm);
+//		project.getMembers().add(member);
+//
+//		student = studentRepo.findByEmail("bettina.burri@students.fhnw.ch").get();
+//		member = new Member(project, student, tm);
+//		project.getMembers().add(member);
+//
+//		projectRepo.save(project);
+
 	}
 }
