@@ -1,10 +1,5 @@
 // Node imports
-import fetch from 'isomorphic-fetch';
-
-import getApiEntrypoint from '../utils/getApiEntrypoint.js';
-
-const apiEntrypoint = getApiEntrypoint('project/categories');
-
+import fetch from '../utils/fetch.js';
 
 export default (values, callback) => {
   const categories = values.map(category => ({
@@ -25,14 +20,9 @@ export default (values, callback) => {
     })),
   }));
 
-  fetch(apiEntrypoint, {
+  fetch('project/categories', {
     method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(categories),
+    data: categories,
   })
-  .then(response => response.json())
-  .then(data => callback(data));
+  .then(callback);
 };

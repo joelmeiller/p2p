@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,13 +19,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import ch.fhnw.p2p.authorization.AccessControl;
+import ch.fhnw.p2p.controller.utils.BadRequestException;
+import ch.fhnw.p2p.controller.utils.NotFoundException;
+import ch.fhnw.p2p.entities.Category;
 import ch.fhnw.p2p.entities.Member;
 import ch.fhnw.p2p.entities.Project;
+import ch.fhnw.p2p.entities.ProjectCategory;
 import ch.fhnw.p2p.entities.Project.Status;
 import ch.fhnw.p2p.entities.User;
 import ch.fhnw.p2p.entities.mapping.MappingException;
 import ch.fhnw.p2p.entities.mapping.NewProject;
 import ch.fhnw.p2p.entities.mapping.ProjectMapping;
+import ch.fhnw.p2p.repositories.CategoryRepository;
 import ch.fhnw.p2p.repositories.ProjectRepository;
 import ch.fhnw.p2p.repositories.RoleRepository;
 import ch.fhnw.p2p.repositories.UserRepository;
@@ -38,7 +42,6 @@ import ch.fhnw.p2p.repositories.UserRepository;
  */
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/projects")
 public class ProjectController extends BaseController {
 
@@ -51,11 +54,15 @@ public class ProjectController extends BaseController {
 	private ProjectRepository projectRepo;
 
 	@Autowired
-	UserRepository userRepo;
+	private UserRepository userRepo;
 
 	@Autowired
-	RoleRepository roleRepo;
+	private RoleRepository roleRepo;
 
+	@Autowired
+	private CategoryRepository categoryRepo;
+
+	
 	/**
 	 * Fetch list of abbreviated projects.
 	 */
@@ -163,7 +170,7 @@ public class ProjectController extends BaseController {
 
 		Project project;
 		try {
-			project = newProject.getProject(userRepo, roleRepo, bindingResult);
+			project = setupCategoriesForProject(newProject.getProject(userRepo, roleRepo, bindingResult));
 		} catch (MappingException e) {
 			throw new BadRequestException(e.getMessage());
 		}
@@ -171,6 +178,24 @@ public class ProjectController extends BaseController {
 		projectRepo.save(project);
 		logger.debug("Successfully saved project[" + project.getId() + "]: " + project.toString());
 		return ApiResponse.create("Created project ID=" + project.getId());
+	}
+	
+	/**
+	 * add all project categories without criterias for initial selection
+	 * 
+	 * @param Project the user's current project
+	 * @return Project the project enriched with all categories
+	 */
+	private Project setupCategoriesForProject(Project project) {
+		List<Category> categories = categoryRepo.findAll();
+		
+		for (Category category: categories) {
+			ProjectCategory projectCategory = new ProjectCategory(category);
+			project.getProjectCategories().add(projectCategory);
+			projectCategory.setProject(project);
+		}
+		
+		return project;
 	}
 
 	private static void stripProject(Project project) {

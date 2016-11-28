@@ -4,14 +4,16 @@ import { connect } from 'react-redux';
 import ReduxToastr from 'react-redux-toastr';
 
 // Actions
-import { fetchUserAndProjectSettings } from '../../actions/app.js';
+import { updateAuthStatus, setImpersonation, doImpersonation } from '../../actions/app.js';
 
 // Components
 import AppBarHeader from '../components/AppBarHeader.jsx';
+import DevLogin from '../components/DevLogin.jsx';
+import GoodBye from '../components/GoodBye.jsx';
 
 class App extends Component {
   componentDidMount() {
-    this.props.fetchUserAndProject();
+    this.props.updateAuthStatus();
   }
 
   render() {
@@ -25,7 +27,15 @@ class App extends Component {
         preventDuplicates
       />
       <main>
-        {this.props.children}
+        {this.props.loggedIn && this.props.children}
+        {!this.props.loggedIn && this.props.activeProfile === 'dev' &&
+          <DevLogin
+            impersonatedEmail={this.props.impersonatedEmail}
+            handleImpersonatedEmailChanged={this.props.handleImpersonatedEmailChanged}
+            handleImpersonate={this.props.handleImpersonate}
+          />}
+        {!this.props.loggedIn && this.props.activeProfile === 'prod' && <GoodBye loggedIn={this.props.loggedIn} />}
+        }
       </main>
     </div>);
   }
@@ -33,12 +43,17 @@ class App extends Component {
 
 App.propTypes = {
   children: React.PropTypes.node,
-  fetchUserAndProject: React.PropTypes.func,
+  updateAuthStatus: React.PropTypes.func,
+  handleImpersonatedEmailChanged: React.PropTypes.func,
+  handleImpersonate: React.PropTypes.func,
+  loggedIn: React.PropTypes.bool,
+  activeProfile: React.PropTypes.string,
+  impersonatedEmail: React.PropTypes.string,
 };
 
 
 const mapStateToProps = (globalState, props) => {
-  const { project, user } = globalState.app;
+  const { project, user, loggedIn, activeProfile, impersonatedEmail } = globalState.app;
 
   let username = '-';
   if (user) {
@@ -50,11 +65,16 @@ const mapStateToProps = (globalState, props) => {
     project: project || { title: 'Projekte' },
     user,
     username,
+    loggedIn,
+    activeProfile,
+    impersonatedEmail,
   };
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  fetchUserAndProject: () => dispatch(fetchUserAndProjectSettings()),
+const mapDispatchToProps = dispatch => ({
+  updateAuthStatus: () => dispatch(updateAuthStatus()),
+  handleImpersonatedEmailChanged: email => dispatch(setImpersonation(email)),
+  handleImpersonate: () => dispatch(doImpersonation()),
 });
 
 export default connect(

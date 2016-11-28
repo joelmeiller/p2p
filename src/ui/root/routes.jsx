@@ -18,6 +18,7 @@ import ShowProjectContainer from '../../containers/ShowProjectContainer.jsx';
 import MemberRatingContainer from '../../containers/MemberRatingContainer.jsx';
 import ProgressPageContainer from '../../containers/ProgressPageContainer.jsx';
 import EvaluationContainer from '../../containers/EvaluationContainer.jsx';
+import LogoutContainer from '../../containers/LogoutContainer.jsx';
 
 
 export default (store) => {
@@ -26,6 +27,7 @@ export default (store) => {
     <MuiThemeProvider>
       <Provider store={store} >
         <Router history={history} >
+          <Route path="/ip-p2p/logout" component={LogoutContainer} />
           <Route path="/">
             <IndexRedirect to="ip-p2p" />
 

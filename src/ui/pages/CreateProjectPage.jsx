@@ -64,10 +64,10 @@ const CreateProjectPage = props => (
         <p>QM</p>
       </div>
       <div className="col-xs-4" style={{ marginTop: 15 }}>
-        {(props.qmName ?
+        {(props.emailQm ?
           <div className="row">
             <div className="col-xs-10">
-              {props.qmName}
+              {props.emailQm}
             </div>
             <div className="col-xs-2">
               <FlatButton
@@ -145,7 +145,7 @@ const CreateProjectPage = props => (
 CreateProjectPage.propTypes = {
   title: React.PropTypes.string,
   coach: React.PropTypes.string,
-  qmName: React.PropTypes.string,
+  emailQm: React.PropTypes.string,
   level: React.PropTypes.string,
   zeitmodell: React.PropTypes.string,
   start: React.PropTypes.instanceOf(Date),

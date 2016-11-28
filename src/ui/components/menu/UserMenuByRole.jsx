@@ -8,6 +8,7 @@ import Dashboard from 'material-ui/svg-icons/action/dashboard';
 import Grade from 'material-ui/svg-icons/action/grade';
 import List from 'material-ui/svg-icons/action/list';
 import Settings from 'material-ui/svg-icons/action/settings';
+import Rowing from 'material-ui/svg-icons/action/rowing';
 
 import UserMenu from './UserMenu.jsx';
 
@@ -28,6 +29,10 @@ const userMenuTM = props => ([
     name: 'My Account',
     icon: <AccountBox className="menu-icon" />,
     path: '/ip-p2p/settings',
+  }, {
+    name: 'Logout',
+    icon: <Rowing className="menu-icon" />,
+    path: '/ip-p2p/logout',
   }]);
 
 const userMenuQM = props => ([
@@ -66,6 +71,10 @@ const userMenuQM = props => ([
     name: 'My Account',
     icon: <AccountBox className="menu-icon" />,
     path: '/ip-p2p/settings',
+  }, {
+    name: 'Logout',
+    icon: <Rowing className="menu-icon" />,
+    path: '/ip-p2p/logout',
   }]);
 
 const userMenuCoach = [
@@ -93,6 +102,10 @@ const userMenuCoach = [
     name: 'My Account',
     icon: <AccountBox className="menu-icon" />,
     path: '/ip-p2p/settings',
+  }, {
+    name: 'Logout',
+    icon: <Rowing className="menu-icon" />,
+    path: '/ip-p2p/logout',
   }];
 
 

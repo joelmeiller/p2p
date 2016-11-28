@@ -1,14 +1,7 @@
-// Node imports
-import fetch from 'isomorphic-fetch';
-
-import getApiEntrypoint from '../utils/getApiEntrypoint.js';
-
-const apiEntrypoint = getApiEntrypoint('roles/active');
-
+import fetch from '../utils/fetch.js';
 
 export default callback =>
-  fetch(apiEntrypoint)
-  .then(response => response.json())
+  fetch('roles/active')
   .then((data) => {
     const roles = data.map(role => ({
       roleId: role.id.toString(),

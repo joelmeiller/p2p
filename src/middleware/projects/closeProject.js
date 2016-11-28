@@ -1,20 +1,10 @@
 // Node imports
-import fetch from 'isomorphic-fetch';
-
-import getApiEntrypoint from '../utils/getApiEntrypoint.js';
-
-const apiEntrypoint = getApiEntrypoint('projects/close');
-
+import fetch from '../utils/fetch.js';
 
 export default (projectId, callback) => {
-  fetch(apiEntrypoint, {
+  fetch('projects/close', {
     method: 'PUT',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ id: projectId }),
+    data: { id: projectId },
   })
-  .then(response => response.json())
-  .then(data => callback(data));
+  .then(callback);
 };

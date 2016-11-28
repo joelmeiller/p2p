@@ -11,4 +11,9 @@
     <div id="react-root"></div>
     <script src="built/bundle.js"></script>
   </body>
+  <script th:inline="javascript">
+  /*<![CDATA[*/
+      var ticket = [[${ticket}]];
+  /*]]>*/
+  </script>
 </html>
