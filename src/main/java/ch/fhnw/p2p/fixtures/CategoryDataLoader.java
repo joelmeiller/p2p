@@ -48,26 +48,56 @@ public class CategoryDataLoader implements CommandLineRunner {
 		System.out.println("Autorunner QM Category Setup");
 		
 		// Prepare categories
-		Category category1 = new Category("First Test Category", Locale.Language.EN);
-		Criteria criteria11 = new Criteria("First Test Criteria", Locale.Language.EN);
+		Category category1 = new Category("Basale Kompetenzen", Locale.Language.EN);
+		Criteria criteria11 = new Criteria("Besitzt korrekte Umgangformen", Locale.Language.EN);
 		criteria11.setCategory(category1);
 		category1.getCriterias().add(criteria11);
-		Criteria criteria12 = new Criteria("Second Test Criteria", Locale.Language.EN);
+		Criteria criteria12 = new Criteria("Hört aufmerksam zu", Locale.Language.EN);
 		criteria12.setCategory(category1);
 		category1.getCriterias().add(criteria12);
 		
 		this.repository.save(category1);
 		
-		Category category2 = new Category("Second Test Category", Locale.Language.EN);
-		Criteria criteria21 = new Criteria("Another Text", Locale.Language.EN);
+		Category category2 = new Category("Kommunikative Kompetenzen", Locale.Language.EN);
+		Criteria criteria21 = new Criteria("Passt Ausdrucksweise an Stakeholder an", Locale.Language.EN);
 		criteria21.setCategory(category2);
 		category2.getCriterias().add(criteria21);
-		Criteria criteria22 = new Criteria("Somemore Text", Locale.Language.EN);
+		Criteria criteria22 = new Criteria("Kann eigene und fremde Anliegen höflich artikulieren", Locale.Language.EN);
 		criteria22.setCategory(category2);
 		category2.getCriterias().add(criteria22);
 		
 		this.repository.save(category2);
 		
+		Category category3 = new Category("Personal-soziale Kompetenzen", Locale.Language.EN);
+		Criteria criteria31 = new Criteria("Kennt eigene soziale Bedürfniss", Locale.Language.EN);
+		criteria31.setCategory(category3);
+		category3.getCriterias().add(criteria31);
+		Criteria criteria32 = new Criteria("KNimmt Befindlichkeiten anderer wahr (Empathie)", Locale.Language.EN);
+		criteria32.setCategory(category3);
+		category3.getCriterias().add(criteria32);
+
+		this.repository.save(category3);
+
+		Category category4 = new Category("Team Kompetenzen", Locale.Language.EN);
+		Criteria criteria41 = new Criteria("Bringt sich selbst im Team ein", Locale.Language.EN);
+		criteria41.setCategory(category4);
+		category4.getCriterias().add(criteria41);
+		Criteria criteria42 = new Criteria("Teilt sein Wissen mit anderen", Locale.Language.EN);
+		criteria42.setCategory(category4);
+		category4.getCriterias().add(criteria42);
+
+		this.repository.save(category4);
+
+		Category category5 = new Category("Konflikt Kompetenzen", Locale.Language.EN);
+		Criteria criteria51 = new Criteria("Sucht bei Problemen/Konflikten rechtzeitig Hilfe", Locale.Language.EN);
+		criteria51.setCategory(category5);
+		category5.getCriterias().add(criteria51);
+		Criteria criteria52 = new Criteria("Weicht Konflikten nicht aus", Locale.Language.EN);
+		criteria52.setCategory(category5);
+		category5.getCriterias().add(criteria52);
+
+		this.repository.save(category5);
+
 		// Self category
 		Category ownCategory = new Category("Own Criterias", Locale.Language.EN);
 		ownCategory.setType(Category.Type.SELFDEFINED);
@@ -145,7 +175,7 @@ public class CategoryDataLoader implements CommandLineRunner {
 		projectCategory = new ProjectCategory(ownCategory);
 		projectCategory.setProject(project);
 		project.getProjectCategories().add(projectCategory);
-		
+
 		projectRepo.save(project);
 	}
 }

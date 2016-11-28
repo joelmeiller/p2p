@@ -1,7 +1,5 @@
 package ch.fhnw.p2p.fixtures;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
@@ -9,10 +7,7 @@ import org.springframework.stereotype.Component;
 
 import ch.fhnw.p2p.entities.Locale;
 import ch.fhnw.p2p.entities.Member;
-import ch.fhnw.p2p.entities.MemberRating;
 import ch.fhnw.p2p.entities.MemberRole;
-import ch.fhnw.p2p.entities.Project;
-import ch.fhnw.p2p.entities.ProjectCriteria;
 import ch.fhnw.p2p.entities.Role;
 import ch.fhnw.p2p.entities.User;
 import ch.fhnw.p2p.repositories.MemberRepository;
@@ -62,6 +57,8 @@ public class MemberDataLoader implements CommandLineRunner {
 			
 		qm = roleRepo.findOne(qm.getId());
 		Role tm = roleRepo.findByShortcut("TM");
+		Role re = roleRepo.findByShortcut("RE");
+		Role pl = roleRepo.findByShortcut("PL");
 		Member member = memberRepo.findByStudentEmail("max.muster@students.fhnw.ch");
 		MemberRole role = new MemberRole(member, qm);
 		member.getRoles().add(role);
@@ -70,37 +67,10 @@ public class MemberDataLoader implements CommandLineRunner {
 		// Load other test data
 		// Add students
 		studentRepo.save(new User("Michelle", "Andrey", "michelle.andrey@students.fhnw.ch", User.Type.STUDENT, User.StudentType.BB));
-		studentRepo.save(new User("Joel", "Meiller", "joel.meiller@students.fhnw.ch", User.Type.STUDENT, User.StudentType.BB));
+		studentRepo.save(new User("Joel", "Meiller", "joel.meiller@students.fhnw.ch", User.Type.COACH));
 		studentRepo.save(new User("Bettina", "Burri", "bettina.burri@students.fhnw.ch", User.Type.STUDENT, User.StudentType.BB));
 		studentRepo.save(new User("Rebekka", "Stoffel", "rebekka.stoffel@students.fhnw.ch", User.Type.STUDENT, User.StudentType.BB));
 		studentRepo.save(new User("Elena", "Mastrandrea", "elena.mastrandrea@students.fhnw.ch", User.Type.STUDENT, User.StudentType.BB));
-
-		Project project = projectRepo.findByTitle("Test Project 1").get();
-
-		User student = studentRepo.findByEmail("joel.meiller@students.fhnw.ch").get();
-		member = new Member(project, student, qm);
-		List<ProjectCriteria> criterias = member.getProject().getProjectCriteria();
-		// Add self rating
-		member.getMemberRatings().add(new MemberRating(member, member, criterias));
-		project.getMembers().add(member);
-		projectRepo.save(project);
-
-		project = projectRepo.findByTitle("Test Project 2").get();
-		student = studentRepo.findByEmail("michelle.andrey@students.fhnw.ch").get();
-		member = new Member(project, student, qm);
-		criterias = member.getProject().getProjectCriteria();
-		// Add self rating
-		member.getMemberRatings().add(new MemberRating(member, member, criterias));
-		project.getMembers().add(member);
-
-		student = studentRepo.findByEmail("rebekka.stoffel@students.fhnw.ch").get();
-		member = new Member(project, student, tm);
-		project.getMembers().add(member);
-
-		student = studentRepo.findByEmail("bettina.burri@students.fhnw.ch").get();
-		member = new Member(project, student, tm);
-		project.getMembers().add(member);
-
-		projectRepo.save(project);
+		
 	}
 }
