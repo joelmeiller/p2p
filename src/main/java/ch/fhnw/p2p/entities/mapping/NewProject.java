@@ -27,7 +27,7 @@ public class NewProject {
 	private Date start;
 	private String emailQm;
 
-	public Project getProject(UserRepository userRepo, RoleRepository roleRepo, BindingResult result) throws MappingException {
+	public Project getProject(BindingResult result) throws MappingException {
 		if (result.hasErrors()) throw new MappingException("Invalid object");
 		if (nullOrEmpty(title)) throw new MappingException("Missing title");
 		if (nullOrEmpty(coach)) throw new MappingException("Missing coach");
@@ -43,13 +43,6 @@ public class NewProject {
 		project.setZeitmodell(zeitmodell);
 		project.setStart(start);
 		project.setStatus(Status.OPEN);
-
-		Optional<User> qmUser = userRepo.findByEmail(emailQm);
-		if (!qmUser.isPresent()) throw new MappingException("User not found: " + emailQm);
-		if (qmUser.get().getStatus() != User.Status.FREE) throw new MappingException("User " + emailQm + " is not free");
-		Role qmRole = roleRepo.findByShortcut("QM");
-		Member qmMember = new Member(project, qmUser.get(), qmRole);
-		project.getMembers().add(qmMember);
 
 		return project;
 	}
