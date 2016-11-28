@@ -1,14 +1,8 @@
 // Node imports
-import fetch from 'isomorphic-fetch';
-
-import getApiEntrypoint from '../utils/getApiEntrypoint.js';
-
-const apiEntrypoint = getApiEntrypoint('project/categories');
-
+import fetch from '../utils/fetch.js';
 
 export default callback =>
-  fetch(apiEntrypoint)
-  .then(response => response.json())
+  fetch('project/categories')
   .then((data) => {
     const categories = data.map(projectCategory => ({
       id: projectCategory.id.toString(),

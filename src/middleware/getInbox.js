@@ -1,9 +1,5 @@
-// Node imports
-import 'isomorphic-fetch';
-
-export const apiEntrypoint = 'http://localhost:3000/p2p/api/inbox';
+import fetch from './utils/fetch.js';
 
 export const getInbox = callback =>
-  fetch(apiEntrypoint)
-    .then(response => response.json())
-    .then(data => callback(data));
+  fetch('inbox')
+    .then(callback);

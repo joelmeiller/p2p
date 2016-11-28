@@ -1,19 +1,10 @@
 // Select students depending on value
 // Searches in name & email
-// Node imports
-import 'isomorphic-fetch';
-
-import getApiEntrypoint from '../utils/getApiEntrypoint.js';
-
-const apiEntrypoint = getApiEntrypoint('students/suggestions');
-
+import fetch from '../utils/fetch.js';
 
 export default (pattern, callback) => {
   if (pattern && pattern > '') {
-    const url = `${apiEntrypoint}?pattern=${pattern}`;
-
-    fetch(url)
-    .then(response => response.json())
+    fetch(`students/suggestions?pattern=${pattern}`)
     .then((data) => {
       // Map data
       const suggestions = data.map(student => ({

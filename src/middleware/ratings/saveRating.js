@@ -1,10 +1,6 @@
 // Node imports
-import fetch from 'isomorphic-fetch';
-import getApiEntrypoint from '../utils/getApiEntrypoint.js';
+import fetch from '../utils/fetch.js';
 import mapRating from '../utils/mapRating.js';
-
-const apiEntrypoint = getApiEntrypoint('project/member/ratings');
-
 
 export default (rating, callback) => {
   let criteriaRatings = [];
@@ -21,15 +17,10 @@ export default (rating, callback) => {
     criteriaRatings,
   };
 
-  fetch(apiEntrypoint, {
+  fetch('project/member/ratings', {
     method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(memberRating),
+    data: memberRating,
   })
-  .then(response => response.json())
   .then(data => callback({
     ...data,
     ratings: data.ratings.map(rating => mapRating(rating)),
