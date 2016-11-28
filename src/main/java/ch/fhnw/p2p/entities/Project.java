@@ -70,6 +70,7 @@ public class Project extends VersionedObject {
 	@Type(type="date")
 	private Date stop;
 	
+	@Enumerated(EnumType.STRING)
 	private Status status;
 
 	// Final grade of the project (not used during project duration)

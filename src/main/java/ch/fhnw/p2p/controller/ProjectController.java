@@ -24,8 +24,8 @@ import ch.fhnw.p2p.controller.utils.NotFoundException;
 import ch.fhnw.p2p.entities.Category;
 import ch.fhnw.p2p.entities.Member;
 import ch.fhnw.p2p.entities.Project;
-import ch.fhnw.p2p.entities.ProjectCategory;
 import ch.fhnw.p2p.entities.Project.Status;
+import ch.fhnw.p2p.entities.ProjectCategory;
 import ch.fhnw.p2p.entities.User;
 import ch.fhnw.p2p.entities.mapping.MappingException;
 import ch.fhnw.p2p.entities.mapping.NewProject;
@@ -188,6 +188,7 @@ public class ProjectController extends BaseController {
 	 */
 	private Project setupCategoriesForProject(Project project) {
 		List<Category> categories = categoryRepo.findAll();
+		logger.info("Add categories (count=" + categories.size() + ")");
 		
 		for (Category category: categories) {
 			ProjectCategory projectCategory = new ProjectCategory(category);
