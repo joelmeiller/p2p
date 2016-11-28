@@ -1,5 +1,7 @@
 package ch.fhnw.p2p.authorization;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,8 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import ch.fhnw.p2p.controller.utils.NotAllowedException;
+import ch.fhnw.p2p.entities.Login;
 import ch.fhnw.p2p.entities.Member;
 import ch.fhnw.p2p.entities.User;
+import ch.fhnw.p2p.repositories.LoginRepository;
 import ch.fhnw.p2p.repositories.MemberRepository;
 import ch.fhnw.p2p.repositories.UserRepository;
 
@@ -27,8 +31,7 @@ public class AccessControl {
 	};
 	
 	private Log logger = LogFactory.getLog(this.getClass());
-	
-	private User user;
+	private SecureRandom random = new SecureRandom();
 	
 	@Autowired
 	MemberRepository memberRepo;
@@ -36,7 +39,33 @@ public class AccessControl {
 	@Autowired
 	UserRepository userRepo;
 	
+	@Autowired
+	private LoginRepository loginRepo;
+
 	AccessControl() {}
+
+	private void invalidateLogin(HttpServletRequest request) {
+		request.getSession().invalidate();
+		logger.debug("Invalidated cookie session");
+	}
+
+	private void setLogin(HttpServletRequest request, String mail) {
+		logger.info("Setting cookie for user=" + mail);
+		request.getSession().setAttribute("mail", mail);
+		request.getSession().setMaxInactiveInterval(10 * 60);
+	}
+
+	public String getTicket(HttpServletRequest request) {
+		String mail = request.getHeader("mail");
+		if (mail == null) {
+			return null;
+		}
+		Login login = new Login();
+		login.setEmail(mail);
+		login.setTicket(new BigInteger(130, random).toString(32));
+		loginRepo.save(login);
+		return login.getTicket();
+	}
 
 	/**
 	 * checks if the user exists by searching for the email provided by AAI login
@@ -44,27 +73,27 @@ public class AccessControl {
 	 * @throws NotAllowedException 
 	 */
 	private User checkUser(HttpServletRequest request) throws NotAllowedException {
-		String requestMail;
-		if (System.getenv().containsKey("P2P_USER")) {
-			requestMail = System.getenv().get("P2P_USER");
-			logger.info("Locale Login from Dev-Server via Environment Variable P2P_USER");
+		String mail = request.getHeader("mail");
+
+		if (mail != null) {
+			setLogin(request, mail);
 		} else {
-			requestMail = request.getHeader("mail");
+			mail = (String) request.getSession().getAttribute("mail");
+			logger.debug("Cookie user=" + mail);
+			if (mail == null) {
+				return null;
+			}
 		}
-		logger.info("Request access for " + requestMail);
-		
-		Optional<User> userCheck = userRepo.findByEmail(requestMail);
-		
-				
-		if (userCheck.isPresent()) {
-			this.user = userCheck.get();
-		} else {
-			logger.error("User not not found");
-			throw new NotAllowedException(requestMail);
+
+		Optional<User> userCheck = userRepo.findByEmail(mail);
+		if (!userCheck.isPresent()) {
+			logger.error("No user found with email " + mail);
+			return null;
 		}
-		
-		if (!this.user.isCoach()) {
-			Member member = memberRepo.findByStudentEmail(requestMail);
+		User user = userCheck.get();
+
+		if (!user.isCoach()) {
+			Member member = memberRepo.findByStudentEmail(mail);
 			
 			if (member != null) {
 				if (member.getProject() == null) {
@@ -72,16 +101,17 @@ public class AccessControl {
 					throw new NotAllowedException("Could not find project for member '" + member.getStudent().getFirstName() + " " + member.getStudent().getLastName() + "'.");
 				}
 				
-				this.user.setMember(member);
+				user.setMember(member);
 			}
 		}
 		
-		logger.info("Successful request of user  " + this.user.toString() + (user.getMember() != null ? " for project " + user.getMember().getProject().getTitle() : ""));
+		logger.info("Successful request of user  " + user.toString()
+				+ (user.getMember() != null ? " for project " + user.getMember().getProject().getTitle() : ""));
 		
-		return this.user;
+		return user;
 	}
 	
-	private boolean checkRequest(Allowed allowed) {
+	private boolean checkRequest(User user, Allowed allowed) {
 		switch(allowed) {
 		case QM:
 			return user.isQM();
@@ -95,11 +125,18 @@ public class AccessControl {
 			return true;
 		}
 	}
-	
+
+	public User impersonate(HttpServletRequest request, String mail) throws NotAllowedException {
+		setLogin(request, mail);
+		return checkUser(request);
+	}
+
 	/**
-	 * checks if the user exists by searching for the email provided by AAI login
-	 * @return boolean indicating wether the user is allowed to use the app or not
-	 * @throws NotAllowedException 
+	 * checks if the user exists by searching for the email provided by AAI
+	 * login
+	 * 
+	 * @return User logged in to the system, or null.
+	 * @throws NotAllowedException
 	 */
 	public User login(HttpServletRequest request) throws NotAllowedException {
 		return checkUser(request);
@@ -111,10 +148,17 @@ public class AccessControl {
 	 * @throws NotAllowedException 
 	 */
 	public User login(HttpServletRequest request, Allowed allowed) throws NotAllowedException {
-		login(request);
-		
-		if (!checkRequest(allowed)) throw new NotAllowedException("request not allowed due to the user rights");
-		
+		User user = login(request);
+
+		if (user == null)
+			throw new NotAllowedException("request not allowed due to missing login");
+		if (!checkRequest(user, allowed))
+			throw new NotAllowedException("request not allowed due to the user rights");
+
 		return user;
+	}
+
+	public void logout(HttpServletRequest request) {
+		invalidateLogin(request);
 	}
 }

@@ -12,11 +12,19 @@ const params = data => ({
   body: JSON.stringify(data),
 });
 
-export default (uri, { method, data, errorMessage } = {}) => (
-  fetch(getApiEntrypoint(uri), method ? {
-    ...params(data),
-    method,
-  } : undefined)
+export default (uri, { method, data, errorMessage } = {}) => {
+  let opts = {
+    credentials: 'include',
+    mode: 'cors',
+  };
+  if (method) {
+    opts = {
+      ...params(data),
+      method,
+      ...opts,
+    };
+  }
+  return fetch(getApiEntrypoint(uri), opts)
   .catch((error) => {
     // Don't use errorMessage here to allow for removing duplicates.
     toastr.error('Connection problem', 'The server could not be reached. Check your internet connection and reload the page...');
@@ -37,5 +45,5 @@ export default (uri, { method, data, errorMessage } = {}) => (
       }
       return Promise.reject(error);
     });
-  })
-);
+  });
+};

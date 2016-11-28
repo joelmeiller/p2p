@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-{"version":3,"file":"bundle.js","sources":["webpack:///bundle.js","webpack:///"],"mappings":"AAAA;ACwgGA;AAksFA;AA4/GA;;;;;;;;;;;;;;AAo7GA;AAipIA;AAkxIA;AAunJA;AAmwHA;AA02EA;AAkuEA;AAo/DA;;;AAulEA;AA0oEA;AA8mEA;AAmuEA;AA2yEA;AAk3DA;AAs3DA;AAkrDA;AA85DA;AAkgEA;AAmmIA;;;;;AAwhCA;AAylDA;AAs8DA;AAq/DA;AAi7DA;AA+6DA;AA2hEA;AAm0GA;;;;;AA05EA;AAwvHA;AAi7CA;AAioEA;AA+mEA;AA6lEA;AAsgEA;AAwmEA;AAigEA","sourceRoot":""}
-=======
-{"version":3,"file":"bundle.js","sources":["webpack:///bundle.js","webpack:///"],"mappings":"AAAA;ACwgGA;AAksFA;AA4/GA;;;;;;;;;;;;;;AAo7GA;AAipIA;AAkxIA;AAunJA;AAo0HA;AAwwEA;AAuvEA;AAm/DA;;;AAolEA;AA0oEA;AA8mEA;AAmuEA;AA2yEA;AAk3DA;AAs3DA;AAkrDA;AA85DA;AAkgEA;AAmmIA;;;;;AAwhCA;AAylDA;AAs8DA;AAq/DA;AAi7DA;AA+6DA;AA2hEA;AAm0GA;;;;;AA05EA;AAwvHA;AAi7CA;AAioEA;AA+mEA;AA6lEA;AAsgEA;AA4jEA;AAqhEA","sourceRoot":""}
->>>>>>> master
+{"version":3,"file":"bundle.js","sources":["webpack:///bundle.js","webpack:///"],"mappings":"AAAA;ACwgGA;AAksFA;AA0+GA;;;;;;;;;;;;;;AAy5GA;AA2rIA;AAg6IA;AA+8IA;AAwoHA;;;;;AAqgCA;AAmxEA;AA+uEA;AAu0FA;AA65EA;AAitEA;AAijEA;AA8lEA;AAikEA;AAokEA;AAuzDA;;;AA+gEA;AA0oEA;AA8mEA;AAmuEA;AA40EA;AAs3DA;AA23DA;AA+qDA;AA25DA;AA6/DA;AAy5HA;;;;;AAw+BA;AAylDA;AAs8DA;AAq/DA;AAi7DA;AA+6DA;AA0hEA;AA0zGA;AAw8EA;AAkqHA;AAgxEA","sourceRoot":""}

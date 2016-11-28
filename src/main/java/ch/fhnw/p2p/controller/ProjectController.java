@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import ch.fhnw.p2p.authorization.AccessControl;
+import ch.fhnw.p2p.controller.utils.BadRequestException;
+import ch.fhnw.p2p.controller.utils.NotFoundException;
 import ch.fhnw.p2p.entities.Member;
 import ch.fhnw.p2p.entities.Project;
 import ch.fhnw.p2p.entities.Project.Status;

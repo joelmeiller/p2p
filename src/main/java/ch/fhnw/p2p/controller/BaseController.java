@@ -5,6 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import ch.fhnw.p2p.controller.utils.BadRequestException;
+import ch.fhnw.p2p.controller.utils.NotAllowedException;
+import ch.fhnw.p2p.controller.utils.NotFoundException;
 import lombok.Data;
 
 /**
@@ -15,18 +18,6 @@ import lombok.Data;
 @CrossOrigin(origins = { "http://localhost:3000", "https://www.cs.technik.fhnw.ch" })
 public class BaseController {
 	
-	static class BadRequestException extends RuntimeException {
-		BadRequestException(String message) {
-			super(message);
-		}
-	}
-	
-	static class NotFoundException extends RuntimeException {
-		NotFoundException(String message) {
-			super(message);
-		}
-	}
-
 	@Data
 	static class ApiResponse {
 		private boolean ok = true;
@@ -45,11 +36,19 @@ public class BaseController {
 
 	@ExceptionHandler({BadRequestException.class})
 	ResponseEntity<ApiResponse> handleBadRequestException(BadRequestException e) {
+		e.printStackTrace();
 		return new ResponseEntity<ApiResponse>(new ApiResponse(e), HttpStatus.BAD_REQUEST);
 	}
 
 	@ExceptionHandler({NotFoundException.class})
 	ResponseEntity<ApiResponse> handleNotFoundException(NotFoundException e) {
+		e.printStackTrace();
 		return new ResponseEntity<ApiResponse>(new ApiResponse(e), HttpStatus.NOT_FOUND);
+	}
+
+	@ExceptionHandler({NotAllowedException.class})
+	ResponseEntity<ApiResponse> handleNotFoundException(NotAllowedException e) {
+		e.printStackTrace();
+		return new ResponseEntity<ApiResponse>(new ApiResponse(e), HttpStatus.FORBIDDEN);
 	}
 }
