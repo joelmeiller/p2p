@@ -32,9 +32,11 @@ public class ProjectCategoryRepositoryImpl {
 
 	@Autowired
 	private ProjectCategoryRepository projectCategoryRepo;
-
+	
 	@Autowired
 	private CriteriaRepository criteriaRepo;
+	
+	
 
 	/**
 	 * add or remove team members
