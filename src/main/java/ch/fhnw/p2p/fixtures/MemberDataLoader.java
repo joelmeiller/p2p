@@ -61,6 +61,7 @@ public class MemberDataLoader implements CommandLineRunner {
 		roleRepo.save(new Role("Test Manager", "TM", Locale.Language.EN));
 			
 		qm = roleRepo.findOne(qm.getId());
+		Role tm = roleRepo.findByShortcut("TM");
 		Member member = memberRepo.findByStudentEmail("max.muster@students.fhnw.ch");
 		MemberRole role = new MemberRole(member, qm);
 		member.getRoles().add(role);
@@ -91,6 +92,15 @@ public class MemberDataLoader implements CommandLineRunner {
 		// Add self rating
 		member.getMemberRatings().add(new MemberRating(member, member, criterias));
 		project.getMembers().add(member);
+
+		student = studentRepo.findByEmail("rebekka.stoffel@students.fhnw.ch").get();
+		member = new Member(project, student, tm);
+		project.getMembers().add(member);
+
+		student = studentRepo.findByEmail("bettina.burri@students.fhnw.ch").get();
+		member = new Member(project, student, tm);
+		project.getMembers().add(member);
+
 		projectRepo.save(project);
 	}
 }
