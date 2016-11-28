@@ -84,13 +84,13 @@ public class MemberDataLoader implements CommandLineRunner {
 		project.getMembers().add(member);
 		projectRepo.save(project);
 
-//		project = projectRepo.findByTitle("Test Project 2").get();
-//		student = studentRepo.findByEmail("michelle.andrey@students.fhnw.ch").get();
-//		member = new Member(project, student, qm);
-//		criterias = member.getProject().getProjectCriteria();
-//		// Add self rating
-//		member.getMemberRatings().add(new MemberRating(member, member, criterias));
-//		project.getMembers().add(member);
-//		projectRepo.save(project);
+		project = projectRepo.findByTitle("Test Project 2").get();
+		student = studentRepo.findByEmail("michelle.andrey@students.fhnw.ch").get();
+		member = new Member(project, student, qm);
+		criterias = member.getProject().getProjectCriteria();
+		// Add self rating
+		member.getMemberRatings().add(new MemberRating(member, member, criterias));
+		project.getMembers().add(member);
+		projectRepo.save(project);
 	}
 }
