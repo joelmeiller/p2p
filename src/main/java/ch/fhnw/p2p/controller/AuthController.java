@@ -71,9 +71,6 @@ public class AuthController extends BaseController {
 	@RequestMapping(value = "login", method = RequestMethod.POST)
 	public ResponseEntity<ApiResponse> login(HttpServletRequest request, @Valid @RequestBody TicketLoginRequest data, BindingResult result) {
 		if (result.hasErrors()) throw new BadRequestException("Invalid object");
-		if (!activeProfile.equals("dev")) {
-			throw new NotAllowedException("Cannot impersonate");
-		}
 		Optional<Login> login = loginRepo.findByTicket(data.getTicket());
 		if (!login.isPresent()) throw new NotFoundException("Could not find ticket");
 		if (new Date().getTime() - login.get().getVersionTSD().getTime() > 1000 * 60) {

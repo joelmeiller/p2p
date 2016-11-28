@@ -5,7 +5,7 @@ import { addAction, UPDATE_STATUS } from '../actions/inbox.js';
 import { OPEN, ACCEPTED } from '../middleware/students/setMemberStatus.js';
 import apiGetUserSettings from '../middleware/user/getUserSettings.js';
 import apiCloseProject from '../middleware/projects/closeProject.js';
-import { authImpersonate, authLogout, authInfo } from '../middleware/auth.js';
+import { authImpersonate, authLogin, authLogout, authInfo } from '../middleware/auth.js';
 
 export const SET_TITLE = 'app/SET_TITLE';
 export const SET_STATUS = 'app/SET_STATUS';
@@ -120,11 +120,17 @@ export const updateAuthStatus = () => (dispatch, getState) => {
   if (shouldFetchData(getState())) {
     dispatch(requestData());
 
-    // will call getUserSettings if .loggedIn
     authInfo().then((data) => {
+      /* global window: false */
+      const app = getState().app;
       dispatch(receiveData(data));
       if (data.loggedIn) {
         dispatch(getUserSettings());
+      } else if (window.ticket && !app.loggedOut) {
+        authLogin(window.ticket).then(() => {
+          dispatch(receiveData({ loggedIn: true }));
+          dispatch(getUserSettings());
+        });
       }
     });
   }
@@ -144,6 +150,7 @@ export const doLogout = () => dispatch => (
     dispatch({
       type: RECEIVE,
       loggedIn: false,
+      loggedOut: true,
     });
   })
 );

@@ -55,7 +55,7 @@ public class AccessControl {
 		request.getSession().setMaxInactiveInterval(10 * 60);
 	}
 
-	public String getTicket(HttpServletRequest request) {
+	public Login getTicket(HttpServletRequest request) {
 		String mail = request.getHeader("mail");
 		if (mail == null) {
 			return null;
@@ -64,7 +64,7 @@ public class AccessControl {
 		login.setEmail(mail);
 		login.setTicket(new BigInteger(130, random).toString(32));
 		loginRepo.save(login);
-		return login.getTicket();
+		return login;
 	}
 
 	/**

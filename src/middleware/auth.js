@@ -7,6 +7,15 @@ export const authImpersonate = data =>
     errorMessage: `Could not impersonate user with email ${data.impersonatedEmail}`,
   });
 
+export const authLogin = ticket =>
+  fetch('auth/login', {
+    method: 'POST',
+    data: {
+      ticket,
+    },
+    errorMessage: 'Could not login',
+  });
+
 export const authLogout = () =>
   fetch('auth/logout', {
     errorMessage: 'Could not logout',

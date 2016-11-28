@@ -19,6 +19,7 @@ const initialState = {
   fetched: false,
   impersonatedEmail: '',
   loggedIn: false,
+  loggedOut: false,
   activeProfile: 'prod',
 };
 
