@@ -14,6 +14,7 @@ const EvaluationPage = props => (
   <div className="container push-top-small">
     <div className="row">
       <div className="col-xs-11">
+      {/* TODO: i18n */}
         {(props.rating ?
           <FinalRating
             text={`Bewertung für ${props.name}`}
@@ -28,6 +29,7 @@ const EvaluationPage = props => (
       </div>
       <div className="col-xs-1 push-right pull-top-small">
         <IconButton onClick={props.onClose}>
+        {/* TODO: Replace by Text Button */}
           <NavigationClose />
         </IconButton>
       </div>
@@ -43,6 +45,7 @@ const EvaluationPage = props => (
     )}
     <div className="row">
       <div className="col-xs-12">
+      {/* TODO: i18n */}
         <H3Input
           id={props.id}
           name="comment"
@@ -63,6 +66,7 @@ const EvaluationPage = props => (
         />
       </div>
       <div className="col-xs-6">
+      {/* TODO: i18n */}
         <p className="italic small note push-left-small push-top-small">
           {!props.readonly ? 'Die Bewertungen werden automatisch gespeichert.' : ''}
         </p>

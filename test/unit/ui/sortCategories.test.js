@@ -2,7 +2,7 @@
 
 import { assert } from 'chai';
 
-import sortCategories from '../src/ui/utils/sortCategories.js';
+import sortCategories from '../../../src/ui/utils/sortCategories.js';
 
 
 describe('ui/utils/sortCategories', () => {
@@ -28,8 +28,6 @@ describe('ui/utils/sortCategories', () => {
     }];
 
     const sortedCategories = categories.sort(sortCategories);
-
-    console.log(sortedCategories);
 
     assert.equal(sortedCategories[0].title, 'abc');
     assert.isFalse(sortedCategories[0].isSelfDefined);

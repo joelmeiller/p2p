@@ -17,6 +17,7 @@ const EditableMember = (props) => {
       ({ label: role.title, id: role.roleId })
     ) : [{
       id: 'XX',
+      // TODO: i18n
       label: 'Select Role',
       disabled: true,
     }].concat((props.selectRoles || []).map(role =>

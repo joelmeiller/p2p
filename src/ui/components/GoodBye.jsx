@@ -6,6 +6,7 @@ const GoodBye = props => (
   <div className="container">
     <div className="row">
       <div className="col-xs-12">
+      {/* TODO: i18n */}
         <Header2Line
           title="You have been logged out"
         />
@@ -14,6 +15,7 @@ const GoodBye = props => (
     <div className="row">
       <div className="col-xs-4" />
       <div className="col-xs-4">
+      {/* TODO: i18n */}
         {props.loggedIn ?
           <p>Please wait while you are being logged out...</p> :
           <p>You can reload the page to get back to the login prompt.</p>

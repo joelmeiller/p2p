@@ -48,7 +48,6 @@ EvaluationComponent.propTypes = {
   handleRatingChanged: React.PropTypes.func,
   handleClose: React.PropTypes.func,
   handleCancel: React.PropTypes.func,
-  // categories: React.PropTypes.array.isRequired,
   ratings: React.PropTypes.array.isRequired,
   selectedIndex: React.PropTypes.number,
   selectedRating: React.PropTypes.object,

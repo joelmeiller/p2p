@@ -2,7 +2,7 @@
 
 import { assert } from 'chai';
 
-import getCriteriaValues from '../src/actions/utils/getCriteriaValues.js';
+import getCriteriaValues from '../../../src/actions/utils/getCriteriaValues.js';
 
 
 describe('actions/utils/getCriteriaValues', () => {
@@ -18,7 +18,7 @@ describe('actions/utils/getCriteriaValues', () => {
       name: 'Test Person',
       categories: [{
         title: 'Test 1',
-        criterias: [{
+        criteriaRatings: [{
           id: '12345',
           label: '',
         }, {
@@ -30,7 +30,7 @@ describe('actions/utils/getCriteriaValues', () => {
         }],
       }, {
         title: 'Test 2',
-        criterias: [{
+        criteriaRatings: [{
           id: '12348',
           label: '',
         }, {
@@ -42,7 +42,7 @@ describe('actions/utils/getCriteriaValues', () => {
         }],
       }, {
         title: 'Test 3',
-        criterias: [],
+        criteriaRatings: [],
       }],
       comment: '',
     };
@@ -50,9 +50,9 @@ describe('actions/utils/getCriteriaValues', () => {
     categories = getCriteriaValues(doc, { ratings: [] });
     assert.equal(categories.length, doc.categories.length);
     categories.forEach((cat, i) => {
-      assert.equal(cat.criterias.length, doc.categories[i].criterias.length);
-      cat.criterias.forEach((crit, j) => {
-        assert.equal(crit.rating, doc.categories[i].criterias[j].length);
+      assert.equal(cat.criteriaRatings.length, doc.categories[i].criteriaRatings.length);
+      cat.criteriaRatings.forEach((crit, j) => {
+        assert.equal(crit.rating, doc.categories[i].criteriaRatings[j].length);
       });
     });
   });
@@ -62,7 +62,7 @@ describe('actions/utils/getCriteriaValues', () => {
       name: 'Test Person',
       categories: [{
         title: 'Test 1',
-        criterias: [{
+        criteriaRatings: [{
           id: '12345',
           label: '',
           rating: 2,
@@ -77,7 +77,7 @@ describe('actions/utils/getCriteriaValues', () => {
         }],
       }, {
         title: 'Test 2',
-        criterias: [{
+        criteriaRatings: [{
           id: '12348',
           label: '',
           rating: 2,
@@ -118,8 +118,8 @@ describe('actions/utils/getCriteriaValues', () => {
     const categories = getCriteriaValues(doc, values);
     assert.equal(categories.length, doc.categories.length);
     categories.forEach((cat, i) => {
-      assert.equal(cat.criterias.length, doc.categories[i].criterias.length);
-      cat.criterias.forEach((crit) => {
+      assert.equal(cat.criteriaRatings.length, doc.categories[i].criteriaRatings.length);
+      cat.criteriaRatings.forEach((crit) => {
         const value = values.ratings.find(r => r.id === crit.id);
         assert.isDefined(value);
         assert.equal(crit.rating, value.rating);
@@ -132,7 +132,7 @@ describe('actions/utils/getCriteriaValues', () => {
       name: 'Test Person',
       categories: [{
         title: 'Test 1',
-        criterias: [{
+        criteriaRatings: [{
           id: '12345',
           label: '',
           rating: 2,
@@ -147,7 +147,7 @@ describe('actions/utils/getCriteriaValues', () => {
         }],
       }, {
         title: 'Test 2',
-        criterias: [{
+        criteriaRatings: [{
           id: '12348',
           label: '',
           rating: 2,
@@ -179,14 +179,14 @@ describe('actions/utils/getCriteriaValues', () => {
     const categories = getCriteriaValues(doc, values);
     assert.equal(categories.length, doc.categories.length);
     categories.forEach((cat, i) => {
-      assert.equal(cat.criterias.length, doc.categories[i].criterias.length);
-      cat.criterias.forEach((crit, j) => {
+      assert.equal(cat.criteriaRatings.length, doc.categories[i].criteriaRatings.length);
+      cat.criteriaRatings.forEach((crit, j) => {
         const value = values.ratings.find(r => r.id === crit.id);
         if (value) {
           assert.isDefined(value);
           assert.equal(crit.rating, value.rating);
         } else {
-          assert.equal(crit.rating, doc.categories[i].criterias[j].rating);
+          assert.equal(crit.rating, doc.categories[i].criteriaRatings[j].rating);
         }
       });
     });
@@ -197,7 +197,7 @@ describe('actions/utils/getCriteriaValues', () => {
       name: 'Test Person',
       categories: [{
         title: 'Test 1',
-        criterias: [{
+        criteriaRatings: [{
           id: '12345',
           label: '',
           rating: 2,
@@ -210,7 +210,7 @@ describe('actions/utils/getCriteriaValues', () => {
         }],
       }, {
         title: 'Test 2',
-        criterias: [{
+        criteriaRatings: [{
           id: '12348',
           label: '',
           rating: 2,
@@ -240,15 +240,15 @@ describe('actions/utils/getCriteriaValues', () => {
     const categories = getCriteriaValues(doc, values);
     assert.equal(categories.length, doc.categories.length);
     categories.forEach((cat, i) => {
-      assert.equal(cat.criterias.length, doc.categories[i].criterias.length);
-      cat.criterias.forEach((crit, j) => {
+      assert.equal(cat.criteriaRatings.length, doc.categories[i].criteriaRatings.length);
+      cat.criteriaRatings.forEach((crit, j) => {
         const value = values.ratings.find(r => r.id === crit.id);
 
         if (value) {
           assert.isDefined(value);
           assert.equal(crit.rating, value.rating);
         } else {
-          assert.equal(crit.rating, doc.categories[i].criterias[j].rating);
+          assert.equal(crit.rating, doc.categories[i].criteriaRatings[j].rating);
         }
       });
     });

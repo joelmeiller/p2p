@@ -11,7 +11,10 @@ import LabeledStarRating from '../elements/LabeledStarRating.jsx';
 
 const LabeledStarRatingWithGrade = props => (
   <div className="row">
-    <div className="col-xs-6">
+    <div
+      className="col-xs-6"
+      onClick={() => (props.isFinal ? props.onSelectMember() : undefined)}
+    >
       <LabeledStarRating
         {...props}
         readonly
@@ -39,7 +42,9 @@ const LabeledStarRatingWithGrade = props => (
                 name={props.id}
                 className="pull-top-small push-left-mini"
                 defaultValue={props.deviation}
-                onChange={(e) => { if (props.onChanged) props.onChanged(e.target.value); }}
+                onChange={(e) => {
+                  if (props.onChanged) props.onChanged(e.target.value);
+                }}
                 disabled={props.readonly}
                 style={{ width: '60px' }}
                 inputStyle={{ color: '#333333' }}
@@ -72,6 +77,7 @@ const LabeledStarRatingWithGrade = props => (
       <div className="col-xs-6">
         {(props.removed ?
           <p>-</p> :
+          {/* TODO: i18n */}
           <p><span className="prefix">Progress:</span>{props.progress} %</p>
         )}
       </div>

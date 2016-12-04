@@ -9,9 +9,10 @@ const processReceived = project => ({
   stop: project.stop === null ? null : new Date(project.stop),
 });
 
+// TODO: Separate methods and add to subfolder 'projects'
 export const getProject = id =>
   fetch(`projects/${id}`, {
-    errorMessage: 'Could not get project list',
+    errorMessage: 'Could not get project list', // TODO: i18n
   })
   .then(processReceived);
 
@@ -23,14 +24,14 @@ const processToTransmit = project => ({
 
 export const postProject = project =>
   fetch('projects', {
-    errorMessage: 'Could not create new project',
+    errorMessage: 'Could not create new project', // TODO: i18n
     method: 'POST',
     data: processToTransmit(project),
   });
 
 export const updateProjectStatus = project =>
   fetch(`projects/${project.id}/status`, {
-    error_message: 'Could not update status of project',
+    error_message: 'Could not update status of project', // TODO: i18n
     method: 'PUT',
     data: project.status,
   });

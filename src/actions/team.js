@@ -127,6 +127,8 @@ export const saveTeam = props => (dispatch, getState) => {
   if (state.members) {
     apiSaveTeam(state.members, (data) => {
       if (data.status === 500) {
+        // TODO: i18n
+        // TODO: Error handling
         alert('Criteria could not be saved');
       } else {
         apiGetTeam(data => dispatch(receiveData(data)));

@@ -2,10 +2,10 @@
 
 import { assert } from 'chai';
 
-import mapRating from '../src/middleware/utils/mapRating.js';
+import mapRating from '../../../src/middleware/utils/mapRating.js';
 
 
-describe('ui/utils/sortMembers', () => {
+describe('middleware/utils/mapRating', () => {
   it('sort with removed', () => {
     const apiRating = {
       id: 1,
@@ -73,11 +73,10 @@ describe('ui/utils/sortMembers', () => {
 
     const mappedRating = mapRating(apiRating);
 
-    assert.equal(mappedRating.id, apiRating.id);
+    assert.equal(mappedRating.ratingId, apiRating.id);
     assert.equal(mappedRating.rating, apiRating.rating);
     assert.equal(mappedRating.comment, apiRating.comment);
-    assert.isDefined(mappedRating.member);
-    assert.equal(mappedRating.member.id, apiRating.member.id);
+    assert.equal(mappedRating.id, apiRating.member.id);
 
     assert.isDefined(mappedRating.categories);
     assert.equal(mappedRating.categories.length, 2);

@@ -67,6 +67,7 @@ const receiveUserData = data => (dispatch) => {
   if (data.rating && data.rating.isNew) {
     const username = `${data.user.firstName} ${data.user.lastName}`;
     const message = data.user.isQM ?
+    // TODO: i18n
     `Willkommen ${username} im Project ${data.project.title}. Bitte bestätige, dass deine Zuteilung als Quality Manager (QM) korrekt ist oder melde dich bei den Projektverantwortlichen.` :
     `Willkommen ${username} im Project ${data.project.title}. Bitte bestätige, dass deine Zuteilung korrekt ist oder melde dich beim Quality Manager dieses Projektes.`;
     dispatch(addAction({
@@ -74,6 +75,7 @@ const receiveUserData = data => (dispatch) => {
       message,
       type: 'confirm',
       date: new Date(),
+      // TODO: i18n
       buttonText: 'Ich bestätige',
       params: {
         type: UPDATE_STATUS,
@@ -84,12 +86,14 @@ const receiveUserData = data => (dispatch) => {
 
   // Set accept rating action item when all ratings are available
   if (data.project && data.project.isFinal && !data.rating.isAccepted) {
+    // TODO: i18n
     const message = `Deine Bewertung für das Projekt ${data.project.title} ist abgeschlossen. Bitte bestätige, dass du mit deiner Bewertung und der damit verbundenen Abweichung gegenüber der Teamnote einverstanden bist oder nimm direkt mit dem Quality Manager (QM) Kontakt auf.`;
     dispatch(addAction({
       id: '500',
       message,
       type: 'confirm',
       date: new Date(),
+      // TODO: i18n
       buttonText: 'Bewertung akzeptieren',
       params: {
         type: UPDATE_STATUS,

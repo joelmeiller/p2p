@@ -42,6 +42,7 @@ const MemberCard = props => (
     </CardText>
     <hr style={{ margin: 0 }} />
     <CardActions>
+      {/* TODO: i18n */}
       <FlatButton
         label="Read More"
         primary

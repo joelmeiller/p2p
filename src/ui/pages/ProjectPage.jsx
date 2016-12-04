@@ -13,6 +13,7 @@ import {
 
 const dateToTerm = date => (date.getMonth() + 1 >= 9 || date.getMonth() + 1 <= 2 ? 'HS' : 'FS') + (date.getYear() % 100);
 
+// TODO: i18n
 export const STATUS_MAPPING = {
   OPEN: 'Offen',
   FINAL: 'Final',
@@ -33,6 +34,7 @@ const ProjectPage = props => (
           adjustForCheckbox={false}
           enableSelectAll={false}
         >
+          {/* TODO: i18n */}
           <TableRow>
             <TableHeaderColumn
               tooltip="Projektschiene"

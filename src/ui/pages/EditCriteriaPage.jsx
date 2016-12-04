@@ -29,11 +29,13 @@ const CriteriaPage = props => (
     }
     <div className="row push-top-large">
       <div className="col-xs-4 align-right">
+      {/* TODO: i18n */}
         <RaisedButton
           label={props.readonly ? 'Back' : 'Cancel'}
           onClick={props.handleCancel}
         />
       </div>
+      {/* TODO: i18n */}
       {(!props.readonly ?
         <div className="col-xs-4">
           <RaisedButton

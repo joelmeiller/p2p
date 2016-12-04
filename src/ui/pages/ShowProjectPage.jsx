@@ -14,6 +14,7 @@ const ShowProjectPage = props => (
   <div className="container">
     <div className="row">
       <div className="col-xs-12">
+      {/* TODO: i18n */}
         <Header2Line
           title={`Project: ${props.title}`}
         />
@@ -22,6 +23,7 @@ const ShowProjectPage = props => (
 
     <div className="row">
       <div className="col-xs-2" style={{ marginTop: 0 }}>
+      {/* TODO: i18n */}
         <p>Title</p>
       </div>
       <div className="col-xs-6">
@@ -31,6 +33,7 @@ const ShowProjectPage = props => (
 
     <div className="row">
       <div className="col-xs-2" style={{ marginTop: 0 }}>
+      {/* TODO: i18n */}
         <p>Coach</p>
       </div>
       <div className="col-xs-6">
@@ -40,6 +43,7 @@ const ShowProjectPage = props => (
 
     <div className="row">
       <div className="col-xs-2" style={{ marginTop: 0 }}>
+      {/* TODO: i18n */}
         <p>QM</p>
       </div>
       <div className="col-xs-4" style={{ marginTop: 0 }}>
@@ -49,6 +53,7 @@ const ShowProjectPage = props => (
 
     <div className="row">
       <div className="col-xs-2" style={{ marginTop: 0 }}>
+      {/* TODO: i18n */}
         <p>Level</p>
       </div>
       <div className="col-xs-4" style={{ marginTop: 0 }}>
@@ -58,6 +63,7 @@ const ShowProjectPage = props => (
 
     <div className="row">
       <div className="col-xs-2" style={{ marginTop: 0 }}>
+      {/* TODO: i18n */}
         <p>Zeitmodell</p>
       </div>
       <div className="col-xs-4" style={{ marginTop: 0 }}>
@@ -67,6 +73,7 @@ const ShowProjectPage = props => (
 
     <div className="row">
       <div className="col-xs-2" style={{ marginTop: 0 }}>
+      {/* TODO: i18n */}
         <p>Start</p>
       </div>
       <div className="col-xs-4" style={{ marginTop: 0 }}>
@@ -76,6 +83,7 @@ const ShowProjectPage = props => (
 
     <div className="row">
       <div className="col-xs-2" style={{ marginTop: 0 }}>
+      {/* TODO: i18n */}
         <p>Status</p>
       </div>
       <div className="col-xs-4" style={{ marginTop: 0 }}>
@@ -100,12 +108,14 @@ const ShowProjectPage = props => (
       {isEditable(props) ?
         <div>
           <div className="col-xs-4 align-right">
+          {/* TODO: i18n */}
             <RaisedButton
               label="Cancel"
               onClick={props.handleCancel}
             />
           </div>
           <div className="col-xs-4">
+          {/* TODO: i18n */}
             <RaisedButton
               label="Save"
               primary
@@ -114,6 +124,7 @@ const ShowProjectPage = props => (
           </div>
         </div> :
         <div className="col-xs-4 align-right">
+        {/* TODO: i18n */}
           <RaisedButton
             label="Back"
             onClick={props.handleCancel}

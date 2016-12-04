@@ -157,6 +157,8 @@ export const saveCriterias = props => (dispatch, getState) => {
   if (state.categories) {
     apiSaveCriterias(state.categories, (data) => {
       if (data.status === 500) {
+        // TODO: i18n
+        // TODO: Error handling
         alert('Criteria could not be saved');
       } else {
         apiGetCriterias(data => dispatch(receiveData(data)));

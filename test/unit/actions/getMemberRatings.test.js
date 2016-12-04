@@ -2,7 +2,7 @@
 
 import { assert } from 'chai';
 
-import getMemberRatings from '../src/actions/utils/getMemberRatings.js';
+import getMemberRatings from '../../../src/actions/utils/getMemberRatings.js';
 
 
 describe('actions/utils/getMemberRatings', () => {
@@ -140,7 +140,7 @@ describe('actions/utils/getMemberRatings', () => {
     assert.equal(ratings[0].criteriaId, 333);
     assert.equal(ratings[0].rating, 3);
     assert.equal(ratings[1].criteriaId, 444);
-    assert.equal(ratings[1].rating, 3.25);
+    assert.equal(ratings[1].rating, 3.5);
   });
 });
 
