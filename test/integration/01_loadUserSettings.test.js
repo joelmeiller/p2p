@@ -2,30 +2,25 @@
 
 import { assert } from 'chai';
 
+import fetch from 'isomorphic-fetch';
 
-import { authImpersonate, authLogin, authLogout, authInfo } from '../../src/middleware/auth.js';
-import apiGetUserSettings from '../../src/middleware/user/getUserSettings.js';
-
-
-const
+const api = `http://localhost:8080/ip-p2p/api/user/settings`;
 
 describe('load user settings', () => {
-
-  before(() => {
-    authImpersonate({ impersonatedEmail: 'max.muster@students.fhnw.ch' }).then(() => {
-      authInfo().then((data) => {
-      /* global window: false */
-      const app = getState().app;
-      dispatch(receiveData(data));
-      if (data.loggedIn) {
-        dispatch(getUserSettings());
-      } else if (window.ticket && !app.loggedOut) {
-        authLogin(window.ticket).then(() => {
-          dispatch(receiveData({ loggedIn: true }));
-          dispatch(getUserSettings());
-        });
-      }
-    });
+  it('get user settings', (done) => {
+    fetch(api, {
+      headers: {
+        'Content-Type': 'application/json',
+        'mail': 'max.muster@students.fhnw.ch',
+      },
+    })
+    .then((response) => {
+      assert.isTrue(response.ok);
+      response.json().then((data) => {
+        console.log(data);
+        assert.isDefined(data.user);
+        done()
+      });
     });
   });
 });

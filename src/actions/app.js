@@ -130,7 +130,7 @@ export const updateAuthStatus = () => (dispatch, getState) => {
       dispatch(receiveData(data));
       if (data.loggedIn) {
         dispatch(getUserSettings());
-      } else if (window.ticket && !app.loggedOut) {
+      } else if (window.ticket && app.loggedIn) {
         authLogin(window.ticket).then(() => {
           dispatch(receiveData({ loggedIn: true }));
           dispatch(getUserSettings());
@@ -154,7 +154,6 @@ export const doLogout = () => dispatch => (
     dispatch({
       type: RECEIVE,
       loggedIn: false,
-      loggedOut: true,
     });
   })
 );

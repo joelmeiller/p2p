@@ -21,6 +21,8 @@
     "eslint-plugin-react": "^6.7.1",
     "extract-text-webpack-plugin": "^1.0.1",
     "fetch-mock": "^5.1.5",
+    "jsdom": "9.8.3",
+    "jsdom-global": "2.1.0",
     "mocha": "^3.2.0",
     "postcss-cssnext": "^2.8.0",
     "postcss-import": "^8.1.2",
@@ -73,8 +75,11 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9000 -s ./",
-    "test:unit:once": "mocha --compilers js:babel-core/register test/**/*test.js --reporter spec",
-    "test:unit:watch": "mocha --compilers js:babel-core/register test/**/*test.js --watch --reporter spec"
+    "test:unit:once": "mocha --compilers js:babel-core/register test/unit/**/*test.js --reporter spec",
+    "test:unit:watch": "mocha --compilers js:babel-core/register test/unit/**/*test.js --watch --reporter spec",
+    "test:integration:once": "mocha --compilers js:babel-core/register -r jsdom-global/register test/integration/**/*test.js --reporter spec",
+    "test:integration:watch": "mocha --compilers js:babel-core/register -r jsdom-global/register test/integration/**/*test.js --watch --reporter spec",
+    "test:full": "mocha --compilers js:babel-core/register test/**/*test.js -r jsdom-global/register --reporter spec"
   },
   "babel": {
     "presets": [

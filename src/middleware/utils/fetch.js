@@ -24,6 +24,7 @@ export default (uri, { method, data, errorMessage } = {}) => {
       ...opts,
     };
   }
+  console.log(getApiEntrypoint(uri));
   return fetch(getApiEntrypoint(uri), opts)
   .catch((error) => {
     // Don't use errorMessage here to allow for removing duplicates.
