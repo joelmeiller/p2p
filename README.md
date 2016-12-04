@@ -11,7 +11,7 @@ Packages:
 
 ```bash
 sudo apt-get update
-sudo apt-get install git node npm curl mysql-server
+sudo apt-get install git node npm curl mysql-server squid3
 ```
 
 Manual downloads
@@ -105,6 +105,13 @@ npm start
 ```
 
 You can log in as any of the predefined users -- see
+
+- `vladimir.petkovic@fhnw.ch` : COACH
+- `test.person1@students.fhnw.ch` : STUDENT FULLTIME
+- `test.person3@students.fhnw.ch` : STUDENT BB
+- `test.person5@students.fhnw.ch` : STUDENT PARTTIME
+
+Those and more users are defined in:
 [MemberDataLoader.java](https://github.com/joelmeiller/p2p/blob/master/src/main/java/ch/fhnw/p2p/fixtures/MemberDataLoader.java)
 and
 [CoachDataLoader.java](https://github.com/joelmeiller/p2p/blob/master/src/main/java/ch/fhnw/p2p/fixtures/CoachDataLoader.java)
@@ -132,6 +139,18 @@ Run the following command in the home directory:
 ```
 
 Access the webapp in `http://localhost:8080/ip-p2p`
+
+The production backend reads the user email address from a proxy-provided http
+header `mail`. This header is automaticall provided by the
+[Shibboleth SWITCHaai](https://www.switch.ch/aai/about/shibboleth/)
+and can be emulated on the local machine using the squid3 proxy:
+
+```bash
+echo include ~/p2p/squid.conf | sudo tee -a /etc/squid3/squid.conf
+google-chrome-stable --proxy-server=localhost:3128 http://localhost:8080/ip-p2p/
+```
+
+The proxy can then be reloaded with `sudo squid3 -k reconfigure`
 
 ## Install developer environment
 
