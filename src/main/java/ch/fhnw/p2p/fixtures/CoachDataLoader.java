@@ -14,15 +14,15 @@ public class CoachDataLoader implements CommandLineRunner {
 
 	@Autowired
 	UserRepository coachRepo;
-	
+
 
 	@Override
 	public void run(String... strings) throws Exception {
 		System.out.println("Autorunner Coach Setup");
 		
-		// add coaches
-		User coach = new User("Fredi", "Krügger", "fredi.krueger@fhnw.ch", User.Type.COACH);
+		// Add fake coach for testing
+		User coach = new User("Vladimir", "Petkovic", "vladimir.petkovic@fhnw.ch", User.Type.COACH);
 		coachRepo.save(coach);
-		
+
 	}
 }

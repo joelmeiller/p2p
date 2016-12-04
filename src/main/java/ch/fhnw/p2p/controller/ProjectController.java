@@ -2,6 +2,7 @@ package ch.fhnw.p2p.controller;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -26,11 +27,13 @@ import ch.fhnw.p2p.entities.Member;
 import ch.fhnw.p2p.entities.Project;
 import ch.fhnw.p2p.entities.Project.Status;
 import ch.fhnw.p2p.entities.ProjectCategory;
+import ch.fhnw.p2p.entities.Role;
 import ch.fhnw.p2p.entities.User;
 import ch.fhnw.p2p.entities.mapping.MappingException;
 import ch.fhnw.p2p.entities.mapping.NewProject;
 import ch.fhnw.p2p.entities.mapping.ProjectMapping;
 import ch.fhnw.p2p.repositories.CategoryRepository;
+import ch.fhnw.p2p.repositories.ProjectMemberRepositoryImpl;
 import ch.fhnw.p2p.repositories.ProjectRepository;
 import ch.fhnw.p2p.repositories.RoleRepository;
 import ch.fhnw.p2p.repositories.UserRepository;
@@ -52,6 +55,9 @@ public class ProjectController extends BaseController {
 
 	@Autowired
 	private ProjectRepository projectRepo;
+	
+	@Autowired
+	private ProjectMemberRepositoryImpl projectMemberRepo;
 
 	@Autowired
 	private UserRepository userRepo;
@@ -170,7 +176,7 @@ public class ProjectController extends BaseController {
 
 		Project project;
 		try {
-			project = setupCategoriesForProject(newProject.getProject(userRepo, roleRepo, bindingResult));
+			project = setupProject(newProject.getProject(bindingResult), newProject.getEmailQm());
 		} catch (MappingException e) {
 			throw new BadRequestException(e.getMessage());
 		}
@@ -181,12 +187,14 @@ public class ProjectController extends BaseController {
 	}
 	
 	/**
-	 * add all project categories without criterias for initial selection
+	 * add all project categories without criterias for initial selection and set QM as only member
 	 * 
 	 * @param Project the user's current project
 	 * @return Project the project enriched with all categories
+	 * @throws MappingException 
 	 */
-	private Project setupCategoriesForProject(Project project) {
+	private Project setupProject(Project project, String emailQm) throws MappingException {
+		// Add categories
 		List<Category> categories = categoryRepo.findAll();
 		logger.info("Add categories (count=" + categories.size() + ")");
 		
@@ -195,6 +203,21 @@ public class ProjectController extends BaseController {
 			project.getProjectCategories().add(projectCategory);
 			projectCategory.setProject(project);
 		}
+		
+		// Add QM
+		Optional<User> qmUser = userRepo.findByEmail(emailQm);
+		logger.info("Add member as QM :" + qmUser.toString());
+		
+		if (!qmUser.isPresent()) throw new MappingException("User not found: " + emailQm);
+		if (qmUser.get().getStatus() != User.Status.FREE) throw new MappingException("User " + emailQm + " is not free");
+		
+		Role qmRole = roleRepo.findByShortcut("QM");
+		if (qmRole == null) throw new MappingException("Role QM not found");
+		
+		Member qmMember = new Member(project, qmUser.get(), qmRole);
+		project.getMembers().add(qmMember);
+
+		projectMemberRepo.addMemberToRatings(qmMember);
 		
 		return project;
 	}
