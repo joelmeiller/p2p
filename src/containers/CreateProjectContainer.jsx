@@ -23,7 +23,7 @@ import {
 
 const mapStateToProps = (globalState, props) => {
   const project = globalState.project;
-// because there should be just one member in the array.
+
   return {
     ...props,
     ...project,

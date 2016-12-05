@@ -23,6 +23,7 @@ export const ERROR_RESET_UPDATE = '/rating/ERROR_RESET_UPDATE';
 
 const finalizeRatingsAction = (user) => {
   const message = user.isQM ?
+    // TODO: i18n
     'Deine Bewertung ist komplett, du kannst sie jetzt abschliessen.' :
     'Deine Bewertung ist komplett. Du kannst sie jetzt abschliessen, in dem du sie an deinen Qualtiy Manager (QM) sendest.';
 
@@ -31,6 +32,7 @@ const finalizeRatingsAction = (user) => {
     message,
     type: 'important',
     date: new Date(),
+    // TODO: i18n
     buttonText: user.isQM ? 'Bewertung abschliessen' : 'Bewertung an QM senden',
     params: {
       type: UPDATE_STATUS,
@@ -123,6 +125,8 @@ export const showRating = (rating, props) => (dispatch, getState) => {
     dispatch(showSelectedRating(index, props));
     props.router.push(`/ip-p2p/team/rating/${state.ratings[index].slug}`);
   } else {
+    // TODO: i18n
+    // TODO: Error handling
     console.log('Rating not found');
   }
 };

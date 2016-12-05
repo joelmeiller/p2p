@@ -20,8 +20,7 @@ import ch.fhnw.p2p.entities.User;
 import ch.fhnw.p2p.repositories.UserRepository;
 
 /**
- * A class to test interactions with the MySQL database using the
- * StudentRepository class.
+ * REST api controller to get or update the students
  *
  * @author Joel Meiller
  */
@@ -46,10 +45,9 @@ public class StudentController extends BaseController {
 	// ------------------------
 
 	/**
-	 * /suggestions --> Get suggestions depending on search pattern
+	 * Get suggestions depending on search pattern
 	 * 
-	 * @param pattern
-	 *            search pattern to search in first name, last name and email
+	 * @param search pattern to search in first name, last name and email
 	 * @return list of the maximal first 7 students found by the search pattern.
 	 */
 	@CrossOrigin(origins = "http://localhost:3000")

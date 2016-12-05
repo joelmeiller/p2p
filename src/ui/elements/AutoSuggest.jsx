@@ -103,7 +103,7 @@ const AutoSuggestComponent = props => (
     getSuggestionValue={getSuggestionValue}
     renderSuggestion={renderSuggestion}
     inputProps={{
-      placeholder: 'Select Student',
+      placeholder: 'Select Student', // DODO: i18n
       value: props.value,
       onChange: (e, { value }) => props.handleChange(value),
     }}

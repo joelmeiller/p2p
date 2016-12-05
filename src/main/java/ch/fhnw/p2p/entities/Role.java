@@ -29,6 +29,7 @@ public class Role extends VersionedObject {
 	@Enumerated(EnumType.STRING)
 	private Type type;
 
+	// TODO: replace with class Locale to handle multi language support
 	private String title;
 	private String shortcut;
 

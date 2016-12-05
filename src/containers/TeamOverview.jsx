@@ -45,6 +45,7 @@ const mapStateToProps = (globalState, props) => {
 
   const newProps = {
     ...props,
+    // TODO: i18n
     title: `Teammembers (${members.length})`,
     members,
     roles,

@@ -24,10 +24,11 @@ export default (uri, { method, data, errorMessage } = {}) => {
       ...opts,
     };
   }
+  console.log(getApiEntrypoint(uri));
   return fetch(getApiEntrypoint(uri), opts)
   .catch((error) => {
     // Don't use errorMessage here to allow for removing duplicates.
-    toastr.error('Connection problem', 'The server could not be reached. Check your internet connection and reload the page...');
+    toastr.error('Connection problem', 'The server could not be reached. Check your internet connection and reload the page...'); // TODO: i18n
     return Promise.reject(error);
   })
   .then((response) => {
@@ -41,7 +42,7 @@ export default (uri, { method, data, errorMessage } = {}) => {
       return Promise.reject(response);
     }).catch((error) => {
       if (!handled) {
-        toastr.error(errorMessage || 'Error', 'Server returned invalid JSON');
+        toastr.error(errorMessage || 'Error', 'Server returned invalid JSON'); // TODO: i18n
       }
       return Promise.reject(error);
     });

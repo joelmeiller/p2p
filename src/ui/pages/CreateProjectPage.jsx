@@ -14,6 +14,7 @@ export const PROJECT_LEVELS = [
   { id: 'IP5', label: 'IP5' },
 ];
 
+// TODO: i18n
 export const ZEITMODELLE = [
   { id: 'BB', label: 'Berufsbegleitend' },
   { id: 'VZ_TZ', label: 'Vollzeit/Teilzeit' },
@@ -23,6 +24,7 @@ const CreateProjectPage = props => (
   <div className="container">
     <div className="row">
       <div className="col-xs-12">
+      {/* TODO: i18n */}
         <Header2Line
           title={`Project: ${props.title}`}
         />
@@ -34,6 +36,7 @@ const CreateProjectPage = props => (
         <p>Title</p>
       </div>
       <div className="col-xs-6">
+      {/* TODO: i18n */}
         <TextField
           hintText="Title"
           value={props.title}
@@ -46,9 +49,11 @@ const CreateProjectPage = props => (
 
     <div className="row">
       <div className="col-xs-2" style={{ marginTop: 14 }}>
+      {/* TODO: i18n */}
         <p>Coach</p>
       </div>
       <div className="col-xs-6">
+      {/* TODO: i18n */}
         <TextField
           hintText="Name Coach"
           value={props.coach}
@@ -100,6 +105,7 @@ const CreateProjectPage = props => (
 
     <div className="row">
       <div className="col-xs-2" style={{ marginTop: 14 }}>
+      {/* TODO: i18n */}
         <p>Zeitmodell</p>
       </div>
       <div className="col-xs-4" style={{ marginTop: -8 }}>
@@ -113,9 +119,11 @@ const CreateProjectPage = props => (
 
     <div className="row">
       <div className="col-xs-2" style={{ marginTop: 14 }}>
+      {/* TODO: i18n */}
         <p>Start</p>
       </div>
       <div className="col-xs-4" style={{ marginTop: -8 }}>
+      {/* TODO: i18n */}
         <DatePicker
           value={props.start}
           onChange={(_, date) => props.handleStartChanged(date)}

@@ -26,6 +26,7 @@ public interface UserRepository extends Repository<User, Long> {
 	 */
 	Optional<User> findByEmail(String email);
 	
+	// TODO: Add limit of maximal 7 students to be found (Problem: LIMIT in Query will fail for JUnit tests as H2 database does not know this command)
 	@Query("SELECT stud FROM User stud WHERE stud.status = 'FREE' AND (LOWER(stud.firstName) LIKE ?1% OR LOWER(stud.lastName) LIKE ?1% OR LOWER(stud.email) LIKE ?1%) ORDER BY stud.email ASC")
 	List<User> findSuggestions(String suggestion);
 }

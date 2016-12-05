@@ -7,6 +7,12 @@ import ch.fhnw.p2p.entities.Member;
 
 public abstract class GradeCalculator {
 
+	/**
+	 * calculates the grade deviation for each member based on the final member rating
+	 * 
+	 * @param set of members
+	 * @return set of members enriched with deviation
+	 */
 	public static Set<Member> getDeviations(Set<Member> members) {
 		double averageRating = 0;
 		
@@ -24,6 +30,12 @@ public abstract class GradeCalculator {
 		return members;
 	}
 	
+	/**
+	 * calculates the grades for each member based on the deviation
+	 * 
+	 * @param set of members
+	 * @return set of members enriched with grade
+	 */
 	public static Set<Member> getGrades(double grade, Set<Member> members) {
 		
 		for (Member member : members) {

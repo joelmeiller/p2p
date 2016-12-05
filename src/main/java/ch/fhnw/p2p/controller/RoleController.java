@@ -20,7 +20,7 @@ import ch.fhnw.p2p.entities.Role;
 import ch.fhnw.p2p.repositories.RoleRepository;
 
 /**
- * REST api controller for the roles collection
+ * REST api controller to handle the roles
  *
  * @author Joel Meiller
  */
@@ -40,9 +40,9 @@ public class RoleController extends BaseController {
 	// ------------------------
 	
 	/**
-	 * /findAll --> Returns all active roles.
+	 * Returns all active roles.
 	 * 
-	 * @return A list of roles
+	 * @return List of roles
 	 */
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value="/active", method = RequestMethod.GET)
@@ -58,16 +58,10 @@ public class RoleController extends BaseController {
 	}
 
 	/**
-	 * POST method --> Create or update a role and save it in the database.
+	 * Add new role
 	 * 
-	 * @param title
-	 *            role title (e.g. 'Project Leader')
-	 * @param shortcut
-	 *            role short-cut (e.g. 'PL')
-	 * @param isQM
-	 *            flag to indicate if the new role is the QM (only one QM role
-	 *            can exists, an existing QM role would be annulated)
-	 * @return The created or updated role
+	 * @param role to be inserted
+	 * @return The created role
 	 */
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Role> saveRole(@Valid @RequestBody Role role, BindingResult result) {
@@ -78,25 +72,6 @@ public class RoleController extends BaseController {
 			role = repository.save(role);
 			logger.debug("Successfully saved role[" + role.getId() + "] with content '" + role.toString() + "'");
 			return new ResponseEntity<Role>(role, HttpStatus.OK);
-		} catch (Exception e) {
-			logger.error("Server error", e);
-			return new ResponseEntity<Role>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-
-	/**
-	 * DELETE method --> Delete the role having the passed id.
-	 * 
-	 * @param id The id of the role to delete
-	 * @return Http Status
-	 */
-	@RequestMapping(method = RequestMethod.DELETE)
-	public ResponseEntity<Role> delete(long id) {
-		try {
-			Role role = new Role(id);
-			repository.delete(role);
-			logger.debug("Successfully deleted role[" + role.getId() + "] with content '" + role.toString() + "'");
-			return new ResponseEntity<Role>(HttpStatus.OK);
 		} catch (Exception e) {
 			logger.error("Server error", e);
 			return new ResponseEntity<Role>(HttpStatus.INTERNAL_SERVER_ERROR);

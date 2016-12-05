@@ -2,7 +2,7 @@
 
 import { assert } from 'chai';
 
-import calculateProgress from '../src/middleware/utils/calculateProgress.js';
+import calculateProgress from '../../../src/middleware/utils/calculateProgress.js';
 
 describe('middleware/utils/calculateProgress', () => {
   it('empty', () => {

@@ -12,14 +12,14 @@ import Rowing from 'material-ui/svg-icons/action/rowing';
 
 import UserMenu from './UserMenu.jsx';
 
-
+// TODO: i18n
 const userMenuTM = props => ([
   {
     name: 'Dashboard',
     icon: <Dashboard className="menu-icon" />,
     path: '/ip-p2p/',
   }, {
-    name: 'My Ratings',
+    name: 'My Rating',
     icon: <Assessment className="menu-icon" />,
     path: '/ip-p2p/team/member/rating',
     disabled: !props.isFinal,
@@ -47,7 +47,7 @@ const userMenuQM = props => ([
     icon: <Grade className="menu-icon" />,
     path: '/ip-p2p/team/rating',
   }, {
-    name: 'My Ratings',
+    name: 'My Rating',
     icon: <Assessment className="menu-icon" />,
     path: '/ip-p2p/team/member/rating',
     disabled: !props.isFinal,

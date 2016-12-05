@@ -1,13 +1,8 @@
 package ch.fhnw.p2p.entities;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -23,7 +18,10 @@ import lombok.EqualsAndHashCode;
 @Entity
 public class Criteria extends VersionedObject{
 	
+	// TODO: add new type or categorization to handle the social competences, project performance and self defined criterias separately
+	
 	// Attributes
+	// TODO: replace with class Locale to handle multi language support
 	@NotEmpty private String label;
 
 	// Relations

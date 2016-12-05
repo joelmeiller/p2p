@@ -17,27 +17,28 @@ class App extends Component {
   }
 
   render() {
-    return (<div className="app">
-      <AppBarHeader
-        {...this.props}
-      />
-      <ReduxToastr
-        position="top-center"
-        progressBar
-        preventDuplicates
-      />
-      <main>
-        {this.props.loggedIn && this.props.children}
-        {!this.props.loggedIn && this.props.activeProfile === 'dev' &&
-          <DevLogin
-            impersonatedEmail={this.props.impersonatedEmail}
-            handleImpersonatedEmailChanged={this.props.handleImpersonatedEmailChanged}
-            handleImpersonate={this.props.handleImpersonate}
-          />}
-        {!this.props.loggedIn && this.props.activeProfile === 'prod' && <GoodBye loggedIn={this.props.loggedIn} />}
-        }
-      </main>
-    </div>);
+    return (
+      <div className="app">
+        <AppBarHeader
+          {...this.props}
+        />
+        <ReduxToastr
+          position="top-center"
+          progressBar
+          preventDuplicates
+        />
+        <main>
+          {this.props.loggedIn && this.props.children}
+          {!this.props.loggedIn && this.props.activeProfile === 'dev' &&
+            <DevLogin
+              impersonatedEmail={this.props.impersonatedEmail}
+              handleImpersonatedEmailChanged={this.props.handleImpersonatedEmailChanged}
+              handleImpersonate={this.props.handleImpersonate}
+            />}
+          {(!this.props.loggedIn && this.props.activeProfile === 'prod' && <GoodBye loggedIn={this.props.loggedIn} />)}
+        </main>
+      </div>
+    );
   }
 }
 
@@ -62,7 +63,7 @@ const mapStateToProps = (globalState, props) => {
 
   return {
     ...props,
-    project: project || { title: 'Projekte' },
+    project: project || { title: 'Projekte' }, // TODO: i18n
     user,
     username,
     loggedIn,

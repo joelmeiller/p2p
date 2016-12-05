@@ -1,6 +1,4 @@
-// Middleware
-// import { default as apiGetInbox } from '../middleware/getInbox.mock.js';
-
+// Middleware imports
 import apiSetMemberStatus from '../middleware/students/setMemberStatus.js';
 
 // Actions
@@ -33,6 +31,7 @@ export const performAction = action => (dispatch) => {
 
           console.log(data);
           if (data.accepted) {
+            // TODO: i18n
             const message = "Die Bestätigung wurde erfolgreich übermittelt und deine Bewertung ist damit abgeschlossen :)";
             dispatch(addAction({
               id: '900',

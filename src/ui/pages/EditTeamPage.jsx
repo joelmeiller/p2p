@@ -49,6 +49,7 @@ const EditTeamPage = props => (
     )}
     <div className="row push-top-large">
       <div className="col-xs-4 align-right">
+      {/* TODO: i18n */}
         <RaisedButton
           label={props.readonly ? 'Back' : 'Cancel'}
           onClick={props.handleCancel}
@@ -56,6 +57,7 @@ const EditTeamPage = props => (
       </div>
       {(!props.readonly ?
         <div className="col-xs-4">
+        {/* TODO: i18n */}
           <RaisedButton
             label="Save"
             primary

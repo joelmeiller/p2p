@@ -31,6 +31,7 @@ class ProgressPageComponent extends React.Component {
             />
           </div> : undefined
         )}
+      {/* TODO: i18n */}
         <h2>Bewertungsfortschritt</h2>
         {(this.props.rating.isNew ?
           <p>Bevor du deine Ratings abgeben kannst, musst du bestätigen, dass du richtig in diesem Projekt eingeteilt bist.</p> :

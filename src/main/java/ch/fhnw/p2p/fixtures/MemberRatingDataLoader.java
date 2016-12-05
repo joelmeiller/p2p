@@ -15,6 +15,7 @@ import ch.fhnw.p2p.entities.Project;
 import ch.fhnw.p2p.entities.ProjectCriteria;
 import ch.fhnw.p2p.entities.Role;
 import ch.fhnw.p2p.entities.User;
+import ch.fhnw.p2p.evaluation.RatingCalculator;
 import ch.fhnw.p2p.repositories.MemberRepository;
 import ch.fhnw.p2p.repositories.ProjectRepository;
 import ch.fhnw.p2p.repositories.ProjectMemberRepositoryImpl;
@@ -65,7 +66,7 @@ public class MemberRatingDataLoader implements CommandLineRunner {
 			for (CriteriaRating critRating : rating.getCriteriaRatings()) {
 				critRating.setRating(new BigDecimal(3));
 			}
-			rating.checkAndSetFinalRating();
+			RatingCalculator.calculateMemberRating(rating);
 		}
 		req.setStatus(Member.Status.FINAL);
 		

@@ -17,7 +17,7 @@ import ch.fhnw.p2p.entities.User;
 import ch.fhnw.p2p.entities.mapping.UserSettings;
 
 /**
- * REST api controller for the roles collection
+ * REST api controller to handle user
  *
  * @author Joel Meiller
  */
@@ -37,9 +37,9 @@ public class UserController extends BaseController {
 	// ------------------------
 	
 	/**
-	 * /find user and project settings
+	 * returns user, role and project settings and the current rating state
 	 * 
-	 * @return Project and User settings
+	 * @return the user settings
 	 */
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value="/settings", method = RequestMethod.GET)

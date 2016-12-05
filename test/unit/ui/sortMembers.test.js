@@ -2,7 +2,7 @@
 
 import { assert } from 'chai';
 
-import sortMembers from '../src/ui/utils/sortMembers.js';
+import sortMembers from '../../../src/ui/utils/sortMembers.js';
 
 
 describe('ui/utils/sortMembers', () => {
@@ -34,8 +34,6 @@ describe('ui/utils/sortMembers', () => {
     }];
 
     const sortedMembers = members.sort(sortMembers);
-
-    console.log(sortedMembers);
 
     assert.equal(sortedMembers[0].email, 'abc@test.ch');
     assert.isFalse(sortedMembers[0].removed);

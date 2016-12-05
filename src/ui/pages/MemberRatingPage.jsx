@@ -15,6 +15,7 @@ const MemberRatingPage = props => (
         text={props.title}
         value={props.rating}
       />
+    {/* TODO: i18n */}
       <Header3
         title={
           <span>Notenabweichung:<sup>*</sup>
@@ -42,6 +43,7 @@ const MemberRatingPage = props => (
       )}
     </div>
     <div className="row push-top-large">
+    {/* TODO: i18n */}
       <p className="italic small">* Die <strong>Abweichung</strong> ist entscheidend für deine individuelle Bewertung. Sie wird mit der Teamnote verrechnet (-/+) und ergibt deine finale Einzelnote.</p>
     </div>
   </div>

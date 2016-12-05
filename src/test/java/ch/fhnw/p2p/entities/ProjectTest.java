@@ -56,7 +56,7 @@ public class ProjectTest {
 		assertEquals(Project.Status.OPEN, project.getStatus());
 		assertNull(project.getTitle());
 		assertNotNull(project.getVersion());
-		assertNotNull(project.getVersionTSD());
+		assertNotNull(project.getCreatedTSD());
 	}
 
 	@Test

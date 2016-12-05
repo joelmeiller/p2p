@@ -39,7 +39,8 @@ import ch.fhnw.p2p.repositories.RoleRepository;
 import ch.fhnw.p2p.repositories.UserRepository;
 
 /**
- * REST api controller for the project list
+ * REST api controller to handle the projects
+ * TODO: Filter projects (historical views, only actual, etc.) and provide options to archive or remove projects
  *
  * @author Michelle Andrey
  */
@@ -71,6 +72,8 @@ public class ProjectController extends BaseController {
 	
 	/**
 	 * Fetch list of abbreviated projects.
+	 * 
+	 * @return List of projects
 	 */
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<Project>> getProjects(HttpServletRequest request) {
@@ -86,7 +89,10 @@ public class ProjectController extends BaseController {
 	}
 
 	/**
-	 * Fetch single abbreviated project.
+	 * Fetch single abbreviated project by id
+	 * 
+	 * @param id of the project
+	 * @return project
 	 */
 	@RequestMapping(value="{id}", method = RequestMethod.GET)
 	public ResponseEntity<Project> getProject(HttpServletRequest request, @PathVariable Long id) {
@@ -101,6 +107,9 @@ public class ProjectController extends BaseController {
 	/**
 	 * Update an existing project -- UI only supports changing of status from
 	 * final to closed.
+	 * 
+	 * @param id of the project
+	 * @return HttpStatus
 	 */
 	@RequestMapping(value = "{id}/status", method = RequestMethod.PUT)
 	public ResponseEntity<ApiResponse> updateProject(HttpServletRequest request, @PathVariable Long id,
@@ -129,7 +138,10 @@ public class ProjectController extends BaseController {
 	}
 	
 	/**
-	 * Close an open project.
+	 * Close an open project by setting the status from OPEN to FINAL
+	 * 
+	 * @param project
+	 * @return updated project
 	 */
 	@RequestMapping(value = "/projects/close", method = RequestMethod.PUT)
 	public ResponseEntity<ProjectMapping> closeProject(HttpServletRequest request, @Valid @RequestBody ProjectMapping project, BindingResult result) {
@@ -167,6 +179,9 @@ public class ProjectController extends BaseController {
 	/**
 	 * Create a new project. The posted project must contain a Member with a
 	 * user that has the email address set.
+	 * 
+	 * @param the new project
+	 * @return HttpStatus
 	 */
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<ApiResponse> addProject(HttpServletRequest request, @Valid @RequestBody NewProject newProject,

@@ -27,11 +27,10 @@ import ch.fhnw.p2p.repositories.ProjectMemberRepositoryImpl;
 import ch.fhnw.p2p.repositories.UserRepository;
 
 /**
- * REST api controller for the categories collection
+ * REST api controller to get or update the members of a project and the member's status
  *
  * @author Joel Meiller
  */
-
 @RestController
 @RequestMapping("/api/project")
 public class MemberController extends BaseController {
@@ -71,6 +70,12 @@ public class MemberController extends BaseController {
 	}
 	
 	
+	/**
+	 * Adds, updates or deletes the members of the currently allocated project of the user. 
+	 * This functionality is available only to the QM. 
+	 * @param Set of members to update
+	 * @return Set of updated members
+	 */
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "/members", method = RequestMethod.POST)
 	public ResponseEntity<Set<Member>> add(HttpServletRequest request, @Valid @RequestBody Set<Member> updatedMembers, BindingResult result) {
@@ -98,6 +103,16 @@ public class MemberController extends BaseController {
 		}
 	}
 
+	/**
+	 * Updates the member status and is used for...
+	 * - project allocation confirmation by the user (FREE > OPEN)
+	 * - closing of the member's ratings (OPEN > FINAL)
+	 * - accpetance of its final rating and the grade deviation (FINAL > ACCEPTED)
+	 * This functionality is available for all members of a project (QM, TM).
+	 *  
+	 * @param String containing the new status
+	 * @return User rating state used in the settings of the web app
+	 */
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "/members/status", method = RequestMethod.POST)
 	public ResponseEntity<UserRatingState> updateStatus(HttpServletRequest request, @Valid @RequestBody Member.Status status, BindingResult result) {

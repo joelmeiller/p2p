@@ -47,7 +47,7 @@ public class CategoryTest {
 		assertNotNull(Category.getId());
 		assertNull(Category.getTitle());
 		assertNotNull(Category.getVersion());
-		assertNotNull(Category.getVersionTSD());
+		assertNotNull(Category.getCreatedTSD());
 	}
 
 	@Test

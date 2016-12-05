@@ -2,10 +2,10 @@
 
 import { assert } from 'chai';
 
-import mapMember from '../src/middleware/utils/mapMember.js';
+import mapMember from '../../../src/middleware/utils/mapMember.js';
 
 
-describe('ui/utils/sortMembers', () => {
+describe('middleware/utils/mapRating', () => {
   it('sort with removed', () => {
     const apiRating = {
       id: 1,

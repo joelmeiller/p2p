@@ -10,17 +10,16 @@ import {
 
 
 const initialState = {
-  title: 'Dashboard',
-  user: undefined,
+  activeProfile: 'prod',
+  fetched: false,
+  hasEvaluation: false,
+  impersonatedEmail: '',
+  isFetching: false,
+  loggedIn: false,
   project: undefined,
   rating: undefined,
-  hasEvaluation: false,
-  isFetching: false,
-  fetched: false,
-  impersonatedEmail: '',
-  loggedIn: false,
-  loggedOut: false,
-  activeProfile: 'prod',
+  title: 'Dashboard',
+  user: undefined,
 };
 
 const reducer = (state = initialState, action) => {

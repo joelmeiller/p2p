@@ -2,28 +2,28 @@
 
 import { assert } from 'chai';
 
-import { getActiveRole, getActiveRoleType, getActiveRoleTitle } from '../src/middleware/utils/activeRole.js';
+import { getActiveRole, getActiveRoleShortcut, getActiveRoleTitle } from '../../../src/middleware/utils/activeRole.js';
 
 const rolesWithActive = [{
-  id: 'SA',
+  shortcut: 'SA',
   title: 'Software Architekt',
   active: true,
 }, {
-  id: 'QM',
+  shortcut: 'QM',
   title: 'Quality Manager',
 }, {
-  id: 'RE',
+  shortcut: 'RE',
   title: 'Requirements Engineer',
 }];
 
 const rolesNoActive = [{
-  id: 'SA',
+  shortcut: 'SA',
   title: 'Software Architekt',
 }, {
-  id: 'QM',
+  shortcut: 'QM',
   title: 'Quality Manager',
 }, {
-  id: 'RE',
+  shortcut: 'RE',
   title: 'Requirements Engineer',
 }];
 
@@ -32,7 +32,7 @@ describe('middleware/utils/activeRole', () => {
     it('with active role', () => {
       const activeRole = getActiveRole(rolesWithActive);
       assert.isDefined(activeRole);
-      assert.equal(activeRole.id, rolesWithActive[0].id);
+      assert.equal(activeRole.shortcut, rolesWithActive[0].shortcut);
       assert.equal(activeRole.title, rolesWithActive[0].title);
     });
     it('no active role / empty', () => {
@@ -44,13 +44,13 @@ describe('middleware/utils/activeRole', () => {
     });
   });
 
-  describe('getActiveRoleType', () => {
+  describe('getActiveRoleShortcut', () => {
     it('with active role', () => {
-      assert.equal(getActiveRoleType(rolesWithActive), rolesWithActive[0].id);
+      assert.equal(getActiveRoleShortcut(rolesWithActive), rolesWithActive[0].shortcut);
     });
     it('no active role / empty', () => {
-      assert.equal(getActiveRoleType(rolesNoActive), '-');
-      assert.equal(getActiveRoleType([]), '-');
+      assert.equal(getActiveRoleShortcut(rolesNoActive), '-');
+      assert.equal(getActiveRoleShortcut([]), '-');
     });
   });
 

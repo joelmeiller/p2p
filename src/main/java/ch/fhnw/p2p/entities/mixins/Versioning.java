@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
@@ -24,13 +25,26 @@ public abstract class Versioning {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
     @JsonIgnore
-    private Date versionTSD;
-    
+    private Date createdTSD;
     @JsonIgnore
     private String createdBy;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = true)
+    @JsonIgnore
+    private Date updatedTSD;
+    @JsonIgnore
+    private String updatedBy;
 
     @PrePersist
     protected void onCreate() {
-    	this.versionTSD = new Date();
+    	this.createdTSD = new Date();
+    	// TODO: set current user.id for createdBy
+    }
+    
+    @PreUpdate
+    protected void onUpdate() {
+    	this.updatedTSD = new Date();
+    	// TODO: set current user.id for createdBy
     }
 }

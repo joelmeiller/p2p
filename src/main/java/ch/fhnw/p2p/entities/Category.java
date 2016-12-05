@@ -23,6 +23,8 @@ import lombok.EqualsAndHashCode;
 @Entity
 public class Category extends VersionedObject {
 	
+	// TODO: add new type or categorization to handle the social competences, project performance and self defined criterias separately
+	
 	// Constants
 	public enum Type {
 		PREDEFINED,
@@ -30,6 +32,7 @@ public class Category extends VersionedObject {
 	}
 	
 	// Attributes
+	// TODO: replace with class Locale to handle multi language support
 	private String title;
 	@Enumerated(EnumType.STRING)
 	private Type type;

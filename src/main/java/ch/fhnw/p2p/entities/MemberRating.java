@@ -19,6 +19,7 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 
 import ch.fhnw.p2p.entities.mixins.VersionedObject;
+import ch.fhnw.p2p.evaluation.RatingCalculator;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -85,24 +86,7 @@ public class MemberRating extends VersionedObject {
 	 * @return boolean indicating if the member rating is in the final status 
 	 */
 	public boolean checkAndSetFinalRating() {
-		if (this.status == Status.FINAL) return true;
-		
-		if (this.getComment() == null || this.getComment().isEmpty()) return false;
-
-		Double finalRating = 0.0;
-
-		for (CriteriaRating criteriaRating : this.criteriaRatings) {
-			if (criteriaRating.getRating().compareTo(BigDecimal.ZERO) == 0)
-				return false;
-			finalRating += criteriaRating.getRating().doubleValue();
-		}
-
-		if (this.criteriaRatings.size() > 0) {
-			this.rating = new BigDecimal(finalRating / this.criteriaRatings.size());
-			this.status = Status.FINAL;
-		}
-		
-		return true;
+		return RatingCalculator.calculateMemberRating(this) == null;
 	}
 	
 	public String toString() {

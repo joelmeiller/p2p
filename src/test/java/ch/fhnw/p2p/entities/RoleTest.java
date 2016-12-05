@@ -33,7 +33,7 @@ public class RoleTest {
         assertNull(role.getTitle());
         assertNull(role.getShortcut());
         assertNotNull(role.getVersion());
-        assertNotNull(role.getVersionTSD());
+        assertNotNull(role.getCreatedTSD());
     }
     
     @Test

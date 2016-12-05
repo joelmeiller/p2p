@@ -73,8 +73,8 @@ public class AuthController extends BaseController {
 		if (result.hasErrors()) throw new BadRequestException("Invalid object");
 		Optional<Login> login = loginRepo.findByTicket(data.getTicket());
 		if (!login.isPresent()) throw new NotFoundException("Could not find ticket");
-		if (new Date().getTime() - login.get().getVersionTSD().getTime() > 1000 * 60) {
-			throw new NotAllowedException("Ticket too old: " + login.get().getVersionTSD());
+		if (new Date().getTime() - login.get().getCreatedTSD().getTime() > 1000 * 60) {
+			throw new NotAllowedException("Ticket too old: " + login.get().getCreatedTSD());
 		}
 		User user = accessControl.impersonate(request, login.get().getEmail());
 		if (user == null) throw new BadRequestException("Could not impersonate " + login.get().getEmail());

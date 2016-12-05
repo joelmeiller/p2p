@@ -1,7 +1,6 @@
 package ch.fhnw.p2p.entities;
 
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
 
 import ch.fhnw.p2p.entities.mixins.VersionedObject;
 import lombok.Data;

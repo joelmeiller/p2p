@@ -22,6 +22,7 @@ class TeamRatingOverviewComponent extends Component {
   render() {
     return (
       <div className="container push-top-small">
+      {/* TODO: i18n */}
         <h2>Bewertungsübersicht</h2>
         <TeamRatingPage {...this.props} />
       </div>
@@ -44,6 +45,7 @@ const mapStateToProps = (globalState, props) => {
     ...member,
     activeRole: getActiveRoleShortcut(member.roles),
     grade: Math.round((projectGrade + member.deviation) * 10) / 10,
+    // TODO: i18n
     status: member.isAccepted ? 'Akzeptiert' : 'Offen',
     statusSuccess: member.isAccepted,
   }));
@@ -64,6 +66,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   fetchTeam: isQM => dispatch(fetchTeam(isQM)),
   handleSelectMember: (member, props) => dispatch(showMemberRating(member, props)),
   handleCloseProject: () => dispatch(closeProject()),
+  handleDeviationChanged: (member) => dispatch()
 });
 
 const TeamRatingOverview = connect(
