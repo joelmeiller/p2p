@@ -19,6 +19,7 @@ const EditableCategory = props => (
     {props.criterias ? props.criterias.map(criteria =>
       <div className="row" key={criteria.criteriaId}>
         <div className="col-xs-12">
+        {/* TODO: i18n */}
           <ListItem
             id={criteria.criteriaId || criteria.label}
             text={criteria.label}

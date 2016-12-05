@@ -7,6 +7,7 @@ import Dropdown from '../elements/Dropdown.jsx';
 const AddMember = (props) => {
   const selectRoles = [{
     id: 'XX',
+    // TODO: i18n
     label: 'Select Role',
     disabled: true,
   }].concat((props.selectRoles || []).map(role =>
@@ -47,6 +48,7 @@ const AddMember = (props) => {
         {dropdown}
       </div>
       <div className="col-xs-1 push-top-nano">
+        {/* TODO: i18n */}
         <RaisedButton
           label="Add"
           primary

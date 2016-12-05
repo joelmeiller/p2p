@@ -13,6 +13,7 @@ import lombok.EqualsAndHashCode;
 @MappedSuperclass
 public abstract class VersionedObject extends Versioning {
 	
+	// TODO: Generate Random ID's. Now the ID's are auto-incremented from 1 and therefore not safe
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY) 
 	protected Long id;

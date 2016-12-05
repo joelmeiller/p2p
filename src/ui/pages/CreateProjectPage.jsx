@@ -14,6 +14,7 @@ export const PROJECT_LEVELS = [
   { id: 'IP5', label: 'IP5' },
 ];
 
+// TODO: i18n
 export const ZEITMODELLE = [
   { id: 'BB', label: 'Berufsbegleitend' },
   { id: 'VZ_TZ', label: 'Vollzeit/Teilzeit' },
