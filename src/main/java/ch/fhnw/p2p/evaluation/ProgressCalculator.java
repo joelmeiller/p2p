@@ -6,6 +6,11 @@ import ch.fhnw.p2p.entities.MemberRating;
 
 public abstract class ProgressCalculator {
 
+	/**
+	 * calculates the progress over all member ratings of a member
+	 * @param member
+	 * @return progress overall member ratings in percentage
+	 */
 	public static int getMemberProgress(Member member) {
 		if (member.getMemberRatings().size() == 0) return 0;
 		
@@ -18,6 +23,11 @@ public abstract class ProgressCalculator {
 		return ratings / member.getMemberRatings().size();
 	}
 
+	/**
+	 * calculates the progress over one member ratings 
+	 * @param member rating
+	 * @return progress of member rating in percentage
+	 */
 	public static int getRatingProgress(MemberRating  rating) {
 		if (rating.getCriteriaRatings().size() == 0) return 0;
 		

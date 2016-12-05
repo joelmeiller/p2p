@@ -53,7 +53,7 @@ public class MemberTest {
         assertEquals(new BigDecimal(0), member.getRating());
         assertEquals(0, member.getMemberRatings().size());
         assertNotNull(member.getVersion());
-        assertNotNull(member.getVersionTSD());
+        assertNotNull(member.getCreatedTSD());
     }
     
     @Test

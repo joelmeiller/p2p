@@ -11,7 +11,8 @@ import ch.fhnw.p2p.controller.utils.NotFoundException;
 import lombok.Data;
 
 /**
- * Gemeinsame funktionalität wie Exception handling.
+ * Common functionalities of controllers
+ * - Exception handling
  * 
  * From http://stackoverflow.com/questions/16232833/how-to-respond-with-http-400-error-in-a-spring-mvc-responsebody-method-returnin
  */

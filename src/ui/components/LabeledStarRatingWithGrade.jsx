@@ -75,9 +75,9 @@ const LabeledStarRatingWithGrade = props => (
         </div>
       </div> :
       <div className="col-xs-6">
+        {/* TODO: i18n */}
         {(props.removed ?
           <p>-</p> :
-          {/* TODO: i18n */}
           <p><span className="prefix">Progress:</span>{props.progress} %</p>
         )}
       </div>

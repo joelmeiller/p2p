@@ -55,9 +55,6 @@ public class MemberDataLoader implements CommandLineRunner {
 		roleRepo.save(new Role("Test Manager", "TM", Locale.Language.EN));
 
 		qm = roleRepo.findOne(qm.getId());
-		Role tm = roleRepo.findByShortcut("TM");
-		Role re = roleRepo.findByShortcut("RE");
-		Role pl = roleRepo.findByShortcut("PL");
 		Member member = memberRepo.findByStudentEmail("max.muster@students.fhnw.ch");
 		MemberRole role = new MemberRole(member, qm);
 		member.getRoles().add(role);
@@ -66,35 +63,5 @@ public class MemberDataLoader implements CommandLineRunner {
 		// Load other test data
 		// Add more real students for testing
 		studentRepo.save(new User("Real", "Student", "real.student@students.fhnw.ch", User.Type.STUDENT, User.StudentType.BB));
-
-
-//		Project project = projectRepo.findByTitle("Test Project 1").get();
-//
-//		User student = studentRepo.findByEmail("joel.meiller@students.fhnw.ch").get();
-//		member = new Member(project, student, qm);
-//		List<ProjectCriteria> criterias = member.getProject().getProjectCriteria();
-//		// Add self rating
-//		member.getMemberRatings().add(new MemberRating(member, member, criterias));
-//		project.getMembers().add(member);
-//		projectRepo.save(project);
-//
-//		project = projectRepo.findByTitle("Test Project 2").get();
-//		student = studentRepo.findByEmail("michelle.andrey@students.fhnw.ch").get();
-//		member = new Member(project, student, qm);
-//		criterias = member.getProject().getProjectCriteria();
-//		// Add self rating
-//		member.getMemberRatings().add(new MemberRating(member, member, criterias));
-//		project.getMembers().add(member);
-//
-//		student = studentRepo.findByEmail("rebekka.stoffel@students.fhnw.ch").get();
-//		member = new Member(project, student, tm);
-//		project.getMembers().add(member);
-//
-//		student = studentRepo.findByEmail("bettina.burri@students.fhnw.ch").get();
-//		member = new Member(project, student, tm);
-//		project.getMembers().add(member);
-//
-//		projectRepo.save(project);
-
 	}
 }

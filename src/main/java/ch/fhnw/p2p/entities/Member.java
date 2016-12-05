@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import ch.fhnw.p2p.entities.mapping.MemberRatingMapping;
 import ch.fhnw.p2p.entities.mixins.VersionedObject;
+import ch.fhnw.p2p.evaluation.RatingCalculator;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -186,28 +187,9 @@ public class Member extends VersionedObject{
 	 * @return boolean indicating if all member ratings are in the final status 
 	 */
 	public boolean checkAndSetFinalRatings() {
-		Double finalRating = 0.0;
-		int ratingCount = 0;
-
-		for (MemberRating rating : this.memberRatings) {
-			for (CriteriaRating criteriaRating : rating.getCriteriaRatings()) {
-				if (criteriaRating.getRating().compareTo(BigDecimal.ZERO) == 0)
-					return false;
-				finalRating += criteriaRating.getRating().doubleValue();
-			}
-
-			ratingCount += rating.getCriteriaRatings().size();
-			
-			if (rating.getStatus() != MemberRating.Status.FINAL) return false;
-		}
+		this.canFinalize = RatingCalculator.calculateFinalMemberRating(this) != null;
 		
-		if (ratingCount > 0) {
-			this.rating = new BigDecimal(finalRating / ratingCount);
-		}
-		
-		this.canFinalize = true;
-		
-		return true;
+		return this.canFinalize;
 	}
 	
 	public Member clone() {

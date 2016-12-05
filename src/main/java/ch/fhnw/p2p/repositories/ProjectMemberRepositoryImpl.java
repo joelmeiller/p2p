@@ -1,6 +1,5 @@
 package ch.fhnw.p2p.repositories;
 
-import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,7 +18,7 @@ import ch.fhnw.p2p.entities.Role;
 import ch.fhnw.p2p.entities.User;
 import ch.fhnw.p2p.evaluation.GradeCalculator;
 import ch.fhnw.p2p.evaluation.ProgressCalculator;
-import ch.fhnw.p2p.utils.DateComparison;
+import ch.fhnw.p2p.evaluation.RatingCalculator;
 
 @Component
 public class ProjectMemberRepositoryImpl {
@@ -41,7 +40,7 @@ public class ProjectMemberRepositoryImpl {
 	/**
 	 * returns the project's members with the progress or the final rating depending on the project status 
 	 * @param Project
-	 * @return set of the project's team members Set<Member>
+	 * @return set of the project's team members
 	 */
 	public Set<Member> getProjectMembers(User user) {
 		Set<Member> members = new HashSet<Member>();
@@ -84,10 +83,12 @@ public class ProjectMemberRepositoryImpl {
 				}
 			}
 			// Set progress & final rating
+			ratedMember.setProgress(100);
 			ratedMember.setMemberRatings(memberRatings);
-			ratedMember.checkAndSetFinalRatings();
+			ratedMember = RatingCalculator.calculateFinalMemberRating(ratedMember);
+				
 			ratedMember.setStatus(ratedMember.getStatus() == Member.Status.OPEN ? Member.Status.FINAL: ratedMember.getStatus());
-			ratedMember.setProgress(100);	
+				
 		} else {
 			ratedMember.setProgress(ProgressCalculator.getMemberProgress(member));
 			if (ratedMember.getStatus() == Member.Status.FINAL) {

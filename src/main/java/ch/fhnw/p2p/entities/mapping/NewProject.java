@@ -1,20 +1,13 @@
 package ch.fhnw.p2p.entities.mapping;
 
 import java.util.Date;
-import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 
-import ch.fhnw.p2p.entities.Member;
 import ch.fhnw.p2p.entities.Project;
 import ch.fhnw.p2p.entities.Project.Level;
 import ch.fhnw.p2p.entities.Project.Status;
 import ch.fhnw.p2p.entities.Project.Zeitmodell;
-import ch.fhnw.p2p.entities.Role;
-import ch.fhnw.p2p.entities.User;
-import ch.fhnw.p2p.repositories.RoleRepository;
-import ch.fhnw.p2p.repositories.UserRepository;
 import lombok.Data;
 
 @Data

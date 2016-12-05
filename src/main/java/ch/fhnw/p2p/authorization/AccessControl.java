@@ -19,6 +19,12 @@ import ch.fhnw.p2p.repositories.LoginRepository;
 import ch.fhnw.p2p.repositories.MemberRepository;
 import ch.fhnw.p2p.repositories.UserRepository;
 
+/**
+ * Common access control which checks the request header and the access rights based on the Allowed param
+ * The method login should be used in any REST api controller, before any further functionality is processed
+ * 
+ * @author Joel Meiller
+ */
 @Component
 public class AccessControl {
 	

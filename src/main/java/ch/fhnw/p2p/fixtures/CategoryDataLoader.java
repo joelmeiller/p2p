@@ -12,7 +12,6 @@ import ch.fhnw.p2p.entities.Criteria;
 import ch.fhnw.p2p.entities.Locale;
 import ch.fhnw.p2p.entities.Member;
 import ch.fhnw.p2p.entities.Project;
-import ch.fhnw.p2p.entities.Project.Status;
 import ch.fhnw.p2p.entities.Project.Zeitmodell;
 import ch.fhnw.p2p.entities.ProjectCategory;
 import ch.fhnw.p2p.entities.ProjectCriteria;

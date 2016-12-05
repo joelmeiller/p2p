@@ -25,7 +25,7 @@ import ch.fhnw.p2p.entities.User;
 import ch.fhnw.p2p.repositories.ProjectCategoryRepositoryImpl;
 
 /**
- * REST api controller for the categories collection
+ * REST api controller to handle the project criteria 
  *
  * @author Joel Meiller
  */
@@ -51,9 +51,10 @@ public class ProjectCategoryController extends BaseController {
 	// ------------------------
 	
 	/**
-	 * /findAll --> Returns all project related categories and criterias.
+	 * Returns all project related categories and criterias.
+	 * The list is available to the QM only
 	 * 
-	 * @return A list of criterias
+	 * @return A list of project categories containing each the defined criterias relevant for the rating
 	 */
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "/categories", method = RequestMethod.GET)
@@ -65,6 +66,13 @@ public class ProjectCategoryController extends BaseController {
 		return new ResponseEntity<Set<ProjectCategory>>(user.getMember().getProject().getProjectCategories(), HttpStatus.OK);
 	}
 	
+	/**
+	 * Adds, updates or deletes project criterias
+	 * This functionality is available to the QM only
+	 * 
+	 * @param Set of project categories and the underlying project criterias to update
+	 * @return Set of the updated project categories and project criterias relevant for the rating
+	 */
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "/categories", method = RequestMethod.POST)
 	public ResponseEntity<Set<ProjectCategory>> add(HttpServletRequest request, @Valid @RequestBody List<ProjectCategory> updatedCategories, BindingResult result) {

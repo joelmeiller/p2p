@@ -82,7 +82,7 @@ public class User extends VersionedObject {
 	
 	
 	public String toString() {
-	return firstName + " " + lastName + " (" + id + ")" + ", " + type;
+		return firstName + " " + lastName + " (" + id + ")" + ", " + type;
 	}
 	
 	/**

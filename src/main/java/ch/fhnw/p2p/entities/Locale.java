@@ -1,15 +1,13 @@
 package ch.fhnw.p2p.entities;
 
-import java.io.Serializable;
-
 import javax.persistence.Entity;
-import javax.persistence.Id;
 
 import ch.fhnw.p2p.entities.mixins.VersionedObject;
-import ch.fhnw.p2p.entities.mixins.Versioning;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper=false)
 @Entity
 public class Locale extends VersionedObject {
 	

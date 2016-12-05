@@ -29,14 +29,14 @@ import ch.fhnw.p2p.entities.Project;
 import ch.fhnw.p2p.entities.User;
 import ch.fhnw.p2p.entities.mapping.CriteriaRatingMapping;
 import ch.fhnw.p2p.entities.mapping.MemberRatingMapping;
+import ch.fhnw.p2p.evaluation.RatingCalculator;
 import ch.fhnw.p2p.repositories.MemberRatingRepository;
 
 /**
- * REST api controller for the member ratings collection
+ * REST api controller to handle the member ratings
  *
  * @author Joel Meiller
  */
-
 @RestController
 @RequestMapping("/api/project/member")
 public class MemberRatingController extends BaseController {
@@ -58,9 +58,9 @@ public class MemberRatingController extends BaseController {
 	// ------------------------
 	
 	/**
-	 * Returns the member's ratings for other team members.
+	 * Returns the member with its team member ratings.
 	 * 
-	 * @return The member with the list of its member ratings Set<Member> 
+	 * @return The member with the list of its member ratings
 	 */
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "/ratings", method = RequestMethod.GET)
@@ -68,7 +68,7 @@ public class MemberRatingController extends BaseController {
 		logger.info("GET Request for member/ratings");
 		User user = accessControl.login(request, AccessControl.Allowed.MEMBER);
 		
-		user.getMember().checkAndSetFinalRatings();
+		RatingCalculator.calculateFinalMemberRating(user.getMember());
 		user.getMember().setRatings(user.getMember().getMemberRatings(), true);
 		
 		logger.info("Succesfully read member/ratings of student " + user.toString());
@@ -89,10 +89,10 @@ public class MemberRatingController extends BaseController {
 		
 		Member member = user.getMember();
 		
-		if (member.getProject().getStatus() == Project.Status.CLOSE) {
+		if (member.getProject().getStatus() != Project.Status.OPEN) {
 			List<MemberRating> memberRatings = new ArrayList<MemberRating>();
 
-			// Find ratings of other members fot his member
+			// Find ratings of other members for this member
 			for (Member mem: member.getProject().getMembers()) {
 				Iterator<MemberRating> it = mem.getMemberRatings().iterator();
 				while (it.hasNext()) {
@@ -112,6 +112,12 @@ public class MemberRatingController extends BaseController {
 
 	}
 	
+	/**
+	 * Updates the rating of a single member
+	 * 
+	 * @param the new ratings for a team member
+	 * @return the member (user) with all of its team member ratings 
+	 */
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "/ratings", method = RequestMethod.POST)
 	public ResponseEntity<Member> add(HttpServletRequest request, @Valid @RequestBody MemberRatingMapping updatedMemberRating, BindingResult result) {
@@ -145,7 +151,7 @@ public class MemberRatingController extends BaseController {
 			}
 		
 			logger.info("Checking for member rating status");
-			boolean isFinalRating = memberRating.checkAndSetFinalRating();
+			boolean isFinalRating = RatingCalculator.calculateMemberRating(memberRating) == null;
 			memberRatingRepo.save(memberRating);
 			
 			logger.info("Successfully updated member rating " + memberRating.toString());
