@@ -6,13 +6,13 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import Dropdown from './Dropdown.jsx';
 
 
-storiesOf('elements', module)
+storiesOf('elements/Dropdown', module)
 .addDecorator(story => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>
     {story()}
   </MuiThemeProvider>
 ))
-.add('::Dropdown', () => (
+.add('::normal', () => (
   <div className="app flex-center-middle">
     <Dropdown
       selectedValue="test_1"

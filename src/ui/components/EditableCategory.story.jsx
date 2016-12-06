@@ -26,6 +26,13 @@ storiesOf('components/EditableCategory', module)
         id: '33334',
         label: 'Trägt Konflikte unparteiisch und kooperativ aus',
       }]}
+      selectCriterias={[{
+        id: '33335',
+        label: 'Ist teamfähig',
+      }, {
+        id: '33336',
+        label: 'Kommuniziert aktiv',
+      }]}
     />
   </div>
 ))
@@ -43,6 +50,14 @@ storiesOf('components/EditableCategory', module)
         label: 'Trägt Konflikte unparteiisch und kooperativ aus',
         readonly: true,
       }]}
+      selectCriterias={[{
+        id: '33335',
+        label: 'Ist teamfähig',
+      }, {
+        id: '33336',
+        label: 'Kommuniziert aktiv',
+      }]}
+      readonly
     />
   </div>
 ))
@@ -59,6 +74,13 @@ storiesOf('components/EditableCategory', module)
         id: '33334',
         label: 'Trägt Konflikte unparteiisch und kooperativ aus',
         self: true,
+      }]}
+      selectCriterias={[{
+        id: '33335',
+        label: 'Ist teamfähig',
+      }, {
+        id: '33336',
+        label: 'Kommuniziert aktiv',
       }]}
     />
   </div>
@@ -79,6 +101,14 @@ storiesOf('components/EditableCategory', module)
         self: true,
         readonly: true,
       }]}
+      selectCriterias={[{
+        id: '33335',
+        label: 'Ist teamfähig',
+      }, {
+        id: '33336',
+        label: 'Kommuniziert aktiv',
+      }]}
+      readonly
     />
   </div>
 ))

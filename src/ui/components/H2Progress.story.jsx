@@ -6,14 +6,14 @@ import H2Progress from './H2Progress.jsx';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-storiesOf('components/Progressbar', module)
+storiesOf('components/H2Progress', module)
 .addDecorator(story => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>
     {story()}
   </MuiThemeProvider>
 ))
 
-.add('::header', () => (
+.add('::filled', () => (
   <div className="app flex-center-middle">
     <H2Progress
       h2titleName="Michelle Andrey"

@@ -14,6 +14,20 @@ storiesOf('elements/ActionItem', module)
     {story()}
   </MuiThemeProvider>
 ))
+.addWithInfo('::Specification',
+  `
+    Card mit einer Aktion, die der Benutzer ausführen kann und in der Inbox angezeigt wird.
+  `
+  , () => (
+  <ActionItem
+    message="QM hat neue Kriterien hinzugefügt"
+    actionText="Okay"
+    type="info"
+    date={new Date()}
+    buttonText="Okay"
+  />),
+  { inline: true }
+)
 .add('::filled', () => (
   <div className="app flex-center-middle">
     <ActionItem
