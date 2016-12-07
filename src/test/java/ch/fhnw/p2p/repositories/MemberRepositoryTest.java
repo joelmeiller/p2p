@@ -49,6 +49,10 @@ public class MemberRepositoryTest {
 
     @Before
     public void prepareEntities() {
+    	projectRepo.deleteAll();
+    	memberRepo.deleteAll();
+    	studentRepo.deleteAll();
+    	
     	project1 = new Project("Test 1");
     	student1 = studentRepo.save(new User("Heidi", "Von Der Heide", email1));
     	member1 = memberRepo.save(new Member(project1, student1));

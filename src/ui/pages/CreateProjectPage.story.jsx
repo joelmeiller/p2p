@@ -6,6 +6,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 import CreateProjectPage from './CreateProjectPage.jsx';
 
+// TODO: Add redux store to page
 
 storiesOf('pages/CreateProjectPage', module)
 .addDecorator(story => (

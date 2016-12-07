@@ -19,6 +19,8 @@ public interface UserRepository extends Repository<User, Long> {
 	
 	Set<User> findAll();
 	
+	void deleteAll();
+	
 	/**
 	 * Return the user having the passed email or null if no user is found.
 	 * 

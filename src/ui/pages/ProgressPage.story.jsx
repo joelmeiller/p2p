@@ -6,6 +6,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 import ProgressPage from './ProgressPage.jsx';
 
+// TODO: Add redux store to page
 
 storiesOf('pages/ProgressPage', module)
 .addDecorator(story => (
