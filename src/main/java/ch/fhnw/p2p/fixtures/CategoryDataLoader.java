@@ -110,7 +110,7 @@ public class CategoryDataLoader implements CommandLineRunner {
 		Project project = new Project("Test Project");
 		project.setStart(new Date(2017 - 1900, 1 - 1, 1));
 		project.setStop(new Date(2017 - 1900, 12 - 1, 31));
-		// project.setStatus(Status.CLOSE);
+		project.setStatus(Project.Status.CLOSE);
 		project.setZeitmodell(Zeitmodell.BB);
 		
 		// Add project categories & criterias
@@ -141,7 +141,7 @@ public class CategoryDataLoader implements CommandLineRunner {
 		// Add test projects
 		project = new Project("Test Project 1");
 		project.setStart(new Date(2017 - 1900, 1 - 1, 1));
-		// project.setStatus(Project.Status.FINAL);
+		project.setStatus(Project.Status.FINAL);
 		
 		project.setZeitmodell(Zeitmodell.BB);
 		projectCategory = new ProjectCategory(category1);
