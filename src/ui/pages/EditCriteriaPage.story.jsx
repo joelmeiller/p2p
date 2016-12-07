@@ -6,6 +6,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 import EditCriteriaPage from './EditCriteriaPage.jsx';
 
+// TODO: Add redux store to page
 
 storiesOf('pages/EditCriteriaPage', module)
 .addDecorator(story => (

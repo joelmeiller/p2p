@@ -6,6 +6,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 import MemberRatingPage from './MemberRatingPage.jsx';
 
+// TODO: Add redux store to page
 
 storiesOf('pages/MemberRatingPage', module)
 .addDecorator(story => (

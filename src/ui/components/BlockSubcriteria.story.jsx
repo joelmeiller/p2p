@@ -11,7 +11,7 @@ storiesOf('components/BlockSubcriteria', module)
     {story()}
   </MuiThemeProvider>
 ))
-.add('::SubcriteriaStars', () => (
+.add('::filled', () => (
   <div className="app flex-center-middle">
     <BlockSubcriteria
       criteriaTitle="Konflikt Kompetenzen"

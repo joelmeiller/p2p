@@ -15,7 +15,9 @@ storiesOf('components/AppBarHeader', module)
 .add('::header', () => (
   <div className="app flex-center-middle">
     <AppBarHeader
-      title="IP4: KLAV"
+      project={{
+        title: "IP4: KLAV",
+      }}
     />
   </div>
 ))

@@ -6,6 +6,8 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 import EvaluationPage from './EvaluationPage.jsx';
 
+// TODO: Add redux store to page
+
 storiesOf('pages/EvaluationPage', module)
 .addDecorator(story => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>

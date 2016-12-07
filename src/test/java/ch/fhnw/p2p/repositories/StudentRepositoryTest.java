@@ -40,18 +40,18 @@ public class StudentRepositoryTest {
     	studentNotFound = studentRepo.save(new User("Not", "Found", "not.found@fhnw.ch"));
     	
     	// Add more for limit test
-    	studentRepo.save(new User("Limit", "Test", "test.test1@fhnw.ch"));
-    	studentRepo.save(new User("Limit", "Test", "test.test2@fhnw.ch"));
-    	studentRepo.save(new User("Limit", "Test", "test.test3@fhnw.ch"));
-    	studentRepo.save(new User("Limit", "Test", "test.test4@fhnw.ch"));
-    	studentRepo.save(new User("Limit", "Test", "test.test5@fhnw.ch"));
+    	studentRepo.save(new User("Limit", "TestX", "test.test1@fhnw.ch"));
+    	studentRepo.save(new User("Limit", "TestX", "test.test2@fhnw.ch"));
+    	studentRepo.save(new User("Limit", "TestX", "test.test3@fhnw.ch"));
+    	studentRepo.save(new User("Limit", "TestX", "test.test4@fhnw.ch"));
+    	studentRepo.save(new User("Limit", "Test", "testX.test5@fhnw.ch"));
     	studentRepo.save(new User("Limit", "Test", "test.test6@fhnw.ch"));
-    	studentRepo.save(new User("Limit", "Test", "test.test7@fhnw.ch"));
-    	studentRepo.save(new User("Limit", "Test", "test.test8@fhnw.ch"));
-    	studentRepo.save(new User("Limit", "Test", "test.test9@fhnw.ch"));
-    	studentRepo.save(new User("Limit", "Test", "test.test10@fhnw.ch"));
+    	studentRepo.save(new User("Limit", "Test", "testX.test7@fhnw.ch"));
+    	studentRepo.save(new User("tEStX", "Test", "test.test8@fhnw.ch"));
+    	studentRepo.save(new User("Limit", "TestX", "test.test9@fhnw.ch"));
+    	studentRepo.save(new User("Limit", "Test", "test.testX10@fhnw.ch"));
     	
-    	assertEquals(14, studentRepo.findAll().size());
+    	assertEquals(27, studentRepo.findAll().size());
     }
     
     @Test
@@ -92,9 +92,9 @@ public class StudentRepositoryTest {
     
     @Test
     public void testFindStudentSuggestionsLimit() {
-        students = studentRepo.findSuggestions("test");
+        students = studentRepo.findSuggestions("testx");
         
-        assertEquals(13, students.size());
+        assertEquals(8, students.size());
         assertFalse(students.contains(studentNotFound));
     }
 }

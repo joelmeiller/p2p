@@ -65,6 +65,7 @@ public class RoleController extends BaseController {
 	 */
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Role> saveRole(@Valid @RequestBody Role role, BindingResult result) {
+		// TODO: Add access control to restrict adding new roles to coaches only
 		if (result.hasErrors()) {
 			return new ResponseEntity<Role>(HttpStatus.PRECONDITION_FAILED);
 		}
