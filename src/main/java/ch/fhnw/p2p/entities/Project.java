@@ -52,8 +52,11 @@ public class Project extends VersionedObject {
 	}
 
 	private String title;
-	
+
+	// TODO: Reactive slug
 //	private String slug;
+	
+	// TODO: Remove deadline
 //	private Date deadline;
 	
 	private String coach;
